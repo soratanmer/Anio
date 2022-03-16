@@ -1,14 +1,19 @@
 <template>
-    <SvgIcon name="search"></SvgIcon>
+    <button class="relative transform cursor-default p-2 transition duration-200">
+        <slot></slot>
+    </button>
 </template>
 
 <script lang="ts">
     import { defineComponent } from 'vue'
-import SvgIcon from './components/SvgIcon.vue'
 
     export default defineComponent({
-        components: {
-    SvgIcon
-},
+        name: 'ButtonIcon',
+        props: {
+            disabled: {
+                type: Boolean,
+                default: false,
+            },
+        },
     })
 </script>

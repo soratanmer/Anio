@@ -1,6 +1,6 @@
 <template>
-    <svg :class="svgClass" aria-hidden="true">
-        <use :href="symbolId"></use>
+    <svg class="fill-current align-middle" aria-hidden="true">
+        <use :href="symbolId" :fill="color"></use>
     </svg>
 </template>
 
@@ -8,6 +8,7 @@
     import { defineComponent, computed } from 'vue'
 
     export default defineComponent({
+        name: 'SvgIcon',
         props: {
             prefix: {
                 type: String,
@@ -17,9 +18,9 @@
                 type: String,
                 required: true,
             },
-            className: {
+            color: {
                 type: String,
-                default: '',
+                default: 'currentColor',
             },
         },
         setup(props) {
@@ -27,21 +28,7 @@
                 return `#${props.prefix}-${props.name}`
             })
 
-            const svgClass = computed(() => {
-                if (props.className) {
-                    return `svg-icon ${props.className}`
-                } else {
-                    return 'svg-icon'
-                }
-            })
-
-            return { symbolId, svgClass }
+            return { symbolId }
         },
     })
 </script>
-
-<style>
-    .svg-icon {
-        @apply fill-current w-4 h-4;
-    }
-</style>

@@ -5,6 +5,7 @@ import 'virtual:svg-icons-register'
 
 import App from '@/App.vue'
 import SvgIcon from '@/components/SvgIcon.vue'
+import ButtonIcon from '@/components/ButtonIcon.vue'
 
 import router from '@/router'
 
@@ -16,6 +17,7 @@ store.use(piniaPluginPersist)
 const app = createApp(App)
 
 app.component('SvgIcon', SvgIcon)
+app.component('ButtonIcon', ButtonIcon)
 
 app.use(store)
 app.use(router)
