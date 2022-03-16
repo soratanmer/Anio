@@ -1,9 +1,25 @@
 <template>
-    <button class="button-icon"><slot></slot></button>
+    <button
+        class="relative transform cursor-default p-2 transition duration-200"
+        :class="{
+            'btn-pressed-animation btn-hover-animation after:bg-black/[.06]': !disabled,
+            'opacity-30': disabled,
+        }"
+    >
+        <slot></slot>
+    </button>
 </template>
 
-<style scoped>
-    .button-icon {
-        @apply flex content-center items-center p-2 bg-transparent m-1 rounded-sm duration-200
-    }
-</style>
+<script lang="ts">
+    import { defineComponent } from 'vue'
+
+    export default defineComponent({
+        name: 'ButtonIcon',
+        props: {
+            disabled: {
+                type: Boolean,
+                default: false,
+            },
+        },
+    })
+</script>
