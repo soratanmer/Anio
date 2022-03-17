@@ -15,7 +15,7 @@ try {
 // https://vitejs.dev/config/
 export default defineConfig({
     base: './',
-    publicDir:'./public',
+    publicDir: './public',
     resolve: {
         alias: [
             {
@@ -23,6 +23,16 @@ export default defineConfig({
                 replacement: join(__dirname, 'src'),
             },
         ],
+    },
+    server: {
+        port: Number(process.env.DEV_SERVER_PORT),
+        proxy: {
+            '/api': {
+                target: 'https://netease-cloud-music-api-soratanmer.vercel.app/',
+                changeOrigin: true,
+                rewrite: (path) => path.replace(/^\/api/, '/'),
+            },
+        },
     },
     plugins: [
         vue(),
