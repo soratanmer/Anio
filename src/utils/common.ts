@@ -1,3 +1,6 @@
+import dayjs from 'dayjs'
+import duration from 'dayjs/plugin/duration'
+
 /**
  * @description 调整网易云封面图片大小
  * @param  {string} url 封面图片URL

@@ -1,5 +1,5 @@
 <template>
-    <div class="grid h-screen max-w-sm border-r border-gray-300/10 bg-gray-50 dark:bg-gray-900 bg-opacity-[0.85]">
+    <div id="sidebar" class="grid h-screen max-w-sm border-r border-gray-300/10 bg-gray-50 dark:bg-gray-900 bg-opacity-[0.85]">
         <div>
             <div class="app-region-drag h-14">
                 <div

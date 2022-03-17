@@ -1,9 +1,13 @@
 <template>
-    <div class="grid select-none grid-cols-[16rem_auto]">
+    <div id="layout" class="grid select-none grid-cols-[16rem_auto]">
         <Sidebar></Sidebar>
-        <div class="relative flex h-screen max-h-screen flex-grow flex-col overflow-y-auto bg-white dark:bg-black">
+        <div
+            id="mainContainer"
+            ref="mainContainer"
+            class="relative flex h-screen max-h-screen flex-grow flex-col overflow-y-auto bg-white dark:bg-black"
+        >
             <TopBar></TopBar>
-            <main class="mb-24 flex-grow px-8">
+            <main id="main" class="mb-24 flex-grow px-8">
                 <router-view></router-view>
             </main>
         </div>

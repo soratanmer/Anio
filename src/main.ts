@@ -10,7 +10,7 @@ import ButtonIcon from '@/components/ButtonIcon.vue'
 
 import router from '@/router'
 
-import '@/style/index.css'
+import '@/style/index.scss'
 
 const store = createPinia()
 store.use(piniaPluginPersist)

@@ -1,17 +1,22 @@
 <template>
     <div
+        id="topbar"
         class="app-region-drag sticky top-0 z-30 flex h-16 min-h-[4rem] w-full cursor-default items-center justify-between px-8 transition duration-300"
+        :class="{
+            'bg-white bg-opacity-[0.86] backdrop-blur-xl backdrop-saturate-[1.8]':
+                !mainContainerScroll.arrivedState.top,
+        }"
     >
         <!-- Left part -->
         <div class="flex gap-2">
             <!-- Navigation buttons -->
             <div class="flex gap-1">
                 <div
-                    class="app-region-no-drag btn-hover-animation rounded-lg p-3 text-gray-500 transition duration-300 after:rounded-full after:bg-black/[.06] hover:text-gray-900"
-                    v-for="action in ['back', 'forward']"
+                    v-for="action in ['arrow-left', 'arrow-right']"
+                    class="app-region-no-drag btn-hover-animation rounded-lg p-2.5 text-gray-500 transition duration-300 after:rounded-full after:bg-black/[0.06] hover:text-gray-900"
                     @click="router[action]()"
                 >
-                    <SvgIcon class="h-4 w-4" :name="action"></SvgIcon>
+                    <SvgIcon class="h-5 w-5" :name="action"></SvgIcon>
                 </div>
             </div>
 
@@ -23,24 +28,56 @@
                     class="mr-2 h-4 w-4 text-gray-400 transition duration-300 group-hover:text-gray-600"
                     name="search"
                 ></SvgIcon>
-                <input class="w-full bg-transparent" type="text" placeholder="Search" />
+                <input class="w-full bg-transparent" type="text" placeholder="Search" @keydown.enter="doSearch" />
             </div>
         </div>
 
         <!-- Right part -->
         <div class="flex items-center gap-3">
             <div
-                class="app-region-no-drag btn-hover-animation rounded-lg p-2.5 text-gray-500 transition duration-300 after:rounded-full after:bg-black/[.06] hover:text-gray-900"
+                class="app-region-no-drag btn-hover-animation rounded-lg p-2.5 text-gray-500 transition duration-300 after:rounded-full after:bg-black/[0.06] hover:text-gray-900"
             >
                 <SvgIcon class="w-5 h-5" name="settings"></SvgIcon>
             </div>
+            <img
+                v-if="!isLoading"
+                class="app-region-no-drag h-9 w-9 rounded-full bg-gray-100"
+                :src="
+                    userAccount?.profile?.avatarUrl
+                        ? resizeImage(userAccount.profile.avatarUrl, 'md')
+                        : resizeImage('https://s4.music.126.net/style/web2/img/default/default_avatar.jpg', 'md')
+                "
+                @click="router.push('/login')"
+                alt="avatar"
+            />
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
+    import { ref, onMounted } from 'vue'
     import { useRoute, useRouter } from 'vue-router'
+    import { useScroll } from '@vueuse/core'
+
+    import { resizeImage } from '@/utils/common'
+    import useUserAccount from '@/hooks/useUserAccount'
 
     const route = useRoute()
     const router = useRouter()
+
+    const { data: userAccount, isLoading } = useUserAccount()
+
+    const mainContainerRef = ref<HTMLElement | null>(document.getElementById('mainContainer'))
+
+    const mainContainerScroll = useScroll(mainContainerRef)
+
+    const doSearch = () => {
+        router.push({
+            name: 'search',
+        })
+    }
+
+    onMounted(() => {
+        mainContainerRef.value = document.getElementById('mainContainer')
+    })
 </script>
