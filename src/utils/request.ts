@@ -1,16 +1,16 @@
-import axios from 'axios'
+import axios, { AxiosRequestConfig, AxiosResponse, AxiosInstance, AxiosError } from 'axios'
 import Cookies from 'js-cookie'
 
-let baseURL = import.meta.env.VITE_APP_NETEASE_API_URL as string
+let baseURL = String(import.meta.env.VITE_APP_NETEASE_API_URL)
 
-const service = axios.create({
+const service: AxiosInstance = axios.create({
     baseURL,
     withCredentials: true,
     timeout: 15000,
 })
 
 service.interceptors.request.use(
-    (config) => {
+    (config: AxiosRequestConfig) => {
         if (!config.params) {
             config.params = {}
         }
@@ -20,19 +20,24 @@ service.interceptors.request.use(
 
         return config
     },
-    (error) => {
+    (error: AxiosError) => {
         return Promise.reject(error)
     },
 )
 
 service.interceptors.response.use(
-    (response) => {
+    (response: AxiosResponse) => {
         const res = response.data
         return res
     },
-    (error) => {
+    (error: AxiosError) => {
         return Promise.reject(error)
     },
 )
 
-export default service
+const request = async (config: AxiosRequestConfig) => {
+    const { data } = await service.request(config)
+    return data as any
+}
+
+export default request
