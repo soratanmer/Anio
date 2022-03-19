@@ -4,13 +4,13 @@
         <div
             id="mainContainer"
             ref="mainContainer"
-            class="relative flex h-screen max-h-screen flex-grow flex-col overflow-y-auto bg-white dark:bg-black"
+            class="relative flex h-screen max-h-screen flex-grow flex-col overflow-y-auto bg-white"
         >
             <TopBar></TopBar>
             <main id="main" class="mb-24 flex-grow px-8">
                 <router-view></router-view>
             </main>
-        <Player></Player>
+            <Player></Player>
         </div>
     </div>
 </template>

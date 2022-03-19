@@ -167,7 +167,7 @@ export interface FetchUserDailySignInParams {
     type: number
 }
 
-export function fetchUserDailySignIn(type = 0) {
+export function fetchUserDailySignIn(type: number = 0) {
     return request({
         url: '/daily_signin',
         method: 'post',

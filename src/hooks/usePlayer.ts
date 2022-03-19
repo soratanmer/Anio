@@ -1,5 +1,6 @@
 import { ref, computed, reactive, provide, inject } from 'vue'
 import { Howler, Howl } from 'howler'
+
 import { fetchTracks, fetchAudioSource } from '@/api/track'
 import type { FetchTracksParams, FetchAudioSourceParams } from '@/api/track'
 

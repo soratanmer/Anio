@@ -13,7 +13,7 @@
             <div class="flex gap-1">
                 <div
                     v-for="action in ['arrow-left', 'arrow-right']"
-                    class="app-region-no-drag btn-hover-animation rounded-lg p-2.5 text-gray-500 transition duration-300 after:rounded-full after:bg-black/[0.06] hover:text-gray-900"
+                    class="app-region-no-drag btn-hover-animation rounded-lg p-2.5 text-gray-500 transition duration-300 after:rounded-lg after:bg-black/[0.06] hover:text-gray-900"
                     @click="router[action]()"
                 >
                     <SvgIcon class="h-5 w-5" :name="action"></SvgIcon>
@@ -22,7 +22,7 @@
 
             <!-- Search input -->
             <div
-                class="app-region-no-drag group flex w-[16rem] cursor-text items-center rounded-full bg-gray-500 bg-opacity-[.05] px-3 transition duration-300 hover:bg-opacity-10"
+                class="app-region-no-drag group flex w-[16rem] cursor-text items-center rounded-lg bg-gray-500 bg-opacity-[.05] px-3 transition duration-300 hover:bg-opacity-10"
             >
                 <SvgIcon
                     class="mr-2 h-4 w-4 text-gray-400 transition duration-300 group-hover:text-gray-600"
@@ -35,13 +35,13 @@
         <!-- Right part -->
         <div class="flex items-center gap-3">
             <div
-                class="app-region-no-drag btn-hover-animation rounded-lg p-2.5 text-gray-500 transition duration-300 after:rounded-full after:bg-black/[0.06] hover:text-gray-900"
+                class="app-region-no-drag btn-hover-animation rounded-lg p-2.5 text-gray-500 transition duration-300 after:rounded-lg after:bg-black/[0.06] hover:text-gray-900"
             >
                 <SvgIcon class="w-5 h-5" name="settings"></SvgIcon>
             </div>
             <img
                 v-if="!isLoading"
-                class="app-region-no-drag h-9 w-9 rounded-full bg-gray-100"
+                class="app-region-no-drag h-9 w-9 rounded-lg bg-gray-100"
                 :src="
                     userAccount?.profile?.avatarUrl
                         ? resizeImage(userAccount.profile.avatarUrl, 'md')

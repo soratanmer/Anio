@@ -1,4 +1,5 @@
 import { useQuery } from 'vue-query'
+
 import { fetchUserAccount, UserApiNames } from '@/api/user'
 
 export default function useUserAccount() {
