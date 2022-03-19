@@ -9,8 +9,8 @@ export default function useUserLikedSongsIDs(params: FetchUserLikedSongsIdsParam
     })
     return useQuery(
         reactive([UserApiNames.FETCH_USER_LIKED_SONGS_IDS, params]),
-        () => {
-            return fetchUserLikedSongsIDs(params)
+        async () => {
+            return await fetchUserLikedSongsIDs(params)
         },
         reactive({ enabled }),
     )

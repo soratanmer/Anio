@@ -1,8 +1,21 @@
 import { defineStore } from 'pinia'
 
+interface UserState {
+    cookies: {
+        [key: string]: string
+    }
+}
+
 export const useUserStore = defineStore('user', {
-    state: () => {
-        return { name: 'Nanami' }
+    state: (): UserState => {
+        return {
+            cookies: {},
+        }
+    },
+    getters: {
+        isLoggedIn: (state) => {
+            return [null, undefined, ''].includes(state.cookies.MUSIC_U)
+        },
     },
     persist: {
         enabled: true,
