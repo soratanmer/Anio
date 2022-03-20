@@ -5,6 +5,12 @@
             :playlists="recommendedPlaylists?.result.slice(0, 12) ?? []"
             :isSkeleton="isLoadingRecommendedPlaylists"
         ></CoverRow>
+
+        <div class="mt-10 mb-4 text-[28px] font-bold text-black">For You</div>
+        <div class="grid grid-cols-2 gap-6">
+            <DailyTracksCard></DailyTracksCard>
+            <FMCard></FMCard>
+        </div>
     </div>
 </template>
 
@@ -14,6 +20,8 @@
     import useRecommendedPlaylists from '@/hooks/useRecommendedPlaylists'
 
     import CoverRow from '@/components/CoverRow.vue'
+    import FMCard from '@/components/FMCard.vue'
+    import DailyTracksCard from '@/components/DailyTracksCard.vue'
 
     const router = useRouter()
 

@@ -73,21 +73,9 @@
             name: '发现',
             route: '/explore',
         },
-        {
-            name: '排行榜',
-            route: '/rankList',
-        },
     ]
 
     const secondaryTabs: Tab[] = [
-        {
-            name: '我的喜欢',
-            route: '/likes',
-        },
-        {
-            name: '我的收藏',
-            route: '/library',
-        },
         {
             name: '播放列表',
             route: '/next',

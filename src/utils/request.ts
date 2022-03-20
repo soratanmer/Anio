@@ -11,12 +11,12 @@ const service: AxiosInstance = axios.create({
 
 service.interceptors.request.use(
     (config: AxiosRequestConfig) => {
-        if (!config.params) {
-            config.params = {}
-        }
+        // if (!config.params) {
+        //     config.params = {}
+        // }
 
-        config.params.Cookies = `MUSIC_U=${Cookies.get('MUSIC_U')};`
-        config.params.realIP = '116.25.146.177'
+        // config.params.Cookies = `MUSIC_U=${Cookies.get('MUSIC_U')};`
+        // config.params.realIP = '116.25.146.177'
 
         return config
     },

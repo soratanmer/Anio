@@ -47,7 +47,11 @@
                         ? resizeImage(userAccount.profile.avatarUrl, 'md')
                         : resizeImage('https://s4.music.126.net/style/web2/img/default/default_avatar.jpg', 'md')
                 "
-                @click="router.push('/login')"
+                @click="
+                    router.push({
+                        path: userStore.isLoggedIn ? '/library' : '/login',
+                    })
+                "
                 alt="avatar"
             />
         </div>
@@ -59,11 +63,15 @@
     import { useRoute, useRouter } from 'vue-router'
     import { useScroll } from '@vueuse/core'
 
+    import {useUserStore} from "@/stores/user";
+
     import { resizeImage } from '@/utils/common'
     import useUserAccount from '@/hooks/useUserAccount'
 
     const route = useRoute()
     const router = useRouter()
+
+    const userStore = useUserStore()
 
     const { data: userAccount, isLoading } = useUserAccount()
 
