@@ -40,7 +40,6 @@
                 <SvgIcon class="w-5 h-5" name="settings"></SvgIcon>
             </div>
             <img
-                v-if="!isLoading"
                 class="app-region-no-drag h-9 w-9 rounded-lg bg-gray-100"
                 :src="
                     userAccount?.profile?.avatarUrl
@@ -49,7 +48,7 @@
                 "
                 @click="
                     router.push({
-                        path: userStore.isLoggedIn ? '/library' : '/login',
+                        path: isLoggedIn() ? '/library' : '/login',
                     })
                 "
                 alt="avatar"
@@ -60,20 +59,16 @@
 
 <script setup lang="ts">
     import { ref, onMounted } from 'vue'
-    import { useRoute, useRouter } from 'vue-router'
+    import { useRouter } from 'vue-router'
     import { useScroll } from '@vueuse/core'
 
-    import {useUserStore} from "@/stores/user";
-
     import { resizeImage } from '@/utils/common'
+    import { isLoggedIn } from '@/utils/cookie'
     import useUserAccount from '@/hooks/useUserAccount'
 
-    const route = useRoute()
     const router = useRouter()
 
-    const userStore = useUserStore()
-
-    const { data: userAccount, isLoading } = useUserAccount()
+    const { data: userAccount } = useUserAccount()
 
     const mainContainerRef = ref<HTMLElement | null>(document.getElementById('mainContainer'))
 

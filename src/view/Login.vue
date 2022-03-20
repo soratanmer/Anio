@@ -95,7 +95,7 @@
     const uiStore = useUiStore()
     const router = useRouter()
 
-    const method = ref<Method>('phone')
+    const method = ref<Method>('email')
     const showPassword = ref<boolean>(false)
     const email = ref<string>('')
     const phone = ref<string>('')

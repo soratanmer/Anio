@@ -28,7 +28,8 @@ export default defineConfig({
         port: Number(process.env.DEV_SERVER_PORT),
         proxy: {
             '/api': {
-                target: 'https://netease-cloud-music-api-soratanmer.vercel.app/',
+                target: 'http://localhost:3000',
+                // target: 'https://netease-cloud-music-api-soratanmer.vercel.app/',
                 changeOrigin: true,
                 rewrite: (path) => path.replace(/^\/api/, '/'),
             },

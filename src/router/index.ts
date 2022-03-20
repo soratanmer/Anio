@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import { isLoggedIn } from '@/utils/cookie'
 
 const routes: RouteRecordRaw[] = [
     {
@@ -15,11 +16,17 @@ const routes: RouteRecordRaw[] = [
         name: 'library',
         path: '/library',
         component: () => import('@/view/Library.vue'),
+        meta: {
+            requireLogin: true,
+        },
     },
     {
         name: 'login',
         path: '/login',
         component: () => import('@/view/Login.vue'),
+        meta: {
+            isLoggedIn: true,
+        },
     },
     {
         name: '404',
@@ -35,6 +42,20 @@ const routes: RouteRecordRaw[] = [
 const router = createRouter({
     history: createWebHistory(),
     routes,
+})
+
+router.beforeEach((to, from, next) => {
+    if (to.meta.requireLogin) {
+        if (isLoggedIn()) {
+            next()
+        } else {
+            next({
+                path: '/login',
+            })
+        }
+    } else {
+        next()
+    }
 })
 
 export default router
