@@ -54,7 +54,13 @@ router.beforeEach((to, from, next) => {
             })
         }
     } else {
-        next()
+        if(to.path === '/login' && isLoggedIn()){
+            next({
+                path:'/library'
+            })
+        }else{
+            next()
+        }
     }
 })
 
