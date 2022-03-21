@@ -54,8 +54,8 @@ export function formatDate(
 export function formatDuration(
     milliseconds: number,
     locale: 'en' | 'zh-TW' | 'zh-CN' = 'en',
-    format: 'hh:mm:ss' | 'hh[hr]mm[min]' = 'hh:mm:ss',
-) {
+    format: 'hh:mm:ss' | 'hh[hr] mm[min]' = 'hh:mm:ss',
+): string {
     if (!milliseconds) {
         return ''
     }
@@ -65,11 +65,11 @@ export function formatDuration(
     let time = dayjs.duration(milliseconds)
     let hours = time.hours().toString()
     let mins = time.minutes().toString()
-    let seconds = time.seconds.toString()
+    let seconds = time.seconds().toString().padStart(2, '0')
 
     if (format === 'hh:mm:ss') {
         return hours !== '0' ? `${hours}:${mins.padStart(2, '0')}:${seconds}` : `${mins}:${seconds}`
-    } else if (format === 'hh[hr]mm[min]') {
+    } else if (format === 'hh[hr] mm[min]') {
         const units = {
             en: {
                 hours: 'hr',

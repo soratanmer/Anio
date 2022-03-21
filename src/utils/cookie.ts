@@ -20,7 +20,3 @@ export function getCookie(key: string): string | undefined {
 export function removeCookie(key: string) {
     Cookies.remove(key)
 }
-
-export function isLoggedIn(): boolean {
-    return getCookie('MUSIC_U') !== undefined
-}

@@ -39,46 +39,48 @@ export interface SearchParams {
 interface SearchResponse {
     code: number
     result: {
-        albums: Album[]
-        more: boolean
-        moreText: string
-        resourceIds: number[]
+        album: {
+            albums: Album[]
+            more: boolean
+            moreText: string
+            resourceIds: number[]
+        }
+        artist: {
+            artists: Artist[]
+            more: boolean
+            moreText: string
+            resourceIds: number[]
+        }
+        playList: {
+            playLists: Playlist[]
+            more: boolean
+            moreText: string
+            resourceIds: number[]
+        }
+        song: {
+            songs: Track[]
+            more: boolean
+            moreText: string
+            resourceIds: number[]
+        }
+        user: {
+            users: User[]
+            more: boolean
+            moreText: string
+            resourceIds: number[]
+        }
+        circle: unknown
+        new_mlog: unknown
+        order: string[]
+        rec_type: null
+        rec_query: null[]
+        sim_query: unknown
+        voice: unknown
+        voiceList: unknown
     }
-    artist: {
-        artist: Artist[]
-        more: boolean
-        moreText: string
-        resourceIds: number[]
-    }
-    playlist: {
-        playlists: Playlist[]
-        more: boolean
-        moreText: string
-        resourceIds: number[]
-    }
-    song: {
-        songs: Track[]
-        more: boolean
-        moreText: string
-        resourceIds: number[]
-    }
-    user: {
-        users: User[]
-        more: boolean
-        moreText: string
-        resourceIds: number[]
-    }
-    circle: unknown
-    new_mlog: unknown
-    order: string[]
-    rec_type: null
-    rec_query: null[]
-    sim_query: unknown
-    voice: unknown
-    voiceList: unknown
 }
 
-export function fetchSearch(params: SearchParams): Promise<SearchResponse> {
+export function search(params: SearchParams): Promise<SearchResponse> {
     return request({
         url: '/search',
         method: 'get',
@@ -107,7 +109,7 @@ interface MultiMatchSearchResponse {
     }
 }
 
-export function fetchMultiMatchSearch(params: MultiMatchSearchParams): Promise<MultiMatchSearchResponse> {
+export function multiMatchSearch(params: MultiMatchSearchParams): Promise<MultiMatchSearchResponse> {
     return request({
         url: '/search/multimatch',
         method: 'get',

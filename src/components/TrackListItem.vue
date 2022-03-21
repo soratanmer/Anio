@@ -4,9 +4,9 @@
         :class="{
             'grid-cols-1 py-1.5 px-2': isGrid,
             'grid-cols-12 p-2 pr-4': isList,
-            'grid-cols-1 py-2.5 px-4': isAlbum,
-            'btn-hover-animation after:bg-gray-100': !isSkeleton && !isHightLight,
-            'bg-brand-100': !isSkeleton && isHightLight,
+            'grid-cols-12 py-2.5 px-4': isAlbum,
+            'btn-hover-animation after:bg-gray-100': !isSkeleton && !isHighLight,
+            'bg-brand-100': !isSkeleton && isHighLight,
         }"
     >
         <!-- Track info -->
@@ -15,7 +15,7 @@
             :class="{
                 'grid-cols-[3rem_auto] items-center': isGrid,
                 'col-span-6 grid-cols-[4.2rem_auto] pr-8': isList,
-                'col_span-6 gird-cols-[2rem_auto] pr-8': isAlbum,
+                'col-span-6 grid-cols-[2rem_auto] pr-8': isAlbum,
             }"
         >
             <!-- Cover -->
@@ -43,19 +43,24 @@
 
             <!-- Track number -->
             <div
-                v-if="isAlbum && !isHightLight"
+                v-if="isAlbum && !isHighLight"
                 class="self-center group-hover:hidden"
                 :class="{
-                    'text-gray-500': !isHightLight,
-                    'text-brand-500': isHightLight,
+                    'text-gray-500': !isHighLight,
+                    'text-brand-500': isHighLight,
                 }"
             >
                 {{ track.no }}
             </div>
 
             <!-- Pause button -->
-            <div v-if="isAlbum && isHightLight" class="self-center" @click="player?.playOrPause()">
+            <div v-if="isAlbum && isHighLight" class="self-center" @click="player?.playOrPause()">
                 <SvgIcon class="h-3.5 w-3.5 text-brand-500" :name="player?.isPlaying ? 'pause' : 'play'"></SvgIcon>
+            </div>
+
+            <!-- Pause button -->
+            <div v-if="isAlbum && !isHighLight" class="self-center hidden group-hover:block">
+                <SvgIcon class="h-3.5 w-3.5 text-brand-500" name="play"></SvgIcon>
             </div>
 
             <!-- Track name & Artists -->
@@ -66,8 +71,8 @@
                     :class="{
                         'text-lg': fullWidth,
                         'text-base': !fullWidth,
-                        'text-black': !isHightLight,
-                        'text-brand-500': isHightLight,
+                        'text-black': !isHighLight,
+                        'text-brand-500': isHighLight,
                     }"
                 >
                     {{ track.name }}
@@ -85,8 +90,8 @@
                     :class="{
                         'text-sm': fullWidth,
                         'text-xs': !fullWidth,
-                        'text-gray-500': !isHightLight,
-                        'text-brand-500': isHightLight,
+                        'text-gray-500': !isHighLight,
+                        'text-brand-500': isHighLight,
                     }"
                 >
                     <ArtistInline v-if="!isSkeleton" :artists="track.ar"></ArtistInline>
@@ -100,19 +105,18 @@
             v-if="isList && !isSkeleton"
             class="col-span-4 flex items-center"
             :class="{
-                'text-gray-900': !isHightLight,
-                'text-brand-500': isHightLight,
+                'text-gray-900': !isHighLight,
+                'text-brand-500': isHighLight,
             }"
         >
             <span
+                @click="router.push({ name: 'album', params: { id: track.al.id } })"
                 class="decoration-2 hover:underline"
                 :class="{
-                    'decoration-gray-600': !isHightLight,
+                    'decoration-gray-600': !isHighLight,
                 }"
-            >
-                {{ track.al.name }}
-            </span>
-            <span class="flex-grow"></span>
+                >{{ track.al.name }}</span
+            ><span class="flex-grow"></span>
         </div>
 
         <div v-else-if="isList && isSkeleton" class="col-span-5 flex items-center text-gray-900">
@@ -124,16 +128,16 @@
             v-if="isAlbum"
             class="col-span-4"
             :class="{
-                'text-gray-600': !isHightLight,
-                'text-brand-500': isHightLight,
+                'text-gray-600 ': !isHighLight,
+                'text-brand-500': isHighLight,
             }"
         >
-            <ArtistInline v-if="!isSkeleton" :artists="track.ar"></ArtistInline>
+            <ArtistInline v-if="!isSkeleton" :artists="track.ar" />
             <Skeleton v-else class="w-2/3 translate-y-px">PLACE</Skeleton>
         </div>
 
         <!-- Actions & Track duration -->
-        <div v-if="fullWidth" class="col-span-2 flex- items-center justify-end">
+        <div v-if="fullWidth" class="col-span-2 flex items-center justify-end">
             <!-- Like button -->
             <button
                 class="mr-5 cursor-default transition duration-300 hover:scale-[1.2]"
@@ -141,14 +145,11 @@
                     'opacity-0': !isLiked,
                     'group-hover:opacity-100': !isSkeleton,
                 }"
-            >
-                <SvgIcon class="h-4 w-4 text-brand-500" :name="isLiked ? 'heart' : 'heart-outline'"></SvgIcon>
-            </button>
+                ><SvgIcon :name="isLiked ? 'heart' : 'heart-outline'" class="h-4 w-4 text-brand-500"
+            /></button>
 
             <!-- Track duration -->
-            <div v-if="!isSkeleton">
-                {{ formatDuration(track.dt, 'zh-CN', 'hh:mm:ss') }}
-            </div>
+            <div v-if="!isSkeleton">{{ formatDuration(track.dt, 'zh-CN', 'hh:mm:ss') }}</div>
             <Skeleton v-else>0:00</Skeleton>
         </div>
     </div>
@@ -161,7 +162,7 @@
 
     import { formatDuration, resizeImage } from '@/utils/common'
     import usePlayer from '@/hooks/usePlayer'
-    
+
     import Skeleton from '@/components/Skeleton.vue'
     import SvgIcon from '@/components/SvgIcon.vue'
     import ArtistInline from '@/components/ArtistInline.vue'
@@ -208,7 +209,7 @@
         return props.layout !== 'grid'
     })
 
-    const isHightLight = computed(() => {
+    const isHighLight = computed(() => {
         return player?.track?.id === props.track.id
     })
 </script>

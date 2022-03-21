@@ -28,7 +28,13 @@
                     class="mr-2 h-4 w-4 text-gray-400 transition duration-300 group-hover:text-gray-600"
                     name="search"
                 ></SvgIcon>
-                <input class="w-full bg-transparent" type="text" placeholder="Search" @keydown.enter="doSearch" />
+                <input
+                    v-model="uiStore.searchKeywords"
+                    class="w-full bg-transparent"
+                    type="text"
+                    placeholder="Search"
+                    @keydown.enter="doSearch"
+                />
             </div>
         </div>
 
@@ -63,10 +69,12 @@
     import { useScroll } from '@vueuse/core'
 
     import { resizeImage } from '@/utils/common'
-    import { isLoggedIn } from '@/utils/cookie'
+    import { isLoggedIn } from '@/utils/user'
     import useUserAccount from '@/hooks/useUserAccount'
+    import { useUiStore } from '@/stores/ui'
 
     const router = useRouter()
+    const uiStore = useUiStore()
 
     const { data: userAccount } = useUserAccount()
 

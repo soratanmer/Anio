@@ -1,11 +1,19 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-import { isLoggedIn } from '@/utils/cookie'
+import { isLoggedIn } from '@/utils/user'
 
 const routes: RouteRecordRaw[] = [
     {
         name: 'home',
         path: '/',
         component: () => import('@/view/Home.vue'),
+    },
+    {
+        name: 'login',
+        path: '/login',
+        component: () => import('@/view/Login.vue'),
+        meta: {
+            isLoggedIn: true,
+        },
     },
     {
         name: 'explore',
@@ -21,12 +29,24 @@ const routes: RouteRecordRaw[] = [
         },
     },
     {
-        name: 'login',
-        path: '/login',
-        component: () => import('@/view/Login.vue'),
-        meta: {
-            isLoggedIn: true,
-        },
+        name: 'album',
+        path: '/album/:id',
+        component: () => import('@/view/Album.vue'),
+    },
+    {
+        name: 'artist',
+        path: '/artist/:id',
+        component: () => import('@/view/Artist.vue'),
+    },
+    {
+        name: 'playlist',
+        path: '/playlist/:id',
+        component: () => import('@/view/Playlist.vue'),
+    },
+    {
+        name: 'search',
+        path: '/search',
+        component: () => import('@/view/Search.vue'),
     },
     {
         name: '404',
@@ -54,11 +74,11 @@ router.beforeEach((to, from, next) => {
             })
         }
     } else {
-        if(to.path === '/login' && isLoggedIn()){
+        if (to.path === '/login' && isLoggedIn()) {
             next({
-                path:'/library'
+                path: '/library',
             })
-        }else{
+        } else {
             next()
         }
     }

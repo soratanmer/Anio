@@ -17,7 +17,7 @@ export interface FetchAlbumParams {
 interface FetchAlbumResponse {
     code: number
     resourceState: boolean
-    album: Album[]
+    album: Album
     songs: Track[]
     description: string
 }

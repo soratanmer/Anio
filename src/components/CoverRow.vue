@@ -92,7 +92,7 @@
             default: '',
         },
         subtitle: {
-            type: String as PropType<'copyWriter' | 'creator' | 'type=releaseYear' | 'artist'>,
+            type: String as PropType<'copyWriter' | 'creator' | 'type+releaseYear' | 'artist'>,
             default: 'copywriter',
         },
         seeMoreLink: {

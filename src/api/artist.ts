@@ -12,7 +12,7 @@ export interface FetchArtistParams {
 interface FetchArtistResponse {
     code: number
     more: boolean
-    artist: Artist[]
+    artist: Artist
     hotSongs: Track[]
 }
 
