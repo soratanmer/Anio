@@ -56,8 +56,6 @@
             default: false,
         },
     })
-
-    console.log(props.tracks);
     
 
     const { data: userAccount } = useUserAccount()

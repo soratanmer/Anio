@@ -22,3 +22,9 @@ import { usePlayerProvider } from "@/hooks/usePlayer";
 useQueryProvider()
 usePlayerProvider()
 </script>
+
+<style lang="scss">
+    ::-webkit-scrollbar{
+        display: none;
+    }
+</style>

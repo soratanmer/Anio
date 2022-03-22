@@ -6,7 +6,7 @@ import type { FetchTracksParams, FetchAudioSourceParams } from '@/api/track'
 type TrackID = number
 
 interface PlaylistSource {
-    type: 'album' | 'playlist'
+    type: 'album' | 'playlist' | 'FM'
     id: number | string
 }
 

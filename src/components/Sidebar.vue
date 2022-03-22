@@ -1,12 +1,12 @@
 <template>
-    <div id="sidebar" class="grid h-screen max-w-sm border-r border-black/5 bg-slate-50 bg-opacity-[0.85]">
+    <div id="sidebar" class="grid h-screen max-w-sm bg-slate-50">
         <!-- Primary tabs -->
         <div>
             <div class="app-region-drag h-14"></div>
 
             <div
                 v-for="tab in primaryTabs"
-                class="btn-hover-animation mx-3 flex items-center rounded-lg px-3 py-2 mb-2 transition-colors duration-200 after:scale-[0.97] after:bg-black/[0.06]"
+                class="btn-hover-animation mx-3 flex items-center rounded-lg px-3 py-2 mb-2 transition-colors duration-200 after:scale-[0.97] after:bg-green-100"
                 :class="{
                     'text-gray-700 ': route.path !== tab.route,
                     'text-slate-50 bg-green-500': route.path === tab.route,
@@ -20,9 +20,9 @@
 
             <div
                 v-for="tab in secondaryTabs"
-                class="btn-hover-animation mx-3 flex items-center rounded-lg px-3 py-2 mb-2 transition-colors duration-200 after:scale-[0.97] after:bg-black/[0.06]"
+                class="btn-hover-animation mx-3 flex items-center rounded-lg px-3 py-2 mb-2 transition-colors duration-200 after:scale-[0.97] after:bg-green-100"
                 :class="{
-                    'text-gray-700 ': route.path !== tab.route,
+                    'text-gray-700': route.path !== tab.route,
                     'text-slate-50 bg-green-500': route.path === tab.route,
                 }"
                 @click="router.push(tab.route)"
@@ -34,13 +34,12 @@
         </div>
 
         <!-- Playlists -->
-        <div class="overflow-auto pb-[4.6rem]">
+        <div class="overflow-auto">
             <div
                 v-for="playlist in userPlaylists?.playlist || []"
-                class="btn-hover-animation line-clamp-1 my-px mx-3 flex items-center rounded-lg px-3 py-[0.38rem] mb-2 text-sm text-black opacity-70 transition-colors duration-200 after:scale-[0.97] after:bg-black/[0.06]"
+                class="btn-hover-animation line-clamp-1 my-px mx-3 flex items-center rounded-lg px-3 py-[0.38rem] mb-2 text-sm text-black opacity-70 transition-colors duration-200 after:scale-[0.97] after:bg-green-100"
                 :class="{
-                    'after:scale-100 after:opacity-100':
-                        route.name === 'playlist' && Number(route.params.id) === playlist.id,
+                    'text-slate-50 bg-green-500': route.name === 'playlist' && Number(route.params.id) === playlist.id,
                 }"
                 @click="router.push({ name: 'playlist', params: { id: playlist.id } })"
             >

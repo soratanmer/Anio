@@ -1,7 +1,7 @@
 <template>
     <div class="mt-10">
         <!-- Header background -->
-        <div class="absolute top-0 lef-0 z-0 h-96 w-full overflow-hidden">
+        <div class="absolute top-0 left-0 z-0 h-96 w-full overflow-hidden">
             <img class="absolute top-0 w-full blur-[100px]" :src="coverUrl" alt="cover" />
             <img class="absolute top-0 w-full blur-[100px]" :src="coverUrl" alt="cover" />
             <div class="absolute top-0 h-full w-full bg-gradient-to-b from-[#ffffffd6] to-white/100"> </div>
@@ -89,7 +89,7 @@
             layout="list"
             :isLoading="isLoadingPlaylist"
         /> -->
-        
+
         <!-- Infinite tracks -->
         <TrackList v-for="page in infiniteTracks?.pages" :tracks="page?.songs || []" layout="list" />
     </div>
@@ -123,10 +123,6 @@
     const playlist = computed(() => {
         return playlistRaw.value?.playlist
     })
-
-    console.log(playlist.value?.tracks);
-    
-    
 
     const coverUrl = computed(() => {
         return resizeImage(playlist.value?.coverImgUrl || '', 'md')

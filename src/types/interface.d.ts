@@ -137,7 +137,7 @@ declare interface Artist {
     publishTime?: number
     picId_str?: string
     img1v1Id_str?: string
-    transNames:unknown[]
+    transNames: unknown[]
 }
 
 declare interface Album {
@@ -206,4 +206,118 @@ declare interface User {
     backgroundImgIdStr: string
     anchor: boolean
     avatarImgId_str: string
+}
+
+declare interface FMTrack {
+    name: string
+    id: number
+    position: number
+    alias: unknown[]
+    status: number
+    fee: number
+    copyrightId: number
+    disc: string
+    no: number
+    artists: Artist[]
+    album: Album
+    starred: boolean
+    popularity: number
+    score: number
+    starredNum: number
+    duration: number
+    playedNum: number
+    dayPlays: number
+    hearTime: number
+    ringtong: null
+    crbt: null
+    audition: null
+    copyFrom: string
+    commentThreadId: string
+    rtUrl: null
+    ftype: number
+    rtUrls: unknown[]
+    copyright: number
+    transName: null
+    sign: null
+    mark: number
+    originCoverType: number
+    originSongSimpleData: null
+    single: number
+    noCopyrightRcmd: null
+    rtype: number
+    rurl: null
+    mvid: number
+    bMusic: {
+        name: null
+        id: number
+        size: number
+        extension: string
+        sr: number
+        dfsId: number
+        bitrate: number
+        playTime: number
+        volumeDelta: number
+    }
+    mp3Url: null
+    hMusic: {
+        name: null
+        id: number
+        size: number
+        extension: string
+        sr: number
+        dfsId: number
+        bitrate: number
+        playTime: number
+        volumeDelta: number
+    }
+    mMusic: {
+        name: null
+        id: number
+        size: number
+        extension: string
+        sr: number
+        dfsId: number
+        bitrate: number
+        playTime: number
+        volumeDelta: number
+    }
+    lMusic: {
+        name: null
+        id: number
+        size: number
+        extension: string
+        sr: number
+        dfsId: number
+        bitrate: number
+        playTime: number
+        volumeDelta: number
+    }
+    reason: string
+    privilege: {
+        id: number
+        fee: number
+        payed: number
+        st: number
+        pl: number
+        dl: number
+        sp: number
+        cp: number
+        subp: number
+        cs: boolean
+        maxbr: number
+        fl: number
+        toast: boolean
+        flag: number
+        preSell: boolean
+        playMaxbr: number
+        downloadMaxbr: number
+        rscl: null
+        freeTrialPrivilege: {
+            resConsumable: boolean
+            userConsumable: boolean
+        }
+        chargeInfoList: unknown[]
+    }
+    alg: string
+    s_ctrp: string
 }

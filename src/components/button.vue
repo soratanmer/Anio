@@ -4,11 +4,11 @@
         :class="{
             'px-4 py-1.5': shape === 'default',
             'px-3 py-1.5': shape === 'square',
-            'bg-brand-100': color === 'primary',
+            'bg-green-100': color === 'primary',
             'bg-gray-100': color === 'gray',
-            'text-brand-500': iconColor === 'primary',
+            'text-green-500': iconColor === 'primary',
             'text-gray-900': iconColor === 'gray',
-            'animate-pulse bg-gray-1oo text-transparent': isSkeleton,
+            'animate-pulse bg-gray-100 text-transparent': isSkeleton,
         }"
     >
         <slot></slot>

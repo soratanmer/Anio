@@ -5,8 +5,8 @@
             'grid-cols-1 py-1.5 px-2': isGrid,
             'grid-cols-12 p-2 pr-4': isList,
             'grid-cols-12 py-2.5 px-4': isAlbum,
-            'btn-hover-animation after:bg-gray-100': !isSkeleton && !isHighLight,
-            'bg-brand-100': !isSkeleton && isHighLight,
+            'btn-hover-animation after:bg-green-100': !isSkeleton && !isHighLight,
+            'bg-green-500': !isSkeleton && isHighLight,
         }"
     >
         <!-- Track info -->
@@ -46,7 +46,7 @@
                 v-if="isAlbum && !isHighLight"
                 class="self-center group-hover:hidden"
                 :class="{
-                    'text-gray-500': !isHighLight,
+                    'text-gray-700': !isHighLight,
                     'text-brand-500': isHighLight,
                 }"
             >
@@ -55,12 +55,12 @@
 
             <!-- Pause button -->
             <div v-if="isAlbum && isHighLight" class="self-center" @click="player?.playOrPause()">
-                <SvgIcon class="h-3.5 w-3.5 text-brand-500" :name="player?.isPlaying ? 'pause' : 'play'"></SvgIcon>
+                <SvgIcon class="h-3.5 w-3.5 text-slate-50" :name="player?.isPlaying ? 'pause' : 'play'"></SvgIcon>
             </div>
 
-            <!-- Pause button -->
+            <!-- Play button -->
             <div v-if="isAlbum && !isHighLight" class="self-center hidden group-hover:block">
-                <SvgIcon class="h-3.5 w-3.5 text-brand-500" name="play"></SvgIcon>
+                <SvgIcon class="h-3.5 w-3.5 text-green-500" name="play"></SvgIcon>
             </div>
 
             <!-- Track name & Artists -->
@@ -72,7 +72,7 @@
                         'text-lg': fullWidth,
                         'text-base': !fullWidth,
                         'text-black': !isHighLight,
-                        'text-brand-500': isHighLight,
+                        'text-slate-50': isHighLight,
                     }"
                 >
                     {{ track.name }}
@@ -90,8 +90,8 @@
                     :class="{
                         'text-sm': fullWidth,
                         'text-xs': !fullWidth,
-                        'text-gray-500': !isHighLight,
-                        'text-brand-500': isHighLight,
+                        'text-black': !isHighLight,
+                        'text-slate-50': isHighLight,
                     }"
                 >
                     <ArtistInline v-if="!isSkeleton" :artists="track.ar"></ArtistInline>
@@ -105,8 +105,8 @@
             v-if="isList && !isSkeleton"
             class="col-span-4 flex items-center"
             :class="{
-                'text-gray-900': !isHighLight,
-                'text-brand-500': isHighLight,
+                'text-black': !isHighLight,
+                'text-slate-50': isHighLight,
             }"
         >
             <span
@@ -128,8 +128,8 @@
             v-if="isAlbum"
             class="col-span-4"
             :class="{
-                'text-gray-600 ': !isHighLight,
-                'text-brand-500': isHighLight,
+                'text-black ': !isHighLight,
+                'text-slate-50': isHighLight,
             }"
         >
             <ArtistInline v-if="!isSkeleton" :artists="track.ar" />
@@ -145,11 +145,24 @@
                     'opacity-0': !isLiked,
                     'group-hover:opacity-100': !isSkeleton,
                 }"
-                ><SvgIcon :name="isLiked ? 'heart' : 'heart-outline'" class="h-4 w-4 text-brand-500"
+                ><SvgIcon
+                    :name="isLiked ? 'heart' : 'heart-outline'"
+                    class="h-4 w-4"
+                    :class="{
+                        'text-green-500': !isHighLight,
+                        'text-slate-50': isHighLight,
+                    }"
             /></button>
 
             <!-- Track duration -->
-            <div v-if="!isSkeleton">{{ formatDuration(track.dt, 'zh-CN', 'hh:mm:ss') }}</div>
+            <div
+                v-if="!isSkeleton"
+                :class="{
+                    'text-black': !isHighLight,
+                    'text-slate-50': isHighLight,
+                }"
+                >{{ formatDuration(track.dt, 'zh-CN', 'hh:mm:ss') }}</div
+            >
             <Skeleton v-else>0:00</Skeleton>
         </div>
     </div>

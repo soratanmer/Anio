@@ -144,15 +144,19 @@
             id: albumID,
         }),
     )
+
     const album = computed(() => {
         return albumRaw?.value?.album
     })
+
     const tracks = computed(() => {
         return albumRaw?.value?.songs
     })
+
     const coverUrl = computed(() => {
         return resizeImage(album?.value?.picUrl || '', 'lg')
     })
+
     const albumDuration = computed(() => {
         const duration = tracks.value?.reduce((acc, cur) => acc + cur.dt, 0) || 0
         return formatDuration(duration, 'zh-CN', 'hh[hr] mm[min]')
@@ -166,6 +170,7 @@
             }),
         }),
     )
+    
     const filteredOtherAlbums = computed(() => {
         const allRealease = otherAlbums.value?.hotAlbums || []
 

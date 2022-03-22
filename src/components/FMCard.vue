@@ -1,13 +1,14 @@
 <template>
-    <div class="relative flex h-[198px] overflow-hidden rounded-2xl p-4 bg-green-600">
+    <div v-if="!isLoadingPersonalFM" class="relative flex h-[198px] overflow-hidden rounded-2xl p-4 bg-green-500">
         <!-- cover -->
-        <img class="rounded-xl shadow-2xl" :src="coverUrl" />
+        <img class="rounded-xl shadow-2xl" :src="resizeImage(albumUrl, 'xs')" />
 
         <!-- track info  -->
         <div class="ml-5 flex w-full flex-col justify-between text-white">
             <div>
-                <div class="text-xl font-semibold">How Can I Make It OK?</div>
-                <div class="opacity-75">Wolf Alice</div>
+                <div class="text-xl font-semibold">{{ trackName }}</div>
+
+                <ArtistInline :artists="(artists as Artist[])"></ArtistInline>
             </div>
             <div class="flex items-center justify-between">
                 <!-- buttons -->
@@ -27,17 +28,31 @@
             </div>
         </div>
     </div>
+    <Skeleton v-else class="relative h-[198px] rounded-2xl"></Skeleton>
 </template>
 
 <script setup lang="ts">
-    const background = ref<string>('')
-    const coverUrl = ref<string>(
-        // 'https://p2.music.126.net/-_zf-SC10UEHxCbJB5h0PA==/109951165985694735.jpg?param=512y512'
-        // 'https://p1.music.126.net/2jls9nqjYYlQEybpHPaccw==/109951164706184612.jpg?param=512y512'
-        'https://p1.music.126.net/lEzPSOjusKaRXKXT3987lQ==/109951166035876388.jpg?param=512y512',
-        // 'https://p1.music.126.net/6CB6Jsmb7k7qiJqfMY5Row==/109951164260234943.jpg?param=512y512'
-        // 'https://p2.music.126.net/AhYP9TET8l-VSGOpWAKZXw==/109951165134386387.jpg?param=512y512'
-        // 'https://p2.music.126.net/vCTNT88k1rnflXtDdmWT9g==/109951165359041202.jpg?param=512y512'
-        // 'https://p2.music.126.net/QxJA2mr4hhb9DZyucIOIQw==/109951165422200291.jpg?param=512y512'
-    )
+    import usePersonalFM from '@/hooks/usePersonalFM'
+    import usePlayer from '@/hooks/usePlayer'
+    import { resizeImage } from '@/utils/common'
+
+    const { data: personalFM, isLoading: isLoadingPersonalFM } = usePersonalFM()
+
+    const trackIDs = computed(() => {
+        return personalFM.value?.data.map((t) => t.id) || []
+    })
+
+    const albumUrl = computed(() => {
+        return personalFM.value?.data[0].album.picUrl || ''
+    })
+
+    const trackName = computed(() => {
+        return personalFM.value?.data[0].name || ''
+    })
+
+    const artists = computed(() => {
+        return personalFM.value?.data[0].artists
+    })
+
+    const player = usePlayer()
 </script>
