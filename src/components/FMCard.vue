@@ -1,5 +1,5 @@
 <template>
-    <div class="relative flex h-[198px] overflow-hidden rounded-2xl p-4 bg-green-600" >
+    <div class="relative flex h-[198px] overflow-hidden rounded-2xl p-4 bg-green-600">
         <!-- cover -->
         <img class="rounded-xl shadow-2xl" :src="coverUrl" />
 
@@ -30,10 +30,6 @@
 </template>
 
 <script setup lang="ts">
-    import { ref } from 'vue'
-
-    import SvgIcon from '@/components/SvgIcon.vue'
-
     const background = ref<string>('')
     const coverUrl = ref<string>(
         // 'https://p2.music.126.net/-_zf-SC10UEHxCbJB5h0PA==/109951165985694735.jpg?param=512y512'

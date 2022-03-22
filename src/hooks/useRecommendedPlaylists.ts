@@ -1,5 +1,3 @@
-import { useQuery } from 'vue-query'
-
 import { PlaylistApiNames, fetchRecommendedPlaylists } from '@/api/playlist'
 
 export default function useRecommendedPlaylists() {

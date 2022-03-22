@@ -64,10 +64,6 @@
 </template>
 
 <script setup lang="ts">
-    import { ref, onMounted } from 'vue'
-    import { useRouter } from 'vue-router'
-    import { useScroll } from '@vueuse/core'
-
     import { resizeImage } from '@/utils/common'
     import { isLoggedIn } from '@/utils/user'
     import useUserAccount from '@/hooks/useUserAccount'

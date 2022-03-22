@@ -80,15 +80,11 @@
 </template>
 
 <script setup lang="ts">
-    import { ref } from 'vue'
-    import { useRouter } from 'vue-router'
     import md5 from 'md5'
 
     import { useUiStore } from '@/stores/ui'
     import { setCookie } from '@/utils/cookie'
     import { loginWithEmail, loginWithPhone } from '@/api/auth'
-
-    import SvgIcon from '@/components/SvgIcon.vue'
 
     type Method = 'email' | 'phone'
 

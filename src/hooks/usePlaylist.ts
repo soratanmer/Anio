@@ -1,6 +1,3 @@
-import { computed, reactive } from 'vue'
-import { useQuery } from 'vue-query'
-
 import { fetchPlaylist, PlaylistApiNames } from '@/api/playlist'
 import type { FetchPlaylistParams } from '@/api/playlist'
 

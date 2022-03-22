@@ -1,6 +1,3 @@
-import { computed, reactive } from 'vue'
-import { useQuery } from 'vue-query'
-
 import { fetchAlbum, AlbumApiNames } from '@/api/album'
 import type { FetchAlbumParams } from '@/api/album'
 

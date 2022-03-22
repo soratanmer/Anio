@@ -88,26 +88,17 @@
             :tracks="playlist?.tracks || []"
             layout="list"
             :isLoading="isLoadingPlaylist"
-        ></TrackList>
-
-        <!-- Infinite Tracks -->
-        <TrackList v-for="page in infiniteTracks?.pages" :tracks="page?.songs || []" layout="list"></TrackList>
+        />
+        <!-- Infinite tracks -->
+        <TrackList v-for="page in infiniteTracks?.pages" :tracks="page?.songs || []" layout="list" />
     </div>
 </template>
 
 <script setup lang="ts">
-    import { computed, reactive, ref, watch } from 'vue'
-    import { useRoute, useRouter } from 'vue-router'
-    import { useScroll } from '@vueuse/core'
-
-    import { resizeImage, formatDate } from '@/utils/common'
+    import usePlayer from '@/hooks/usePlayer'
     import usePlaylist from '@/hooks/usePlaylist'
     import useTracksInfinite from '@/hooks/useTracksInfinite'
-    import usePlayer from '@/hooks/usePlayer'
-    import Skeleton from '@/components/Skeleton.vue'
-    import Button from '@/components/button.vue'
-    import SvgIcon from '@/components/SvgIcon.vue'
-    import TrackList from '@/components/TrackList.vue'
+    import { formatDate, resizeImage } from '@/utils/common'
 
     const route = useRoute()
     const router = useRouter()
@@ -154,12 +145,12 @@
     )
 
     // Load more tracks when scrolled to bottom
-    const mainContainerRef = ref<HTMLElement | null>(document.getElementById('maincontainer'))
+    const mainContainerRef = ref<HTMLElement | null>(document.getElementById('mainContainer'))
 
-    const maincontainerScroll = useScroll(mainContainerRef)
+    const mainContainerScroll = useScroll(mainContainerRef)
 
     watch(
-        () => maincontainerScroll.arrivedState.bottom,
+        () => mainContainerScroll.arrivedState.bottom,
         (isScrolledToBottom) => {
             if (!isScrolledToBottom && isFetchingTracks.value && !hasNextPage?.value) {
                 return
@@ -173,7 +164,7 @@
     const isShowTracksFromPlaylistQuery = ref(true)
 
     watch(
-        () => playlistID.value,
+        () => isLoadingTracks.value,
         (isLoadingTracks) => {
             if (isLoadingTracks) {
                 return
@@ -191,7 +182,6 @@
     )
 
     const player = usePlayer()
-    console.log(player)
     const play = () => {
         player?.replacePlaylist(trackIDs.value, {
             type: 'playlist',

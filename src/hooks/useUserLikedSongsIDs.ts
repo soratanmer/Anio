@@ -1,5 +1,3 @@
-import { computed, reactive } from 'vue'
-import { useQuery } from 'vue-query'
 import { fetchUserLikedSongsIDs, UserApiNames } from '@/api/user'
 import type { FetchUserLikedSongsIdsParams } from '@/api/user'
 

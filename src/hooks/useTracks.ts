@@ -1,6 +1,3 @@
-import { computed, reactive } from 'vue'
-import { useQuery } from 'vue-query'
-
 import { fetchTracks, TrackApiNames } from '@/api/track'
 import type { FetchTracksParams } from '@/api/track'
 

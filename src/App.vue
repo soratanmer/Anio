@@ -6,7 +6,7 @@
             ref="mainContainer"
             class="relative flex h-screen max-h-screen flex-grow flex-col overflow-y-auto bg-white"
         >
-            <TopBar></TopBar>
+            <Topbar></Topbar>
             <main id="main" class="mb-24 flex-grow px-8">
                 <router-view></router-view>
             </main>
@@ -16,7 +16,9 @@
 </template>
 
 <script setup lang="ts">
-    import Sidebar from '@/components/Sidebar.vue'
-    import TopBar from '@/components/TopBar.vue'
-    import Player from '@/components/Player.vue'
+import { useQueryProvider } from "vue-query";
+import { usePlayerProvider } from "@/hooks/usePlayer";
+
+useQueryProvider()
+usePlayerProvider()
 </script>

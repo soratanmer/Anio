@@ -84,17 +84,10 @@
 </template>
 
 <script setup lang="ts">
-    import { computed } from 'vue'
-    import { useRouter } from 'vue-router'
-
     import usePlayer from '@/hooks/usePlayer'
     import { resizeImage } from '@/utils/common'
     import useUserLikedSongsIDs from '@/hooks/useUserLikedSongsIDs'
     import useUserAccount from '@/hooks/useUserAccount'
-
-    import ArtistInline from '@/components/ArtistInline.vue'
-    import ButtonIcon from './ButtonIcon.vue'
-    import SvgIcon from './SvgIcon.vue'
 
     const router = useRouter()
     const player = usePlayer()

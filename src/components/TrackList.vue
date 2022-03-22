@@ -18,22 +18,20 @@
 
     <div v-else class="grid w-full gap-1" :class="{ ...gridCols }">
         <TrackListItem
-            v-for="track in tracks"
+            v-for="track in skeletonTracks"
             :track="track"
             :layout="layout"
             :fullWidth="layout !== 'grid'"
-            :isSkeleton="true"
+            :is-skeleton="true"
         ></TrackListItem>
     </div>
 </template>
 
 <script setup lang="ts">
-    import { computed } from 'vue'
     import type { PropType } from 'vue'
 
-    import useUserLikedSongsIDs from '@/hooks/useUserLikedSongsIDs'
     import useUserAccount from '@/hooks/useUserAccount'
-    import TrackListItem from './TrackListItem.vue'
+    import useUserLikedSongsIDs from '@/hooks/useUserLikedSongsIDs'
 
     const props = defineProps({
         // 歌曲列表
@@ -58,8 +56,6 @@
             default: false,
         },
     })
-
-    console.log(props.tracks)
 
     const { data: userAccount } = useUserAccount()
     const { data: userLikedSongs } = useUserLikedSongsIDs({

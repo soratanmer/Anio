@@ -29,11 +29,11 @@
 
                 <!-- Buttons -->
                 <div class="mt-5 flex gap-4">
-                    <Button :isSkeleton="isLoading">
+                    <Button :is-skeleton="isLoading">
                         <SvgIcon class="mr-2 h-4 w-4" name="play"></SvgIcon>
                         PLAY
                     </Button>
-                    <Button :isSkeleton="isLoading" color="gray" iconColor="gray">Follow</Button>
+                    <Button :is-skeleton="isLoading" color="gray" iconColor="gray">Follow</Button>
                     <Button :is-skeleton="isLoading" shape="square" color="gray" icon-color="gray"
                         ><SvgIcon class="h-4 w-4" name="more"></SvgIcon
                     ></Button>
@@ -56,16 +56,9 @@
 </template>
 
 <script setup lang="ts">
-    import { computed, reactive } from 'vue'
-    import { useRoute, useRouter } from 'vue-router'
-
     import useArtist from '@/hooks/useArtist'
     import useArtistAlbums from '@/hooks/useArtistAlbums'
     import { resizeImage } from '@/utils/common'
-    import Button from '@/components/Button.vue'
-    import SvgIcon from '@/components/SvgIcon.vue'
-    import TrackList from '@/components/TrackList.vue'
-    import CoverRow from '@/components/CoverRow.vue'
 
     const route = useRoute()
     const router = useRouter()

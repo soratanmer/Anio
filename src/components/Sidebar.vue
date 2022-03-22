@@ -51,8 +51,6 @@
 </template>
 
 <script setup lang="ts">
-    import { reactive, computed } from 'vue'
-    import { useRoute, useRouter } from 'vue-router'
     import useUserAccount from '@/hooks/useUserAccount'
     import useUserPlaylists from '@/hooks/useUserPlaylists'
 

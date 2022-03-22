@@ -1,26 +1,21 @@
-import { computed, reactive } from 'vue'
-import { useInfiniteQuery } from 'vue-query'
-
 import { fetchTracks, TrackApiNames } from '@/api/track'
 import type { FetchTracksParams } from '@/api/track'
 
 export default function useTracksInfinite(params: FetchTracksParams) {
-    console.debug('useTrackInfinite', params.ids)
+    console.debug('useTracksInfinite', params.ids)
+    const enabled = computed(() => params.ids.length !== 0)
 
-    const enabled = computed(() => {
-        return params.ids.length !== 0
-    })
-
+    // 20 tracks each page
     const offset = 50
 
     return useInfiniteQuery(
         reactive([TrackApiNames.FETCH_TRACKS, params]),
-        async ({ pageParam = 0 }) => {
+        ({ pageParam = 0 }) => {
             const cursorStart = pageParam * offset
-            const cursorEnd = pageParam + offset
+            const cursorEnd = cursorStart + offset
             const ids = params.ids.slice(cursorStart, cursorEnd)
-            const data = await fetchTracks({ ids })
-            return data
+
+            return fetchTracks({ ids })
         },
         reactive({
             enabled,

@@ -156,16 +156,10 @@
 </template>
 
 <script setup lang="ts">
-    import { computed } from 'vue'
     import type { PropType } from 'vue'
-    import { useRouter } from 'vue-router'
 
     import { formatDuration, resizeImage } from '@/utils/common'
     import usePlayer from '@/hooks/usePlayer'
-
-    import Skeleton from '@/components/Skeleton.vue'
-    import SvgIcon from '@/components/SvgIcon.vue'
-    import ArtistInline from '@/components/ArtistInline.vue'
 
     const props = defineProps({
         // 歌曲

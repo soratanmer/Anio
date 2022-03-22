@@ -65,15 +65,9 @@
 </template>
 
 <script setup lang="ts">
-    import { ref, computed } from 'vue'
     import type { PropType } from 'vue'
-    import { useRouter } from 'vue-router'
 
     import { formatDate, resizeImage } from '@/utils/common'
-
-    import Skeleton from '@/components/Skeleton.vue'
-    import SvgIcon from '@/components/SvgIcon.vue'
-    import Cover from '@/components/Cover.vue'
 
     const router = useRouter()
 

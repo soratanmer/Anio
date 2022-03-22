@@ -36,13 +36,9 @@
 </template>
 
 <script setup lang="ts">
-    import { computed, reactive } from 'vue'
-
     import useUserAccount from '@/hooks/useUserAccount'
     import useUserPlayLists from '@/hooks/useUserPlaylists'
     import { resizeImage } from '@/utils/common'
-    import Skeleton from '@/components/Skeleton.vue'
-    import CoverRow from '@/components/CoverRow.vue'
 
     const { data: userAccount, isLoading: isLoadingAccount } = useUserAccount()
 

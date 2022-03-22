@@ -1,6 +1,8 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
+import AutoImport from 'unplugin-auto-import/vite'
+import Components from 'unplugin-vue-components/vite'
 import { join } from 'path'
 import { config } from 'dotenv'
 
@@ -28,8 +30,8 @@ export default defineConfig({
         port: Number(process.env.DEV_SERVER_PORT),
         proxy: {
             '/api': {
-                // target: 'http://localhost:3000',
-                target: 'https://netease-cloud-music-api-soratanmer.vercel.app/',
+                target: 'http://localhost:3000',
+                // target: 'https://netease-cloud-music-api-soratanmer.vercel.app/',
                 changeOrigin: true,
                 rewrite: (path) => path.replace(/^\/api/, '/'),
             },
@@ -43,5 +45,18 @@ export default defineConfig({
             // 指定symbolId格式
             symbolId: 'icon-[name]',
         }),
+        AutoImport({
+            imports:[
+                'vue',
+                'vue-router',
+                '@vueuse/core',
+                {
+                    'vue-query': ['useQuery', 'useInfiniteQuery', 'QueryClient'],
+                }
+            ]
+        }),
+        Components({
+            dirs:['src/']
+        })
     ],
 })

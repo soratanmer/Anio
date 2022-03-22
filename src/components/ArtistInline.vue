@@ -19,7 +19,6 @@
 
 <script setup lang="ts">
     import type { PropType } from 'vue'
-    import { useRouter } from 'vue-router'
 
     const router = useRouter()
 

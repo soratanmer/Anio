@@ -61,13 +61,13 @@
 
                 <!-- Button -->
                 <div class="mt-5 flex gap-4">
-                    <Button :isSkeleton="isLoading" @click="play">
+                    <Button :is-skeleton="isLoading" @click="play">
                         <SvgIcon class="h-4 w-4" name="play"></SvgIcon>PLAY</Button
                     >
-                    <Button :isSkeleton="isLoading" shape="square" color="gray">
+                    <Button :is-skeleton="isLoading" shape="square" color="gray">
                         <SvgIcon class="h-4 w-4" name="heart"></SvgIcon
                     ></Button>
-                    <Button :isSkeleton="isLoading" shape="square" color="gray" iconColor="gray">
+                    <Button :is-skeleton="isLoading" shape="square" color="gray" iconColor="gray">
                         <SvgIcon class="h-4 w-4" name="more"></SvgIcon
                     ></Button>
                 </div>
@@ -112,7 +112,7 @@
         <div class="mt-3">
             <CoverRow
                 :albums="filteredOtherAlbums"
-                :isSkeleton="isLoadingMoreAlbums"
+                :is-skeleton="isLoadingMoreAlbums"
                 subtitle="type+releaseYear"
             ></CoverRow>
         </div>
@@ -120,20 +120,11 @@
 </template>
 
 <script setup lang="ts">
-    import { computed, reactive } from 'vue'
-    import { useRoute, useRouter } from 'vue-router'
-    import dayjs from 'dayjs'
-
-    import { resizeImage, formatDate, formatDuration } from '@/utils/common'
     import useAlbum from '@/hooks/useAlbum'
     import useArtistAlbums from '@/hooks/useArtistAlbums'
-    import usePlayer, { PlayerState } from '@/hooks/usePlayer'
-
-    import Skeleton from '@/components/Skeleton.vue'
-    import Button from '@/components/Button.vue'
-    import SvgIcon from '@/components/SvgIcon.vue'
-    import TrackList from '@/components/TrackList.vue'
-    import CoverRow from '@/components/CoverRow.vue'
+    import usePlayer from '@/hooks/usePlayer'
+    import { formatDate, formatDuration, resizeImage } from '@/utils/common'
+    import dayjs from 'dayjs'
 
     const route = useRoute()
     const router = useRouter()

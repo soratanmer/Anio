@@ -1,6 +1,3 @@
-import { computed, reactive } from 'vue'
-import { useQuery } from 'vue-query'
-
 import { fetchArtist, ArtistApiNames } from '@/api/artist'
 import type { FetchArtistParams } from '@/api/artist'
 

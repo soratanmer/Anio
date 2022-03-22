@@ -130,15 +130,11 @@ import { useQuery } from 'vue-query' import { useRouter } from 'vue-router'
 </template>
 
 <script setup lang="ts">
+    import dayjs from 'dayjs'
+
     import { multiMatchSearch, search, SearchApiName, SearchTypes } from '@/api/search'
-    import ArtistInline from '@/components/ArtistInline.vue'
     import { useUiStore } from '@/stores/ui'
     import { resizeImage } from '@/utils/common'
-    import { debouncedWatch } from '@vueuse/core'
-    import dayjs from 'dayjs'
-    import { computed, reactive, ref } from 'vue'
-    import { useQuery } from 'vue-query'
-    import { useRouter } from 'vue-router'
 
     const router = useRouter()
     const uiStore = useUiStore()
