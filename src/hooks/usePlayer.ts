@@ -92,7 +92,7 @@ export function usePlayerProvider() {
      */
 
     const _playTrack = async (audioSource: string) => {
-        console.log('[Player.ts] _playTrack()', audioSource)
+        console.debug('[Player.ts] _playTrack()', audioSource)
         Howler.unload()
         _howler.value = new Howl({
             src: [audioSource],
@@ -103,7 +103,7 @@ export function usePlayerProvider() {
         })
         _howler.value.play()
         state.value = PlayerState.PLAYING
-        console.log(_howler)
+        console.debug(_howler)
     }
 
     /**
@@ -119,9 +119,10 @@ export function usePlayerProvider() {
 
         const { data: neteaseSource } = await fetchAudioSource({
             id: _track.value.id,
+            br:128000
         })
 
-        console.log(neteaseSource)
+        console.debug(neteaseSource)
 
         return _playTrack(neteaseSource[0].url)
     }

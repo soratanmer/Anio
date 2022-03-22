@@ -57,6 +57,9 @@
         },
     })
 
+    console.log(props.tracks);
+    
+
     const { data: userAccount } = useUserAccount()
     const { data: userLikedSongs } = useUserLikedSongsIDs({
         uid: userAccount.value?.account?.id ?? 0,

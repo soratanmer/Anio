@@ -83,12 +83,13 @@
         </div>
 
         <!-- Initial Tracks -->
-        <TrackList
+        <!-- <TrackList
             v-if="isShowTracksFromPlaylistQuery"
             :tracks="playlist?.tracks || []"
             layout="list"
             :isLoading="isLoadingPlaylist"
-        />
+        /> -->
+        
         <!-- Infinite tracks -->
         <TrackList v-for="page in infiniteTracks?.pages" :tracks="page?.songs || []" layout="list" />
     </div>
@@ -122,6 +123,10 @@
     const playlist = computed(() => {
         return playlistRaw.value?.playlist
     })
+
+    console.log(playlist.value?.tracks);
+    
+    
 
     const coverUrl = computed(() => {
         return resizeImage(playlist.value?.coverImgUrl || '', 'md')
