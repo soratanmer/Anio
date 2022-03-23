@@ -1,9 +1,13 @@
 import request from '@/utils/request'
 
 export enum UserApiNames {
+    FETCH_USER_DETAIL = 'fetchUserDetail',
     FETCH_USER_ACCOUNT = 'fetchUserAccount',
     FETCH_USER_LIKED_SONGS_IDS = 'fetchUserLikedSongsIds',
     FETCH_USER_PLAYLISTS = 'fetchUserPlaylists',
+    FETCH_USER_DAILY_SIGN_IN = 'fetchUserDailySignIn',
+    FETCH_USER_LIKED_ALBUMS = 'fetchUserLikedAlbums',
+    FETCH_USER_LIKED_ARTISTS = 'fetchUserLikedArtists'
 }
 
 /**

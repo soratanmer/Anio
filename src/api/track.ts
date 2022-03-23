@@ -2,6 +2,11 @@ import request from '@/utils/request'
 
 export enum TrackApiNames {
     FETCH_TRACKS = 'fetchTracks',
+    FETCH_AUDIO_SOURCE = 'fetchAudioSource',
+    FETCH_LYRIC = 'fetchLyric',
+    FETCH_TOP_SONGS = 'fetchTopSongs',
+    LIKE_A_TRACK = 'likeATrack',
+    SCROBBLE = 'scrobble',
 }
 
 /**
@@ -80,5 +85,134 @@ export function fetchAudioSource(params: FetchAudioSourceParams): Promise<FetchA
         url: '/song/url',
         method: 'get',
         params,
+    })
+}
+
+/**
+ * 获取歌词
+ * 说明 : 调用此接口 , 传入音乐 id 可获得对应音乐的歌词 ( 不需要登录 )
+ * - 音乐 id
+ */
+
+export interface FetchLyricParams {
+    id: number
+}
+
+interface FetchLyricResponse {
+    sgc: boolean
+    sfy: boolean
+    qfy: boolean
+    [key in ('lrc' | 'klyric' | 'tlyric')]: {
+        version: number
+        lyric: string
+    }
+    code: number
+}
+
+export function fetchLyric(params: FetchLyricParams): Promise<FetchLyricResponse> {
+    return request({
+        url: '/lyric',
+        method: 'get',
+        params,
+    })
+}
+
+/**
+ * 新歌速递
+ * 说明 : 调用此接口 , 可获取新歌速递
+ * - 地区类型 id, 对应以下:
+ * 全部:0
+ * 华语:7
+ * 欧美:96
+ * 日本:8
+ * 韩国:16
+ */
+
+export enum TopSongsType {
+    ALL = 0,
+    ZH = 7,
+    EA = 96,
+    JP = 8,
+    KR = 16,
+}
+
+export interface FetchTopSongsParams {
+    type: TopSongsType
+}
+
+interface FetchTopSongsResponse {
+    code: number
+    data: Track[]
+}
+
+export function fetchTopSongs(params: FetchTopSongsParams): Promise<FetchTopSongsResponse> {
+    return request({
+        url: '/top/song',
+        method: 'get',
+        params,
+    })
+}
+
+/**
+ * 喜欢音乐
+ * 说明 : 调用此接口 , 传入音乐 id, 可喜欢该音乐
+ * - id - 歌曲 id
+ * - like - 默认为 true 即喜欢 , 若传 false, 则取消喜欢
+ */
+
+export interface LikeATrackParams {
+    id: number
+    like: boolean
+}
+
+interface LikeATrackResponse {
+    songs: []
+    playlistId: number
+    code: number
+}
+
+export function likeATrack(params: LikeATrackParams): Promise<LikeATrackResponse> {
+    return request({
+        url: '/like',
+        method: 'post',
+        params: {
+            ...params,
+            timestamp: new Date().getTime(),
+        },
+    })
+}
+
+/**
+ * 听歌打卡
+ * 说明 : 调用此接口 , 传入音乐 id, 来源 id，歌曲时间 time，更新听歌排行数据
+ * - id - 歌曲 id
+ * - sourceid - 歌单或专辑 id
+ * - time - 歌曲播放时间,单位为秒
+ * @param {Object} params
+ * @param {number} params.id
+ * @param {number} params.sourceid
+ * @param {number=} params.time
+ */
+
+export interface ScrobbleParams {
+    id: number
+    sourceid: number
+    time: number
+}
+
+interface ScrobbleResponse {
+    code:number
+    data:string
+    message:string
+}
+
+export function scrobble(params: ScrobbleParams):Promise<ScrobbleResponse> {
+    return request({
+        url: '/scrobble',
+        method: 'get',
+        params: {
+            ...params,
+            timestamp: new Date().getTime(),
+        },
     })
 }

@@ -7,7 +7,7 @@ export enum FMApiNames {
 
 interface FetchPersonalFMResponse {
     popAdjust: boolean
-    data: FMTrack[]
+    data: Track[]
     code: number
 }
 

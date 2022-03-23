@@ -3,6 +3,9 @@ import { Howler, Howl } from 'howler'
 import { fetchTracks, fetchAudioSource } from '@/api/track'
 import type { FetchTracksParams, FetchAudioSourceParams } from '@/api/track'
 
+import { fetchPersonalFM, FMTrash } from '@/api/FM'
+import { FMTrashParams } from '@/api/FM'
+
 type TrackID = number
 
 interface PlaylistSource {
@@ -13,6 +16,12 @@ interface PlaylistSource {
 export enum PlayerMode {
     PLAYLIST = 'playlist',
     FM = 'fm',
+}
+
+export enum RepeatMode {
+    ON = 'on',
+    OFF = 'off',
+    ONE = 'one',
 }
 
 export enum PlayerState {
@@ -33,19 +42,25 @@ export interface PlayerPublic {
     pause: () => void
     nextTrack: () => void
     previousTrack: () => void
+    moveToFMTrash: () => void
 }
 
 export function usePlayerProvider() {
     console.debug('Initializing usePlayerProvider')
 
     const mode = ref<PlayerMode>(PlayerMode.PLAYLIST)
+    const repeatMode = ref<RepeatMode>(RepeatMode.ON)
     const state = ref<PlayerState>(PlayerState.INITIALIZING)
     const playlistSource = ref<PlaylistSource | null>(null)
+    const shuffle = ref<boolean>(false)
+    const volume = ref<number>(1)
 
     const _playlist = ref<TrackID[]>([]) // 播放列表
     const _howler = ref(new Howl({ src: [''] })) //Howler
     const _track = ref<Track | null>(null) // 当前播放的歌曲
     const _trackIndex = ref<number>(0) // 当前播放歌曲在 _playlist 里的 index
+    const _shuffledList = ref<TrackID[]>([]) // 被随机打乱的播放列表，随机播放模式下会使用此播放列表
+    const _shuffledCurrent = ref<number>(0) // 当前播放歌曲在 _shuffledList 里的 index
 
     /**
      * 上一首的歌曲ID
@@ -119,7 +134,7 @@ export function usePlayerProvider() {
 
         const { data: neteaseSource } = await fetchAudioSource({
             id: _track.value.id,
-            br:128000
+            br: 128000,
         })
 
         console.debug(neteaseSource)
@@ -195,6 +210,46 @@ export function usePlayerProvider() {
     }
 
     /**
+     * 把该音乐从私人 FM 中移除至垃圾桶
+     */
+    const moveToFMTrash = (params: FMTrashParams) => {
+        mode.value = PlayerMode.FM
+        nextTrack()
+        FMTrash(params)
+    }
+
+    /**
+     * 循环模式
+     */
+
+    const switchRepeatMode = () => {
+        if (repeatMode.value === RepeatMode.ON) {
+            repeatMode.value = RepeatMode.ONE
+        } else if (repeatMode.value === RepeatMode.ONE) {
+            repeatMode.value = RepeatMode.OFF
+        } else {
+            repeatMode.value = RepeatMode.ON
+        }
+    }
+
+    /**
+     * 是否随机播放
+     */
+
+    const switchShuffle = () => {
+        shuffle.value = !shuffle.value
+    }
+
+    /**
+     * 清空播放列表
+     */
+
+    const clearPlaylist = () => {
+        _playlist.value = []
+        _shuffledList.value = []
+    }
+
+    /**
      * 替换当前歌曲列表
      * @param trackIDs 歌曲ID列表
      * @param source 列表来源
@@ -228,6 +283,7 @@ export function usePlayerProvider() {
         pause,
         nextTrack,
         previousTrack,
+        moveToFMTrash,
     })
 
     provide('player', player)

@@ -14,9 +14,18 @@
                 <!-- buttons -->
                 <div>
                     <button
-                        v-for="action in ['dislike', 'play', 'next']"
                         class="btn-pressed-animation btn-hover-animation mr-1 cursor-default rounded-lg p-2 transition duration-200 after:bg-white/10"
-                        ><SvgIcon :name="action" class="h-5 w-5"
+                        @click=""
+                        ><SvgIcon name="dislike" class="h-5 w-5"
+                    /></button>
+                    <button
+                        class="btn-pressed-animation btn-hover-animation mr-1 cursor-default rounded-lg p-2 transition duration-200 after:bg-white/10"
+                        @click="play"
+                        ><SvgIcon name="play" class="h-5 w-5"
+                    /></button>
+                    <button
+                        class="btn-pressed-animation btn-hover-animation mr-1 cursor-default rounded-lg p-2 transition duration-200 after:bg-white/10"
+                        ><SvgIcon name="next" class="h-5 w-5"
                     /></button>
                 </div>
 
@@ -38,10 +47,6 @@
 
     const { data: personalFM, isLoading: isLoadingPersonalFM } = usePersonalFM()
 
-    const trackIDs = computed(() => {
-        return personalFM.value?.data.map((t) => t.id) || []
-    })
-
     const albumUrl = computed(() => {
         return personalFM.value?.data[0].album.picUrl || ''
     })
@@ -55,4 +60,10 @@
     })
 
     const player = usePlayer()
+    const play = () => {
+        player?.replacePlaylist(personalFM.value?.data.map((t) => t.id) || [], {
+            type: 'FM',
+            id: 'FM',
+        })
+    }
 </script>
