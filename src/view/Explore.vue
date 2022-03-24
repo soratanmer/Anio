@@ -46,6 +46,8 @@
     const route = useRoute()
     const router = useRouter()
 
+    console.log(route.path)
+
     const { data: playlistCategory, isLoading: isLoadingPlaylistCategory } = usePlaylistCategory()
 
     const {
@@ -77,7 +79,10 @@
         },
     )
 
-    // 路由跳转后页面不刷新。。。
+    /**
+     * 路由跳转后页面不刷新。。。
+     * 此操作会导致全局页面刷新，导致侧栏 active 闪烁，待修。。。
+     */
     watch(route, () => {
         router.go(0)
     })

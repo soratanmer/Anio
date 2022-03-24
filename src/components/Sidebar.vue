@@ -11,7 +11,7 @@
                     'text-gray-700 ': route.path !== tab.route,
                     'text-slate-50 bg-green-500': route.path === tab.route,
                 }"
-                @click="router.push(tab.route)"
+                @click="routePush(tab)"
             >
                 <span class="font-semibold">{{ tab.name }}</span>
             </div>
@@ -25,7 +25,7 @@
                     'text-gray-700': route.path !== tab.route,
                     'text-slate-50 bg-green-500': route.path === tab.route,
                 }"
-                @click="router.push(tab.route)"
+                @click="routePush(primaryTabs)"
             >
                 <span class="font-semibold">{{ tab.name }}</span>
             </div>
@@ -68,7 +68,7 @@
         },
         {
             name: '发现',
-            route: '/explore?category=全部',
+            route: '/explore',
         },
     ]
 
@@ -92,4 +92,17 @@
             offset: 0,
         }),
     )
+
+    const routePush = (tab) => {
+        if (tab.route === '/explore') {
+            router.push({
+                name: 'explore',
+                query: {
+                    category: '全部',
+                },
+            })
+        } else {
+            router.push(tab.route)
+        }
+    }
 </script>
