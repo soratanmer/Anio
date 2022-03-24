@@ -10,9 +10,9 @@ export enum PlaylistApiNames {
     FETCH_PLAYLIST_CATEGORY = 'fetchPlaylistCategory',
     FETCH_TOPLIST = 'fetchToplist',
     SUBSCRIBE_PLAYLIST = 'subscribePlaylist',
-    DELETE_PLAYLIST='deletePlaylist',
+    DELETE_PLAYLIST = 'deletePlaylist',
     CREATE_PLAYLIST = 'createPlaylist',
-    ADD_OR_REMOVE_TRACK_FROM_PLAYLIST = 'addOrRemoveTrackFromPlaylist'
+    ADD_OR_REMOVE_TRACK_FROM_PLAYLIST = 'addOrRemoveTrackFromPlaylist',
 }
 
 /**
@@ -101,7 +101,9 @@ interface FetchDailyRecommendPlaylistsResponse {
     recommend: Playlist[]
 }
 
-export function fetchDailyRecommendPlaylists(params: FetchDailyRecommendPlaylistsParams): Promise<FetchDailyRecommendPlaylistsResponse> {
+export function fetchDailyRecommendPlaylists(
+    params: FetchDailyRecommendPlaylistsParams,
+): Promise<FetchDailyRecommendPlaylistsResponse> {
     return request({
         url: '/recommend/resource',
         method: 'get',
@@ -177,14 +179,15 @@ export function fetchHighQualityPlaylist(
  */
 
 export interface FetchTopPlaylistParams {
-    order: string
-    cat: string
-    limit?: string
+    order?: string
+    cat?: string
+    limit: number
+    offset?: number
 }
 
 interface FetchTopPlaylistResponse {
     playlists: Playlist[]
-    totle: number
+    total: number
     code: number
     more: boolean
     cat: string

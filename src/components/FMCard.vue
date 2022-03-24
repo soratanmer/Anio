@@ -1,7 +1,11 @@
 <template>
-    <div v-if="!isLoadingPersonalFM" class="relative flex h-[198px] overflow-hidden rounded-2xl p-4 bg-green-500">
+    <div
+        v-if="!isLoadingPersonalFM"
+        class="relative flex h-[198px] overflow-hidden rounded-2xl p-4"
+        :style="{ background }"
+    >
         <!-- cover -->
-        <img class="rounded-xl shadow-2xl" :src="resizeImage(albumUrl, 'xs')" />
+        <img class="rounded-xl shadow-2xl" :src="resizeImage(coverUrl, 'xs')" />
 
         <!-- track info  -->
         <div class="ml-5 flex w-full flex-col justify-between text-white">
@@ -41,14 +45,32 @@
 </template>
 
 <script setup lang="ts">
+    import { average } from 'color.js'
+    import { colord } from 'colord'
+
     import usePersonalFM from '@/hooks/usePersonalFM'
     import usePlayer from '@/hooks/usePlayer'
     import { resizeImage } from '@/utils/common'
 
     const { data: personalFM, isLoading: isLoadingPersonalFM } = usePersonalFM()
 
-    const albumUrl = computed(() => {
-        return personalFM.value?.data[0].album.picUrl || ''
+    const background = ref<string>('')
+    const coverUrl = ref<string>('')
+
+    watch(isLoadingPersonalFM, () => {
+        const albumUrl = computed(() => {
+            return personalFM.value?.data[0].album.picUrl || ''
+        })
+
+        coverUrl.value = albumUrl.value
+
+        average(albumUrl.value, { amount: 1, format: 'hex', sample: 1 }).then((color) => {
+            const to = colord(color as string)
+                .darken(0.15)
+                .rotate(-5)
+                .toHex()
+            background.value = `linear-gradient(to bottom right, ${color}, ${to})`
+        })
     })
 
     const trackName = computed(() => {

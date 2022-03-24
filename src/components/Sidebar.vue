@@ -68,7 +68,7 @@
         },
         {
             name: '发现',
-            route: '/explore',
+            route: '/explore?category=全部',
         },
     ]
 

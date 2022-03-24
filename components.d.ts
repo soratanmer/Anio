@@ -26,6 +26,7 @@ declare module 'vue' {
     Skeleton: typeof import('./src/components/Skeleton.vue')['default']
     SvgIcon: typeof import('./src/components/SvgIcon.vue')['default']
     Topbar: typeof import('./src/components/Topbar.vue')['default']
+    Toplist: typeof import('./src/view/Toplist.vue')['default']
     TrackList: typeof import('./src/components/TrackList.vue')['default']
     TrackListItem: typeof import('./src/components/TrackListItem.vue')['default']
   }
