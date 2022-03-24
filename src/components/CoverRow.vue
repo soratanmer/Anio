@@ -15,7 +15,7 @@
 
     <!-- Items -->
     <div
-        class="grid gap-x-[24px] gap-y-7"
+        class="grid gap-x-[24px] gap-y-7 mt-7"
         :class="{
             'grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6': !gridClass,
             [`${gridClass}`]: gridClass,
@@ -23,7 +23,7 @@
     >
         <div v-for="(item, index) in renderItems">
             <!-- Cover -->
-            <Cover v-if="!isSkeleton" :imageUrl="getImageUrl(item)" :isRounded="!!artists" @click="goTo(item)"></Cover>
+            <Cover v-if="!isSkeleton" :imageUrl="getImageUrl(item)" @click="goTo(item)"></Cover>
             <Skeleton v-else class="aspect-square w-full rounded-xl"></Skeleton>
 
             <!-- Info -->
@@ -134,7 +134,13 @@
             unknown: 'unknown',
         }
         const type = 'type' in item ? item.type || 'unknown' : 'unknown'
-        const artist = 'artist' in item ? item.artist.name : 'unknown'
+        const artist =
+            'artists' in item
+                ? item.artists
+                      ?.map((artist) => artist.name)
+                      .join(' / ')
+                      .toString()
+                : 'unknown'
 
         const table = {
             creator: `by ${nickname}`,

@@ -3,21 +3,13 @@
         <!-- Neon shadow -->
         <div
             class="absolute top-2 z-[-1] h-full w-full scale-x-[.92] scale-y-[.96] rounded-xl bg-cover opacity-0 blur-lg filter transition duration-300 group-hover:opacity-60"
-            :class="{
-                'rounded-full': isRounded,
-                'rounded-xl': !isRounded,
-            }"
             :style="shadowStyles"
         >
         </div>
 
         <!-- The cover -->
         <img
-            class="box-content aspect-square h-full w-full border border-black border-opacity-5"
-            :class="{
-                'rounded-full': isRounded,
-                'rounded-xl': !isRounded,
-            }"
+            class="box-content aspect-square h-full w-full rounded-xl border border-black border-opacity-5"
             :src="imageUrl"
             alt="cover"
         />
@@ -39,10 +31,6 @@
         imageUrl: {
             type: String,
             required: true,
-        },
-        isRounded: {
-            type: Boolean,
-            default: false,
         },
     })
 

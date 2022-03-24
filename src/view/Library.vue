@@ -1,16 +1,55 @@
 <template>
-    <div>
-        <!-- XXX's Library -->
-        <div class="my-6 flex items-center text-3xl font-bold">
-            <img
-                v-if="!isLoadingAccount"
-                class="mr-3 h-9 w-9 rounded-full"
-                :src="userAccount?.profile?.avatarUrl ? resizeImage(userAccount?.profile?.avatarUrl, 'md') : ''"
-                alt="avatar"
-            />
-            <Skeleton v-else class="mr-3 h-9 w-9 rounded-full"></Skeleton>
+    <div class="mt-10">
+        <!-- Header background -->
+        <div class="absolute top-0 left-0 z-0 h-96 w-full overflow-hidden">
+            <img class="absolute top-0 w-full blur-[100px]" :src="coverUrl" alt="background" />
+            <img class="absolute top-0 w-full blur-[100px]" :src="coverUrl" alt="background" />
+            <div class="absolute top-0 h-full w-full bg-gradient-to-b from-[#ffffffd6] to-white/100"> </div>
+        </div>
 
-            <span class="pb-1">'s Library</span>
+        <!-- XXX's Library -->
+        <div class="grid grid-cols-[17rem_auto] items-center gap-10">
+            <!-- Cover -->
+            <div class="relative z-0 aspect-square self-start">
+                <img
+                    v-if="!isLoadingAccount"
+                    class="rounded-2xl border border-black border-opacity-5"
+                    :src="coverUrl"
+                    alt="cover"
+                />
+                <Skeleton v-else class="h-full w-full rounded-2xl"></Skeleton>
+            </div>
+
+            <!-- User info -->
+            <div class="z-10">
+                <!-- User name -->
+                <div v-if="!isLoadingAccount" class="text-6xl font-bold">
+                    {{ userAccount?.profile?.nickname }}
+                    <span class="pb-1">的音乐库</span>
+                </div>
+                <Skeleton v-else class="w-3/4 text-7xl">PLACEHOLDER</Skeleton>
+
+                <!-- User ID -->
+                <div v-if="!isLoadingAccount" class="mt-5 text-sm font-thin text-gray-500">
+                    ID:
+                    <span class="font-semibold decoration-2">
+                        {{ userAccount?.profile?.userId }}
+                    </span>
+                </div>
+                <Skeleton v-else class="mt-5 w-64 text-lg">PLACEHOLDER</Skeleton>
+
+                <!-- Create time -->
+                <div v-if="!isLoadingAccount" class="mt-5 text-sm font-thin text-gray-500">
+                    创建时间: {{ formatDate(Number(userAccount?.profile?.createTime), 'zh-CN') }}
+                </div>
+                <Skeleton v-else class="mt-5 w-64 text-lg">PLACEHOLDER</Skeleton>
+
+                <!-- Signature -->
+                <div v-if="!isLoadingAccount" class="mt-5 text-sm font-thin text-gray-500">
+                    {{ userAccount?.profile?.signature }}
+                </div>
+                <Skeleton v-else class="mt-5 w-64 text-lg">PLACEHOLDER</Skeleton>
+            </div>
         </div>
 
         <!-- Tabs -->
@@ -19,8 +58,9 @@
                 v-for="tab in tabs"
                 class="btn-hover-animation rounded-lg px-3.5 py-1.5 text-lg font-semibold text-gray-600 after:bg-gray-100"
                 :class="{
-                    'bg-gray-100': tab.id === 'MyPlaylists',
+                    'bg-gray-100': tab.id === activeTab,
                 }"
+                @click="updateTabs(tab)"
             >
                 {{ tab.name }}
             </div>
@@ -28,9 +68,32 @@
 
         <!-- Playlist tab content -->
         <CoverRow
-            :playlists="userPlaylists?.playlist || []"
+            v-if="activeTab === 'MyPlaylists'"
+            :playlists="userCreatePlaylist || []"
             subtitle="creator"
             :is-skeleton="isLoadingAccount"
+        ></CoverRow>
+
+        <CoverRow
+            v-if="activeTab === 'LikedPlaylists'"
+            :playlists="userLikedPlaylist || []"
+            subtitle="creator"
+            :is-skeleton="isLoadingAccount"
+        ></CoverRow>
+
+        <CoverRow
+            v-if="activeTab === 'albums'"
+            v-for="page in likedAlbums?.pages"
+            :albums="page.data || []"
+            subtitle="artist"
+            :is-skeleton="isLoadingLikedAlbums"
+        ></CoverRow>
+
+        <CoverRow
+            v-if="activeTab === 'artists'"
+            v-for="page in likedArtists?.pages"
+            :artists="page.data || []"
+            :is-skeleton="isLoadingLikedArtists"
         ></CoverRow>
     </div>
 </template>
@@ -38,9 +101,45 @@
 <script setup lang="ts">
     import useUserAccount from '@/hooks/useUserAccount'
     import useUserPlayLists from '@/hooks/useUserPlaylists'
-    import { resizeImage } from '@/utils/common'
+    import useUserLikedArtist from '@/hooks/useUserLikedArtists'
+    import useUserLikedAlbums from '@/hooks/useUserLikedAlbums'
+    import { resizeImage, formatDate } from '@/utils/common'
+
+    interface Tab {
+        name: string
+        id: string
+    }
+
+    const activeTab = ref('MyPlaylists')
+
+    const tabs: Tab[] = [
+        {
+            name: '创建的歌单',
+            id: 'MyPlaylists',
+        },
+        {
+            name: '收藏的歌单',
+            id: 'LikedPlaylists',
+        },
+        {
+            name: '收藏的专辑',
+            id: 'albums',
+        },
+        {
+            name: '收藏的歌手',
+            id: 'artists',
+        },
+    ]
+
+    const updateTabs = (tab: Tab) => {
+        activeTab.value = tab.id
+    }
 
     const { data: userAccount, isLoading: isLoadingAccount } = useUserAccount()
+
+    const coverUrl = computed(() => {
+        return userAccount.value?.profile?.avatarUrl ? resizeImage(userAccount.value?.profile?.avatarUrl, 'sm') : ''
+    })
 
     const { data: userPlaylists, isLoading: isLoadingPlaylists } = useUserPlayLists(
         reactive({
@@ -51,29 +150,73 @@
         }),
     )
 
-    const tabs: {
-        name: string
-        id: string
-    }[] = [
-        {
-            name: 'My Playlists',
-            id: 'MyPlaylists',
+    const userCreatePlaylist = computed(() => {
+        return userPlaylists.value?.playlist.filter((item) => {
+            return item.creator.userId === userAccount.value?.profile?.userId
+        })
+    })
+
+    const userLikedPlaylist = computed(() => {
+        return userPlaylists.value?.playlist.filter((item) => {
+            return item.creator.userId !== userAccount.value?.profile?.userId
+        })
+    })
+
+    const {
+        data: likedArtists,
+        isLoading: isLoadingLikedArtists,
+        isFetching: isFetchingLikedArtists,
+        hasNextPage: likedArtistsHasNextPage,
+        fetchNextPage: fetchLikedArtistsNextPage,
+    } = useUserLikedArtist(
+        reactive({
+            limit: 30,
+        }),
+    )
+
+    const {
+        data: likedAlbums,
+        isLoading: isLoadingLikedAlbums,
+        isFetching: isFetchingLikedAlbums,
+        hasNextPage: likedAlbumsHasNextPage,
+        fetchNextPage: fetchLikedAlbumsNextPage,
+    } = useUserLikedAlbums(
+        reactive({
+            limit: 30,
+        }),
+    )
+
+    // Load more tracks when scrolled to bottom
+    const mainContainerRef = ref<HTMLElement | null>(document.getElementById('mainContainer'))
+
+    const mainContainerScroll = useScroll(mainContainerRef)
+
+    watch(
+        () => mainContainerScroll.arrivedState.bottom,
+        (isScrolledToBottom) => {
+            if (
+                activeTab.value !== 'artists' &&
+                !isScrolledToBottom &&
+                isFetchingLikedArtists.value &&
+                !likedArtistsHasNextPage?.value
+            ) {
+                return
+            } else {
+                console.debug('scrolled to bottom, load more tracks!')
+                fetchLikedArtistsNextPage.value()
+            }
+
+            if (
+                activeTab.value !== 'albums' &&
+                !isScrolledToBottom &&
+                isFetchingLikedAlbums.value &&
+                !likedAlbumsHasNextPage?.value
+            ) {
+                return
+            } else {
+                console.debug('scrolled to bottom, load more tracks!')
+                fetchLikedAlbumsNextPage.value()
+            }
         },
-        {
-            name: 'Liked Playlists',
-            id: 'LikedPlaylists',
-        },
-        {
-            name: 'Albums',
-            id: 'albums',
-        },
-        {
-            name: 'Artists',
-            id: 'artists',
-        },
-        {
-            name: 'Videos',
-            id: 'videos',
-        },
-    ]
+    )
 </script>

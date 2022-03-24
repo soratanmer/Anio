@@ -2,6 +2,7 @@ import request from '@/utils/request'
 
 export enum ArtistApiNames {
     FETCH_ARTIST = 'fetchArtist',
+    FETCH_ARTIST_SONGS = 'fetchArtistSongs',
     FETCH_ARTIST_ALBUMS = 'fetchArtistAlbums',
     FETCH_TOPLIST_OF_ARTISTS = 'fetchToplistOfArtists',
     FOLLOW_A_ARTIST = 'followAArtist',
@@ -36,6 +37,47 @@ export function fetchArtist(params: FetchArtistParams, noCache: boolean = false)
         params: {
             ...params,
             ...otherParams,
+        },
+    })
+}
+
+/**
+ * 获取歌手全部歌曲
+ * 说明：调用此接口，可获取歌手全部歌曲
+ * 必选参数：
+ * - id: 歌手 id
+ * 可选参数：
+ * order: hot / time 按照热门或时间排序
+ * limit: 取出歌单数量，默认为 50
+ * offset: 偏移数量 , 用于分页 , 如 :( 评论页数 -1)*50, 其中 50 为 limit 的值
+ */
+
+export enum OrderType {
+    hot = 'hot',
+    time = 'time',
+}
+
+export interface FetchArtistSongsParams {
+    id: number
+    order?: OrderType
+    limit?: number
+    offset?: number
+}
+
+interface FetchArtistSongsResponse {
+    songs: Track[]
+    more: boolean
+    total: number
+    code: number
+}
+
+export function fetchArtistSongs(params: FetchArtistSongsParams): Promise<FetchArtistSongsResponse> {
+    return request({
+        url: '/artist/songs',
+        method: 'get',
+        params: {
+            ...params,
+            timestamp: new Date().getTime(),
         },
     })
 }
@@ -79,11 +121,11 @@ export function fetchArtistAlbums(params: FetchArtistAlbumsParams): Promise<Fetc
  * 4: 日本
  */
 
-export enum ToplistOfArtists{
+export enum ToplistOfArtists {
     ZH = 1,
     EA = 2,
     KR = 3,
-    JP = 4
+    JP = 4,
 }
 
 export interface FetchToplistOfArtistsParams {
@@ -116,7 +158,7 @@ export function fetchToplistOfArtists(params: FetchToplistOfArtistsParams): Prom
 
 export enum AArtist {
     LIKE = 1,
-    DISLIKE = 0
+    DISLIKE = 0,
 }
 
 export interface FollowAArtistParams {

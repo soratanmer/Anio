@@ -378,6 +378,8 @@ declare interface Album {
         commentThread: unknown
     }
 
+    msg: unknown[]
+
     mark: number
 
     name: string
@@ -406,11 +408,15 @@ declare interface Album {
 
     subType: string
 
+    subTime: number
+
     tags: string
 
     tns: unknown[]
 
     type: '专辑' | 'Single' | 'EP/Single' | 'EP' | '精选集'
+
+    transName: unknown[]
 }
 
 declare interface User {

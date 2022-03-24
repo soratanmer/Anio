@@ -7,7 +7,9 @@ export enum UserApiNames {
     FETCH_USER_PLAYLISTS = 'fetchUserPlaylists',
     FETCH_USER_DAILY_SIGN_IN = 'fetchUserDailySignIn',
     FETCH_USER_LIKED_ALBUMS = 'fetchUserLikedAlbums',
-    FETCH_USER_LIKED_ARTISTS = 'fetchUserLikedArtists'
+    FETCH_USER_LIKED_ARTISTS = 'fetchUserLikedArtists',
+    FETCH_PURCHASED_ALBUMS = 'fetchPurchasedAlbums',
+    FETCH_PURCHASED_SONGS = 'fetchPurchasedSongs',
 }
 
 /**
@@ -187,17 +189,23 @@ export function fetchUserDailySignIn(type: number = 0) {
  * 说明 : 调用此接口可获取到用户收藏的专辑
  * - limit : 返回数量 , 默认为 25
  * - offset : 偏移数量，用于分页 , 如 :( 页数 -1)*25, 其中 25 为 limit 的值 , 默认为 0
- * @param {Object} params
- * @param {number} params.limit
- * @param {number=} params.offset
  */
 
-export interface FetchUserUserLikedAlbumsParams {
+export interface FetchUserLikedAlbumsParams {
     limit: number
     offset?: number
 }
 
-export function fetchUserLikedAlbums(params: FetchUserUserLikedAlbumsParams) {
+interface FetchUserLikedAlbumsResponse {
+    data: Album[]
+    count: number
+    hasMore: boolean
+    cover: string
+    paidCount: number
+    code: number
+}
+
+export function fetchUserLikedAlbums(params: FetchUserLikedAlbumsParams): Promise<FetchUserLikedAlbumsResponse> {
     return request({
         url: '/album/sublist',
         method: 'get',
@@ -211,12 +219,104 @@ export function fetchUserLikedAlbums(params: FetchUserUserLikedAlbumsParams) {
 /**
  * 获取收藏的歌手（需要登录）
  * 说明 : 调用此接口可获取到用户收藏的歌手
+ * - limit : 返回数量 , 默认为 25
+ * - offset : 偏移数量，用于分页 , 如 :( 页数 -1)*25, 其中 25 为 limit 的值 , 默认为 0
  */
-export function fetchUserLikedArtists() {
+
+export interface FetchUserLikedArtistsParams {
+    limit: number
+    offset?: number
+}
+
+interface FetchUserLikedArtistsResponse {
+    data: Artist[]
+    hasMore: boolean
+    code: number
+}
+
+export function fetchUserLikedArtists(params: FetchUserLikedArtistsParams): Promise<FetchUserLikedArtistsResponse> {
     return request({
         url: '/artist/sublist',
         method: 'get',
         params: {
+            ...params,
+            timestamp: new Date().getTime(),
+        },
+    })
+}
+
+/**
+ * 获取我的数字专辑
+ * 说明 : 登录后调用此接口 ,可获取我的数字专辑
+ * - limit : 返回数量 , 默认为 25
+ * - offset : 偏移数量，用于分页 , 如 :( 页数 -1)*25, 其中 25 为 limit 的值 , 默认为 0
+ */
+
+export interface FetchPurchasedAlbumsParams {
+    limit: number
+    offset?: number
+}
+
+interface FetchPurchasedAlbumsResponse {
+    total: number
+    paidAlbums: Album[]
+    code: number
+}
+
+export function fetchPurchasedAlbums(params: FetchPurchasedAlbumsParams): Promise<FetchPurchasedAlbumsResponse> {
+    return request({
+        url: '/digitalAlbum/purchased',
+        method: 'get',
+        params: {
+            ...params,
+            timestamp: new Date().getTime(),
+        },
+    })
+}
+
+/**
+ * 获取已购单曲
+ * 说明 : 登录后调用此接口可获取已购买的单曲
+ * - limit : 返回数量 , 默认为 20
+ * - offset : 偏移数量，用于分页 , 如 :( 页数 -1)*25, 其中 25 为 limit 的值 , 默认为 0
+ */
+
+export interface FetchPurchasedSongsParams {
+    limit?: number
+    offset?: number
+}
+
+interface FetchPurchasedSongsResponse {
+    code: number
+    data: {
+        count: number
+        list: {
+            songId: number
+            name: string
+            picUrl: string
+            artistName: string
+            albumName: string
+            albumId: number
+            only: boolean
+            sq: boolean
+            vip: boolean
+            avaliableDonateCount: number
+            boughtCount: number
+            received: boolean
+            donateUser: null
+            canSell: boolean
+        }[]
+        hasMore: boolean
+    }
+    message: string
+}
+
+export function fetchPurchasedSongs(params: FetchPurchasedSongsParams): Promise<FetchPurchasedSongsResponse> {
+    return request({
+        url: '/song/purchased',
+        method: 'get',
+        params: {
+            ...params,
             timestamp: new Date().getTime(),
         },
     })
