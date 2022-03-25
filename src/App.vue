@@ -21,7 +21,6 @@
     import { usePlayerProvider } from '@/hooks/usePlayer'
 
     const route = useRoute()
-    console.log(route.fullPath)
 
     useQueryProvider()
     usePlayerProvider()

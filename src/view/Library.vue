@@ -110,7 +110,7 @@
         id: string
     }
 
-    const activeTab = ref('MyPlaylists')
+    const activeTab = ref<string>('MyPlaylists')
 
     const tabs: Tab[] = [
         {

@@ -148,8 +148,8 @@ export function fetchDailyRecommendTracks(): Promise<FetchDailyRecommendTracksRe
 
 export interface FetchHighQualityPlaylistParams {
     cat: string
-    limit?: number
-    before: number
+    limit: number
+    before?: number
 }
 
 interface FetchHighQualityPlaylistResponse {

@@ -81,6 +81,9 @@
         artists: {
             type: Array as PropType<Artist[]> | undefined,
         },
+        toplists: {
+            type: Array as PropType<Playlist[]> | undefined,
+        },
         title: {
             type: String,
             default: '',
@@ -121,7 +124,7 @@
     }
 
     const getSubtitleText = (item: Item, subtitle: string) => {
-        const nickname = 'creator' in item ? item.creator.nickname : 'someone'
+        const nickname = 'creator' in item && item.creator !== null ? item.creator.nickname : 'someone'
         const releaseYear = 'publishTime' in item ? formatDate(Number(item.publishTime), 'en', 'YYYY') : 'unknown'
 
         const types = {
@@ -179,6 +182,6 @@
             return skeletonItems
         }
 
-        return props.albums ?? props.playlists ?? props.artists ?? []
+        return props.albums ?? props.playlists ?? props.toplists ?? props.artists ?? []
     })
 </script>
