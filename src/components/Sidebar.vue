@@ -23,7 +23,7 @@
                 :class="{
                     'bg-green-200': route.path === tab.route,
                 }"
-                @click="routePush(primaryTabs)"
+                @click="routePush(tab)"
             >
                 <span class="font-semibold">{{ tab.name }}</span>
             </div>

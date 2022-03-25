@@ -166,6 +166,9 @@
 
     const mainContainerScroll = useScroll(mainContainerRef)
 
+    console.log(mainContainerScroll);
+    
+
     watch(
         () => mainContainerScroll.arrivedState.bottom,
         (isScrolledToBottom) => {

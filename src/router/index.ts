@@ -49,6 +49,11 @@ const routes: RouteRecordRaw[] = [
         component: () => import('@/view/Search.vue'),
     },
     {
+        name: 'history',
+        path: '/history',
+        component: () => import('@/view/History.vue'),
+    },
+    {
         name: '404',
         path: '/404',
         component: () => import('@/view/404.vue'),

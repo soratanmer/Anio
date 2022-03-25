@@ -12,8 +12,8 @@
             <!-- Navigation buttons -->
             <div class="flex gap-1">
                 <div
-                    v-for="action in ['arrow-left', 'arrow-right']"
-                    class="app-region-no-drag btn-hover-animation rounded-lg p-2.5 text-gray-500 transition duration-300 after:rounded-lg after:bg-black/[0.06] hover:text-gray-900"
+                    v-for="action in ['back', 'forward']"
+                    class="app-region-no-drag btn-hover-animation rounded-lg p-2.5 text-gray-500 transition duration-300 after:rounded-lg after:bg-green-200 hover:text-gray-900"
                     @click="router[action]()"
                 >
                     <SvgIcon class="h-5 w-5" :name="action"></SvgIcon>
@@ -41,7 +41,7 @@
         <!-- Right part -->
         <div class="flex items-center gap-3">
             <div
-                class="app-region-no-drag btn-hover-animation rounded-lg p-2.5 text-gray-500 transition duration-300 after:rounded-lg after:bg-black/[0.06] hover:text-gray-900"
+                class="app-region-no-drag btn-hover-animation rounded-lg p-2.5 text-gray-500 transition duration-300 after:rounded-lg after:bg-green-200 hover:text-gray-900"
             >
                 <SvgIcon class="w-5 h-5" name="settings"></SvgIcon>
             </div>

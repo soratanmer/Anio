@@ -1,5 +1,5 @@
 <template>
-    <div id="layout" class="grid select-none grid-cols-[16rem_auto]">
+    <div id="layout" class="grid select-none grid-cols-[13rem_auto]">
         <Sidebar></Sidebar>
         <div
             id="mainContainer"
@@ -7,9 +7,8 @@
             class="relative flex h-screen max-h-screen flex-grow flex-col overflow-y-auto bg-white"
         >
             <Topbar></Topbar>
-            <main id="main" class="mb-24 flex-grow px-8">
-                <router-view :key="route.fullPath">
-                </router-view>
+            <main id="main" class="mb-10 flex-grow px-8">
+                <router-view :key="route.fullPath"> </router-view>
             </main>
             <Player></Player>
         </div>
@@ -28,6 +27,16 @@
 
 <style lang="scss">
     ::-webkit-scrollbar {
-        display: none;
+        width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        -webkit-border-radius: 10px;
+        border-radius: 10px;
+        background: rgba(128, 128, 128, 0.38);
     }
 </style>

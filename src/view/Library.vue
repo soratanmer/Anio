@@ -170,7 +170,7 @@
         fetchNextPage: fetchLikedArtistsNextPage,
     } = useUserLikedArtist(
         reactive({
-            limit: 30,
+            limit: 90,
         }),
     )
 
@@ -182,7 +182,7 @@
         fetchNextPage: fetchLikedAlbumsNextPage,
     } = useUserLikedAlbums(
         reactive({
-            limit: 30,
+            limit: 90,
         }),
     )
 
@@ -194,24 +194,14 @@
     watch(
         () => mainContainerScroll.arrivedState.bottom,
         (isScrolledToBottom) => {
-            if (
-                activeTab.value !== 'artists' &&
-                !isScrolledToBottom &&
-                isFetchingLikedArtists.value &&
-                !likedArtistsHasNextPage?.value
-            ) {
+            if (!isScrolledToBottom && isFetchingLikedArtists.value && !likedArtistsHasNextPage?.value) {
                 return
             } else {
                 console.debug('scrolled to bottom, load more tracks!')
                 fetchLikedArtistsNextPage.value()
             }
 
-            if (
-                activeTab.value !== 'albums' &&
-                !isScrolledToBottom &&
-                isFetchingLikedAlbums.value &&
-                !likedAlbumsHasNextPage?.value
-            ) {
+            if (!isScrolledToBottom && isFetchingLikedAlbums.value && !likedAlbumsHasNextPage?.value) {
                 return
             } else {
                 console.debug('scrolled to bottom, load more tracks!')

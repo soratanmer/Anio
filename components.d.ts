@@ -16,6 +16,7 @@ declare module 'vue' {
     DailyTracksCard: typeof import('./src/components/DailyTracksCard.vue')['default']
     Explore: typeof import('./src/view/Explore.vue')['default']
     FMCard: typeof import('./src/components/FMCard.vue')['default']
+    History: typeof import('./src/view/History.vue')['default']
     Home: typeof import('./src/view/Home.vue')['default']
     Library: typeof import('./src/view/Library.vue')['default']
     Login: typeof import('./src/view/Login.vue')['default']

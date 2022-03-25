@@ -188,10 +188,6 @@ export function likeATrack(params: LikeATrackParams): Promise<LikeATrackResponse
  * - id - 歌曲 id
  * - sourceid - 歌单或专辑 id
  * - time - 歌曲播放时间,单位为秒
- * @param {Object} params
- * @param {number} params.id
- * @param {number} params.sourceid
- * @param {number=} params.time
  */
 
 export interface ScrobbleParams {

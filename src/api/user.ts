@@ -10,6 +10,7 @@ export enum UserApiNames {
     FETCH_USER_LIKED_ARTISTS = 'fetchUserLikedArtists',
     FETCH_PURCHASED_ALBUMS = 'fetchPurchasedAlbums',
     FETCH_PURCHASED_SONGS = 'fetchPurchasedSongs',
+    FETCH_RECENT_SONGS = 'fetchRecentSongs'
 }
 
 /**
@@ -319,5 +320,37 @@ export function fetchPurchasedSongs(params: FetchPurchasedSongsParams): Promise<
             ...params,
             timestamp: new Date().getTime(),
         },
+    })
+}
+
+/**
+ * 获取最近播放歌曲
+ * 说明：调用此接口，可获得最近播放歌曲
+ * - limit: 返回数量，默认为100
+ */
+
+export interface FetchRecentSongsParams {
+    limit?: number
+}
+
+interface FetchRecentSongsResponse {
+    code: number
+    data: {
+        total: number
+        list: {
+            resourceId: string
+            playTime: number
+            resourceType: string
+            data: Track
+        }[]
+    }
+    message: string
+}
+
+export function fetchRecentSongs(params: FetchRecentSongsParams): Promise<FetchRecentSongsResponse> {
+    return request({
+        url: '/record/recent/song',
+        method: 'get',
+        params,
     })
 }
