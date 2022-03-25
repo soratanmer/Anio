@@ -1,11 +1,11 @@
 <template>
     <div
         v-if="!isLoadingPersonalFM"
-        class="relative flex h-[198px] overflow-hidden rounded-2xl p-4"
+        class="relative flex h-[198px] overflow-hidden rounded-lg p-4"
         :style="{ background }"
     >
         <!-- cover -->
-        <img class="rounded-xl shadow-2xl" :src="resizeImage(coverUrl, 'xs')" />
+        <img class="rounded-lg shadow-2xl" :src="resizeImage(coverUrl, 'xs')" />
 
         <!-- track info  -->
         <div class="ml-5 flex w-full flex-col justify-between text-white">
@@ -41,16 +41,15 @@
             </div>
         </div>
     </div>
-    <Skeleton v-else class="relative h-[198px] rounded-2xl"></Skeleton>
+    <Skeleton v-else class="relative h-[198px] rounded-lg"></Skeleton>
 </template>
 
 <script setup lang="ts">
-    import { average } from 'color.js'
-    import { colord } from 'colord'
-
     import usePersonalFM from '@/hooks/usePersonalFM'
     import usePlayer from '@/hooks/usePlayer'
     import { resizeImage } from '@/utils/common'
+    import { average } from 'color.js'
+    import { colord } from 'colord'
 
     const { data: personalFM, isLoading: isLoadingPersonalFM } = usePersonalFM()
 

@@ -13,11 +13,11 @@
             <div class="relative z-0 aspect-square self-start">
                 <img
                     v-if="!isLoadingAccount"
-                    class="rounded-2xl border border-black border-opacity-5"
+                    class="rounded-lg border border-black border-opacity-5"
                     :src="coverUrl"
                     alt="cover"
                 />
-                <Skeleton v-else class="h-full w-full rounded-2xl"></Skeleton>
+                <Skeleton v-else class="h-full w-full rounded-lg"></Skeleton>
             </div>
 
             <!-- User info -->
@@ -100,10 +100,10 @@
 
 <script setup lang="ts">
     import useUserAccount from '@/hooks/useUserAccount'
-    import useUserPlayLists from '@/hooks/useUserPlaylists'
-    import useUserLikedArtist from '@/hooks/useUserLikedArtists'
     import useUserLikedAlbums from '@/hooks/useUserLikedAlbums'
-    import { resizeImage, formatDate } from '@/utils/common'
+    import useUserLikedArtist from '@/hooks/useUserLikedArtists'
+    import useUserPlayLists from '@/hooks/useUserPlaylists'
+    import { formatDate, resizeImage } from '@/utils/common'
 
     interface Tab {
         name: string

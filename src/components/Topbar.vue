@@ -64,10 +64,10 @@
 </template>
 
 <script setup lang="ts">
-    import { resizeImage } from '@/utils/common'
-    import { isLoggedIn } from '@/utils/user'
-    import useUserAccount from '@/hooks/useUserAccount'
-    import { useUiStore } from '@/stores/ui'
+    import useUserAccount from '@/hooks/useUserAccount';
+import { useUiStore } from '@/stores/ui';
+import { resizeImage } from '@/utils/common';
+import { isLoggedIn } from '@/utils/user';
 
     const router = useRouter()
     const uiStore = useUiStore()

@@ -1,40 +1,42 @@
 <template>
     <!-- Header buttons -->
+    <div class="text-3xl font-semibold text-gray-600 py-2 px-4 mb-2">发现</div>
     <div class="flex flex-wrap">
         <div
             v-for="category in staticCategory"
-            class="py-2 px-4 mt-2.5 mr-4 mb-1.5 flex content-center items-center font-semibold text-xl rounded-lg"
+            class="py-2 px-4 mt-1 mr-4 mb-1.5 flex content-center items-center rounded-lg"
+            :class="{
+                'bg-gray-100': route.query.active !== category.name,
+                'bg-green-200': route.query.active === category.name,
+            }"
             @click="updateActiveStatic(category)"
         >
             {{ category.name }}
         </div>
+        <div
+            class="py-2 px-4 mt-1 mr-4 mb-1.5 flex content-center items-center rounded-lg bg-gray-100"
+            @click="showPanel = !showPanel"
+        >
+            <SvgIcon class="h-4 w-4" name="more"></SvgIcon>
+        </div>
     </div>
 
-    <!-- Panel -->
-    <div class="p-2">
-        <!-- bigCat -->
-        <div v-for="(bigCat, index) in playlistCategory?.categories" class="flex mt-2">
-            <!-- name -->
-            <div class="text-2xl font-semibold text-gray-600 mt-2 h-7 w-14 mr-6"> {{ bigCat }}</div>
-            <!-- cats -->
-            <div class="flex flex-wrap">
-                <div v-for="cat in playlistCategory?.sub" class="flex items-center mt-1.5">
-                    <span
-                        v-if="cat.category === Number(index)"
-                        class="flex justify-center items-center px-3 py-1.5 mb-2 font-medium text-lg"
-                        :class="{
-                            'bg-green-200 rounded-lg': route.query.category === cat.name,
-                        }"
-                        @click="
-                            router.push({
-                                name: 'explore',
-                                query: {
-                                    category: cat.name,
-                                },
-                            })
-                        "
-                        >{{ cat.name }}
-                    </span>
+    <!-- panel -->
+    <div v-show="showPanel" v-for="(bigCat, index) in playlistCategory?.categories" class="mt-1">
+        <!-- name -->
+        <div class="text-2xl font-semibold text-gray-600 py-2 px-4"> {{ bigCat }}</div>
+        <!-- cats -->
+        <div class="flex flex-wrap">
+            <div v-for="cat in playlistCategory?.sub">
+                <div
+                    v-if="cat.category === Number(index)"
+                    class="py-2 px-4 mt-1 mr-4 mb-1.5 flex content-center items-center rounded-lg"
+                    :class="{
+                        'bg-gray-100': route.query.active !== cat.name,
+                        'bg-green-200': route.query.active === cat.name,
+                    }"
+                    @click="updateActiveStatic(cat)"
+                    >{{ cat.name }}
                 </div>
             </div>
         </div>
@@ -42,7 +44,11 @@
 
     <div class="mt-4">
         <CoverRow
-            v-if="activeStatic !== '排行榜' && activeStatic !== '精品歌单' && activeStatic !== '推荐歌单'"
+            v-if="
+                route.query.active !== '排行榜' &&
+                route.query.active !== '精品歌单' &&
+                route.query.active !== '推荐歌单'
+            "
             v-for="page in topPlaylists?.pages"
             :playlists="page.playlists"
             subtitle="creator"
@@ -50,19 +56,19 @@
         ></CoverRow>
 
         <CoverRow
-            v-if="activeStatic === '排行榜'"
+            v-if="route.query.active === '排行榜'"
             :toplists="toplists?.list"
             :is-skeleton="isLoadingToplists"
         ></CoverRow>
 
         <CoverRow
-            v-if="activeStatic === '推荐歌单'"
+            v-if="route.query.active === '推荐歌单'"
             :toplists="recommendedPlaylists?.result"
             :is-skeleton="isLoadingRecommendedPlaylists"
         ></CoverRow>
 
         <CoverRow
-            v-if="activeStatic === '精品歌单'"
+            v-if="route.query.active === '精品歌单'"
             v-for="page in hightQualityPlaylists?.pages"
             :playlists="page.playlists"
             subtitle="creator"
@@ -72,11 +78,13 @@
 </template>
 
 <script setup lang="ts">
-    import usePlaylistCategory from '@/hooks/usePlaylistCategory'
-    import useTopPlaylists from '@/hooks/useTopPlaylists'
-    import useToplist from '@/hooks/useToplist'
     import useHighQualityPlaylists from '@/hooks/useHighQualityPlaylist'
+    import usePlaylistCategory from '@/hooks/usePlaylistCategory'
     import useRecommendedPlaylists from '@/hooks/useRecommendedPlaylists'
+    import useToplist from '@/hooks/useToplist'
+    import useTopPlaylists from '@/hooks/useTopPlaylists'
+
+    const showPanel = ref<boolean>(false)
 
     const staticCategory: {
         name: string
@@ -98,10 +106,24 @@
         },
     ]
 
-    const activeStatic = ref<string>('全部')
-
     const updateActiveStatic = (category) => {
-        activeStatic.value = category.name
+        if (category.name !== '推荐歌单' && category.name !== '精品歌单' && category.name !== '排行榜') {
+            router.push({
+                name: 'explore',
+                query: {
+                    category: category.name,
+                    active: category.name,
+                },
+            })
+        } else {
+            router.push({
+                name: 'explore',
+                query: {
+                    category: '全部',
+                    active: category.name,
+                },
+            })
+        }
     }
 
     const route = useRoute()
@@ -136,7 +158,7 @@
     })
 
     const { data: recommendedPlaylists, isLoading: isLoadingRecommendedPlaylists } = useRecommendedPlaylists(
-        reactive({limit:100})
+        reactive({ limit: 100 }),
     )
 
     // Load more tracks when scrolled to bottom

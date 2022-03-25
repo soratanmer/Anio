@@ -24,7 +24,7 @@
         <div v-for="(item, index) in renderItems">
             <!-- Cover -->
             <Cover v-if="!isSkeleton" :imageUrl="getImageUrl(item)" @click="goTo(item)"></Cover>
-            <Skeleton v-else class="aspect-square w-full rounded-xl"></Skeleton>
+            <Skeleton v-else class="aspect-square w-full rounded-lg"></Skeleton>
 
             <!-- Info -->
             <div class="mt-2">
@@ -65,9 +65,8 @@
 </template>
 
 <script setup lang="ts">
-    import type { PropType } from 'vue'
-
     import { formatDate, resizeImage } from '@/utils/common'
+    import type { PropType } from 'vue'
 
     const router = useRouter()
 

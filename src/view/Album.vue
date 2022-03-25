@@ -13,7 +13,7 @@
             <div class="relative z-0 aspect-square self-start">
                 <div
                     v-if="!isLoading"
-                    class="absolute top-3.5 z-[-1] h-full w-full scale-x-[.92] scale-y-[.96] rounded-2xl bg-cover opacity-60 blur-lg filter"
+                    class="absolute top-3.5 z-[-1] h-full w-full scale-x-[.92] scale-y-[.96] rounded-lg bg-cover opacity-60 blur-lg filter"
                     :style="{
                         backgroundImage: `url(&quot;${coverUrl}&quot;)`,
                     }"
@@ -22,11 +22,11 @@
 
                 <img
                     v-if="!isLoading"
-                    class="rounded-2xl border border-black border-opacity-5"
+                    class="rounded-lg border border-black border-opacity-5"
                     :src="coverUrl"
                     alt="cover"
                 />
-                <Skeleton v-else class="h-full w-full rounded-2xl"></Skeleton>
+                <Skeleton v-else class="h-full w-full rounded-lg"></Skeleton>
             </div>
 
             <!-- Album info -->
@@ -170,7 +170,7 @@
             }),
         }),
     )
-    
+
     const filteredOtherAlbums = computed(() => {
         const allRealease = otherAlbums.value?.hotAlbums || []
 

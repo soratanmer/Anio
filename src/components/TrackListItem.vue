@@ -1,12 +1,12 @@
 <template>
     <div
-        class="group grid w-full rounded-xl after:scale-[.98] after:rounded-xl"
+        class="group grid w-full rounded-lg after:scale-[.98] after:rounded-lg"
         :class="{
             'grid-cols-1 py-1.5 px-2': isGrid,
             'grid-cols-12 p-2 pr-4': isList,
             'grid-cols-12 py-2.5 px-4': isAlbum,
-            'btn-hover-animation after:bg-green-100': !isSkeleton && !isHighLight,
-            'bg-green-500': !isSkeleton && isHighLight,
+            'btn-hover-animation after:bg-green-200': !isSkeleton && !isHighLight,
+            'bg-green-200': !isSkeleton && isHighLight,
         }"
     >
         <!-- Track info -->
@@ -169,10 +169,9 @@
 </template>
 
 <script setup lang="ts">
-    import type { PropType } from 'vue'
-
-    import { formatDuration, resizeImage } from '@/utils/common'
     import usePlayer from '@/hooks/usePlayer'
+    import { formatDuration, resizeImage } from '@/utils/common'
+    import type { PropType } from 'vue'
 
     const props = defineProps({
         // 歌曲

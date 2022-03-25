@@ -8,7 +8,7 @@ import { useQuery } from 'vue-query' import { useRouter } from 'vue-router'
     <div>
         <div
             v-for="track in tracks"
-            class="group btn-hover-animation flex w-full rounded-xl p-2 pr-4 after:scale-[.98] after:rounded-xl after:bg-gray-100"
+            class="group btn-hover-animation flex w-full rounded-lg p-2 pr-4 after:scale-[.98] after:rounded-lg after:bg-gray-100"
         >
             <img
                 class="mr-4 box-content h-12 w-12 rounded-md border border-black border-opacity-[.03]"
@@ -33,7 +33,7 @@ import { useQuery } from 'vue-query' import { useRouter } from 'vue-router'
     <div>
         <div
             v-for="album in albums"
-            class="group btn-hover-animation flex w-full rounded-xl p-2 pr-4 after:rounded-xl after:bg-gray-100"
+            class="group btn-hover-animation flex w-full rounded-lg p-2 pr-4 after:rounded-lg after:bg-gray-100"
             @click="
                 router.push({
                     name: 'album',
@@ -68,7 +68,7 @@ import { useQuery } from 'vue-query' import { useRouter } from 'vue-router'
     <div>
         <div
             v-for="artist in artists"
-            class="group btn-hover-animation flex w-full rounded-xl p-2 pr-4 after:rounded-xl after:bg-gray-100"
+            class="group btn-hover-animation flex w-full rounded-lg p-2 pr-4 after:rounded-lg after:bg-gray-100"
             @click="
                 router.push({
                     name: 'artist',
@@ -97,7 +97,7 @@ import { useQuery } from 'vue-query' import { useRouter } from 'vue-router'
     <div>
         <div
             v-for="playlist in playlists"
-            class="group btn-hover-animation flex w-full rounded-xl p-2 pr-4 after:rounded-xl after:bg-gray-100"
+            class="group btn-hover-animation flex w-full rounded-lg p-2 pr-4 after:rounded-lg after:bg-gray-100"
             @click="
                 router.push({
                     name: 'playlist',
@@ -130,11 +130,11 @@ import { useQuery } from 'vue-query' import { useRouter } from 'vue-router'
 </template>
 
 <script setup lang="ts">
-    import dayjs from 'dayjs'
+    import { multiMatchSearch, search, SearchApiName, SearchTypes } from '@/api/search';
+import { useUiStore } from '@/stores/ui';
+import { resizeImage } from '@/utils/common';
+import dayjs from 'dayjs';
 
-    import { multiMatchSearch, search, SearchApiName, SearchTypes } from '@/api/search'
-    import { useUiStore } from '@/stores/ui'
-    import { resizeImage } from '@/utils/common'
 
     const router = useRouter()
     const uiStore = useUiStore()

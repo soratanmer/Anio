@@ -2,14 +2,14 @@
     <div class="group relative z-0">
         <!-- Neon shadow -->
         <div
-            class="absolute top-2 z-[-1] h-full w-full scale-x-[.92] scale-y-[.96] rounded-xl bg-cover opacity-0 blur-lg filter transition duration-300 group-hover:opacity-60"
+            class="absolute top-2 z-[-1] h-full w-full scale-x-[.92] scale-y-[.96] rounded-lg bg-cover opacity-0 blur-lg filter transition duration-300 group-hover:opacity-60"
             :style="shadowStyles"
         >
         </div>
 
         <!-- The cover -->
         <img
-            class="box-content aspect-square h-full w-full rounded-xl border border-black border-opacity-5"
+            class="box-content aspect-square h-full w-full rounded-lg border border-black border-opacity-5"
             :src="imageUrl"
             alt="cover"
         />

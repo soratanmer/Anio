@@ -4,7 +4,8 @@
         :class="{
             'px-4 py-1.5': shape === 'default',
             'px-3 py-1.5': shape === 'square',
-            'bg-green-100': color === 'primary',
+            'px-3 py-3': shape === 'button',
+            'bg-green-200': color === 'primary',
             'bg-gray-100': color === 'gray',
             'text-green-500': iconColor === 'primary',
             'text-gray-900': iconColor === 'gray',
@@ -20,7 +21,7 @@
 
     const props = defineProps({
         shape: {
-            type: String as PropType<'square' | 'default'>,
+            type: String as PropType<'square' | 'default' | 'button'>,
             required: false,
             default: 'default',
         },

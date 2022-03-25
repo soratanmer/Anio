@@ -19,5 +19,9 @@
 
     const router = useRouter()
 
-    const { data: recommendedPlaylists, isLoading: isLoadingRecommendedPlaylists } = useRecommendedPlaylists()
+    const { data: recommendedPlaylists, isLoading: isLoadingRecommendedPlaylists } = useRecommendedPlaylists(
+        reactive({
+            limit: 30,
+        }),
+    )
 </script>

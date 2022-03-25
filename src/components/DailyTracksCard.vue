@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-    <div class="relative h-[198px] cursor-pointer overflow-hidden rounded-2xl">
+    <div class="relative h-[198px] cursor-pointer overflow-hidden rounded-lg">
         <!-- cover  -->
         <img
             class="absolute top-0 left-0 w-full will-change-transform"
@@ -26,8 +26,7 @@
     </div>
 </template>
 
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>
 
 <style scoped langs="scss">
     @keyframes move {
