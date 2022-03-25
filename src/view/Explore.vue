@@ -12,7 +12,7 @@
                         v-if="cat.category === Number(index)"
                         class="flex justify-center items-center px-3 py-1.5 mb-2 font-medium text-lg"
                         :class="{
-                            'bg-green-200 rounded-lg':route.query.category === cat.name
+                            'bg-green-200 rounded-lg': route.query.category === cat.name,
                         }"
                         @click="
                             router.push({
@@ -29,7 +29,7 @@
         </div>
     </div>
 
-    <div class="mt-6">
+    <div class="mt-4">
         <CoverRow
             v-for="page in topPlaylists?.pages"
             :playlists="page.playlists"
@@ -45,8 +45,6 @@
 
     const route = useRoute()
     const router = useRouter()
-
-    console.log(route.path)
 
     const { data: playlistCategory, isLoading: isLoadingPlaylistCategory } = usePlaylistCategory()
 
@@ -78,12 +76,4 @@
             fetchTopPlaylistsNextPage.value()
         },
     )
-
-    /**
-     * 路由跳转后页面不刷新。。。
-     * 此操作会导致全局页面刷新，导致侧栏 active 闪烁，待修。。。
-     */
-    watch(route, () => {
-        router.go(0)
-    })
 </script>

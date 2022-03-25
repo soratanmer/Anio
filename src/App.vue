@@ -8,7 +8,8 @@
         >
             <Topbar></Topbar>
             <main id="main" class="mb-24 flex-grow px-8">
-                <router-view></router-view>
+                <router-view :key="route.fullPath">
+                </router-view>
             </main>
             <Player></Player>
         </div>
@@ -16,15 +17,18 @@
 </template>
 
 <script setup lang="ts">
-import { useQueryProvider } from "vue-query";
-import { usePlayerProvider } from "@/hooks/usePlayer";
+    import { useQueryProvider } from 'vue-query'
+    import { usePlayerProvider } from '@/hooks/usePlayer'
 
-useQueryProvider()
-usePlayerProvider()
+    const route = useRoute()
+    console.log(route.fullPath)
+
+    useQueryProvider()
+    usePlayerProvider()
 </script>
 
 <style lang="scss">
-    ::-webkit-scrollbar{
+    ::-webkit-scrollbar {
         display: none;
     }
 </style>
