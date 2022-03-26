@@ -50,7 +50,7 @@
         <!-- Middle part -->
         <div class="flex items-center justify-center gap-2">
             <!-- Previous -->
-            <ButtonIcon :disabled="!player?.track" @click="player?.previousTrack"
+            <ButtonIcon :disabled="!player?.track" @click="player?.prevTrack"
                 ><SvgIcon class="h-4 w-4 text-black" name="previous"></SvgIcon
             ></ButtonIcon>
 
@@ -86,6 +86,7 @@
 <script setup lang="ts">
     import usePlayer from '@/hooks/usePlayer'
     import { resizeImage } from '@/utils/common'
+    // import { player } from '@/utils/player';
     import useUserLikedSongsIDs from '@/hooks/useUserLikedSongsIDs'
     import useUserAccount from '@/hooks/useUserAccount'
 

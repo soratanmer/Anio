@@ -9,7 +9,7 @@ import { FMTrashParams } from '@/api/FM'
 type TrackID = number
 
 interface PlaylistSource {
-    type: 'album' | 'playlist' | 'FM'
+    type: 'album' | 'playlist' | 'FM' | 'DailyTrack'
     id: number | string
 }
 

@@ -13,6 +13,7 @@ declare module 'vue' {
     ButtonIcon: typeof import('./src/components/ButtonIcon.vue')['default']
     Cover: typeof import('./src/components/Cover.vue')['default']
     CoverRow: typeof import('./src/components/CoverRow.vue')['default']
+    DailyTracks: typeof import('./src/view/DailyTracks.vue')['default']
     DailyTracksCard: typeof import('./src/components/DailyTracksCard.vue')['default']
     Explore: typeof import('./src/view/Explore.vue')['default']
     FMCard: typeof import('./src/components/FMCard.vue')['default']

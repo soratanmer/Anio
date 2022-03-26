@@ -9,7 +9,7 @@
 
         <!-- Artist info -->
         <div class="relative flex items-center">
-            <img class="mr-12 ml-4 h-60 w-60 rounded-full shadow-lg" :src="cover" alt="cover" />
+            <img class="mr-12 ml-4 h-60 w-60 rounded-lg shadow-lg" :src="cover" alt="cover" />
             <div>
                 <!-- Name -->
                 <div class="text-6xl font-bold">

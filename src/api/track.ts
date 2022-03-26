@@ -77,7 +77,7 @@ interface FetchAudioSourceResponse {
         uf: null
         url: string | null
         urlSource: number
-    }
+    }[]
 }
 
 export function fetchAudioSource(params: FetchAudioSourceParams): Promise<FetchAudioSourceResponse> {

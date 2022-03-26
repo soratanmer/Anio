@@ -77,8 +77,8 @@
                 <div></div>
                 <div>TITLE</div>
             </div>
-            <div class="col-span-4">ALBUM</div>
-            <div class="col-span-2 justify-end">TIME</div>
+            <div class="col-span-5">ALBUM</div>
+            <div class="col-span-1 text-right justify-end">TIME</div>
         </div>
 
         <!-- Initial Tracks -->

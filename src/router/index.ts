@@ -54,6 +54,11 @@ const routes: RouteRecordRaw[] = [
         component: () => import('@/view/History.vue'),
     },
     {
+        name: 'dailyTrack',
+        path: '/dailyTrack',
+        component: () => import('@/view/DailyTracks.vue'),
+    },
+    {
         name: '404',
         path: '/404',
         component: () => import('@/view/404.vue'),
