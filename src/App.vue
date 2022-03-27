@@ -4,10 +4,10 @@
         <div
             id="mainContainer"
             ref="mainContainer"
-            class="relative flex h-screen max-h-screen flex-grow flex-col overflow-y-auto bg-white"
+            class="relative flex h-screen max-h-screen flex-grow flex-col bg-white"
         >
             <Topbar></Topbar>
-            <main id="main" class="mb-10 flex-grow px-8">
+            <main id="main" ref="main" class="pb-10 overflow-y-auto flex-grow px-8">
                 <router-view :key="route.fullPath"> </router-view>
             </main>
             <Player></Player>
@@ -34,7 +34,7 @@
         background: transparent;
     }
 
-    ::-webkit-scrollbar-thumb {
+    :hover::-webkit-scrollbar-thumb {
         -webkit-border-radius: 10px;
         border-radius: 10px;
         background: rgba(128, 128, 128, 0.38);

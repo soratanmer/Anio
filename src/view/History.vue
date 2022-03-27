@@ -27,12 +27,13 @@
 <script setup lang="ts">
     import useRecentSongs from '@/hooks/useRecentSongs'
     import useTracksInfinite from '@/hooks/useTracksInfinite'
+    import { useSettingsStore } from '@/stores/settints'
 
-    const recentSongsLimit = ref<number>(300)
+    const { recentSongsLimit } = useSettingsStore()
 
-    const { data: recentSongs, isLoading: isLoadingRecentSongs } = useRecentSongs(
-        reactive({ limit: recentSongsLimit.value }),
-    )
+    // const recentSongsLimit = ref<number>(300)
+
+    const { data: recentSongs, isLoading: isLoadingRecentSongs } = useRecentSongs(reactive({ limit: recentSongsLimit }))
 
     const trackIDs = computed(() => {
         return recentSongs.value?.data.list.map((item) => item.data.id) || []

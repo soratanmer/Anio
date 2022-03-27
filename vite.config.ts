@@ -3,6 +3,7 @@ import vue from '@vitejs/plugin-vue'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import { join } from 'path'
 import { config } from 'dotenv'
 
@@ -46,17 +47,19 @@ export default defineConfig({
             symbolId: 'icon-[name]',
         }),
         AutoImport({
-            imports:[
+            imports: [
                 'vue',
                 'vue-router',
                 '@vueuse/core',
                 {
                     'vue-query': ['useQuery', 'useInfiniteQuery', 'QueryClient'],
-                }
-            ]
+                },
+            ],
+            resolvers: [ElementPlusResolver()],
         }),
         Components({
-            dirs:['src/']
-        })
+            dirs: ['src/'],
+            resolvers: [ElementPlusResolver()],
+        }),
     ],
 })

@@ -1,12 +1,5 @@
 <template>
     <div class="mt-10">
-        <!-- Header background -->
-        <div class="absolute top-0 left-0 z-0 h-[24rem] w-full overflow-hidden">
-            <img class="absolute top-0 w-full blur-[100px]" :src="cover" alt="cover" />
-            <img class="absolute top-0 w-full blur-[100px]" :src="cover" alt="cover" />
-            <div class="absolute top-0 h-full w-full bg-gradient-to-b from-[#ffffffd6] to-white/100"></div>
-        </div>
-
         <!-- Artist info -->
         <div class="relative flex items-center">
             <img class="mr-12 ml-4 h-60 w-60 rounded-lg shadow-lg" :src="cover" alt="cover" />

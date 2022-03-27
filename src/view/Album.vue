@@ -1,12 +1,5 @@
 <template>
     <div class="mt-10">
-        <!-- Header background -->
-        <div class="absolute top-0 left-0 z-0 h-96 w-full overflow-hidden">
-            <img class="absolute top-0 w-full blur-[100px]" :src="coverUrl" alt="background" />
-            <img class="absolute top-0 w-full blur-[100px]" :src="coverUrl" alt="background" />
-            <div class="absolute top-0 h-full w-full bg-gradient-to-b from-[#ffffffd6] to-white/100"> </div>
-        </div>
-
         <!-- -->
         <div class="grid grid-cols-[17rem_auto] items-center gap-10">
             <!-- Cover -->
@@ -158,7 +151,7 @@
     })
 
     const albumDuration = computed(() => {
-        const duration = tracks.value?.reduce((acc, cur) => acc + cur.dt, 0) || 0
+        const duration = tracks.value?.reduce((acc, cur) => acc + Number(cur.dt), 0) || 0
         return formatDuration(duration, 'zh-CN', 'hh[hr] mm[min]')
     })
 

@@ -7,8 +7,17 @@ export const usePlaylistsStore = defineStore('playlists', {
         }
     },
     actions: {
-        updateCurrentPlaylists: function (trackIDs:number[]) {
+        updateCurrentPlaylists(trackIDs: number[]) {
             this.currentPlaylists = trackIDs
         },
+    },
+    persist: {
+        enabled: true,
+        strategies: [
+            {
+                key: 'playlists',
+                storage: localStorage,
+            },
+        ],
     },
 })
