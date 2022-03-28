@@ -2,10 +2,6 @@
     <div
         id="topbar"
         class="app-region-drag sticky top-0 z-30 flex h-16 min-h-[4rem] w-full cursor-default items-center justify-between px-8 transition duration-300"
-        :class="{
-            'bg-white bg-opacity-[0.86] backdrop-blur-xl backdrop-saturate-[1.8]':
-                !mainContainerScroll.arrivedState.top,
-        }"
     >
         <!-- Left part -->
         <div class="flex gap-2">
@@ -64,27 +60,19 @@
 </template>
 
 <script setup lang="ts">
-    import useUserAccount from '@/hooks/useUserAccount';
-import { useUiStore } from '@/stores/ui';
-import { resizeImage } from '@/utils/common';
-import { isLoggedIn } from '@/utils/user';
+    import useUserAccount from '@/hooks/useUserAccount'
+    import { useUiStore } from '@/stores/ui'
+    import { resizeImage } from '@/utils/common'
+    import { isLoggedIn } from '@/utils/user'
 
     const router = useRouter()
     const uiStore = useUiStore()
 
     const { data: userAccount } = useUserAccount()
 
-    const mainContainerRef = ref<HTMLElement | null>(document.getElementById('mainContainer'))
-
-    const mainContainerScroll = useScroll(mainContainerRef)
-
     const doSearch = () => {
         router.push({
             name: 'search',
         })
     }
-
-    onMounted(() => {
-        mainContainerRef.value = document.getElementById('mainContainer')
-    })
 </script>

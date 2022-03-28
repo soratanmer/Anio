@@ -1,13 +1,9 @@
 <template>
     <div id="layout" class="grid select-none grid-cols-[13rem_auto]">
         <Sidebar></Sidebar>
-        <div
-            id="mainContainer"
-            ref="mainContainer"
-            class="relative flex h-screen max-h-screen flex-grow flex-col bg-white"
-        >
+        <div class="relative flex h-screen max-h-screen flex-grow flex-col bg-white">
             <Topbar></Topbar>
-            <main id="main" ref="main" class="pb-10 overflow-y-auto flex-grow px-8">
+            <main id="mainContainer" ref="mainContainer" class="pb-10 overflow-y-auto flex-grow px-8">
                 <router-view :key="route.fullPath"> </router-view>
             </main>
             <Player></Player>
@@ -27,7 +23,7 @@
 
 <style lang="scss">
     ::-webkit-scrollbar {
-        width: 8px;
+        @apply w-2;
     }
 
     ::-webkit-scrollbar-track {
@@ -35,8 +31,9 @@
     }
 
     :hover::-webkit-scrollbar-thumb {
-        -webkit-border-radius: 10px;
-        border-radius: 10px;
-        background: rgba(128, 128, 128, 0.38);
+        // -webkit-border-radius: 10px;
+        // border-radius: 10px;
+        // background: rgba(128, 128, 128, 0.38);
+        @apply rounded-full bg-green-400;
     }
 </style>

@@ -166,12 +166,8 @@
 
     const mainContainerScroll = useScroll(mainContainerRef)
 
-    const mainRef = ref<HTMLElement | null>(document.getElementById('main'))
-
-    const mainScroll = useScroll(mainRef)
-
     watch(
-        () => mainScroll.arrivedState.bottom,
+        () => mainContainerScroll.arrivedState.bottom,
         (isScrolledToBottom) => {
             if (!isScrolledToBottom && isFetchingTopPlaylists.value && !TopPlaylistsHasNextPage?.value) {
                 return
