@@ -1,15 +1,11 @@
 <template>
-    <div
-        v-if="!isLoadingPersonalFM"
-        class="relative flex h-[198px] overflow-hidden rounded-lg p-4"
-        :style="{ background }"
-    >
+    <div v-if="!isLoadingPersonalFM" class="relative h-64 flex overflow-hidden rounded-lg p-4" :style="{ background }">
         <!-- cover -->
-        <img class="rounded-lg shadow-2xl" :src="resizeImage(coverUrl, 'xs')" />
+        <img class="rounded-lg shadow-2xl" :src="albumUrl" />
 
         <!-- track info  -->
         <div class="ml-5 flex w-full flex-col justify-between text-white">
-            <div>
+            <div v-if="!isLoadingPersonalFM">
                 <div class="text-xl font-semibold">{{ trackName }}</div>
 
                 <ArtistInline :artists="(artists as Artist[])"></ArtistInline>
@@ -24,7 +20,6 @@
                     /></button>
                     <button
                         class="btn-pressed-animation btn-hover-animation mr-1 cursor-default rounded-lg p-2 transition duration-200 after:bg-white/10"
-                        @click="play"
                         ><SvgIcon name="play" class="h-5 w-5"
                     /></button>
                     <button
@@ -41,28 +36,25 @@
             </div>
         </div>
     </div>
-    <Skeleton v-else class="relative h-[198px] rounded-lg"></Skeleton>
+    <Skeleton v-else class="relative h-64 rounded-lg"></Skeleton>
 </template>
 
 <script setup lang="ts">
     import usePersonalFM from '@/hooks/usePersonalFM'
-    import usePlayer from '@/hooks/usePlayer'
+    import usePlayer from '@/utils/player'
     import { resizeImage } from '@/utils/common'
     import { average } from 'color.js'
     import { colord } from 'colord'
 
-    const { data: personalFM, isLoading: isLoadingPersonalFM } = usePersonalFM()
+    const { data: personalFM, isLoading: isLoadingPersonalFM, isFetching: isFetchingPersonalFM } = usePersonalFM()
 
     const background = ref<string>('')
-    const coverUrl = ref<string>('')
+
+    const albumUrl = computed(() => {
+        return resizeImage(personalFM.value?.data[0].album.picUrl || '', 'sm')
+    })
 
     watch(isLoadingPersonalFM, () => {
-        const albumUrl = computed(() => {
-            return personalFM.value?.data[0].album.picUrl || ''
-        })
-
-        coverUrl.value = albumUrl.value
-
         average(albumUrl.value, { amount: 1, format: 'hex', sample: 1 }).then((color) => {
             const to = colord(color as string)
                 .darken(0.15)
@@ -81,10 +73,4 @@
     })
 
     const player = usePlayer()
-    const play = () => {
-        player?.replacePlaylist(personalFM.value?.data.map((t) => t.id) || [], {
-            type: 'FM',
-            id: 'FM',
-        })
-    }
 </script>

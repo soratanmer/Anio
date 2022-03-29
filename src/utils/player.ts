@@ -1,10 +1,14 @@
 import { Howler, Howl } from 'howler'
 
 import { fetchTracks, fetchAudioSource } from '@/api/track'
+import type { FetchTracksParams, FetchAudioSourceParams } from '@/api/track'
+
+import { fetchPersonalFM, FMTrash } from '@/api/FM'
+import { FMTrashParams } from '@/api/FM'
 
 type TrackID = number
 
-enum PlaylistSourceType {
+export enum PlaylistSourceType {
     ALBUM = 'album',
     PLAYLIST = 'playlist',
     FM = 'fm',
@@ -15,7 +19,7 @@ interface PlaylistSource {
     id: number | string
 }
 
-export enum Mode {
+export enum PlayerMode {
     PLAYLIST = 'playlist',
     FM = 'fm',
 }
@@ -26,7 +30,7 @@ export enum RepeatMode {
     ONE = 'one',
 }
 
-export enum State {
+export enum PlayerState {
     INITIALIZING = 'initializing',
     PLAYING = 'playing',
     PAUSED = 'paused',
@@ -34,290 +38,207 @@ export enum State {
     READY = 'ready',
 }
 
-let _howler = new Howl({
-    src: [''],
-    format: ['mp3', 'flac'],
-})
+export interface PlayerPublic {
+    mode: PlayerMode
+    state: PlayerState
+    playlistSource: PlaylistSource | null
+    isPlaying: boolean
+    track: Track | null
+    replacePlaylist: (trackIDs: TrackID[], playlistSource: PlaylistSource) => void
+    playOrPause: () => void
+    pause: () => void
+    nextTrack: () => void
+    previousTrack: () => void
+}
 
-export class Player {
-    private _track: Track | null = null
-    private _trackIndex: number = 0
-    private _progress: number = 0
-    private _progressInterval: ReturnType<typeof setInterval> | undefined
+export function usePlayerProvider() {
+    console.debug('Initializing usePlayerProvider')
 
-    state: State = State.INITIALIZING
-    mode: Mode = Mode.PLAYLIST
-    playlist: TrackID[] = [] //
-    playlistSource: PlaylistSource | null = null
-    shuffle: boolean = false
-    repeatMode: RepeatMode = RepeatMode.OFF
+    const mode = ref<PlayerMode>(PlayerMode.PLAYLIST)
+    const state = ref<PlayerState>(PlayerState.INITIALIZING)
+    const playlistSource = ref<PlaylistSource | null>(null)
 
-    constructor() {}
-
-    /**
-     * Get prev track index
-     */
-
-    get _prevTrackIndex(): number | undefined {
-        switch (this.repeatMode) {
-            case RepeatMode.ONE:
-                return this._trackIndex
-            case RepeatMode.ON:
-                if (this._trackIndex - 1 < 0) {
-                    return this.playlist.length - 1
-                }
-                return this._trackIndex - 1
-            case RepeatMode.OFF:
-                if (this._trackIndex === 0) {
-                    return 0
-                }
-                return this._trackIndex - 1
-        }
-    }
+    const _playlist = ref<TrackID[]>([]) // 播放列表
+    const _track = ref<Track | null>(null) // 当前播放的歌曲
+    const _trackIndex = ref<number>(0) // 当前播放歌曲在 _playlist 里的 index
+    const _volume = ref<number>(0.1)
+    const _howler = ref(new Howl({ src: [''] })) //Howler
 
     /**
-     * Get next track index
+     * 是否正在播放
+     * @type {boolean}
      */
 
-    get _nextTrackIndex(): number | undefined {
-        switch (this.repeatMode) {
-            case RepeatMode.ONE:
-                return this._trackIndex
-            case RepeatMode.ON:
-                if (this._trackIndex + 1 >= this.playlist.length) {
-                    return 0
-                }
-                return this._trackIndex + 1
-            case RepeatMode.OFF:
-                if (this._trackIndex + 1 >= this.playlist.length) {
-                    return
-                }
-                return this._trackIndex + 1
-        }
-    }
+    const isPlaying = computed<boolean>(() => {
+        return state.value === PlayerState.PLAYING
+    })
 
     /**
-     * Cet current playing track ID
+     * 当前正在播放的歌曲
+     * @type {Track}
      */
 
-    get trackID(): TrackID {
-        const { playlist, _trackIndex } = this
-        return playlist[_trackIndex] ?? 0
-    }
+    const track = computed(() => {
+        return _track.value
+    })
 
     /**
-     * Get current playing track
+     * 上一首的歌曲ID
+     * @returns {[number, number]} [上一首的歌曲ID, 上一首歌曲在歌曲列表里 index]
      */
 
-    public get track(): Track | null {
-        return this._track ?? null
-    }
+    const previousTrackID = computed<number[]>(() => {
+        const previousTrackIndex = _trackIndex.value - 1
+        return [_playlist.value[previousTrackIndex], previousTrackIndex]
+    })
 
     /**
-     * Get / Set progress of current track
+     * 下一首的歌曲ID
+     * @returns {[number, number]} [下一首的歌曲ID, 下一首歌曲在歌曲列表里 index]
      */
 
-    get progress(): number {
-        return this._progress
-    }
-
-    set progress(value) {
-        this._progress = value
-        _howler.seek(value)
-    }
-
-    private _setupProgressInterval() {
-        this._progressInterval = setInterval(() => {
-            if (this.state === State.PLAYING) {
-                this._progress = _howler.seek()
-            }
-        }, 1000)
-    }
+    const nextTrackID = computed<number[]>(() => {
+        const nextTrackIndex = _trackIndex.value + 1
+        return [_playlist.value[nextTrackIndex], nextTrackIndex]
+    })
 
     /**
-     * Fetch track details
+     * (内部方法) 使用Howler播放歌曲
+     * @param audioSource 歌曲的音频源链接
+     * @private
      */
 
-    private async _fetchTrack(trackID: TrackID) {
-        this.state = State.LOADING
-        const response = await fetchTracks({ ids: [trackID] })
-        if (response.songs.length) {
-            return response.songs[0]
-        }
-    }
-
-    /**
-     * Fetch track audio source url
-     */
-
-    private async _fetchAudioSource(trackID: TrackID) {
-        const response = await fetchAudioSource({ id: trackID })
-        if (response.data?.[0]?.url) {
-            return response.data[0].url
-        }
-    }
-
-    /**
-     * Play a track
-     */
-
-    private async _playTrack() {
-        const track = await this._fetchTrack(this.trackID)
-        if (track) {
-            this._track = track
-            this._PlayAudio()
-        }
-    }
-
-    /**
-     * Play audio via howler
-     */
-
-    private async _PlayAudio() {
-        const audio = await this._fetchAudioSource(this.trackID)
-
-        if (!audio) {
-            console.log('error')
-            return
-        }
+    const _playTrack = async (audioSource: string) => {
         Howler.unload()
-
-        const howler = new Howl({
-            src: [audio],
-            format: ['mp2', 'flac'],
-            html5: true,
+        _howler.value = new Howl({
+            src: [audioSource],
+            format: ['mp3', 'flac'],
             autoplay: true,
-            volume: 1,
-            onend: () => {
-                return this._howlerOnEndCallback()
-            },
+            volume: _volume.value,
+            onend: () => nextTrack(),
         })
-
-        _howler = howler
-
-        this.play()
-
-        this.state = State.PLAYING
-
-        if (!this._progressInterval) {
-            this._setupProgressInterval()
-        }
+        _howler.value.play()
+        state.value = PlayerState.PLAYING
     }
 
-    private _howlerOnEndCallback() {
-        console.debug('_howlerOnEndCallback')
+    /**
+     * (内部方法) 获取音源
+     * @returns {Promise<void>}
+     * @private
+     */
 
-        if (this.repeatMode === RepeatMode.ONE) {
-            _howler.seek(0)
-            _howler.play()
-        } else {
-            this.nextTrack()
+    const _fetchAudioSource = async () => {
+        if (!_track.value) {
+            return Promise.reject()
         }
+        const { data: neteaseSource } = await fetchAudioSource({
+            id: _track.value.id,
+            br: 128000,
+        })
+        return _playTrack(neteaseSource[0].url as string)
     }
+
+    /**
+     * (内部方法) 替换当前正在播放的歌曲
+     * @param trackID 歌曲ID
+     * @param index 歌曲在播放列表里的index
+     * @returns {Promise<void>}
+     * @private
+     */
+
+    const _replaceTrack = async (trackID: TrackID, index: number) => {
+        const track = await fetchTracks({ ids: [trackID] })
+        _track.value = track.songs[0]
+        _trackIndex.value = index
+
+        return _fetchAudioSource()
+    }
+
     /**
      * 播放当前歌曲
      */
 
-    play() {
-        if (_howler.playing()) {
-            return
-        }
-        _howler.play()
-        this.state = State.PLAYING
-        this._progress = _howler.seek()
+    const play = () => {
+        _howler.value.play()
+        state.value = PlayerState.PLAYING
     }
 
     /**
-     * 暂停播放当前歌曲
+     * 暂停当前歌曲
      */
 
-    pause() {
-        _howler.pause()
-        this.state === State.PAUSED
-    }
-
-    /**
-     * 播放或暂停
-     */
-
-    playOrPause() {
-        this.state === State.PLAYING ? this.pause() : this.play()
+    const pause = () => {
+        _howler.value.pause()
+        state.value = PlayerState.PAUSED
     }
 
     /**
      * 播放上一首歌曲
      */
 
-    prevTrack() {
-        if (this._prevTrackIndex === undefined) {
-            // no track
-            return
-        }
-        this._trackIndex = this._prevTrackIndex
-        this._playTrack()
+    const previousTrack = () => {
+        const [id, index] = previousTrackID.value
+        _replaceTrack(id, index)
     }
 
     /**
      * 播放下一首歌曲
      */
-
-    nextTrack() {
-        if (this._nextTrackIndex === undefined) {
-            // no track
-            return
-        }
-        this._trackIndex = this._nextTrackIndex
-        this._playTrack()
+    const nextTrack = () => {
+        const [id, index] = nextTrackID.value
+        _replaceTrack(id, index)
     }
 
     /**
-     * Play a playlist
+     * 暂停或播放（如果当前正在播放，则暂停，否则播放）
      */
 
-    async playPlaylist(playlist: Playlist, autoPlayTrackID?: null | number) {
-        if (!playlist.trackIds?.length) {
-            return
+    const playOrPause = () => {
+        if (state.value === PlayerState.PLAYING) {
+            pause()
+        } else if ([PlayerState.PAUSED, PlayerState.LOADING].includes(state.value)) {
+            play()
         }
-        this.playlistSource = {
-            type: PlaylistSourceType.PLAYLIST,
-            id: playlist.id,
-        }
-        this.mode = Mode.PLAYLIST
-        this.playlist = playlist.trackIds.map((t) => t.id)
-        this._trackIndex = autoPlayTrackID ? playlist.trackIds.findIndex((t) => t.id === autoPlayTrackID) : 0
-        this._playTrack()
     }
 
     /**
-     * Play a Album
+     * 替换当前歌曲列表
+     * @param trackIDs 歌曲ID列表
+     * @param source 列表来源
+     * @param autoPlayTrackID 替换完歌曲列表后要自动播放的歌曲ID
      */
 
-    async playAlbum(album: Album, autoPlayTrackID?: null | number) {
-        if (!album.songs.length) {
-            return
+    const replacePlaylist = (
+        trackIDs: TrackID[],
+        source: PlaylistSource,
+        autoPlayTrackID: number | string = 'first',
+    ) => {
+        mode.value = PlayerMode.FM
+        _playlist.value = trackIDs
+        playlistSource.value = source
+        if (autoPlayTrackID === 'first') {
+            _replaceTrack(_playlist.value[0], 0)
+        } else {
+            _replaceTrack(Number(autoPlayTrackID), trackIDs.indexOf(Number(autoPlayTrackID)))
         }
-        this.playlistSource = {
-            type: PlaylistSourceType.ALBUM,
-            id: album.id,
-        }
-        this.mode = Mode.PLAYLIST
-        this.playlist = album.songs.map((t) => t.id)
-        this._trackIndex = autoPlayTrackID ? album.songs.findIndex((t) => t.id === autoPlayTrackID) : -this._playTrack()
     }
 
-    /**
-     * Play track in playlist by id
-     */
+    const player = reactive({
+        mode,
+        state,
+        playlistSource,
+        isPlaying,
+        track,
+        playOrPause,
+        replacePlaylist,
+        pause,
+        nextTrack,
+        previousTrack,
+    })
 
-    async playTrack(trackID: TrackID) {
-        const index = this.playlist.findIndex((t) => t === trackID)
-        if (!index) {
-            // no track
-            return
-        }
-        this._trackIndex = index
-        this._playTrack()
-    }
+    provide('player', player)
 }
 
-export const player = new Player()
+export default function usePlayer() {
+    return inject<PlayerPublic>('player')
+}

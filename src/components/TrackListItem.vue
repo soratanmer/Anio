@@ -5,8 +5,8 @@
             'grid-cols-1 py-1.5 px-2': isGrid,
             'grid-cols-12 p-2 pr-4': isList,
             'grid-cols-12 py-2.5 px-4': isAlbum,
-            'btn-hover-animation after:bg-green-200': !isSkeleton && !isHighLight,
-            'bg-green-200': !isSkeleton && isHighLight,
+            'btn-hover-animation after:bg-green-400': !isSkeleton && !isHighLight,
+            'bg-green-500': !isSkeleton && isHighLight,
         }"
     >
         <!-- Track info -->
@@ -42,37 +42,31 @@
             </div>
 
             <!-- Track number -->
-            <div
-                v-if="isAlbum && !isHighLight"
-                class="self-center group-hover:hidden"
-                :class="{
-                    'text-gray-700': !isHighLight,
-                    'text-brand-500': isHighLight,
-                }"
-            >
+            <div v-if="isAlbum && !isHighLight" class="self-center group-hover:hidden text-black dark:text-white">
                 {{ track.no }}
             </div>
 
             <!-- Pause button -->
             <div v-if="isAlbum && isHighLight" class="self-center" @click="player?.playOrPause()">
-                <SvgIcon class="h-3.5 w-3.5 text-slate-50" :name="player?.isPlaying ? 'pause' : 'play'"></SvgIcon>
+                <SvgIcon
+                    class="h-3.5 w-3.5 text-black dark:text-white"
+                    :name="player?.isPlaying ? 'pause' : 'play'"
+                ></SvgIcon>
             </div>
 
             <!-- Play button -->
             <div v-if="isAlbum && !isHighLight" class="self-center hidden group-hover:block">
-                <SvgIcon class="h-3.5 w-3.5 text-green-500" name="play"></SvgIcon>
+                <SvgIcon class="h-3.5 w-3.5 text-black dark:text-white" name="play"></SvgIcon>
             </div>
 
             <!-- Track name & Artists -->
             <div class="flex flex-col justify-center">
                 <div
                     v-if="!isSkeleton"
-                    class="line-clamp-1 break-all font-semibold"
+                    class="line-clamp-1 break-all font-semibold text-black dark:text-white"
                     :class="{
                         'text-lg': fullWidth,
                         'text-base': !fullWidth,
-                        'text-black': !isHighLight,
-                        'text-slate-50': isHighLight,
                     }"
                 >
                     {{ track.name }}
@@ -87,11 +81,10 @@
                 >
                 <div
                     v-if="!isAlbum"
+                    class="text-black dark:text-white"
                     :class="{
                         'text-sm': fullWidth,
                         'text-xs': !fullWidth,
-                        'text-black': !isHighLight,
-                        'text-slate-50': isHighLight,
                     }"
                 >
                     <ArtistInline v-if="!isSkeleton" :artists="track.ar"></ArtistInline>
@@ -101,14 +94,7 @@
         </div>
 
         <!-- Album name (playlist page only) -->
-        <div
-            v-if="isList && !isSkeleton"
-            class="col-span-4 flex items-center"
-            :class="{
-                'text-black': !isHighLight,
-                'text-slate-50': isHighLight,
-            }"
-        >
+        <div v-if="isList && !isSkeleton" class="col-span-4 flex items-center text-black dark:text-white">
             <span
                 @click="router.push({ name: 'album', params: { id: track.al.id } })"
                 class="decoration-2 hover:underline"
@@ -124,14 +110,7 @@
         </div>
 
         <!-- Artists (album page only) -->
-        <div
-            v-if="isAlbum"
-            class="col-span-4"
-            :class="{
-                'text-black ': !isHighLight,
-                'text-slate-50': isHighLight,
-            }"
-        >
+        <div v-if="isAlbum" class="col-span-4 text-black dark:text-white">
             <ArtistInline v-if="!isSkeleton" :artists="track.ar" />
             <Skeleton v-else class="w-2/3 translate-y-px">PLACE</Skeleton>
         </div>
@@ -145,31 +124,20 @@
                     'opacity-0': !isLiked,
                     'group-hover:opacity-100': !isSkeleton,
                 }"
-                ><SvgIcon
-                    :name="isLiked ? 'heart' : 'heart-outline'"
-                    class="h-4 w-4"
-                    :class="{
-                        'text-green-500': !isHighLight,
-                        'text-slate-50': isHighLight,
-                    }"
+                ><SvgIcon :name="isLiked ? 'heart' : 'heart-outline'" class="h-4 w-4 text-black dark:text-white"
             /></button>
 
             <!-- Track duration -->
-            <div
-                v-if="!isSkeleton"
-                :class="{
-                    'text-black': !isHighLight,
-                    'text-slate-50': isHighLight,
-                }"
-                >{{ formatDuration(track.dt, 'zh-CN', 'hh:mm:ss') }}</div
-            >
+            <div v-if="!isSkeleton" class="text-black dark:text-white">{{
+                formatDuration(track.dt, 'zh-CN', 'hh:mm:ss')
+            }}</div>
             <Skeleton v-else>0:00</Skeleton>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-    import usePlayer from '@/hooks/usePlayer'
+    import usePlayer from '@/utils/player'
     import { formatDuration, resizeImage } from '@/utils/common'
     import type { PropType } from 'vue'
 

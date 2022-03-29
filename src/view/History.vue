@@ -1,19 +1,6 @@
 <template>
     <!-- Header -->
-    <div class="text-2xl font-semibold text-gray-600 py-2 px-4 mb-2">最近播放的 {{ recentSongsLimit }} 首歌</div>
-
-    <!-- Tracks table header -->
-    <div class="ml-2 mr-4 mb-2 grid grid-cols-12 border-b border-gary-100 py-2.5 text-sm text-gray-400">
-        <div class="col-span-6 grid grid-cols-[4.2rem_auto]">
-            <div></div>
-            <div>TITLE</div>
-        </div>
-        <div class="col-span-5">ALBUM</div>
-        <div class="col-span-1 text-right justify-end">TIME</div>
-    </div>
-
-    <!-- Tracks -->
-    <!-- <TrackList :tracks="tracks?.songs || []" layout="list" :is-loading="isLoadingTracks" /> -->
+    <div class="text-2xl font-semibold text-black dark:text-white py-2 px-4 mb-10 mt-10">最近播放的 {{ recentSongsLimit }} 首歌</div>
 
     <!-- Infinite tracks -->
     <TrackList

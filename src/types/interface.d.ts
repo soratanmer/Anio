@@ -1,38 +1,38 @@
 declare interface Playlist {
     // 非必有
-    adType?: number
+    adType: number
 
-    alg?: string
+    alg: string
 
-    anonimous?: boolean
+    anonimous: boolean
 
-    artists?: []
+    artists: []
 
-    backgroundCoverId?: number
+    backgroundCoverId: number
 
-    backgroundCoverUrl?: string | null
+    backgroundCoverUrl: string | null
 
-    canDislike?: boolean
+    canDislike: boolean
 
-    cloudTrackCount?: number
+    cloudTrackCount: number
 
-    commentThreadId?: string
+    commentThreadId: string
 
-    copywriter?: string
+    copywriter: string
 
-    coverImgId?: number
+    coverImgId: number
 
-    coverImgId_str?: string
+    coverImgId_str: string
 
-    coverImgUrl?: string
+    coverImgUrl: string
 
-    createTime?: number
+    createTime: number
 
     creator: User
 
-    description?: string | null
+    description: string | null
 
-    englishTitle?: string | null
+    englishTitle: string | null
 
     highQuality: boolean
 
@@ -42,51 +42,51 @@ declare interface Playlist {
 
     name: string
 
-    newImported?: boolean
+    newImported: boolean
 
     officialPlaylistType: null
 
-    opRecommend?: boolean
+    opRecommend: boolean
 
-    ordered?: boolean
+    ordered: boolean
 
-    picUrl?: string
+    picUrl: string
 
     playCount: number
 
-    privacy?: number
+    privacy: number
 
-    recommendInfo?: null
+    recommendInfo: null
 
-    remixVideo?: null
+    remixVideo: null
 
-    shareCount?: number
+    shareCount: number
 
-    sharedUsers?: null
+    sharedUsers: null
 
-    shareStatus?: null
+    shareStatus: null
 
-    specialType?: number
+    specialType: number
 
-    status?: number
+    status: number
 
-    subscribed?: boolean
+    subscribed: boolean
 
-    subscribedCount?: number
+    subscribedCount: number
 
-    subscribers?: []
+    subscribers: []
 
-    tags?: []
+    tags: []
 
-    titleImage?: number
+    titleImage: number
 
-    titleImageUrl?: string | null
+    titleImageUrl: string | null
 
-    totalDuration?: number
+    totalDuration: number
 
     trackCount: number
 
-    trackIds?: {
+    trackIds: {
         alg: null
         at: number
         id: number
@@ -98,23 +98,23 @@ declare interface Playlist {
 
     trackNumberUpdateTime: number
 
-    tracks?: Track[]
+    tracks: Track[]
 
-    trackUpdateTime?: number
+    trackUpdateTime: number
 
-    type?: number
+    type: number
 
-    ToplistType?: string
+    ToplistType: string
 
-    updateFrequency?: null
+    updateFrequency: null
 
-    updateTime?: number
+    updateTime: number
 
-    userId?: number
+    userId: number
 
     videoIds: null //  TODO: unknown type
 
-    videos?: null
+    videos: null
 }
 
 declare interface Track {
@@ -125,7 +125,7 @@ declare interface Track {
         vd: number
     }
 
-    [key in ('bMusic' | 'hMusic' | 'lMusic' | 'mMusic')]?: {
+    [key in ('bMusic' | 'hMusic' | 'lMusic' | 'mMusic')]: {
         name: null
         id: number
         size: number
@@ -137,87 +137,87 @@ declare interface Track {
         volumeDelta: number
     }
 
-    a?: null
+    a: null
 
-    al?: Album
+    al: Album
 
-    album?: Album
+    album: Album
 
-    alg?: string
+    alg: string
 
-    alia?: string[]
+    alia: string[]
 
-    ar?: Artist[]
+    ar: Artist[]
 
-    artists?: Artist[]
+    artists: Artist[]
 
-    audition?: null
+    audition: null
 
-    cd?: string
+    cd: string
 
-    cf?: string
+    cf: string
 
-    commentThreadId?: string
+    commentThreadId: string
 
-    copyFrom?: string
+    copyFrom: string
 
-    copyright?: number
+    copyright: number
 
-    copyrightId?: number
+    copyrightId: number
 
-    cp?: number
+    cp: number
 
-    crbt?: null
+    crbt: null
 
-    dayPlays?: number
+    dayPlays: number
 
-    disc?: string
+    disc: string
 
-    djId?: number
+    djId: number
 
-    dt?: number
+    dt: number
 
-    duration?: number
+    duration: number
 
-    exclusive?: boolean
+    exclusive: boolean
 
-    fee?: number
+    fee: number
 
-    ftype?: number
+    ftype: number
 
-    hearTime?: number
+    hearTime: number
 
     id: number
 
-    mark?: number
+    mark: number
 
-    mp3Url?: null
+    mp3Url: null
 
-    mst?: number
+    mst: number
 
-    mv?: number
+    mv: number
 
-    mvid?: number
+    mvid: number
 
     name: string
 
-    no?: number
+    no: number
 
-    noCopyrightRcmd?: null
+    noCopyrightRcmd: null
 
-    originCoverType?: number
+    originCoverType: number
 
-    originSongSimpleData?: null
+    originSongSimpleData: null
 
-    playedNum?: number
+    playedNum: number
 
-    pop?: number
+    pop: number
 
-    popularity?: number
+    popularity: number
 
-    position?: number
+    position: number
 
-    privilege?: {
+    privilege: {
         id: number
         fee: number
         payed: number
@@ -248,57 +248,57 @@ declare interface Track {
         }[]
     }
 
-    pst?: number
+    pst: number
 
-    publishTime?: number
+    publishTime: number
 
-    reason?: string
+    reason: string
 
-    resourceState?: boolean
+    resourceState: boolean
 
-    ringtong?: null
+    ringtong: null
 
-    rt?: string
+    rt: string
 
-    rtType?: number
+    rtType: number
 
-    rtUrl?: string | null
+    rtUrl: string | null
 
-    rtUrls?: (string | null)[]
+    rtUrls: (string | null)[]
 
-    rurl?: null
+    rurl: null
 
-    s_ctrp?: string
+    s_ctrp: string
 
-    s_id?: number
+    s_id: number
 
-    score?: number
+    score: number
 
-    sign?: null
+    sign: null
 
-    single?: number
+    single: number
 
-    songJumpInfo?: null
+    songJumpInfo: null
 
-    st?: number
+    st: number
 
-    starred?: boolean
+    starred: boolean
 
-    starredNum?: number
+    starredNum: number
 
-    status?: number
+    status: number
 
-    t?: number
+    t: number
 
-    tagPicList?: null
+    tagPicList: null
 
-    transName?: null
+    transName: null
 
-    trUrls?: unknown[]
+    trUrls: unknown[]
 
-    v?: number
+    v: number
 
-    version?: number
+    version: number
 }
 
 declare interface Artist {
@@ -310,9 +310,9 @@ declare interface Artist {
 
     alias: unknown[]
 
-    briefDesc?: string
+    briefDesc: string
 
-    cover?: string
+    cover: string
 
     followed: boolean
 
@@ -322,13 +322,13 @@ declare interface Artist {
 
     img1v1: number
 
-    img1v1Id?: number
+    img1v1Id: number
 
-    img1v1Id_str?: string
+    img1v1Id_str: string
 
     img1v1Url: string
 
-    musicSize?: number
+    musicSize: number
 
     mvSize: number
 
@@ -336,15 +336,15 @@ declare interface Artist {
 
     picId: string
 
-    picId_str?: string
+    picId_str: string
 
     picUrl: string
 
-    publishTime?: number
+    publishTime: number
 
     tns: string[]
 
-    topicPerson?: number
+    topicPerson: number
 
     trans: unknown
 

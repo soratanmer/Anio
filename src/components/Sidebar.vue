@@ -1,14 +1,14 @@
 <template>
-    <div id="sidebar" class="grid h-screen max-w-sm bg-slate-50">
+    <div id="sidebar" class="grid h-screen max-w-sm bg-slate-50 dark:bg-gray-900">
         <!-- Primary tabs -->
         <div>
             <div class="app-region-drag h-14"></div>
 
             <div
                 v-for="tab in primaryTabs"
-                class="btn-hover-animation mx-3 flex items-center rounded-lg px-3 py-2 mb-2 text-black transition-colors duration-200 after:scale-[0.97] after:bg-green-200"
+                class="btn-hover-animation mx-3 flex items-center rounded-lg px-3 py-2 mb-2 text-black dark:text-white transition-colors duration-200 after:scale-[0.97] after:bg-green-400"
                 :class="{
-                    'bg-green-200': route.path === tab.route,
+                    'bg-green-500': route.path === tab.route,
                 }"
                 @click="routePush(tab)"
             >
@@ -19,9 +19,9 @@
 
             <div
                 v-for="tab in secondaryTabs"
-                class="btn-hover-animation mx-3 flex items-center rounded-lg px-3 py-2 mb-2 text-black transition-colors duration-200 after:scale-[0.97] after:bg-green-200"
+                class="btn-hover-animation mx-3 flex items-center rounded-lg px-3 py-2 mb-2 text-black dark:text-white transition-colors duration-200 after:scale-[0.97] after:bg-green-400"
                 :class="{
-                    'bg-green-200': route.path === tab.route,
+                    'bg-green-500': route.path === tab.route,
                 }"
                 @click="routePush(tab)"
             >
@@ -35,9 +35,9 @@
         <div class="overflow-auto">
             <div
                 v-for="playlist in userPlaylists?.playlist || []"
-                class="btn-hover-animation mx-3 flex items-center rounded-lg px-3 py-2 mb-2 text-black transition-colors duration-200 after:scale-[0.97] after:bg-green-200"
+                class="btn-hover-animation mx-3 flex items-center rounded-lg px-3 py-2 mb-2 text-black dark:text-white transition-colors duration-200 after:scale-[0.97] after:bg-green-400"
                 :class="{
-                    'bg-green-200': route.name === 'playlist' && Number(route.params.id) === playlist.id,
+                    'bg-green-500': route.name === 'playlist' && Number(route.params.id) === playlist.id,
                 }"
                 @click="router.push({ name: 'playlist', params: { id: playlist.id } })"
             >

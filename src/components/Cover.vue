@@ -20,7 +20,7 @@
                 class="btn-pressed-animation grid h-11 w-11 cursor-default place-content-center rounded-lg border border-white border-opacity-[.08] bg-white bg-opacity-[.14] text-white backdrop-blur backdrop-filter transition-all hover:bg-opacity-[.44]"
                 @click.stop=""
             >
-                <SvgIcon class="ml-1 h-4 w-4 text-green-500" name="play"></SvgIcon>
+                <SvgIcon class="ml-1 h-4 w-4 text-black dark:text-white" name="play"></SvgIcon>
             </button>
         </div>
     </div>

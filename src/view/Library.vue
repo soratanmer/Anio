@@ -16,14 +16,14 @@
             <!-- User info -->
             <div class="z-10">
                 <!-- User name -->
-                <div v-if="!isLoadingAccount" class="text-6xl font-bold">
+                <div v-if="!isLoadingAccount" class="text-6xl font-bold text-black dark:text-white">
                     {{ userAccount?.profile?.nickname }}
                     <span class="pb-1">的音乐库</span>
                 </div>
                 <Skeleton v-else class="w-3/4 text-7xl">PLACEHOLDER</Skeleton>
 
                 <!-- User ID -->
-                <div v-if="!isLoadingAccount" class="mt-5 text-sm font-thin text-gray-500">
+                <div v-if="!isLoadingAccount" class="mt-5 text-sm font-thin text-black dark:text-white">
                     ID:
                     <span class="font-semibold decoration-2">
                         {{ userAccount?.profile?.userId }}
@@ -32,13 +32,13 @@
                 <Skeleton v-else class="mt-5 w-64 text-lg">PLACEHOLDER</Skeleton>
 
                 <!-- Create time -->
-                <div v-if="!isLoadingAccount" class="mt-5 text-sm font-thin text-gray-500">
+                <div v-if="!isLoadingAccount" class="mt-5 text-sm font-thin text-black dark:text-white">
                     创建时间: {{ formatDate(Number(userAccount?.profile?.createTime), 'zh-CN') }}
                 </div>
                 <Skeleton v-else class="mt-5 w-64 text-lg">PLACEHOLDER</Skeleton>
 
                 <!-- Signature -->
-                <div v-if="!isLoadingAccount" class="mt-5 text-sm font-thin text-gray-500">
+                <div v-if="!isLoadingAccount" class="mt-5 text-sm font-thin text-black dark:text-white">
                     {{ userAccount?.profile?.signature }}
                 </div>
                 <Skeleton v-else class="mt-5 w-64 text-lg">PLACEHOLDER</Skeleton>
@@ -49,9 +49,9 @@
         <div class="mt-8 mb-4 flex gap-3.5">
             <div
                 v-for="tab in tabs"
-                class="btn-hover-animation rounded-lg px-3.5 py-1.5 text-lg font-semibold text-gray-600 after:bg-gray-100"
+                class="btn-hover-animation rounded-lg px-3.5 py-1.5 text-lg font-semibold text-black dark:text-white after:bg-green-400"
                 :class="{
-                    'bg-gray-100': tab.id === activeTab,
+                    'bg-green-500': tab.id === activeTab,
                 }"
                 @click="updateTabs(tab)"
             >

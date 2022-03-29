@@ -1,9 +1,9 @@
 <template>
     <div>
-        <div class="mt-10 mb-4 text-[28px] font-bold text-black">For You</div>
+        <div class="mt-10 mb-4 text-3xl font-bold text-black dark:text-white">For You</div>
         <div class="grid grid-cols-2 gap-6">
-            <DailyTracksCard></DailyTracksCard>
             <FMCard></FMCard>
+            <DailyTracksCard></DailyTracksCard>
         </div>
 
         <CoverRow

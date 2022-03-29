@@ -1,6 +1,6 @@
 <template>
     <!-- Header buttons -->
-    <div class="text-3xl font-semibold text-gray-600 py-2 px-4 mb-2">发现</div>
+    <div class="text-3xl font-semibold text-black dark:text-white py-2 px-4 mb-2 mt-10">发现</div>
     <div class="flex flex-wrap">
         <div
             v-for="category in staticCategory"
@@ -24,7 +24,7 @@
     <!-- panel -->
     <div v-show="showPanel" v-for="(bigCat, index) in playlistCategory?.categories" class="mt-1">
         <!-- name -->
-        <div class="text-2xl font-semibold text-gray-600 py-2 px-4"> {{ bigCat }}</div>
+        <div class="text-2xl font-semibold text-black dark:text-white py-2 px-4"> {{ bigCat }}</div>
         <!-- cats -->
         <div class="flex flex-wrap">
             <div v-for="cat in playlistCategory?.sub">

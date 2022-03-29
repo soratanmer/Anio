@@ -1,13 +1,13 @@
 <template>
     <!-- Header -->
     <div class="flex items-baseline justify-between">
-        <div v-if="title" class="my-4 text-[28px] font-bold text-black">
+        <div v-if="title" class="my-4 text-[28px] font-bold text-black dark:text-white">
             {{ title }}
         </div>
 
         <div
             v-if="seeMoreLink"
-            class="text-[13px] font-semibold text-gray-600 hover:underline"
+            class="text-[13px] font-semibold text-black dark:text-white hover:underline"
             @click="router.push(seeMoreLink as string)"
             >查看全部</div
         >
@@ -15,7 +15,7 @@
 
     <!-- Items -->
     <div
-        class="grid gap-x-[24px] gap-y-7 mt-7"
+        class="grid gap-x-6 gap-y-7 mt-7"
         :class="{
             'grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6': !gridClass,
             [`${gridClass}`]: gridClass,
@@ -38,13 +38,13 @@
                     <!-- Name -->
                     <span
                         v-if="!isSkeleton"
-                        class="line-clamp-2 leading-tight decoration-gray-600 decoration-2 hover:underline"
+                        class="line-clamp-2 leading-tight text-black dark:text-white hover:underline"
                     >
                         <!-- Playlist private icon -->
                         <SvgIcon
                             v-if="(item as Playlist).privacy"
                             name="lock"
-                            class="mr-1 mb-1 inline-block h-3 w-3 text-gray-300"
+                            class="mr-1 mb-1 inline-block h-3 w-3 text-black dark:text-white"
                         ></SvgIcon
                         >{{ item.name }}
                     </span>
@@ -55,7 +55,7 @@
                 </div>
 
                 <!-- Subtitle -->
-                <div v-if="!isSkeleton" class="flex text-[12px] text-gray-500">
+                <div v-if="!isSkeleton" class="flex text-[12px] text-black dark:text-white">
                     <span>{{ getSubtitleText(item, subtitle) }}</span>
                 </div>
                 <Skeleton v-else class="w-3/5 translate-y-[2px] text-[12px]">PLACEHOLDER</Skeleton>

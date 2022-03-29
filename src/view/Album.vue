@@ -25,13 +25,13 @@
             <!-- Album info -->
             <div class="z-10">
                 <!-- Name -->
-                <div v-if="!isLoading" class="text-6xl font-bold">
+                <div v-if="!isLoading" class="text-6xl font-bold text-black dark:text-white">
                     {{ album?.name }}
                 </div>
                 <Skeleton v-else class="w-3/4 text-7xl">PLACEHOLDER</Skeleton>
 
                 <!-- Artist -->
-                <div v-if="!isLoading" class="mt-5 text-lg font-medium text-gray-800"
+                <div v-if="!isLoading" class="mt-5 text-lg font-medium text-black dark:text-white"
                     >Album by
                     <span class="font-semibold decoration-2 hover:underline">
                         {{ album?.artist.name }}
@@ -40,14 +40,14 @@
                 <Skeleton v-else class="mt-5 w-64 text-lg">PLACEHOLDER</Skeleton>
 
                 <!-- Last update time & time count -->
-                <div v-if="!isLoading" class="text-sm font-thin text-gray-500">
+                <div v-if="!isLoading" class="text-sm font-thin text-black dark:text-white">
                     {{ dayjs(album?.publishTime || 0).year() }} · {{ album?.size }} Songs,
                     {{ albumDuration }}
                 </div>
                 <Skeleton v-else class="w-72 translate-y-px text-sm">PLACEHOLDER</Skeleton>
 
                 <!-- Description -->
-                <div v-if="!isLoading" class="line-clamp-3 mt-5 min-h-[3.75rem] max-w-xl text-sm text-gray-500">
+                <div v-if="!isLoading" class="line-clamp-3 mt-5 min-h-[3.75rem] max-w-xl text-sm text-black dark:text-white">
                     {{ album?.description }}
                 </div>
                 <Skeleton v-else class="mt-5 flex gap-4">PLACEHOLDER</Skeleton>
@@ -67,21 +67,11 @@
             </div>
         </div>
 
-        <!-- Tracks table header -->
-        <div class="mx-4 mt-10 mb-2 grid grid-cols-12 border-b border-gray-100 py-2.5 text-sm text-gray-400">
-            <div class="col-span-6 grid grid-cols-[2rem_auto]">
-                <div>#</div>
-                <div>TITLE</div>
-            </div>
-            <div class="col-span-4">ARTIST</div>
-            <div class="col-span-2 justify-self-end">TIME</div>
-        </div>
-
         <!-- Tracks -->
-        <TrackList :tracks="tracks || []" layout="album" :isLoading="isLoading"></TrackList>
+        <TrackList class="mt-10" :tracks="tracks || []" layout="album" :isLoading="isLoading"></TrackList>
 
         <!-- Release date and company -->
-        <div class="mt-5 text-xs text-gray-400">
+        <div class="mt-5 text-xs text-black dark:text-white">
             <div> Realease {{ formatDate(album?.publishTime || 0, 'zh-CN') }}</div>
             <div v-if="album?.company" class="mt-[2px]">
                 {{ album.company }}
@@ -90,7 +80,7 @@
 
         <!-- More by artist -->
         <div class="my-5 h-px w-full bg-gray-100"></div>
-        <div class="pl-px text-[1.375rem] font-semibold text-gray-800">
+        <div class="pl-px text-[1.375rem] font-semibold text-black dark:text-white">
             More by
             <router-link
                 :to="{
@@ -115,7 +105,7 @@
 <script setup lang="ts">
     import useAlbum from '@/hooks/useAlbum'
     import useArtistAlbums from '@/hooks/useArtistAlbums'
-    import usePlayer from '@/hooks/usePlayer'
+    import usePlayer,{PlaylistSourceType} from '@/utils/player'
     import { formatDate, formatDuration, resizeImage } from '@/utils/common'
     import dayjs from 'dayjs'
 
@@ -194,7 +184,7 @@
     const player = usePlayer()
     const play = () => {
         player?.replacePlaylist(tracks.value?.map((s) => s.id) || [], {
-            type: 'album',
+            type: PlaylistSourceType.ALBUM,
             id: albumID.value,
         })
     }

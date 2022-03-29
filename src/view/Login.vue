@@ -4,13 +4,13 @@
             <div class="flex flex-col">
                 <!-- Email input -->
                 <div class="w-full">
-                    <div class="mb-1 text-sm font-medium text-gray-700">Email</div>
+                    <div class="mb-1 text-sm font-medium text-black dark:text-white">Email</div>
                     <input class="w-full rounded-md border border-gray-300 p-2" type="email" v-model="email" />
                 </div>
 
                 <!-- Password input -->
                 <div class="mt-3 flex w-full flex-col">
-                    <div class="mb-1 text-sm font-medium text-gray-700"> Password </div>
+                    <div class="mb-1 text-sm font-medium text-black dark:text-white"> Password </div>
                     <div class="flex w-full">
                         <input
                             class="w-full rounded-md rounded-r-none border border-r-0 border-gray-300 p-2"
@@ -21,7 +21,7 @@
                             class="flex items-center justify-center rounded-md rounded-l-none border border-l-0 border-gray-300 pr-1"
                         >
                             <button
-                                class="cursor-default rounded p-1.5 text-gray-400 transition duration-300 hover:bg-gray-100 hover:text-gray-600"
+                                class="cursor-default rounded p-1.5 text-black dark:text-white transition duration-300 hover:bg-gray-100 hover:text-gray-600"
                                 @click="togglePassword"
                             >
                                 <SvgIcon class="h-5 w-5" :name="showPassword ? 'eye-of' : 'eye'"></SvgIcon>
@@ -32,7 +32,7 @@
 
                 <!-- Login button -->
                 <button
-                    class="my-2 mt-6 flex w-full cursor-default items-center justify-center rounded-lg bg-brand-100 py-2 text-lg font-semibold text-brand-500 transition duration-200"
+                    class="my-2 mt-6 flex w-full cursor-default items-center justify-center rounded-lg bg-brand-100 py-2 text-lg font-semibold text-green-500 transition duration-200"
                     @click="login"
                     >Login</button
                 >

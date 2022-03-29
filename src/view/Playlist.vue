@@ -1,6 +1,6 @@
 <template>
     <div class="mt-10">
-        <div class="grid grid-cols-[16rem_auto] items-center gap-9">
+        <div class="grid grid-cols-[16rem_auto] items-center gap-9 mb-10">
             <!-- Cover -->
             <div class="relative z-0 aspect-square self-start">
                 <div
@@ -24,25 +24,25 @@
             <!-- Playlist Info -->
             <div class="z-10">
                 <!-- Playlist name -->
-                <div v-if="!isLoadingPlaylist" class="text-4xl font-bold">
+                <div v-if="!isLoadingPlaylist" class="text-4xl font-bold text-black dark:text-white">
                     {{ playlist?.name }}
                 </div>
                 <Skeleton v-else class="w-3/4 text-4xl">PLACEHOLDER</Skeleton>
 
                 <!-- playlist Creator -->
-                <div v-if="!isLoadingPlaylist" class="mt-5 text-lg font-medium text-gray-800">
+                <div v-if="!isLoadingPlaylist" class="mt-5 text-lg font-medium text-black dark:text-white">
                     Playlist by <span>{{ playlist?.creator.nickname }}</span>
                 </div>
                 <Skeleton v-else class="mt-5 w-64 text-lg">PLACEHOLDER</Skeleton>
 
                 <!-- Playlist last update time & track count -->
-                <div v-if="!isLoadingPlaylist" class="text-sm font-thin text-gray-500">
+                <div v-if="!isLoadingPlaylist" class="text-sm font-thin text-black dark:text-white">
                     Update at {{ formatDate(playlist?.updateTime || 0, 'zh-CN') }} · {{ playlist?.trackCount }} Songs
                 </div>
                 <Skeleton v-else class="w-72 translate-x-px text-sm">PLACEHOLDER</Skeleton>
 
                 <!-- Playlist description -->
-                <div v-if="!isLoadingPlaylist" class="line-clamp-2 mt-5 min-h-10 text-sm text-gray-500">
+                <div v-if="!isLoadingPlaylist" class="line-clamp-2 mt-5 min-h-10 text-sm text-black dark:text-white">
                     {{ playlist?.description }}
                 </div>
                 <Skeleton v-else class="mt-5 min-h-10 w-1/2 text-sm">PLACEHOLDER</Skeleton>
@@ -50,7 +50,7 @@
                 <!-- Buttons -->
                 <div class="mt-5 flex gap-4">
                     <Button :is-skeleton="isLoadingPlaylist" shape="button" @click="play">
-                        <SvgIcon class="h-4 w-4" name="play"></SvgIcon>
+                        <SvgIcon class="h-4 w-4" :name="player?.isPlaying ? 'pause' : 'play' "></SvgIcon>
                     </Button>
 
                     <Button :is-skeleton="isLoadingPlaylist" shape="button" color="gray">
@@ -64,34 +64,16 @@
             </div>
         </div>
 
-        <!-- Tracks table header -->
-        <div class="ml-2 mr-4 mt-10 mb-2 grid grid-cols-12 border-b border-gary-100 py-2.5 text-sm text-gray-400">
-            <div class="col-span-6 grid grid-cols-[4.2rem_auto]">
-                <div></div>
-                <div>TITLE</div>
-            </div>
-            <div class="col-span-5">ALBUM</div>
-            <div class="col-span-1 text-right justify-end">TIME</div>
-        </div>
-
-        <!-- Initial Tracks -->
-        <!-- <TrackList
-            v-if="isShowTracksFromPlaylistQuery"
-            :tracks="playlist?.tracks || []"
-            layout="list"
-            :isLoading="isLoadingPlaylist"
-        /> -->
-
         <!-- Infinite tracks -->
         <TrackList v-for="page in infiniteTracks?.pages" :tracks="page?.songs || []" layout="list" />
     </div>
 </template>
 
 <script setup lang="ts">
-    import usePlayer from '@/hooks/usePlayer'
     import usePlaylist from '@/hooks/usePlaylist'
     import useTracksInfinite from '@/hooks/useTracksInfinite'
     import { formatDate, resizeImage } from '@/utils/common'
+    import usePlayer, { PlaylistSourceType } from '@/utils/player'
 
     const route = useRoute()
     const router = useRouter()
@@ -177,7 +159,7 @@
     const player = usePlayer()
     const play = () => {
         player?.replacePlaylist(trackIDs.value, {
-            type: 'playlist',
+            type: PlaylistSourceType.PLAYLIST,
             id: playlistID.value,
         })
     }

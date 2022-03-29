@@ -1,14 +1,10 @@
-import { multiMatchSearch, search, SearchApiName, SearchTypes } from '@/api/search' import ArtistInline from
-'@/components/ArtistInline.vue' import { useUiStore } from '@/stores/ui' import { resizeImage } from '@/utils/common'
-import { debouncedWatch } from '@vueuse/core' import dayjs from 'dayjs' import { computed, reactive, ref } from 'vue'
-import { useQuery } from 'vue-query' import { useRouter } from 'vue-router'
 <template>
     <!-- Tracks info -->
-    <div class="mb-3 mt-6 text-xl font-semibold"> Songs </div>
+    <div class="mb-3 mt-10 text-xl font-semibold text-black dark:text-white"> Songs </div>
     <div>
         <div
             v-for="track in tracks"
-            class="group btn-hover-animation flex w-full rounded-lg p-2 pr-4 after:scale-[.98] after:rounded-lg after:bg-gray-100"
+            class="group btn-hover-animation flex w-full rounded-lg p-2 pr-4 after:scale-[.98] after:rounded-lg after:bg-green-400"
         >
             <img
                 class="mr-4 box-content h-12 w-12 rounded-md border border-black border-opacity-[.03]"
@@ -16,10 +12,10 @@ import { useQuery } from 'vue-query' import { useRouter } from 'vue-router'
                 alt="track picture"
             />
             <div class="flex flex-col justify-center">
-                <div class="line-clamp-1 break-all text-lg font-semibold">
+                <div class="line-clamp-1 break-all text-lg font-semibold text-black dark:text-white">
                     {{ track.name }}
                 </div>
-                <div class="text-sm text-gray-500">
+                <div class="text-sm text-black dark:text-white">
                     song
                     <span class="mx-1.5">•</span>
                     <ArtistInline :artists="track.ar" class="inline-flex"></ArtistInline>
@@ -29,11 +25,11 @@ import { useQuery } from 'vue-query' import { useRouter } from 'vue-router'
     </div>
 
     <!-- Albums info -->
-    <div class="mb-3 mt-6 text-xl font-semibold"> Albums </div>
+    <div class="mb-3 mt-6 text-xl font-semibold text-black dark:text-white"> Albums </div>
     <div>
         <div
             v-for="album in albums"
-            class="group btn-hover-animation flex w-full rounded-lg p-2 pr-4 after:rounded-lg after:bg-gray-100"
+            class="group btn-hover-animation flex w-full rounded-lg p-2 pr-4 after:rounded-lg after:bg-green-400"
             @click="
                 router.push({
                     name: 'album',
@@ -49,10 +45,10 @@ import { useQuery } from 'vue-query' import { useRouter } from 'vue-router'
                 alt="album picture"
             />
             <div class="flex flex-col justify-center">
-                <div class="line-clamp-1 break-all text-lg font-semibold">
+                <div class="line-clamp-1 break-all text-lg font-semibold text-black dark:text-white">
                     {{ album.name }}
                 </div>
-                <div class="text-sm text-gray-500">
+                <div class="text-sm text-black dark:text-white">
                     Album
                     <span class="mx-1.5">•</span>
                     {{ album.artist.name }}
@@ -64,11 +60,11 @@ import { useQuery } from 'vue-query' import { useRouter } from 'vue-router'
     </div>
 
     <!-- Artists info -->
-    <div class="mb-3 mt-6 text-xl font-semibold"> Artists </div>
+    <div class="mb-3 mt-6 text-xl font-semibold text-black dark:text-white"> Artists </div>
     <div>
         <div
             v-for="artist in artists"
-            class="group btn-hover-animation flex w-full rounded-lg p-2 pr-4 after:rounded-lg after:bg-gray-100"
+            class="group btn-hover-animation flex w-full rounded-lg p-2 pr-4 after:rounded-lg after:bg-green-400"
             @click="
                 router.push({
                     name: 'artist',
@@ -84,20 +80,20 @@ import { useQuery } from 'vue-query' import { useRouter } from 'vue-router'
                 alt="artist picture"
             />
             <div class="flex flex-col justify-center">
-                <div class="line-clamp-1 break-all text-lg font-semibold">
+                <div class="line-clamp-1 break-all text-lg font-semibold text-black dark:text-white">
                     {{ artist.name }}
                 </div>
-                <div class="text-sm text-gray-500"> Artist </div>
+                <div class="text-sm text-black dark:text-white"> Artist </div>
             </div>
         </div>
     </div>
 
     <!-- Playlists info -->
-    <div class="mb-3 mt-6 text-xl font-semibold"> Playlists </div>
+    <div class="mb-3 mt-6 text-xl font-semibold text-black dark:text-white"> Playlists </div>
     <div>
         <div
             v-for="playlist in playlists"
-            class="group btn-hover-animation flex w-full rounded-lg p-2 pr-4 after:rounded-lg after:bg-gray-100"
+            class="group btn-hover-animation flex w-full rounded-lg p-2 pr-4 after:rounded-lg after:bg-green-400"
             @click="
                 router.push({
                     name: 'playlist',
@@ -113,10 +109,10 @@ import { useQuery } from 'vue-query' import { useRouter } from 'vue-router'
                 alt="artist picture"
             />
             <div class="flex flex-col justify-center">
-                <div class="line-clamp-1 break-all text-lg font-semibold">
+                <div class="line-clamp-1 break-all text-lg font-semibold text-black dark:text-white">
                     {{ playlist.name }}
                 </div>
-                <div class="text-sm text-gray-500">
+                <div class="text-sm text-black dark:text-white">
                     Playlists
                     <span class="mx-1.5">•</span>
                     {{ playlist.creator.nickname }}
@@ -130,11 +126,10 @@ import { useQuery } from 'vue-query' import { useRouter } from 'vue-router'
 </template>
 
 <script setup lang="ts">
-    import { multiMatchSearch, search, SearchApiName, SearchTypes } from '@/api/search';
-import { useUiStore } from '@/stores/ui';
-import { resizeImage } from '@/utils/common';
-import dayjs from 'dayjs';
-
+    import { multiMatchSearch, search, SearchApiName, SearchTypes } from '@/api/search'
+    import { useUiStore } from '@/stores/ui'
+    import { resizeImage } from '@/utils/common'
+    import dayjs from 'dayjs'
 
     const router = useRouter()
     const uiStore = useUiStore()
