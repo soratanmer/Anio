@@ -6,7 +6,6 @@
             <main id="mainContainer" ref="mainContainer" class="pb-10 overflow-y-auto flex-grow px-8">
                 <router-view :key="route.fullPath"> </router-view>
             </main>
-            
             <Player></Player>
         </div>
     </div>

@@ -86,7 +86,6 @@
 <script setup lang="ts">
     import usePlayer from '@/utils/player'
     import { resizeImage } from '@/utils/common'
-    // import { player } from '@/utils/player';
     import useUserLikedSongsIDs from '@/hooks/useUserLikedSongsIDs'
     import useUserAccount from '@/hooks/useUserAccount'
 

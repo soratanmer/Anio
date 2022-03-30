@@ -1,6 +1,7 @@
 {
     "compilerOptions": {
         "target": "esnext",
+        "useDefineForClassFields": true,
         "module": "esnext",
         "moduleResolution": "node",
         "strict": true,
@@ -8,9 +9,6 @@
         "sourceMap": true,
         "resolveJsonModule": true,
         "esModuleInterop": true,
-        "noImplicitAny": false,
-        "experimentalDecorators": true,
-        "emitDecoratorMetadata": true,
         "baseUrl": ".",
         "lib": ["esnext", "dom"],
         "types": ["vite/client"],

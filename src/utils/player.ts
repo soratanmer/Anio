@@ -54,14 +54,22 @@ export interface PlayerPublic {
 export function usePlayerProvider() {
     console.debug('Initializing usePlayerProvider')
 
-    const mode = ref<PlayerMode>(PlayerMode.PLAYLIST)
-    const state = ref<PlayerState>(PlayerState.INITIALIZING)
-    const playlistSource = ref<PlaylistSource | null>(null)
+    const mode = ref<PlayerMode>(PlayerMode.PLAYLIST) // 播放模式
+    const state = ref<PlayerState>(PlayerState.INITIALIZING) // 播放器状态
+    const playlistSource = ref<PlaylistSource | null>(null) // 当前播放列表的信息
 
     const _playlist = ref<TrackID[]>([]) // 播放列表
-    const _track = ref<Track | null>(null) // 当前播放的歌曲
+    const _shufflePlaylist = ref<TrackID[]>([]) // 随机播放列表
+    const _track = ref<Track | null>(null) // 当前播放歌曲的详细信息
     const _trackIndex = ref<number>(0) // 当前播放歌曲在 _playlist 里的 index
-    const _volume = ref<number>(0.1)
+    const _shuffleTrackIndex = ref<number>(0) //当前播放歌曲在 _shufflePlaylist 里的 index
+    const _personalTrack = ref<Track | null>(null) // 私人FM当前歌曲
+    const _personalNextTrack = ref<Track | null>(null) // 私人FM下一首歌曲信息
+    const _volume = ref<number>(0.1) // 音量 0 - 1
+    const _volumeBeforeMuted = ref<number>(0.1) // 用于保存静音前的音量
+    const _shuffle = ref<boolean>(false) // 是否随机播放
+    const _repeatMode = ref<RepeatMode>(RepeatMode.ON) // 循环播放模式
+    const _progress = ref<number>(0) // 当前播放歌曲的进度
     const _howler = ref<Howl>(new Howl({ src: [''] })) //Howler
 
     /**
