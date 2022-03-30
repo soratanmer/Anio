@@ -58,6 +58,7 @@ export class Player {
     private _progress: number = 0
     private _howler: Howl = new Howl({
         src: [''],
+        format: ['mp3', 'flac'],
     })
 
     constructor() {}
@@ -96,8 +97,8 @@ export class Player {
      */
 
     private get _nextTrackID(): number[] {
-        console.log(this._playlist);
-        
+        console.log(this._playlist)
+
         const nextTrackIndex = this._trackIndex + 1
         return [this._playlist[nextTrackIndex], nextTrackIndex]
     }
