@@ -85,23 +85,4 @@
             id: artistID,
         }),
     )
-
-    const artistMenu = ref()
-
-    const openMenu = (e) => {
-        artistMenu.value.openMenu(e)
-    }
-
-    const dropdown1 = ref()
-    const handleVisible2 = (visible) => {
-        if (visible) {
-            dropdown1.value.handlwClose()
-        } else {
-            dropdown1.value.handlwOpen()
-        }
-    }
-
-    const showClick = () => {
-        dropdown1.value.handleOpen()
-    }
 </script>

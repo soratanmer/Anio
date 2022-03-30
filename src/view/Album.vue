@@ -5,7 +5,7 @@
             <!-- Cover -->
             <div class="relative z-0 aspect-square self-start">
                 <div
-                    v-if="!isLoading"
+                    v-if="!isLoadingAlbum"
                     class="absolute top-3.5 z-[-1] h-full w-full scale-x-[.92] scale-y-[.96] rounded-lg bg-cover opacity-60 blur-lg filter"
                     :style="{
                         backgroundImage: `url(&quot;${coverUrl}&quot;)`,
@@ -14,7 +14,7 @@
                 </div>
 
                 <img
-                    v-if="!isLoading"
+                    v-if="!isLoadingAlbum"
                     class="rounded-lg border border-black border-opacity-5"
                     :src="coverUrl"
                     alt="cover"
@@ -25,13 +25,13 @@
             <!-- Album info -->
             <div class="z-10">
                 <!-- Name -->
-                <div v-if="!isLoading" class="text-6xl font-bold text-black dark:text-white">
+                <div v-if="!isLoadingAlbum" class="text-6xl font-bold text-black dark:text-white">
                     {{ album?.name }}
                 </div>
                 <Skeleton v-else class="w-3/4 text-7xl">PLACEHOLDER</Skeleton>
 
                 <!-- Artist -->
-                <div v-if="!isLoading" class="mt-5 text-lg font-medium text-black dark:text-white"
+                <div v-if="!isLoadingAlbum" class="mt-5 text-lg font-medium text-black dark:text-white"
                     >Album by
                     <span class="font-semibold decoration-2 hover:underline">
                         {{ album?.artist.name }}
@@ -40,27 +40,30 @@
                 <Skeleton v-else class="mt-5 w-64 text-lg">PLACEHOLDER</Skeleton>
 
                 <!-- Last update time & time count -->
-                <div v-if="!isLoading" class="text-sm font-thin text-black dark:text-white">
+                <div v-if="!isLoadingAlbum" class="text-sm font-thin text-black dark:text-white">
                     {{ dayjs(album?.publishTime || 0).year() }} · {{ album?.size }} Songs,
                     {{ albumDuration }}
                 </div>
                 <Skeleton v-else class="w-72 translate-y-px text-sm">PLACEHOLDER</Skeleton>
 
                 <!-- Description -->
-                <div v-if="!isLoading" class="line-clamp-3 mt-5 min-h-[3.75rem] max-w-xl text-sm text-black dark:text-white">
+                <div
+                    v-if="!isLoadingAlbum"
+                    class="line-clamp-3 mt-5 min-h-[3.75rem] max-w-xl text-sm text-black dark:text-white"
+                >
                     {{ album?.description }}
                 </div>
                 <Skeleton v-else class="mt-5 flex gap-4">PLACEHOLDER</Skeleton>
 
                 <!-- Button -->
                 <div class="mt-5 flex gap-4">
-                    <Button :is-skeleton="isLoading" @click="play">
+                    <Button :is-skeleton="isLoadingAlbum" @click="play">
                         <SvgIcon class="h-4 w-4" name="play"></SvgIcon>PLAY</Button
                     >
-                    <Button :is-skeleton="isLoading" shape="square" color="gray">
+                    <Button :is-skeleton="isLoadingAlbum" shape="square" color="gray">
                         <SvgIcon class="h-4 w-4" name="heart"></SvgIcon
                     ></Button>
-                    <Button :is-skeleton="isLoading" shape="square" color="gray" iconColor="gray">
+                    <Button :is-skeleton="isLoadingAlbum" shape="square" color="gray" iconColor="gray">
                         <SvgIcon class="h-4 w-4" name="more"></SvgIcon
                     ></Button>
                 </div>
@@ -68,7 +71,7 @@
         </div>
 
         <!-- Tracks -->
-        <TrackList class="mt-10" :tracks="tracks || []" layout="album" :isLoading="isLoading"></TrackList>
+        <TrackList class="mt-10" :tracks="tracks || []" layout="album" :isLoading="isLoadingAlbum"></TrackList>
 
         <!-- Release date and company -->
         <div class="mt-5 text-xs text-black dark:text-white">
@@ -82,15 +85,19 @@
         <div class="my-5 h-px w-full bg-gray-100"></div>
         <div class="pl-px text-[1.375rem] font-semibold text-black dark:text-white">
             More by
-            <router-link
-                :to="{
-                    name: 'artist',
-                    params: {
-                        id: album?.artist.id,
-                    },
-                }"
-                >{{ album?.artist.name }}</router-link
+            <span
+                class="hover:underline"
+                @click="
+                    router.push({
+                        name: 'artist',
+                        params: {
+                            id: artistIDs,
+                        },
+                    })
+                "
             >
+                {{ album?.artist.name }}
+            </span>
         </div>
         <div class="mt-3">
             <CoverRow
@@ -105,7 +112,7 @@
 <script setup lang="ts">
     import useAlbum from '@/hooks/useAlbum'
     import useArtistAlbums from '@/hooks/useArtistAlbums'
-    import usePlayer,{PlaylistSourceType} from '@/utils/player'
+    import usePlayer, { PlaylistSourceType } from '@/utils/player'
     import { formatDate, formatDuration, resizeImage } from '@/utils/common'
     import dayjs from 'dayjs'
 
@@ -122,11 +129,15 @@
     }
 
     // Fetch album data
-    const { data: albumRaw, isLoading } = useAlbum(
+    const { data: albumRaw, isLoading: isLoadingAlbum } = useAlbum(
         reactive({
-            id: albumID,
+            id: albumID.value,
         }),
     )
+
+    const artistIDs = computed(() => {
+        return albumRaw.value?.album.artist.id
+    })
 
     const album = computed(() => {
         return albumRaw?.value?.album
@@ -146,11 +157,10 @@
     })
 
     // Fetch artist's albums
+    
     const { data: otherAlbums, isLoading: isLoadingMoreAlbums } = useArtistAlbums(
         reactive({
-            id: computed(() => {
-                return album.value?.artist.id || 0
-            }),
+            id: artistIDs.value as number,
         }),
     )
 

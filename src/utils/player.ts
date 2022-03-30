@@ -62,7 +62,7 @@ export function usePlayerProvider() {
     const _track = ref<Track | null>(null) // 当前播放的歌曲
     const _trackIndex = ref<number>(0) // 当前播放歌曲在 _playlist 里的 index
     const _volume = ref<number>(0.1)
-    const _howler = ref(new Howl({ src: [''] })) //Howler
+    const _howler = ref<Howl>(new Howl({ src: [''] })) //Howler
 
     /**
      * 是否正在播放

@@ -153,8 +153,6 @@
         return table[subtitle] ?? item[subtitle]
     }
 
-    const mainContainerRef = ref<HTMLElement | null>(document.getElementById('mainContainer'))
-
     const goTo = (item: Item) => {
         const isAlbum = !!props.albums
         const isPlaylist = !!props.playlists
@@ -165,13 +163,6 @@
                 id: item.id,
             },
         })
-
-        if (isAlbum) {
-            mainContainerRef.value?.scrollTo({
-                top: 0,
-                left: 0,
-            })
-        }
     }
 
     const skeletonItems: Array<Item> = new Array(10).fill({})
