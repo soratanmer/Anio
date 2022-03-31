@@ -41,7 +41,7 @@
 
 <script setup lang="ts">
     import usePersonalFM from '@/hooks/usePersonalFM'
-    import usePlayer from '@/utils/player'
+    import { player } from '@/utils/player'
     import { resizeImage } from '@/utils/common'
     import { average } from 'color.js'
     import { colord } from 'colord'
@@ -71,6 +71,4 @@
     const artists = computed(() => {
         return personalFM.value?.data[0].artists
     })
-
-    const player = usePlayer()
 </script>

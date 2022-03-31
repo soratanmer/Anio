@@ -50,7 +50,7 @@
                 <!-- Buttons -->
                 <div class="mt-5 flex gap-4">
                     <Button :is-skeleton="isLoadingPlaylist" shape="button" @click="play">
-                        <SvgIcon class="h-4 w-4" :name="player?.isPlaying ? 'pause' : 'play'"></SvgIcon>
+                        <SvgIcon class="h-4 w-4" :name="player.isPlaying ? 'pause' : 'play'"></SvgIcon>
                     </Button>
 
                     <Button :is-skeleton="isLoadingPlaylist" shape="button" color="gray">
@@ -73,7 +73,7 @@
     import usePlaylist from '@/hooks/usePlaylist'
     import useTracksInfinite from '@/hooks/useTracksInfinite'
     import { formatDate, resizeImage } from '@/utils/common'
-    import usePlayer, { PlaylistSourceType } from '@/utils/player'
+    import { player, PlaylistSourceType } from '@/utils/player'
 
     const route = useRoute()
     const router = useRouter()
@@ -156,9 +156,8 @@
         },
     )
 
-    const player = usePlayer()
     const play = () => {
-        player?.replacePlaylist(trackIDs.value, {
+        player.replacePlaylist(trackIDs.value, {
             type: PlaylistSourceType.PLAYLIST,
             id: playlistID.value,
         })

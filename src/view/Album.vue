@@ -112,7 +112,7 @@
 <script setup lang="ts">
     import useAlbum from '@/hooks/useAlbum'
     import useArtistAlbums from '@/hooks/useArtistAlbums'
-    import usePlayer, { PlaylistSourceType } from '@/utils/player'
+    import { player, PlaylistSourceType } from '@/utils/player'
     import { formatDate, formatDuration, resizeImage } from '@/utils/common'
     import dayjs from 'dayjs'
 
@@ -157,7 +157,7 @@
     })
 
     // Fetch artist's albums
-    
+
     const { data: otherAlbums, isLoading: isLoadingMoreAlbums } = useArtistAlbums(
         reactive({
             id: artistIDs.value as number,
@@ -191,9 +191,8 @@
     })
 
     // Handle play album
-    const player = usePlayer()
     const play = () => {
-        player?.replacePlaylist(tracks.value?.map((s) => s.id) || [], {
+        player.replacePlaylist(tracks.value?.map((s) => s.id) || [], {
             type: PlaylistSourceType.ALBUM,
             id: albumID.value,
         })

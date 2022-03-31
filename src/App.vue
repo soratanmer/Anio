@@ -13,12 +13,10 @@
 
 <script setup lang="ts">
     import { useQueryProvider } from 'vue-query'
-    import { usePlayerProvider } from '@/utils/player'
 
     const route = useRoute()
 
     useQueryProvider()
-    usePlayerProvider()
 </script>
 
 <style lang="scss">

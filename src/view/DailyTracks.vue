@@ -55,7 +55,7 @@
 </template>
 
 <script setup lang="ts">
-    import usePlayer from '@/utils/player'
+    import {player} from '@/utils/player'
     import useRecommendTracks from '@/hooks/useRecommendTracks'
     import { resizeImage } from '@/utils/common'
 

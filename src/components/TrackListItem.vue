@@ -47,10 +47,10 @@
             </div>
 
             <!-- Pause button -->
-            <div v-if="isAlbum && isHighLight" class="self-center" @click="player?.playOrPause()">
+            <div v-if="isAlbum && isHighLight" class="self-center" @click="player.playOrPause()">
                 <SvgIcon
                     class="h-3.5 w-3.5 text-black dark:text-white"
-                    :name="player?.isPlaying ? 'pause' : 'play'"
+                    :name="player.isPlaying ? 'pause' : 'play'"
                 ></SvgIcon>
             </div>
 
@@ -137,7 +137,7 @@
 </template>
 
 <script setup lang="ts">
-    import usePlayer from '@/utils/player'
+    import { player } from '@/utils/player'
     import { formatDuration, resizeImage } from '@/utils/common'
     import type { PropType } from 'vue'
 
@@ -164,7 +164,6 @@
         },
     })
 
-    const player = usePlayer()
     const router = useRouter()
 
     const isAlbum = computed(() => {
@@ -184,6 +183,6 @@
     })
 
     const isHighLight = computed(() => {
-        return player?.track?.id === props.track.id
+        return player.track?.id === props.track.id
     })
 </script>
