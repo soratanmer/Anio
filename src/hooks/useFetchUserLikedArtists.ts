@@ -1,17 +1,17 @@
-import { fetchUserLikedAlbums, UserApiNames } from '@/api/user'
-import { FetchUserLikedAlbumsParams } from '@/api/user'
+import { fetchUserLikedArtists, UserApiNames } from '@/api/user'
+import type { FetchUserLikedArtistsParams } from '@/api/user'
 
-export default function useUserLikedAlbums(params: FetchUserLikedAlbumsParams) {
-    console.debug('useUserLikedAlbums', params)
+export default function useFetchUserLikedArtist(params: FetchUserLikedArtistsParams) {
+    console.debug('useUserLikedArtist', params)
 
     const enabled = computed(() => {
         return params.limit !== 0
     })
 
     return useInfiniteQuery(
-        reactive([UserApiNames.FETCH_USER_LIKED_ALBUMS, params]),
+        reactive([UserApiNames.FETCH_USER_LIKED_ARTISTS, params]),
         ({ pageParam = 0 }) => {
-            return fetchUserLikedAlbums({
+            return fetchUserLikedArtists({
                 limit: params.limit,
                 offset: pageParam * params.limit,
             })

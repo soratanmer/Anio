@@ -12,15 +12,15 @@
 </template>
 
 <script setup lang="ts">
-    import useRecentSongs from '@/hooks/useRecentSongs'
-    import useTracksInfinite from '@/hooks/useTracksInfinite'
+    import useFetchRecentSongs from '@/hooks/useFetchRecentSongs'
+    import useFetchTracksInfinite from '@/hooks/useFetchTracksInfinite'
     import { useSettingsStore } from '@/stores/settints'
 
     const { recentSongsLimit } = useSettingsStore()
 
     // const recentSongsLimit = ref<number>(300)
 
-    const { data: recentSongs, isLoading: isLoadingRecentSongs } = useRecentSongs(reactive({ limit: recentSongsLimit }))
+    const { data: recentSongs, isLoading: isLoadingRecentSongs } = useFetchRecentSongs(reactive({ limit: recentSongsLimit }))
 
     const trackIDs = computed(() => {
         return recentSongs.value?.data.list.map((item) => item.data.id) || []
@@ -32,7 +32,7 @@
         isFetching: isFetchingInfiniteTracks,
         hasNextPage,
         fetchNextPage,
-    } = useTracksInfinite(
+    } = useFetchTracksInfinite(
         reactive({
             ids: trackIDs,
         }),

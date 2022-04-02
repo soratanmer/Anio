@@ -56,10 +56,10 @@
 
 <script setup lang="ts">
     import {player} from '@/utils/player'
-    import useRecommendTracks from '@/hooks/useRecommendTracks'
+    import useFetchRecommendTracks from '@/hooks/useFetchRecommendTracks'
     import { resizeImage } from '@/utils/common'
 
-    const { data: recommendTracks, isLoading: isLoadingRecommendTracks } = useRecommendTracks()
+    const { data: recommendTracks, isLoading: isLoadingRecommendTracks } = useFetchRecommendTracks()
 
     const coverUrl = computed(() => {
         return resizeImage(recommendTracks.value?.data.dailySongs[0].al?.picUrl || '', 'md')

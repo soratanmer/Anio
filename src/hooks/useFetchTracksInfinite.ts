@@ -1,7 +1,7 @@
 import { fetchTracks, TrackApiNames } from '@/api/track'
 import type { FetchTracksParams } from '@/api/track'
 
-export default function useTracksInfinite(params: FetchTracksParams) {
+export default function useFetchTracksInfinite(params: FetchTracksParams) {
     console.debug('useTracksInfinite', params.ids)
     const enabled = computed(() => params.ids.length !== 0)
 

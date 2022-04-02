@@ -78,11 +78,11 @@
 </template>
 
 <script setup lang="ts">
-    import useHighQualityPlaylists from '@/hooks/useHighQualityPlaylist'
-    import usePlaylistCategory from '@/hooks/usePlaylistCategory'
-    import useRecommendedPlaylists from '@/hooks/useRecommendedPlaylists'
-    import useToplist from '@/hooks/useToplist'
-    import useTopPlaylists from '@/hooks/useTopPlaylists'
+    import useFetchHighQualityPlaylists from '@/hooks/useFetchHighQualityPlaylist'
+    import useFetchPlaylistCategory from '@/hooks/useFetchPlaylistCategory'
+    import useFetchRecommendedPlaylists from '@/hooks/useFetchRecommendedPlaylists'
+    import useFetchToplist from '@/hooks/useFetchToplist'
+    import useFetchTopPlaylists from '@/hooks/useFetchTopPlaylists'
 
     const showPanel = ref<boolean>(false)
 
@@ -129,7 +129,7 @@
     const route = useRoute()
     const router = useRouter()
 
-    const { data: playlistCategory, isLoading: isLoadingPlaylistCategory } = usePlaylistCategory()
+    const { data: playlistCategory, isLoading: isLoadingPlaylistCategory } = useFetchPlaylistCategory()
 
     const {
         data: topPlaylists,
@@ -137,14 +137,14 @@
         isFetching: isFetchingTopPlaylists,
         hasNextPage: TopPlaylistsHasNextPage,
         fetchNextPage: fetchTopPlaylistsNextPage,
-    } = useTopPlaylists(
+    } = useFetchTopPlaylists(
         reactive({
             cat: String(route.query.category),
             limit: 90,
         }),
     )
 
-    const { data: toplists, isLoading: isLoadingToplists } = useToplist()
+    const { data: toplists, isLoading: isLoadingToplists } = useFetchToplist()
 
     const {
         data: hightQualityPlaylists,
@@ -152,12 +152,12 @@
         isFetching: isFetchingHighQualityPlaylists,
         hasNextPage: HighQualityPlaylistsHasNextPage,
         fetchNextPage: fetchHighQualityPlaylistsNextPage,
-    } = useHighQualityPlaylists({
+    } = useFetchHighQualityPlaylists({
         cat: '全部',
         limit: 90,
     })
 
-    const { data: recommendedPlaylists, isLoading: isLoadingRecommendedPlaylists } = useRecommendedPlaylists(
+    const { data: recommendedPlaylists, isLoading: isLoadingRecommendedPlaylists } = useFetchRecommendedPlaylists(
         reactive({ limit: 100 }),
     )
 

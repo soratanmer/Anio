@@ -48,8 +48,8 @@
 </template>
 
 <script setup lang="ts">
-    import useUserAccount from '@/hooks/useUserAccount'
-    import useUserPlaylists from '@/hooks/useUserPlaylists'
+    import useFetchUserAccount from '@/hooks/useFetchUserAccount'
+    import useFetchUserPlaylists from '@/hooks/useFetchUserPlaylists'
 
     interface Tab {
         name: string
@@ -81,8 +81,8 @@
         },
     ]
 
-    const { data: userAccount } = useUserAccount()
-    const { data: userPlaylists } = useUserPlaylists(
+    const { data: userAccount } = useFetchUserAccount()
+    const { data: userPlaylists } = useFetchUserPlaylists(
         reactive({
             uid: computed(() => {
                 return userAccount.value?.account?.id ?? 0
@@ -91,7 +91,7 @@
         }),
     )
 
-    const routePush = (tab) => {
+    const routePush = (tab: Tab) => {
         if (tab.route === '/explore') {
             router.push({
                 name: 'explore',

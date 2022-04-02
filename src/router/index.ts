@@ -6,6 +6,9 @@ const routes: RouteRecordRaw[] = [
         name: 'home',
         path: '/',
         component: () => import('@/view/Home.vue'),
+        meta: {
+            keepAlive: true,
+        },
     },
     {
         name: 'login',
@@ -19,6 +22,9 @@ const routes: RouteRecordRaw[] = [
         name: 'explore',
         path: '/explore',
         component: () => import('@/view/Explore.vue'),
+        meta: {
+            keepAlive: true,
+        },
     },
     {
         name: 'library',
@@ -52,11 +58,17 @@ const routes: RouteRecordRaw[] = [
         name: 'history',
         path: '/history',
         component: () => import('@/view/History.vue'),
+        meta: {
+            keepAlive: true,
+        },
     },
     {
         name: 'dailyTrack',
         path: '/dailyTrack',
         component: () => import('@/view/DailyTracks.vue'),
+        meta: {
+            keepAlive: true,
+        },
     },
     {
         name: '404',

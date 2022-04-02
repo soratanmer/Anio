@@ -1,7 +1,7 @@
 import { fetchHighQualityPlaylist, PlaylistApiNames } from '@/api/playlist'
 import { FetchHighQualityPlaylistParams } from '@/api/playlist'
 
-export default function useHighQualityPlaylists(params: FetchHighQualityPlaylistParams) {
+export default function useFetchHighQualityPlaylists(params: FetchHighQualityPlaylistParams) {
     console.debug('useHighQualityPlaylists', params)
 
     return useInfiniteQuery(

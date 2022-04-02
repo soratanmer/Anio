@@ -1,7 +1,7 @@
 import { fetchTracks, TrackApiNames } from '@/api/track'
 import type { FetchTracksParams } from '@/api/track'
 
-export default function useTracks(params: FetchTracksParams) {
+export default function useFetchTracks(params: FetchTracksParams) {
     console.debug('useTrack', params)
 
     const enabled = computed(() => {
@@ -10,10 +10,9 @@ export default function useTracks(params: FetchTracksParams) {
 
     return useQuery(
         reactive([TrackApiNames.FETCH_TRACKS, params]),
-        async () => {
-            const data = fetchTracks(params)
-            return data
+        () => {
+            return fetchTracks(params)
         },
-        reactive({ enabled }),
+        reactive({ enabled, refetchOnWindowFocus: false }),
     )
 }

@@ -1,7 +1,7 @@
 import { fetchPlaylist, PlaylistApiNames } from '@/api/playlist'
 import type { FetchPlaylistParams } from '@/api/playlist'
 
-export default function usePlaylist(params: FetchPlaylistParams, noCache: boolean = false) {
+export default function useFetchPlaylist(params: FetchPlaylistParams, noCache: boolean = false) {
     console.debug('usePlaylist', params)
 
     const enabled = computed(() => {
@@ -10,10 +10,12 @@ export default function usePlaylist(params: FetchPlaylistParams, noCache: boolea
 
     return useQuery(
         reactive([PlaylistApiNames.FETCH_PLAYLIST, params]),
-        async () => {
-            const data = await fetchPlaylist(params, noCache)
-            return data
+        () => {
+            return fetchPlaylist(params, noCache)
         },
-        reactive({ enabled }),
+        reactive({
+            enabled,
+            refetchOnWindowFocus: false,
+        }),
     )
 }

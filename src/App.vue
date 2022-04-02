@@ -4,7 +4,11 @@
         <div class="relative flex h-screen max-h-screen flex-grow flex-col bg-white dark:bg-black">
             <Topbar></Topbar>
             <main id="mainContainer" ref="mainContainer" class="pb-10 overflow-y-auto flex-grow px-8">
-                <router-view :key="route.fullPath"> </router-view>
+                <router-view v-slot="{ Component }">
+                    <keep-alive>
+                        <component :is="Component" :key="route.fullPath"></component>
+                    </keep-alive>
+                </router-view>
             </main>
             <Player></Player>
         </div>
@@ -13,10 +17,12 @@
 
 <script setup lang="ts">
     import { useQueryProvider } from 'vue-query'
+    import { usePlayerProvider } from '@/hooks/usePlayer'
 
     const route = useRoute()
 
     useQueryProvider()
+    usePlayerProvider()
 </script>
 
 <style lang="scss">

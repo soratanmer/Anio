@@ -75,10 +75,22 @@
 
         <!-- Right part -->
         <div class="flex items-center justify-end gap-2 pr-2">
-            <ButtonIcon>
-                <SvgIcon class="h-4 w-4 text-black dark:text-white" name="repeat"></SvgIcon>
+            <ButtonIcon
+                :disabled="player.isPersonalFM || player.repeatMode === RepeatMode.OFF"
+                @click="player.switchRepeatMode()"
+            >
+                <SvgIcon
+                    v-show="player.repeatMode === RepeatMode.ON || player.repeatMode === RepeatMode.OFF"
+                    class="h-4 w-4 text-black dark:text-white"
+                    name="repeat"
+                ></SvgIcon>
+                <SvgIcon
+                    v-show="player.repeatMode === RepeatMode.ONE"
+                    class="h-4 w-4 text-black dark:text-white"
+                    name="repeat-1"
+                ></SvgIcon>
             </ButtonIcon>
-            <ButtonIcon>
+            <ButtonIcon :disabled="!player.shuffle" @click="player.switchShuffle()">
                 <SvgIcon class="h-4 w-4 text-black dark:text-white" name="shuffle"></SvgIcon>
             </ButtonIcon>
             <ButtonIcon>
@@ -92,10 +104,10 @@
 </template>
 
 <script setup lang="ts">
-    import { player } from '@/utils/player'
+    import { player, RepeatMode } from '@/utils/player'
     import { resizeImage } from '@/utils/common'
-    import useUserLikedSongsIDs from '@/hooks/useUserLikedSongsIDs'
-    import useUserAccount from '@/hooks/useUserAccount'
+    import useUserLikedSongsIDs from '@/hooks/useFetchUserLikedSongsIDs'
+    import useUserAccount from '@/hooks/useFetchUserAccount'
 
     const router = useRouter()
 

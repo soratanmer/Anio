@@ -110,8 +110,8 @@
 </template>
 
 <script setup lang="ts">
-    import useAlbum from '@/hooks/useAlbum'
-    import useArtistAlbums from '@/hooks/useArtistAlbums'
+    import useFetchAlbum from '@/hooks/useFetchAlbum'
+    import useFetchArtistAlbums from '@/hooks/useFetchArtistAlbums'
     import { player, PlaylistSourceType } from '@/utils/player'
     import { formatDate, formatDuration, resizeImage } from '@/utils/common'
     import dayjs from 'dayjs'
@@ -129,7 +129,7 @@
     }
 
     // Fetch album data
-    const { data: albumRaw, isLoading: isLoadingAlbum } = useAlbum(
+    const { data: albumRaw, isLoading: isLoadingAlbum } = useFetchAlbum(
         reactive({
             id: albumID.value,
         }),
@@ -158,7 +158,7 @@
 
     // Fetch artist's albums
 
-    const { data: otherAlbums, isLoading: isLoadingMoreAlbums } = useArtistAlbums(
+    const { data: otherAlbums, isLoading: isLoadingMoreAlbums } = useFetchArtistAlbums(
         reactive({
             id: artistIDs.value as number,
         }),

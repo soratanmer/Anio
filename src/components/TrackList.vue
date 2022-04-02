@@ -30,8 +30,8 @@
 <script setup lang="ts">
     import type { PropType } from 'vue'
 
-    import useUserAccount from '@/hooks/useUserAccount'
-    import useUserLikedSongsIDs from '@/hooks/useUserLikedSongsIDs'
+    import useFetchUserAccount from '@/hooks/useFetchUserAccount'
+    import useFetchUserLikedSongsIDs from '@/hooks/useFetchUserLikedSongsIDs'
 
     const props = defineProps({
         // 歌曲列表
@@ -58,8 +58,8 @@
     })
     
 
-    const { data: userAccount } = useUserAccount()
-    const { data: userLikedSongs } = useUserLikedSongsIDs({
+    const { data: userAccount } = useFetchUserAccount()
+    const { data: userLikedSongs } = useFetchUserLikedSongsIDs({
         uid: userAccount.value?.account?.id ?? 0,
     })
 

@@ -15,11 +15,11 @@
 </template>
 
 <script setup lang="ts">
-    import useRecommendedPlaylists from '@/hooks/useRecommendedPlaylists'
+    import useFetchRecommendedPlaylists from '@/hooks/useFetchRecommendedPlaylists'
 
     const router = useRouter()
 
-    const { data: recommendedPlaylists, isLoading: isLoadingRecommendedPlaylists } = useRecommendedPlaylists(
+    const { data: recommendedPlaylists, isLoading: isLoadingRecommendedPlaylists } = useFetchRecommendedPlaylists(
         reactive({
             limit: 30,
         }),

@@ -70,10 +70,10 @@
 </template>
 
 <script setup lang="ts">
-    import usePlaylist from '@/hooks/usePlaylist'
-    import useTracksInfinite from '@/hooks/useTracksInfinite'
+    import useFetchPlaylist from '@/hooks/useFetchPlaylist'
+    import useFetchTracksInfinite from '@/hooks/useFetchTracksInfinite'
     import { formatDate, resizeImage } from '@/utils/common'
-    import { player, PlaylistSourceType } from '@/utils/player'
+    import { player, PlaylistSourceType, PlayerMode } from '@/utils/player'
 
     const route = useRoute()
     const router = useRouter()
@@ -87,7 +87,7 @@
     }
 
     // Fetch playlist date
-    const { data: playlistRaw, isLoading: isLoadingPlaylist } = usePlaylist(
+    const { data: playlistRaw, isLoading: isLoadingPlaylist } = useFetchPlaylist(
         reactive({
             id: playlistID,
             s: 0,
@@ -113,7 +113,7 @@
         isLoading: isLoadingTracks,
         hasNextPage,
         fetchNextPage,
-    } = useTracksInfinite(
+    } = useFetchTracksInfinite(
         reactive({
             ids: trackIDs,
         }),

@@ -1,7 +1,7 @@
 import { fetchAlbum, AlbumApiNames } from '@/api/album'
 import type { FetchAlbumParams } from '@/api/album'
 
-export default function useAlbum(params: FetchAlbumParams, noCache: boolean = false) {
+export default function useFetchAlbum(params: FetchAlbumParams, noCache: boolean = false) {
     console.debug('useAlbum', params)
 
     const enabled = computed(() => {
@@ -10,10 +10,12 @@ export default function useAlbum(params: FetchAlbumParams, noCache: boolean = fa
 
     return useQuery(
         reactive([AlbumApiNames.FETCH_ALBUM, params]),
-        async () => {
-            const data = await fetchAlbum(params, noCache)
-            return data
+        () => {
+            return fetchAlbum(params, noCache)
         },
-        reactive({ enabled }),
+        reactive({
+            enabled,
+            refetchOnWindowFocus: false,
+        }),
     )
 }

@@ -92,10 +92,10 @@
 </template>
 
 <script setup lang="ts">
-    import useUserAccount from '@/hooks/useUserAccount'
-    import useUserLikedAlbums from '@/hooks/useUserLikedAlbums'
-    import useUserLikedArtist from '@/hooks/useUserLikedArtists'
-    import useUserPlayLists from '@/hooks/useUserPlaylists'
+    import useFetchUserAccount from '@/hooks/useFetchUserAccount'
+    import useFetchUserLikedAlbums from '@/hooks/useFetchUserLikedAlbums'
+    import useFetchUserLikedArtist from '@/hooks/useFetchUserLikedArtists'
+    import useFetchUserPlayLists from '@/hooks/useFetchUserPlaylists'
     import { formatDate, resizeImage } from '@/utils/common'
 
     interface Tab {
@@ -128,13 +128,13 @@
         activeTab.value = tab.id
     }
 
-    const { data: userAccount, isLoading: isLoadingAccount } = useUserAccount()
+    const { data: userAccount, isLoading: isLoadingAccount } = useFetchUserAccount()
 
     const coverUrl = computed(() => {
         return userAccount.value?.profile?.avatarUrl ? resizeImage(userAccount.value?.profile?.avatarUrl, 'sm') : ''
     })
 
-    const { data: userPlaylists, isLoading: isLoadingPlaylists } = useUserPlayLists(
+    const { data: userPlaylists, isLoading: isLoadingPlaylists } = useFetchUserPlayLists(
         reactive({
             uid: computed(() => {
                 return userAccount.value?.account?.id ?? 0
@@ -161,7 +161,7 @@
         isFetching: isFetchingLikedArtists,
         hasNextPage: likedArtistsHasNextPage,
         fetchNextPage: fetchLikedArtistsNextPage,
-    } = useUserLikedArtist(
+    } = useFetchUserLikedArtist(
         reactive({
             limit: 90,
         }),
@@ -173,7 +173,7 @@
         isFetching: isFetchingLikedAlbums,
         hasNextPage: likedAlbumsHasNextPage,
         fetchNextPage: fetchLikedAlbumsNextPage,
-    } = useUserLikedAlbums(
+    } = useFetchUserLikedAlbums(
         reactive({
             limit: 90,
         }),

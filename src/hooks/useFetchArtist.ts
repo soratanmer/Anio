@@ -1,7 +1,7 @@
 import { fetchArtist, ArtistApiNames } from '@/api/artist'
 import type { FetchArtistParams } from '@/api/artist'
 
-export default function useArtist(params: FetchArtistParams, noCache: boolean = false) {
+export default function useFetchArtist(params: FetchArtistParams, noCache: boolean = false) {
     console.debug('useArtist', params)
 
     const enabled = computed(() => {
@@ -10,10 +10,12 @@ export default function useArtist(params: FetchArtistParams, noCache: boolean = 
 
     return useQuery(
         reactive([ArtistApiNames.FETCH_ARTIST, params]),
-        async () => {
-            const data = await fetchArtist(params, noCache)
-            return data
+        () => {
+            return fetchArtist(params, noCache)
         },
-        reactive({ enabled }),
+        reactive({
+            enabled,
+            refetchOnWindowFocus: false,
+        }),
     )
 }

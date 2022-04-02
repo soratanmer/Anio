@@ -1,7 +1,7 @@
 import { fetchPurchasedAlbums, UserApiNames } from '@/api/user'
 import type { FetchPurchasedAlbumsParams } from '@/api/user'
 
-export default function usePurchasedAlbums(params: FetchPurchasedAlbumsParams) {
+export default function useFetchPurchasedAlbums(params: FetchPurchasedAlbumsParams) {
     console.debug('usePurchasedAlbums', params)
 
     const enabled = computed(() => {

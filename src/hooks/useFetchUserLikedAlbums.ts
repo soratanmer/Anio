@@ -1,19 +1,17 @@
-import { fetchTopPlaylist, PlaylistApiNames } from '@/api/playlist'
-import type { FetchTopPlaylistParams } from '@/api/playlist'
+import { fetchUserLikedAlbums, UserApiNames } from '@/api/user'
+import { FetchUserLikedAlbumsParams } from '@/api/user'
 
-export default function useTopPlaylists(params: FetchTopPlaylistParams) {
-    console.debug('useTopPlaylists', params)
+export default function useFetchUserLikedAlbums(params: FetchUserLikedAlbumsParams) {
+    console.debug('useUserLikedAlbums', params)
 
     const enabled = computed(() => {
         return params.limit !== 0
     })
 
     return useInfiniteQuery(
-        reactive([PlaylistApiNames.FETCH_TOP_PLAYLIST, params]),
+        reactive([UserApiNames.FETCH_USER_LIKED_ALBUMS, params]),
         ({ pageParam = 0 }) => {
-            return fetchTopPlaylist({
-                order: params.order,
-                cat: params.cat,
+            return fetchUserLikedAlbums({
                 limit: params.limit,
                 offset: pageParam * params.limit,
             })
@@ -25,7 +23,7 @@ export default function useTopPlaylists(params: FetchTopPlaylistParams) {
             refetchOnReconnect: false,
             refetchInterval: 0,
             getNextPageParam: (lastPage, pages) => {
-                return params.limit === lastPage.playlists.length ? pages.length : undefined
+                return params.limit === lastPage.data.length ? pages.length : undefined
             },
         }),
     )

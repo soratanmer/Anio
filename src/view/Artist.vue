@@ -45,8 +45,8 @@
 </template>
 
 <script setup lang="ts">
-    import useArtist from '@/hooks/useArtist'
-    import useArtistAlbums from '@/hooks/useArtistAlbums'
+    import useFetchArtist from '@/hooks/useFetchArtist'
+    import useFetchArtistAlbums from '@/hooks/useFetchArtistAlbums'
     import { resizeImage } from '@/utils/common'
 
     const route = useRoute()
@@ -61,7 +61,7 @@
     }
 
     // Fetch artist data
-    const { data: ArtistRaw, isLoading } = useArtist(
+    const { data: ArtistRaw, isLoading } = useFetchArtist(
         reactive({
             id: artistID,
         }),
@@ -80,7 +80,7 @@
     })
 
     // Fetch artist's albums
-    const { data: albums, isLoading: isLoadingAlbums } = useArtistAlbums(
+    const { data: albums, isLoading: isLoadingAlbums } = useFetchArtistAlbums(
         reactive({
             id: artistID,
         }),
