@@ -17,6 +17,7 @@
 
 <script setup lang="ts">
     import { useQueryProvider } from 'vue-query'
+
     import { usePlayerProvider } from '@/hooks/usePlayer'
 
     const route = useRoute()

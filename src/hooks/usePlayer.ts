@@ -52,6 +52,7 @@ export interface PlayerPublic {
     switchRepeatMode: () => void
     switchShuffle: () => void
     mute: () => void
+    moveToFMTrash: () => void
     play: () => void
     pause: () => void
     playOrPause: () => void
@@ -361,6 +362,13 @@ export function usePlayerProvider() {
         }
     }
 
+    const moveToFMTrash = () => {
+        nextTrack()
+        FMTrash({
+            id: Number(_personalTrack.value?.id),
+        })
+    }
+
     /**
      * 播放当前歌曲
      */
@@ -446,6 +454,7 @@ export function usePlayerProvider() {
         switchRepeatMode,
         switchShuffle,
         mute,
+        moveToFMTrash,
         play,
         pause,
         playOrPause,

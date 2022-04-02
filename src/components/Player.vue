@@ -55,9 +55,14 @@
         <!-- Middle part -->
         <div class="flex items-center justify-center gap-2">
             <!-- Previous -->
-            <ButtonIcon :disabled="!player?.track" @click="player?.previousTrack()"
+            <ButtonIcon v-if="!player?.isPersonalFM" :disabled="!player?.track" @click="player?.previousTrack()"
                 ><SvgIcon class="h-4 w-4 text-black dark:text-white" name="previous"></SvgIcon
             ></ButtonIcon>
+
+            <!-- Dislike -->
+            <ButtonIcon v-if="player?.isPersonalFM" :disabled="!player?.track" @click="player?.moveToFMTrash()">
+                <SvgIcon class="h-4 w-4 text-black dark:text-white" name="dislike"></SvgIcon>
+            </ButtonIcon>
 
             <!-- Play / Pause -->
             <ButtonIcon :disabled="!player?.track" @click="player?.playOrPause()">
@@ -104,14 +109,25 @@
 </template>
 
 <script setup lang="ts">
-    import usePlayer from '@/hooks/usePlayer';
-    import {RepeatMode} from '@/hooks/usePlayer';
+    import usePlayer from '@/hooks/usePlayer'
+    import { RepeatMode } from '@/hooks/usePlayer'
     import { resizeImage } from '@/utils/common'
     import useUserLikedSongsIDs from '@/hooks/useFetchUserLikedSongsIDs'
     import useUserAccount from '@/hooks/useFetchUserAccount'
 
     const router = useRouter()
     const player = usePlayer()
+
+    // Is track liked by user
+    const { data: userAccount } = useUserAccount()
+
+    const { data: userLikedSongs } = useUserLikedSongsIDs({
+        uid: userAccount.value?.account?.id ?? 0,
+    })
+
+    const isLiked = computed(() => {
+        return userLikedSongs.value?.ids.includes(Number(player?.track?.id))
+    })
 
     // Current playing track
     const cover = computed(() => {
@@ -121,19 +137,5 @@
 
     const trackName = computed(() => {
         return player?.track?.name
-    })
-
-    // Is track liked by user
-    const { data: userAccount } = useUserAccount()
-    const uid = computed(() => {
-        return userAccount.value?.account?.id ?? 0
-    })
-
-    const { data: userLikedSongs } = useUserLikedSongsIDs({
-        uid: uid.value,
-    })
-
-    const isLiked = computed(() => {
-        return userLikedSongs.value?.ids.includes(Number(player?.track?.id))
     })
 </script>

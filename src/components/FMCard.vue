@@ -18,7 +18,7 @@
                 <div>
                     <button
                         class="btn-pressed-animation btn-hover-animation mr-1 cursor-default rounded-lg p-2 transition duration-200 after:bg-white/10"
-                        @click=""
+                        @click="player?.moveToFMTrash()"
                         ><SvgIcon name="dislike" class="h-5 w-5"
                     /></button>
                     <button
@@ -28,6 +28,7 @@
                     /></button>
                     <button
                         class="btn-pressed-animation btn-hover-animation mr-1 cursor-default rounded-lg p-2 transition duration-200 after:bg-white/10"
+                        @click="player?.nextTrack()"
                         ><SvgIcon name="next" class="h-5 w-5"
                     /></button>
                 </div>
