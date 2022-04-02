@@ -42,13 +42,13 @@ export interface PlayerPublic {
     state: PlayerState
     playlistSource: PlaylistSource | null
     isPlaying: boolean
-    isPersonalFM:boolean
+    isPersonalFM: boolean
     track: Track | null
-    progress:number
-    repeatMode:RepeatMode
-    isShuffle:boolean
-    volume:number
-    personalFMTrack:Track|null
+    progress: number
+    repeatMode: RepeatMode
+    isShuffle: boolean
+    volume: number
+    personalFMTrack: Track | null
     switchRepeatMode: () => void
     switchShuffle: () => void
     mute: () => void
@@ -61,10 +61,10 @@ export interface PlayerPublic {
 }
 
 export function usePlayerProvider() {
-    const mode = ref<PlayerMode>(PlayerMode.PLAYLIST) // 播放模式
     const state = ref<PlayerState>(PlayerState.INITIALIZING) // 播放器状态
     const playlistSource = ref<PlaylistSource | null>(null) // 当前播放列表的信息
 
+    const _mode = ref<PlayerMode>(PlayerMode.PLAYLIST) // 播放模式
     const _playlist = ref<TrackID[]>([]) // 播放列表
     const _shufflePlaylist = ref<TrackID[]>([]) // 随机播放列表
     const _track = ref<Track | null>(null) // 当前播放歌曲的详细信息
@@ -84,6 +84,15 @@ export function usePlayerProvider() {
             format: ['mp3', 'flac'],
         }),
     ) //Howler
+
+    const mode = computed<PlayerMode>({
+        get() {
+            return _mode.value
+        },
+        set(mode: PlayerMode) {
+            _mode.value = mode
+        },
+    })
 
     /**
      * 是否正在播放
@@ -200,6 +209,11 @@ export function usePlayerProvider() {
             return [_currentPlaylist.value[_trackIndex.value + 1], _trackIndex.value + 1]
         }
     })
+
+    const _fetchPersonalFM = async () => {
+        const { data } = await fetchPersonalFM()
+        _personalTrack.value = data[0]
+    }
 
     /**
      * (内部方法) 打乱播放列表
@@ -389,9 +403,14 @@ export function usePlayerProvider() {
     /**
      * 播放下一首歌曲
      */
-    const nextTrack = () => {
-        const [id, index] = _nextTrackID.value
-        _replaceTrack(id, index)
+    const nextTrack = async () => {
+        if (isPersonalFM.value) {
+            await _fetchPersonalFM()
+            await _replaceTrack(_personalTrack.value?.id || 0, 0)
+        } else {
+            const [id, index] = _nextTrackID.value
+            _replaceTrack(id, index)
+        }
     }
 
     /**
@@ -434,6 +453,8 @@ export function usePlayerProvider() {
         nextTrack,
         replacePlaylist,
     })
+
+    _fetchPersonalFM()
 
     provide('player', player)
 }

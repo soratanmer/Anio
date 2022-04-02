@@ -23,11 +23,16 @@
 
             <!-- DailyTracks Info -->
             <div class="z-10">
-                <div v-if="!isLoadingRecommendTracks" class="text-4xl font-bold text-black dark:text-white"> 每日歌曲推荐 </div>
+                <div v-if="!isLoadingRecommendTracks" class="text-4xl font-bold text-black dark:text-white">
+                    每日歌曲推荐
+                </div>
                 <Skeleton v-else class="w-3/4 text-4xl">PLACEHOLDER</Skeleton>
 
                 <!-- DailyTracks description -->
-                <div v-if="!isLoadingRecommendTracks" class="line-clamp-2 mt-5 min-h-10 text-sm text-black dark:text-white">
+                <div
+                    v-if="!isLoadingRecommendTracks"
+                    class="line-clamp-2 mt-5 min-h-10 text-sm text-black dark:text-white"
+                >
                     根据你的音乐口味生成，每天 6:00 更新
                 </div>
                 <Skeleton v-else class="mt-5 min-h-10 w-1/2 text-sm">PLACEHOLDER</Skeleton>
@@ -55,9 +60,11 @@
 </template>
 
 <script setup lang="ts">
-    import {player} from '@/utils/player'
+    import usePlayer from '@/hooks/usePlayer'
     import useFetchRecommendTracks from '@/hooks/useFetchRecommendTracks'
     import { resizeImage } from '@/utils/common'
+
+    const player = usePlayer()
 
     const { data: recommendTracks, isLoading: isLoadingRecommendTracks } = useFetchRecommendTracks()
 

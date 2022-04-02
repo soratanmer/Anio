@@ -110,14 +110,16 @@
 </template>
 
 <script setup lang="ts">
+    import usePlayer from '@/hooks/usePlayer'
+    import { PlaylistSourceType } from '@/hooks/usePlayer'
     import useFetchAlbum from '@/hooks/useFetchAlbum'
     import useFetchArtistAlbums from '@/hooks/useFetchArtistAlbums'
-    import { player, PlaylistSourceType } from '@/utils/player'
     import { formatDate, formatDuration, resizeImage } from '@/utils/common'
     import dayjs from 'dayjs'
 
     const route = useRoute()
     const router = useRouter()
+    const player = usePlayer()
 
     // Validate album id
     const albumID = computed(() => {
@@ -192,7 +194,7 @@
 
     // Handle play album
     const play = () => {
-        player.replacePlaylist(tracks.value?.map((s) => s.id) || [], {
+        player?.replacePlaylist(tracks.value?.map((s) => s.id) || [], {
             type: PlaylistSourceType.ALBUM,
             id: albumID.value,
         })

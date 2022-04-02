@@ -1,5 +1,5 @@
 <template>
-    <div v-if="!isLoadingPersonalFM" class="relative h-64 flex overflow-hidden rounded-lg p-4">
+    <div class="relative h-64 flex overflow-hidden rounded-lg p-4">
         <!-- Background -->
         <img id="background" class="absolute top-0 left-0 w-full blur-lg opacity-75" :src="albumUrl" />
 
@@ -24,7 +24,7 @@
                     <button
                         class="btn-pressed-animation btn-hover-animation mr-1 cursor-default rounded-lg p-2 transition duration-200 after:bg-white/10"
                         @click="play"
-                        ><SvgIcon :name="player.isPersonalFM && player.isPlaying ? 'pause' : 'play'" class="h-5 w-5"
+                        ><SvgIcon :name="player?.isPersonalFM && player?.isPlaying ? 'pause' : 'play'" class="h-5 w-5"
                     /></button>
                     <button
                         class="btn-pressed-animation btn-hover-animation mr-1 cursor-default rounded-lg p-2 transition duration-200 after:bg-white/10"
@@ -40,49 +40,34 @@
             </div>
         </div>
     </div>
-    <Skeleton v-else class="relative h-64 rounded-lg"></Skeleton>
 </template>
 
 <script setup lang="ts">
-    import useFetchPersonalFM from '@/hooks/useFetchPersonalFM'
-    import { player, PlaylistSourceType, PlayerMode } from '@/utils/player'
+    import usePlayer from '@/hooks/usePlayer'
+    import { PlaylistSourceType, PlayerMode } from '@/hooks/usePlayer'
     import { resizeImage } from '@/utils/common'
 
-    const { data: personalFM, isLoading: isLoadingPersonalFM } = useFetchPersonalFM()
-
-    player.PersonalFMtrack = personalFM.value?.data[0] as Track
+    const player = usePlayer()
 
     const albumUrl = computed(() => {
-        if (player.isPlaying && player.isPersonalFM) {
-            return resizeImage(player.personalFMTrack?.album.picUrl || '', 'sm')
-        } else {
-            return resizeImage(personalFM.value?.data[0].album.picUrl || '', 'sm')
-        }
+        return resizeImage(player?.personalFMTrack?.album.picUrl || '', 'sm')
     })
 
     const personalFMTrackID = computed(() => {
-        return personalFM.value?.data[0].id || 0
+        return player?.personalFMTrack?.id || 0
     })
 
     const trackName = computed(() => {
-        if (player.isPlaying && player.isPersonalFM) {
-            return player.personalFMTrack?.name || ''
-        } else {
-            return personalFM.value?.data[0].name || ''
-        }
+        return player?.personalFMTrack?.name || ''
     })
 
     const artists = computed(() => {
-        if (player.isPlaying && player.isPersonalFM) {
-            return player.personalFMTrack?.artists || []
-        } else {
-            return personalFM.value?.data[0].artists || []
-        }
+        return player?.personalFMTrack?.artists || []
     })
 
     const play = () => {
-        player.mode = PlayerMode.FM
-        player.replacePlaylist([personalFMTrackID.value], {
+        player!.mode = PlayerMode.FM
+        player?.replacePlaylist([personalFMTrackID.value], {
             type: PlaylistSourceType.FM,
             id: personalFMTrackID.value,
         })

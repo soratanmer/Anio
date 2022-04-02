@@ -84,11 +84,13 @@
     import useFetchToplist from '@/hooks/useFetchToplist'
     import useFetchTopPlaylists from '@/hooks/useFetchTopPlaylists'
 
+    interface Category{
+        name:string
+    }
+
     const showPanel = ref<boolean>(false)
 
-    const staticCategory: {
-        name: string
-    }[] = [
+    const staticCategory: Category[] = [
         {
             name: '全部',
         },
@@ -106,7 +108,7 @@
         },
     ]
 
-    const updateActiveStatic = (category) => {
+    const updateActiveStatic = (category: Category) => {
         if (category.name !== '推荐歌单' && category.name !== '精品歌单' && category.name !== '排行榜') {
             router.push({
                 name: 'explore',

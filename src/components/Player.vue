@@ -16,7 +16,7 @@
                     router.push({
                         name: 'album',
                         params: {
-                            id: player.playlistSource?.id,
+                            id: player?.playlistSource?.id,
                         },
                     })
                 "
@@ -26,7 +26,7 @@
 
             <!-- Cover placeholder -->
             <div
-                v-if="player.track && !cover"
+                v-if="player?.track && !cover"
                 class="flex aspect-square h-full items-center justify-center rounded-md shadow-md bg-black/[0.04]"
             >
                 <SvgIcon class="h-6 w-6 text-gray-300" name="music-note"></SvgIcon>
@@ -34,17 +34,17 @@
 
             <div class="flex flex-col justify-center leading-tight">
                 <!-- Track name -->
-                <div v-if="player.track" class="line-clamp-1 font-semibold text-black dark:text-white">
+                <div v-if="player?.track" class="line-clamp-1 font-semibold text-black dark:text-white">
                     {{ trackName }}
                 </div>
 
                 <!-- Artists -->
-                <div v-if="player.track" class="mt-0.5 text-xs text-black dark:text-white">
-                    <ArtistInline :artists="player.track.ar ?? []"></ArtistInline>
+                <div v-if="player?.track" class="mt-0.5 text-xs text-black dark:text-white">
+                    <ArtistInline :artists="player?.track.ar ?? []"></ArtistInline>
                 </div>
             </div>
 
-            <ButtonIcon v-show="player.track">
+            <ButtonIcon v-show="player?.track">
                 <SvgIcon
                     class="h-4 w-4 text-black dark:text-white"
                     :name="isLiked ? 'heart' : 'heart-outline'"
@@ -55,20 +55,20 @@
         <!-- Middle part -->
         <div class="flex items-center justify-center gap-2">
             <!-- Previous -->
-            <ButtonIcon :disabled="!player.track" @click="player.previousTrack()"
+            <ButtonIcon :disabled="!player?.track" @click="player?.previousTrack()"
                 ><SvgIcon class="h-4 w-4 text-black dark:text-white" name="previous"></SvgIcon
             ></ButtonIcon>
 
             <!-- Play / Pause -->
-            <ButtonIcon :disabled="!player.track" @click="player.playOrPause()">
+            <ButtonIcon :disabled="!player?.track" @click="player?.playOrPause()">
                 <SvgIcon
                     class="h-5 w-5 text-black dark:text-white"
-                    :name="player.isPlaying ? 'pause' : 'play'"
+                    :name="player?.isPlaying ? 'pause' : 'play'"
                 ></SvgIcon>
             </ButtonIcon>
 
             <!-- Next -->
-            <ButtonIcon :disabled="!player.track" @click="player.nextTrack()">
+            <ButtonIcon :disabled="!player?.track" @click="player?.nextTrack()">
                 <SvgIcon class="h-4 w-4 text-black dark:text-white" name="next"></SvgIcon>
             </ButtonIcon>
         </div>
@@ -76,21 +76,21 @@
         <!-- Right part -->
         <div class="flex items-center justify-end gap-2 pr-2">
             <ButtonIcon
-                :disabled="player.isPersonalFM || player.repeatMode === RepeatMode.OFF"
-                @click="player.switchRepeatMode()"
+                :disabled="player?.isPersonalFM || player?.repeatMode === RepeatMode.OFF"
+                @click="player?.switchRepeatMode()"
             >
                 <SvgIcon
-                    v-show="player.repeatMode === RepeatMode.ON || player.repeatMode === RepeatMode.OFF"
+                    v-show="player?.repeatMode === RepeatMode.ON || player?.repeatMode === RepeatMode.OFF"
                     class="h-4 w-4 text-black dark:text-white"
                     name="repeat"
                 ></SvgIcon>
                 <SvgIcon
-                    v-show="player.repeatMode === RepeatMode.ONE"
+                    v-show="player?.repeatMode === RepeatMode.ONE"
                     class="h-4 w-4 text-black dark:text-white"
                     name="repeat-1"
                 ></SvgIcon>
             </ButtonIcon>
-            <ButtonIcon :disabled="!player.shuffle" @click="player.switchShuffle()">
+            <ButtonIcon :disabled="!player?.isShuffle" @click="player?.switchShuffle()">
                 <SvgIcon class="h-4 w-4 text-black dark:text-white" name="shuffle"></SvgIcon>
             </ButtonIcon>
             <ButtonIcon>
@@ -104,21 +104,23 @@
 </template>
 
 <script setup lang="ts">
-    import { player, RepeatMode } from '@/utils/player'
+    import usePlayer from '@/hooks/usePlayer';
+    import {RepeatMode} from '@/hooks/usePlayer';
     import { resizeImage } from '@/utils/common'
     import useUserLikedSongsIDs from '@/hooks/useFetchUserLikedSongsIDs'
     import useUserAccount from '@/hooks/useFetchUserAccount'
 
     const router = useRouter()
+    const player = usePlayer()
 
     // Current playing track
     const cover = computed(() => {
-        const cover = player.track?.al.picUrl
+        const cover = player?.track?.al.picUrl
         return cover ? resizeImage(cover, 'sm') : null
     })
 
     const trackName = computed(() => {
-        return player.track?.name
+        return player?.track?.name
     })
 
     // Is track liked by user
@@ -132,6 +134,6 @@
     })
 
     const isLiked = computed(() => {
-        return userLikedSongs.value?.ids.includes(Number(player.track?.id))
+        return userLikedSongs.value?.ids.includes(Number(player?.track?.id))
     })
 </script>
