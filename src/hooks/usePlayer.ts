@@ -43,18 +43,18 @@ export enum PlayerState {
 }
 
 export interface PlayerPublic {
-    mode: PlayerMode
     state: PlayerState
     playlistSource: PlaylistSource | null
+    mode: PlayerMode
+    track: Track | null
+    personalFMTrack: Track | null
+    progress: number
+    repeatMode: RepeatMode
+    volume: number
     isPlaying: boolean
     isPersonalFM: boolean
     isMute: boolean
-    track: Track | null
-    progress: number
-    repeatMode: RepeatMode
     isShuffle: boolean
-    volume: number
-    personalFMTrack: Track | null
     switchRepeatMode: () => void
     switchShuffle: () => void
     mute: () => void
@@ -81,6 +81,10 @@ export function usePlayerProvider() {
         }),
     ) //Howler
 
+    /**
+     * 播放模式
+     */
+
     const mode = computed<PlayerMode>({
         get() {
             return playerStore.mode
@@ -88,30 +92,6 @@ export function usePlayerProvider() {
         set(mode: PlayerMode) {
             playerStore.updatePlayerMode(mode)
         },
-    })
-
-    /**
-     * 是否正在播放
-     */
-
-    const isPlaying = computed<boolean>(() => {
-        return state.value === PlayerState.PLAYING
-    })
-
-    /**
-     * 是否 私人FM 模式
-     */
-
-    const isPersonalFM = computed<boolean>(() => {
-        return mode.value === PlayerMode.FM
-    })
-
-    /**
-     * 是否静音
-     */
-
-    const isMute = computed(() => {
-        return volume.value === 0
     })
 
     /**
@@ -124,6 +104,19 @@ export function usePlayerProvider() {
         },
         set(track) {
             playerStore.updateTrack(track)
+        },
+    })
+
+    /**
+     * 私人FM当前歌曲
+     */
+
+    const personalFMTrack = computed<Track>({
+        get() {
+            return playerStore.personalFMTrack
+        },
+        set(track) {
+            playerStore.updatePersonalFMTrack(track)
         },
     })
 
@@ -157,14 +150,6 @@ export function usePlayerProvider() {
     })
 
     /**
-     * 是否随机播放
-     */
-
-    const isShuffle = computed<boolean>(() => {
-        return playerStore.shuffle
-    })
-
-    /**
      * 播放音量
      */
 
@@ -179,17 +164,41 @@ export function usePlayerProvider() {
     })
 
     /**
-     * 私人FM当前歌曲
+     * 是否正在播放
      */
 
-    const personalFMTrack = computed<Track>({
-        get() {
-            return playerStore.personalFMTrack
-        },
-        set(track) {
-            playerStore.updatePersonalFMTrack(track)
-        },
+    const isPlaying = computed<boolean>(() => {
+        return state.value === PlayerState.PLAYING
     })
+
+    /**
+     * 是否 私人FM 模式
+     */
+
+    const isPersonalFM = computed<boolean>(() => {
+        return mode.value === PlayerMode.FM
+    })
+
+    /**
+     * 是否静音
+     */
+
+    const isMute = computed(() => {
+        return volume.value === 0
+    })
+
+    /**
+     * 是否随机播放
+     */
+
+    const isShuffle = computed<boolean>(() => {
+        return playerStore.shuffle
+    })
+
+    /**
+     * 当前播放歌曲在 playlist 里的index
+     * @private
+     */
 
     const _trackIndex = computed<number>({
         get() {
@@ -202,6 +211,7 @@ export function usePlayerProvider() {
 
     /**
      * 获取当前播放列表
+     * @private
      */
 
     const _currentPlaylist = computed<number[]>(() => {
@@ -211,6 +221,7 @@ export function usePlayerProvider() {
     /**
      * 上一首的歌曲ID
      * @returns {[number, number]} [上一首的歌曲ID, 上一首歌曲在歌曲列表里 index]
+     * @private
      */
 
     const _previousTrackID = computed<number[]>(() => {
@@ -224,6 +235,7 @@ export function usePlayerProvider() {
     /**
      * 下一首的歌曲ID
      * @returns {[number, number]} [下一首的歌曲ID, 下一首歌曲在歌曲列表里 index]
+     * @private
      */
 
     const _nextTrackID = computed<number[]>(() => {
@@ -233,6 +245,11 @@ export function usePlayerProvider() {
             return [_currentPlaylist.value[_trackIndex.value + 1], _trackIndex.value + 1]
         }
     })
+
+    /**
+     * （内部方法）初始化
+     * @private
+     */
 
     const _initPlayer = () => {
         if (!personalFMTrack.value.id) {
@@ -246,6 +263,11 @@ export function usePlayerProvider() {
         }
     }
 
+    /**
+     * （内部方法）获取 私人FM 里的第一首曲子
+     * @private
+     */
+
     const _fetchPersonalFM = async () => {
         const { data } = await fetchPersonalFM()
         personalFMTrack.value = data[0]
@@ -253,6 +275,7 @@ export function usePlayerProvider() {
 
     /**
      * (内部方法) 打乱播放列表
+     * @private
      */
 
     const _shuffleTheList = () => {
@@ -272,8 +295,9 @@ export function usePlayerProvider() {
     }
 
     /**
-     * 听歌打卡，更新听歌排行数据
+     * （内部方法）听歌打卡，更新听歌排行数据
      * @param track
+     * @private
      */
 
     const _scrobble = async (track: Track) => {
@@ -287,6 +311,7 @@ export function usePlayerProvider() {
     /**
      * (内部方法) 使用Howler播放歌曲
      * @param audioSource 歌曲的音频源链接
+     * @param autoplay 是否自动播放
      * @private
      */
 
@@ -311,6 +336,7 @@ export function usePlayerProvider() {
 
     /**
      * (内部方法) 同步进度条
+     * @private
      */
 
     const _setupProgressInterval = () => {
@@ -323,6 +349,9 @@ export function usePlayerProvider() {
 
     /**
      * (内部方法) 获取音源
+     * @param autoplay 是否自动播放
+     * @returns {Promise<void>}
+     * @private
      */
 
     const _fetchAudioSource = async (autoplay: boolean): Promise<void> => {
@@ -408,6 +437,10 @@ export function usePlayerProvider() {
             volume.value = 0
         }
     }
+
+    /**
+     * 将当前播放的私人FM曲子以至垃圾桶
+     */
 
     const moveToFMTrash = () => {
         nextTrack()
