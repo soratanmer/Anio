@@ -63,9 +63,6 @@
                     <Button :is-skeleton="isLoadingAlbum" shape="square" color="gray">
                         <SvgIcon class="h-4 w-4" name="heart"></SvgIcon
                     ></Button>
-                    <Button :is-skeleton="isLoadingAlbum" shape="square" color="gray" iconColor="gray">
-                        <SvgIcon class="h-4 w-4" name="more"></SvgIcon
-                    ></Button>
                 </div>
             </div>
         </div>
@@ -111,7 +108,7 @@
 
 <script setup lang="ts">
     import usePlayer from '@/hooks/usePlayer'
-    import { PlaylistSourceType } from '@/hooks/usePlayer'
+    import { PlaylistSourceType, PlayerMode } from '@/hooks/usePlayer'
     import useFetchAlbum from '@/hooks/useFetchAlbum'
     import useFetchArtistAlbums from '@/hooks/useFetchArtistAlbums'
     import { formatDate, formatDuration, resizeImage } from '@/utils/common'
@@ -194,6 +191,7 @@
 
     // Handle play album
     const play = () => {
+        player!.mode = PlayerMode.PLAYLIST
         player?.replacePlaylist(tracks.value?.map((s) => s.id) || [], {
             type: PlaylistSourceType.ALBUM,
             id: albumID.value,

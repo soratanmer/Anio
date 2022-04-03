@@ -44,7 +44,7 @@
                 </div>
             </div>
 
-            <ButtonIcon v-show="player?.track">
+            <ButtonIcon v-show="player?.track" @click="likeTrack">
                 <SvgIcon
                     class="h-4 w-4 text-black dark:text-white"
                     :name="isLiked ? 'heart' : 'heart-outline'"
@@ -111,9 +111,10 @@
 <script setup lang="ts">
     import usePlayer from '@/hooks/usePlayer'
     import { RepeatMode } from '@/hooks/usePlayer'
-    import { resizeImage } from '@/utils/common'
     import useUserLikedSongsIDs from '@/hooks/useFetchUserLikedSongsIDs'
     import useUserAccount from '@/hooks/useFetchUserAccount'
+    import { likeATrack } from '@/api/track'
+    import { resizeImage } from '@/utils/common'
 
     const router = useRouter()
     const player = usePlayer()
@@ -126,7 +127,7 @@
     })
 
     const isLiked = computed(() => {
-        return userLikedSongs.value?.ids.includes(Number(player?.track?.id))
+        return userLikedSongs.value?.ids.includes(player?.track?.id)
     })
 
     // Current playing track
@@ -138,4 +139,15 @@
     const trackName = computed(() => {
         return player?.track?.name
     })
+
+    watch(isLiked, () => {
+        console.log(isLiked.value)
+    })
+
+    const likeTrack = () => {
+        likeATrack({
+            id: Number(player?.track?.id),
+            like: isLiked.value ? false : true,
+        })
+    }
 </script>

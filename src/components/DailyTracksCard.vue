@@ -23,6 +23,7 @@
         <!-- play button -->
         <button
             class="btn-pressed-animation absolute right-6 bottom-6 grid h-11 w-11 cursor-default place-content-center rounded-lg border border-white border-opacity-[.08] bg-white bg-opacity-[.14] text-white backdrop-blur backdrop-filter transition-all hover:bg-opacity-[.44]"
+            @click="play"
         >
             <SvgIcon name="play" class="ml-1 h-4 w-4 text-green-500" />
         </button>
@@ -32,15 +33,29 @@
 
 <script setup lang="ts">
     import useFetchRecommendTracks from '@/hooks/useFetchRecommendTracks'
+    import usePlayer from '@/hooks/usePlayer'
+    import { PlaylistSourceType } from '@/hooks/usePlayer'
     import { resizeImage } from '@/utils/common'
 
     const router = useRouter()
+    const player = usePlayer()
 
     const { data: recommendTracks, isLoading: isLoadingRecommendTracks } = useFetchRecommendTracks()
 
     const coverUrl = computed(() => {
         return resizeImage(recommendTracks.value?.data.dailySongs[0].al?.picUrl || '', 'lg')
     })
+
+    const trackIDs = computed(() => {
+        return recommendTracks.value?.data.dailySongs.map((item) => item.id) || []
+    })
+
+    const play = () => {
+        player?.replacePlaylist(trackIDs.value, {
+            type: PlaylistSourceType.PLAYLIST,
+            id: Number(recommendTracks.value?.data.dailySongs[0].id),
+        })
+    }
 </script>
 
 <style scoped langs="scss">

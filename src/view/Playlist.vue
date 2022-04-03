@@ -50,15 +50,11 @@
                 <!-- Buttons -->
                 <div class="mt-5 flex gap-4">
                     <Button :is-skeleton="isLoadingPlaylist" shape="button" @click="play">
-                        <SvgIcon class="h-4 w-4" :name="player?.isPlaying ? 'pause' : 'play'"></SvgIcon>
+                        <SvgIcon class="h-4 w-4" name="play"></SvgIcon>
                     </Button>
 
                     <Button :is-skeleton="isLoadingPlaylist" shape="button" color="gray">
                         <SvgIcon class="h-4 w-4" name="heart"></SvgIcon>
-                    </Button>
-
-                    <Button :is-skeleton="isLoadingPlaylist" shape="button" color="gray" icon-color="gray">
-                        <SvgIcon class="h-4 w-4" name="more"></SvgIcon>
                     </Button>
                 </div>
             </div>
@@ -159,6 +155,7 @@
     )
 
     const play = () => {
+        player!.mode = PlayerMode.PLAYLIST
         player?.replacePlaylist(trackIDs.value, {
             type: PlaylistSourceType.PLAYLIST,
             id: playlistID.value,

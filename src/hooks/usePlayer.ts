@@ -5,6 +5,8 @@ import { fetchTracks, fetchAudioSource, scrobble } from '@/api/track'
 import { fetchPersonalFM, FMTrash } from '@/api/FM'
 import type { FMTrashParams } from '@/api/FM'
 
+import { usePlayerStore } from '@/stores/player'
+
 type TrackID = number
 
 export enum PlaylistSourceType {
@@ -62,6 +64,8 @@ export interface PlayerPublic {
 }
 
 export function usePlayerProvider() {
+    const playerStore = usePlayerStore()
+
     const state = ref<PlayerState>(PlayerState.INITIALIZING) // 播放器状态
     const playlistSource = ref<PlaylistSource | null>(null) // 当前播放列表的信息
 
@@ -73,8 +77,8 @@ export function usePlayerProvider() {
     const _shuffleTrackIndex = ref<number>(0) //当前播放歌曲在 _shufflePlaylist 里的 index
     const _personalTrack = ref<Track | null>(null) // 私人FM当前歌曲
     const _personalNextTrack = ref<Track | null>(null) // 私人FM下一首歌曲信息
-    const _volume = ref<number>(0.1) // 音量 0 - 1
-    const _volumeBeforeMuted = ref<number>(0.1) // 用于保存静音前的音量
+    const _volume = ref<number>(0.05) // 音量 0 - 1
+    const _volumeBeforeMuted = ref<number>(0.05) // 用于保存静音前的音量
     const _shuffle = ref<boolean>(false) // 是否随机播放
     const _repeatMode = ref<RepeatMode>(RepeatMode.ON) // 循环播放模式
     const _progress = ref<number>(0) // 当前播放歌曲的进度
@@ -179,9 +183,9 @@ export function usePlayerProvider() {
 
     const _currentPlaylist = computed<number[]>(() => {
         if (_shuffle.value) {
-            return _shufflePlaylist.value
+            return playerStore.shufflePlaylist
         } else {
-            return _playlist.value
+            return playerStore.playlist
         }
     })
 
@@ -221,16 +225,17 @@ export function usePlayerProvider() {
      */
 
     const _shuffleTheList = () => {
-        let list = _playlist.value.filter((tid) => tid !== _track.value?.id)
+        let list = playerStore.playlist.filter((tid) => tid !== _track.value?.id)
 
         if (_trackIndex.value === 0) {
-            list = _playlist.value
+            list = playerStore.playlist
         }
 
-        _shufflePlaylist.value = shuffle(list)
+        playerStore.updateShufflePlaylist(shuffle(list))
 
         if (_trackIndex.value !== 0) {
-            _shufflePlaylist.value.unshift(Number(_track.value?.id))
+            list.unshift(Number(_track.value?.id))
+            playerStore.updateShufflePlaylist(list)
         }
     }
 
@@ -313,6 +318,8 @@ export function usePlayerProvider() {
 
         _scrobble(_track.value)
 
+        playerStore.updateHistory(_track.value.id)
+
         return _fetchAudioSource()
     }
 
@@ -344,8 +351,8 @@ export function usePlayerProvider() {
         _shuffle.value = !_shuffle.value
         if (isShuffle.value) {
             _shuffleTheList()
-        } else {
-            _shufflePlaylist.value = []
+        }else{
+            playerStore.updateShufflePlaylist([])
         }
     }
 
@@ -429,7 +436,7 @@ export function usePlayerProvider() {
      */
 
     const replacePlaylist = (trackIDs: TrackID[], source: PlaylistSource) => {
-        _playlist.value = trackIDs
+        playerStore.updatePlaylist(trackIDs)
         playlistSource.value = source
 
         if (isShuffle.value) {
