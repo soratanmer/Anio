@@ -7,29 +7,21 @@ type TrackID = number
 export const usePlayerStore = defineStore('player', {
     state: () => {
         return {
-            history: [] as TrackID[],
-            playlist: [] as TrackID[],
-            shufflePlaylist: [] as TrackID[],
-            track: {} as Track,
-            trackIndex: 0,
-            shuffleTrackIndex: 0,
-            volume: 0.1,
-            volumeBeforeMuted: 0.1,
-            progress: 0,
-            shuffle: false,
-            repeatMode: RepeatMode.ON,
-            mode: PlayerMode.PLAYLIST,
+            history: [] as TrackID[], // 播放历史
+            playlist: [] as TrackID[], // 正序播放列表
+            shufflePlaylist: [] as TrackID[], // 被随机打乱的播放列表，随机播放模式下会使用此播放列表
+            track: {} as Track, // 当前播放歌曲的详细信息
+            trackIndex: 0, // 当前播放歌曲在 playlist 里的index
+            shuffleTrackIndex: 0, // 随机模式下，当前播放歌曲在 playlist 里的index
+            volume: 0.1, // 音量：0 to 1， 默认为 0.1
+            volumeBeforeMuted: 0.1, // 用于保存静音前的音量
+            progress: 0, // 当前播放歌曲的进度
+            shuffle: false, // 是否随机播放
+            repeatMode: RepeatMode.ON, //循环播放模式
+            mode: PlayerMode.PLAYLIST, // 播放模式：播放列表 / 私人MF
         }
     },
-    getters: {
-        currentPlaylist(): TrackID[] {
-            if (this.shuffle) {
-                return this.shufflePlaylist
-            } else {
-                return this.playlist
-            }
-        },
-    },
+    getters: {},
     actions: {
         updateHistory(trackID: TrackID) {
             let history = this.history.filter((t) => t !== trackID)

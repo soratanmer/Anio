@@ -243,12 +243,13 @@ export function usePlayerProvider() {
             list = playerStore.playlist
         }
 
-        playerStore.updateShufflePlaylist(shuffle(list))
+        list = shuffle(list)
 
         if (_trackIndex.value !== 0) {
-            list.unshift(Number(track.value.id))
-            playerStore.updateShufflePlaylist(list)
+            list.unshift(track.value.id)
         }
+
+        playerStore.updateShufflePlaylist(list)
     }
 
     /**
@@ -312,7 +313,12 @@ export function usePlayerProvider() {
             id: track.value.id,
             br: 128000,
         })
-        _playTrack(neteaseSource[0].url as string)
+
+        if (neteaseSource[0].url) {
+            _playTrack(neteaseSource[0].url as string)
+        } else {
+            nextTrack()
+        }
     }
 
     /**
@@ -331,6 +337,8 @@ export function usePlayerProvider() {
         _scrobble(track.value)
 
         playerStore.updateHistory(track.value.id)
+
+        playerStore.updateShuffleTrackIndex(playerStore.playlist.indexOf(track.value.id))
 
         return _fetchAudioSource()
     }
@@ -413,7 +421,7 @@ export function usePlayerProvider() {
     const playOrPause = () => {
         if (state.value === PlayerState.PLAYING) {
             pause()
-        } else if ([PlayerState.PAUSED, PlayerState.LOADING].includes(state.value)) {
+        } else if ([PlayerState.PAUSED, PlayerState.LOADING, PlayerState.INITIALIZING].includes(state.value)) {
             play()
         }
     }
@@ -436,6 +444,7 @@ export function usePlayerProvider() {
             await _replaceTrack(_personalFMTrack.value?.id || 0, 0)
         } else {
             const [id, index] = _nextTrackID.value
+
             _replaceTrack(id, index)
         }
     }
