@@ -127,7 +127,7 @@
     })
 
     const isLiked = computed(() => {
-        return userLikedSongs.value?.ids.includes(player?.track?.id)
+        return userLikedSongs.value?.ids.includes(Number(player?.track?.id))
     })
 
     // Current playing track

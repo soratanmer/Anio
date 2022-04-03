@@ -70,19 +70,7 @@ export function usePlayerProvider() {
     const state = ref<PlayerState>(PlayerState.INITIALIZING) // 播放器状态
     const playlistSource = ref<PlaylistSource | null>(null) // 当前播放列表的信息
 
-    const _mode = ref<PlayerMode>(PlayerMode.PLAYLIST) // 播放模式
-    const _playlist = ref<TrackID[]>([]) // 播放列表
-    const _shufflePlaylist = ref<TrackID[]>([]) // 随机播放列表
-    const _track = ref<Track | null>(null) // 当前播放歌曲的详细信息
-    const _trackIndex = ref<number>(0) // 当前播放歌曲在 _playlist 里的 index
-    const _shuffleTrackIndex = ref<number>(0) //当前播放歌曲在 _shufflePlaylist 里的 index
     const _personalFMTrack = ref<Track | null>(null) // 私人FM当前歌曲
-    const _personalNextTrack = ref<Track | null>(null) // 私人FM下一首歌曲信息
-    const _volume = ref<number>(0.05) // 音量 0 - 1
-    const _volumeBeforeMuted = ref<number>(0.05) // 用于保存静音前的音量
-    const _shuffle = ref<boolean>(false) // 是否随机播放
-    // const repeatMode = ref<RepeatMode>(RepeatMode.ON) // 循环播放模式
-    const _progress = ref<number>(0) // 当前播放歌曲的进度
     const _progressInterval = ref<ReturnType<typeof setInterval> | undefined>(undefined)
     const _howler = ref<Howl>(
         new Howl({
@@ -128,8 +116,13 @@ export function usePlayerProvider() {
      * 当前正在播放的歌曲
      */
 
-    const track = computed(() => {
-        return _track.value
+    const track = computed<Track>({
+        get() {
+            return playerStore.track
+        },
+        set(track) {
+            playerStore.updateTrack(track)
+        },
     })
 
     /**
@@ -138,13 +131,13 @@ export function usePlayerProvider() {
 
     const progress = computed<number>({
         get() {
-            return _progress.value
+            return playerStore.progress
         },
         set(value: number) {
             if (_howler) {
                 _howler.value.seek(value)
             }
-            _progress.value = value
+            playerStore.updateProgress(value)
         },
     })
 
@@ -153,12 +146,12 @@ export function usePlayerProvider() {
      */
 
     const repeatMode = computed<RepeatMode>({
-        get(){
+        get() {
             return playerStore.repeatMode
         },
-        set(repeatMode){
+        set(repeatMode) {
             playerStore.updateRepeatMode(repeatMode)
-        }
+        },
     })
 
     /**
@@ -189,6 +182,15 @@ export function usePlayerProvider() {
 
     const personalFMTrack = computed(() => {
         return _personalFMTrack.value
+    })
+
+    const _trackIndex = computed<number>({
+        get() {
+            return playerStore.trackIndex
+        },
+        set(index) {
+            playerStore.updateTrackIndex(index)
+        },
     })
 
     /**
@@ -235,7 +237,7 @@ export function usePlayerProvider() {
      */
 
     const _shuffleTheList = () => {
-        let list = playerStore.playlist.filter((tid) => tid !== _track.value?.id)
+        let list = playerStore.playlist.filter((tid) => tid !== track.value.id)
 
         if (_trackIndex.value === 0) {
             list = playerStore.playlist
@@ -244,7 +246,7 @@ export function usePlayerProvider() {
         playerStore.updateShufflePlaylist(shuffle(list))
 
         if (_trackIndex.value !== 0) {
-            list.unshift(Number(_track.value?.id))
+            list.unshift(Number(track.value.id))
             playerStore.updateShufflePlaylist(list)
         }
     }
@@ -279,7 +281,7 @@ export function usePlayerProvider() {
         })
         play()
 
-        document.title = `${_track.value?.name} · ${_track.value?.ar[0].name} - Anio Music`
+        document.title = `${track.value.name} · ${track.value.ar[0].name} - Anio Music`
 
         if (!_progressInterval.value) {
             _setupProgressInterval()
@@ -293,7 +295,7 @@ export function usePlayerProvider() {
     const _setupProgressInterval = () => {
         _progressInterval.value = setInterval(() => {
             if (isPlaying.value) {
-                _progress.value = _howler.value.seek()
+                progress.value = _howler.value.seek()
             }
         }, 1000)
     }
@@ -303,11 +305,11 @@ export function usePlayerProvider() {
      */
 
     const _fetchAudioSource = async (): Promise<void> => {
-        if (!_track.value) {
+        if (!track.value) {
             return Promise.reject()
         }
         const { data: neteaseSource } = await fetchAudioSource({
-            id: _track.value.id,
+            id: track.value.id,
             br: 128000,
         })
         _playTrack(neteaseSource[0].url as string)
@@ -323,12 +325,12 @@ export function usePlayerProvider() {
 
     const _replaceTrack = async (trackID: TrackID, index: number) => {
         const { songs } = await fetchTracks({ ids: [trackID] })
-        _track.value = songs[0]
+        track.value = songs[0]
         _trackIndex.value = index
 
-        _scrobble(_track.value)
+        _scrobble(track.value)
 
-        playerStore.updateHistory(_track.value.id)
+        playerStore.updateHistory(track.value.id)
 
         return _fetchAudioSource()
     }
