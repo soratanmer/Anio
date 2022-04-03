@@ -98,8 +98,8 @@
             <ButtonIcon :disabled="!player?.isShuffle" @click="player?.switchShuffle()">
                 <SvgIcon class="h-4 w-4 text-black dark:text-white" name="shuffle"></SvgIcon>
             </ButtonIcon>
-            <ButtonIcon>
-                <SvgIcon class="h-4 w-4 text-black dark:text-white" name="volume"></SvgIcon>
+            <ButtonIcon @click="player?.mute()">
+                <SvgIcon class="h-4 w-4 text-black dark:text-white" :name="player?.isMute ? 'volume-mute':'volume'"></SvgIcon>
             </ButtonIcon>
             <ButtonIcon>
                 <SvgIcon class="h-4 w-4 text-black dark:text-white" name="arrow-up"></SvgIcon>
@@ -132,7 +132,7 @@
 
     // Current playing track
     const cover = computed(() => {
-        const cover = player?.track?.al.picUrl
+        const cover = player?.track?.al?.picUrl || ''
         return cover ? resizeImage(cover, 'sm') : null
     })
 

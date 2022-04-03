@@ -45,6 +45,7 @@ export interface PlayerPublic {
     playlistSource: PlaylistSource | null
     isPlaying: boolean
     isPersonalFM: boolean
+    isMute: boolean
     track: Track | null
     progress: number
     repeatMode: RepeatMode
@@ -75,12 +76,12 @@ export function usePlayerProvider() {
     const _track = ref<Track | null>(null) // 当前播放歌曲的详细信息
     const _trackIndex = ref<number>(0) // 当前播放歌曲在 _playlist 里的 index
     const _shuffleTrackIndex = ref<number>(0) //当前播放歌曲在 _shufflePlaylist 里的 index
-    const _personalTrack = ref<Track | null>(null) // 私人FM当前歌曲
+    const _personalFMTrack = ref<Track | null>(null) // 私人FM当前歌曲
     const _personalNextTrack = ref<Track | null>(null) // 私人FM下一首歌曲信息
     const _volume = ref<number>(0.05) // 音量 0 - 1
     const _volumeBeforeMuted = ref<number>(0.05) // 用于保存静音前的音量
     const _shuffle = ref<boolean>(false) // 是否随机播放
-    const _repeatMode = ref<RepeatMode>(RepeatMode.ON) // 循环播放模式
+    // const repeatMode = ref<RepeatMode>(RepeatMode.ON) // 循环播放模式
     const _progress = ref<number>(0) // 当前播放歌曲的进度
     const _progressInterval = ref<ReturnType<typeof setInterval> | undefined>(undefined)
     const _howler = ref<Howl>(
@@ -92,10 +93,10 @@ export function usePlayerProvider() {
 
     const mode = computed<PlayerMode>({
         get() {
-            return _mode.value
+            return playerStore.mode
         },
         set(mode: PlayerMode) {
-            _mode.value = mode
+            playerStore.updatePlayerMode(mode)
         },
     })
 
@@ -113,6 +114,14 @@ export function usePlayerProvider() {
 
     const isPersonalFM = computed<boolean>(() => {
         return mode.value === PlayerMode.FM
+    })
+
+    /**
+     * 是否静音
+     */
+
+    const isMute = computed(() => {
+        return volume.value === 0
     })
 
     /**
@@ -143,8 +152,13 @@ export function usePlayerProvider() {
      * 获取循环播放状态
      */
 
-    const repeatMode = computed<RepeatMode>(() => {
-        return _repeatMode.value
+    const repeatMode = computed<RepeatMode>({
+        get(){
+            return playerStore.repeatMode
+        },
+        set(repeatMode){
+            playerStore.updateRepeatMode(repeatMode)
+        }
     })
 
     /**
@@ -152,7 +166,7 @@ export function usePlayerProvider() {
      */
 
     const isShuffle = computed<boolean>(() => {
-        return _shuffle.value
+        return playerStore.shuffle
     })
 
     /**
@@ -161,10 +175,10 @@ export function usePlayerProvider() {
 
     const volume = computed<number>({
         get() {
-            return _volume.value
+            return playerStore.volume
         },
         set(volume: number) {
-            _volume.value = volume
+            playerStore.updateVolume(volume)
             Howler.volume(volume)
         },
     })
@@ -174,7 +188,7 @@ export function usePlayerProvider() {
      */
 
     const personalFMTrack = computed(() => {
-        return _personalTrack.value
+        return _personalFMTrack.value
     })
 
     /**
@@ -182,11 +196,7 @@ export function usePlayerProvider() {
      */
 
     const _currentPlaylist = computed<number[]>(() => {
-        if (_shuffle.value) {
-            return playerStore.shufflePlaylist
-        } else {
-            return playerStore.playlist
-        }
+        return isShuffle.value ? playerStore.shufflePlaylist : playerStore.playlist
     })
 
     /**
@@ -195,7 +205,7 @@ export function usePlayerProvider() {
      */
 
     const _previousTrackID = computed<number[]>(() => {
-        if (_trackIndex.value === 0 && _repeatMode.value === RepeatMode.ON) {
+        if (_trackIndex.value === 0 && repeatMode.value === RepeatMode.ON) {
             return [_currentPlaylist.value[_currentPlaylist.value.length - 1], _currentPlaylist.value.length - 1]
         } else {
             return [_currentPlaylist.value[_trackIndex.value - 1], _trackIndex.value - 1]
@@ -208,7 +218,7 @@ export function usePlayerProvider() {
      */
 
     const _nextTrackID = computed<number[]>(() => {
-        if (_currentPlaylist.value.length === _trackIndex.value + 1 && _repeatMode.value === RepeatMode.ON) {
+        if (_currentPlaylist.value.length === _trackIndex.value + 1 && repeatMode.value === RepeatMode.ON) {
             return [_currentPlaylist.value[0], 0]
         } else {
             return [_currentPlaylist.value[_trackIndex.value + 1], _trackIndex.value + 1]
@@ -217,7 +227,7 @@ export function usePlayerProvider() {
 
     const _fetchPersonalFM = async () => {
         const { data } = await fetchPersonalFM()
-        _personalTrack.value = data[0]
+        _personalFMTrack.value = data[0]
     }
 
     /**
@@ -264,7 +274,7 @@ export function usePlayerProvider() {
             src: [audioSource],
             format: ['mp3', 'flac'],
             autoplay: true,
-            volume: _volume.value,
+            volume: volume.value,
             onend: () => nextTrack(),
         })
         play()
@@ -331,12 +341,12 @@ export function usePlayerProvider() {
         if (isPersonalFM.value) {
             return
         }
-        if (_repeatMode.value === RepeatMode.ON) {
-            _repeatMode.value = RepeatMode.ONE
-        } else if (_repeatMode.value === RepeatMode.ONE) {
-            _repeatMode.value = RepeatMode.OFF
+        if (repeatMode.value === RepeatMode.ON) {
+            repeatMode.value = RepeatMode.ONE
+        } else if (repeatMode.value === RepeatMode.ONE) {
+            repeatMode.value = RepeatMode.OFF
         } else {
-            _repeatMode.value = RepeatMode.ON
+            repeatMode.value = RepeatMode.ON
         }
     }
 
@@ -348,10 +358,10 @@ export function usePlayerProvider() {
         if (isPersonalFM.value) {
             return
         }
-        _shuffle.value = !_shuffle.value
+        playerStore.updateShuffle()
         if (isShuffle.value) {
             _shuffleTheList()
-        }else{
+        } else {
             playerStore.updateShufflePlaylist([])
         }
     }
@@ -361,18 +371,18 @@ export function usePlayerProvider() {
      */
 
     const mute = () => {
-        if (_volume.value === 0) {
-            _volume.value = _volumeBeforeMuted.value
+        if (volume.value === 0) {
+            volume.value = playerStore.volumeBeforeMuted
         } else {
-            _volumeBeforeMuted.value = _volume.value
-            _volume.value = 0
+            playerStore.updateVolumeBeforeMuted(volume.value)
+            volume.value = 0
         }
     }
 
     const moveToFMTrash = () => {
         nextTrack()
         FMTrash({
-            id: Number(_personalTrack.value?.id),
+            id: Number(_personalFMTrack.value?.id),
         })
     }
 
@@ -421,7 +431,7 @@ export function usePlayerProvider() {
     const nextTrack = async () => {
         if (isPersonalFM.value) {
             await _fetchPersonalFM()
-            await _replaceTrack(_personalTrack.value?.id || 0, 0)
+            await _replaceTrack(_personalFMTrack.value?.id || 0, 0)
         } else {
             const [id, index] = _nextTrackID.value
             _replaceTrack(id, index)
@@ -452,6 +462,7 @@ export function usePlayerProvider() {
         playlistSource,
         isPlaying,
         isPersonalFM,
+        isMute,
         track,
         progress,
         repeatMode,
