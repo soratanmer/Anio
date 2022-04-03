@@ -73,7 +73,6 @@ export function usePlayerProvider() {
     const state = ref<PlayerState>(PlayerState.INITIALIZING) // 播放器状态
     const playlistSource = ref<PlaylistSource | null>(null) // 当前播放列表的信息
 
-    const _personalFMTrack = ref<Track | null>(null) // 私人FM当前歌曲
     const _progressInterval = ref<ReturnType<typeof setInterval> | undefined>(undefined)
     const _howler = ref<Howl>(
         new Howl({
@@ -183,8 +182,13 @@ export function usePlayerProvider() {
      * 私人FM当前歌曲
      */
 
-    const personalFMTrack = computed(() => {
-        return _personalFMTrack.value
+    const personalFMTrack = computed<Track>({
+        get() {
+            return playerStore.personalFMTrack
+        },
+        set(track) {
+            playerStore.updatePersonalFMTrack(track)
+        },
     })
 
     const _trackIndex = computed<number>({
@@ -230,9 +234,21 @@ export function usePlayerProvider() {
         }
     })
 
+    const _initPlayer = () => {
+        if (!personalFMTrack.value.id) {
+            _fetchPersonalFM()
+        }
+
+        if (track.value.id) {
+            const autoplay = false
+            _replaceTrack(track.value.id, _trackIndex.value, autoplay)
+            _howler.value.seek(playerStore.progress)
+        }
+    }
+
     const _fetchPersonalFM = async () => {
         const { data } = await fetchPersonalFM()
-        _personalFMTrack.value = data[0]
+        personalFMTrack.value = data[0]
     }
 
     /**
@@ -396,7 +412,7 @@ export function usePlayerProvider() {
     const moveToFMTrash = () => {
         nextTrack()
         FMTrash({
-            id: Number(_personalFMTrack.value?.id),
+            id: Number(personalFMTrack.value.id),
         })
     }
 
@@ -450,7 +466,7 @@ export function usePlayerProvider() {
     const nextTrack = async () => {
         if (isPersonalFM.value) {
             await _fetchPersonalFM()
-            await _replaceTrack(_personalFMTrack.value?.id || 0, 0)
+            await _replaceTrack(personalFMTrack.value.id || 0, 0)
         } else {
             const [id, index] = _nextTrackID.value
             if (id === undefined) {
@@ -504,13 +520,7 @@ export function usePlayerProvider() {
         replacePlaylist,
     })
 
-    _fetchPersonalFM()
-
-    if (track.value.id) {
-        const autoplay = false
-        _replaceTrack(track.value.id, _trackIndex.value, autoplay)
-        _howler.value.seek(playerStore.progress)
-    }
+    _initPlayer()
 
     provide('player', player)
 }

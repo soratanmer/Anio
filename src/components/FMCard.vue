@@ -51,7 +51,7 @@
     const player = usePlayer()
 
     const albumUrl = computed(() => {
-        return resizeImage(player?.personalFMTrack?.album.picUrl || '', 'sm')
+        return resizeImage(player?.personalFMTrack?.album?.picUrl || '', 'sm')
     })
 
     const personalFMTrackID = computed(() => {

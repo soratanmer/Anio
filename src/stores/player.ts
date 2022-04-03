@@ -11,6 +11,7 @@ export const usePlayerStore = defineStore('player', {
             playlist: [] as TrackID[], // 正序播放列表
             shufflePlaylist: [] as TrackID[], // 被随机打乱的播放列表，随机播放模式下会使用此播放列表
             track: {} as Track, // 当前播放歌曲的详细信息
+            personalFMTrack: {} as Track, // 私人FM当前歌曲
             trackIndex: 0, // 当前播放歌曲在 playlist 里的index
             shuffleTrackIndex: 0, // 随机模式下，当前播放歌曲在 playlist 里的index
             volume: 0.1, // 音量：0 to 1， 默认为 0.1
@@ -39,6 +40,9 @@ export const usePlayerStore = defineStore('player', {
         },
         updateTrack(track: Track) {
             this.track = track
+        },
+        updatePersonalFMTrack(track: Track) {
+            this.personalFMTrack = track
         },
         updateTrackIndex(index: number) {
             this.trackIndex = index
