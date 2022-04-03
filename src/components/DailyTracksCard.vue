@@ -34,7 +34,7 @@
 <script setup lang="ts">
     import useFetchRecommendTracks from '@/hooks/useFetchRecommendTracks'
     import usePlayer from '@/hooks/usePlayer'
-    import { PlaylistSourceType } from '@/hooks/usePlayer'
+    import { PlaylistSourceType, PlayerMode } from '@/hooks/usePlayer'
     import { resizeImage } from '@/utils/common'
 
     const router = useRouter()
@@ -51,6 +51,7 @@
     })
 
     const play = () => {
+        player!.mode = PlayerMode.PLAYLIST
         player?.replacePlaylist(trackIDs.value, {
             type: PlaylistSourceType.PLAYLIST,
             id: Number(recommendTracks.value?.data.dailySongs[0].id),

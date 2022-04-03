@@ -5,6 +5,9 @@ import { fetchTracks, fetchAudioSource, scrobble } from '@/api/track'
 import { fetchPersonalFM, FMTrash } from '@/api/FM'
 import type { FMTrashParams } from '@/api/FM'
 
+import useUserLikedSongsIDs from '@/hooks/useFetchUserLikedSongsIDs'
+import useUserAccount from '@/hooks/useFetchUserAccount'
+
 import { usePlayerStore } from '@/stores/player'
 
 type TrackID = number
@@ -271,18 +274,19 @@ export function usePlayerProvider() {
      * @private
      */
 
-    const _playTrack = async (audioSource: string) => {
+    const _playTrack = async (audioSource: string, autoplay: boolean) => {
         Howler.unload()
         _howler.value = new Howl({
             src: [audioSource],
             format: ['mp3', 'flac'],
-            autoplay: true,
             volume: volume.value,
             onend: () => nextTrack(),
         })
-        play()
 
-        document.title = `${track.value.name} · ${track.value.ar[0].name} - Anio Music`
+        if (autoplay) {
+            play()
+            document.title = `${track.value.name} · ${track.value.ar[0].name} - Anio Music`
+        }
 
         if (!_progressInterval.value) {
             _setupProgressInterval()
@@ -305,7 +309,7 @@ export function usePlayerProvider() {
      * (内部方法) 获取音源
      */
 
-    const _fetchAudioSource = async (): Promise<void> => {
+    const _fetchAudioSource = async (autoplay: boolean): Promise<void> => {
         if (!track.value) {
             return Promise.reject()
         }
@@ -315,7 +319,7 @@ export function usePlayerProvider() {
         })
 
         if (neteaseSource[0].url) {
-            _playTrack(neteaseSource[0].url as string)
+            _playTrack(neteaseSource[0].url as string, autoplay)
         } else {
             nextTrack()
         }
@@ -329,7 +333,7 @@ export function usePlayerProvider() {
      * @private
      */
 
-    const _replaceTrack = async (trackID: TrackID, index: number) => {
+    const _replaceTrack = async (trackID: TrackID, index: number, autoplay = true) => {
         const { songs } = await fetchTracks({ ids: [trackID] })
         track.value = songs[0]
         _trackIndex.value = index
@@ -340,7 +344,7 @@ export function usePlayerProvider() {
 
         playerStore.updateShuffleTrackIndex(playerStore.playlist.indexOf(track.value.id))
 
-        return _fetchAudioSource()
+        return _fetchAudioSource(autoplay)
     }
 
     /**
@@ -432,7 +436,12 @@ export function usePlayerProvider() {
 
     const previousTrack = () => {
         const [id, index] = _previousTrackID.value
-        _replaceTrack(id, index)
+        if (id === undefined) {
+            _howler.value.stop()
+            state.value = PlayerState.PAUSED
+        } else {
+            _replaceTrack(id, index)
+        }
     }
 
     /**
@@ -444,8 +453,12 @@ export function usePlayerProvider() {
             await _replaceTrack(_personalFMTrack.value?.id || 0, 0)
         } else {
             const [id, index] = _nextTrackID.value
-
-            _replaceTrack(id, index)
+            if (id === undefined) {
+                _howler.value.stop()
+                state.value = PlayerState.PAUSED
+            } else {
+                _replaceTrack(id, index)
+            }
         }
     }
 
@@ -453,7 +466,6 @@ export function usePlayerProvider() {
      * 替换当前歌曲列表
      * @param trackIDs 歌曲ID列表
      * @param source 列表来源
-     * @param autoPlayTrackID 替换完歌曲列表后要自动播放的歌曲ID
      */
 
     const replacePlaylist = (trackIDs: TrackID[], source: PlaylistSource) => {
@@ -493,6 +505,12 @@ export function usePlayerProvider() {
     })
 
     _fetchPersonalFM()
+
+    if (track.value.id) {
+        const autoplay = false
+        _replaceTrack(track.value.id, _trackIndex.value, autoplay)
+        _howler.value.seek(playerStore.progress)
+    }
 
     provide('player', player)
 }

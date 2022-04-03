@@ -26,7 +26,7 @@
 
             <!-- Cover placeholder -->
             <div
-                v-if="player?.track && !cover"
+                v-if="player?.track?.id && !cover"
                 class="flex aspect-square h-full items-center justify-center rounded-md shadow-md bg-black/[0.04]"
             >
                 <SvgIcon class="h-6 w-6 text-gray-300" name="music-note"></SvgIcon>
@@ -34,17 +34,17 @@
 
             <div class="flex flex-col justify-center leading-tight">
                 <!-- Track name -->
-                <div v-if="player?.track" class="line-clamp-1 font-semibold text-black dark:text-white">
+                <div v-if="player?.track?.id" class="line-clamp-1 font-semibold text-black dark:text-white">
                     {{ trackName }}
                 </div>
 
                 <!-- Artists -->
-                <div v-if="player?.track" class="mt-0.5 text-xs text-black dark:text-white">
+                <div v-if="player?.track?.id" class="mt-0.5 text-xs text-black dark:text-white">
                     <ArtistInline :artists="player?.track.ar ?? []"></ArtistInline>
                 </div>
             </div>
 
-            <ButtonIcon v-show="player?.track" @click="likeTrack">
+            <ButtonIcon v-show="player?.track?.id" @click="likeTrack">
                 <SvgIcon
                     class="h-4 w-4 text-black dark:text-white"
                     :name="isLiked ? 'heart' : 'heart-outline'"
@@ -55,17 +55,17 @@
         <!-- Middle part -->
         <div class="flex items-center justify-center gap-2">
             <!-- Previous -->
-            <ButtonIcon v-if="!player?.isPersonalFM" :disabled="!player?.track" @click="player?.previousTrack()"
+            <ButtonIcon v-if="!player?.isPersonalFM" :disabled="!player?.track?.id" @click="player?.previousTrack()"
                 ><SvgIcon class="h-4 w-4 text-black dark:text-white" name="previous"></SvgIcon
             ></ButtonIcon>
 
             <!-- Dislike -->
-            <ButtonIcon v-if="player?.isPersonalFM" :disabled="!player?.track" @click="player?.moveToFMTrash()">
+            <ButtonIcon v-if="player?.isPersonalFM" :disabled="!player?.track?.id" @click="player?.moveToFMTrash()">
                 <SvgIcon class="h-4 w-4 text-black dark:text-white" name="dislike"></SvgIcon>
             </ButtonIcon>
 
             <!-- Play / Pause -->
-            <ButtonIcon :disabled="!player?.track" @click="player?.playOrPause()">
+            <ButtonIcon :disabled="!player?.track?.id" @click="player?.playOrPause()">
                 <SvgIcon
                     class="h-5 w-5 text-black dark:text-white"
                     :name="player?.isPlaying ? 'pause' : 'play'"
@@ -73,7 +73,7 @@
             </ButtonIcon>
 
             <!-- Next -->
-            <ButtonIcon :disabled="!player?.track" @click="player?.nextTrack()">
+            <ButtonIcon :disabled="!player?.track?.id" @click="player?.nextTrack()">
                 <SvgIcon class="h-4 w-4 text-black dark:text-white" name="next"></SvgIcon>
             </ButtonIcon>
         </div>
@@ -99,7 +99,10 @@
                 <SvgIcon class="h-4 w-4 text-black dark:text-white" name="shuffle"></SvgIcon>
             </ButtonIcon>
             <ButtonIcon @click="player?.mute()">
-                <SvgIcon class="h-4 w-4 text-black dark:text-white" :name="player?.isMute ? 'volume-mute':'volume'"></SvgIcon>
+                <SvgIcon
+                    class="h-4 w-4 text-black dark:text-white"
+                    :name="player?.isMute ? 'volume-mute' : 'volume'"
+                ></SvgIcon>
             </ButtonIcon>
             <ButtonIcon>
                 <SvgIcon class="h-4 w-4 text-black dark:text-white" name="arrow-up"></SvgIcon>
@@ -138,10 +141,6 @@
 
     const trackName = computed(() => {
         return player?.track?.name
-    })
-
-    watch(isLiked, () => {
-        console.log(isLiked.value)
     })
 
     const likeTrack = () => {

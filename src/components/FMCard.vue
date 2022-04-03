@@ -68,10 +68,14 @@
 
     const play = () => {
         player!.mode = PlayerMode.FM
-        player?.replacePlaylist([personalFMTrackID.value], {
-            type: PlaylistSourceType.FM,
-            id: personalFMTrackID.value,
-        })
+        if (player?.personalFMTrack?.id !== player?.track?.id) {
+            player?.replacePlaylist([personalFMTrackID.value], {
+                type: PlaylistSourceType.FM,
+                id: personalFMTrackID.value,
+            })
+        } else {
+            player?.playOrPause()
+        }
     }
 </script>
 
