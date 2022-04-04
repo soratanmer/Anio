@@ -58,8 +58,8 @@
                 <!-- Button -->
                 <div class="mt-5 flex gap-4">
                     <Button :is-skeleton="isLoadingAlbum" @click="play">
-                        <SvgIcon class="h-4 w-4" name="play"></SvgIcon>PLAY</Button
-                    >
+                        <SvgIcon class="h-4 w-4" name="play"></SvgIcon
+                    ></Button>
                     <Button :is-skeleton="isLoadingAlbum" shape="square" color="gray">
                         <SvgIcon class="h-4 w-4" name="heart"></SvgIcon
                     ></Button>

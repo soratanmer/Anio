@@ -71,6 +71,14 @@ const routes: RouteRecordRaw[] = [
         },
     },
     {
+        name: 'newSongs',
+        path: '/newSongs',
+        component: () => import('@/view/NewSongs.vue'),
+        meta: {
+            keepAlive: true,
+        },
+    },
+    {
         name: '404',
         path: '/404',
         component: () => import('@/view/404.vue'),

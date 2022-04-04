@@ -48,6 +48,7 @@ export interface PlayerPublic {
     mode: PlayerMode
     track: Track | null
     personalFMTrack: Track | null
+    currentTrackDuration: number
     progress: number
     repeatMode: RepeatMode
     volume: number
@@ -118,6 +119,14 @@ export function usePlayerProvider() {
         set(track) {
             playerStore.updatePersonalFMTrack(track)
         },
+    })
+
+    /**
+     * 当前歌曲时长
+     */
+
+    const currentTrackDuration = computed(() => {
+        return track.value.dt / 1000
     })
 
     /**
@@ -534,6 +543,7 @@ export function usePlayerProvider() {
         mode,
         track,
         personalFMTrack,
+        currentTrackDuration,
         progress,
         repeatMode,
         volume,

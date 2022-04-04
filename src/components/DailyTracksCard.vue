@@ -60,7 +60,7 @@
 </script>
 
 <style scoped langs="scss">
-    @keyframes move {
+    /* @keyframes move {
         0% {
             transform: translateY(0);
         }
@@ -72,5 +72,5 @@
     img {
         animation: move 38s infinite;
         animation-direction: alternate;
-    }
+    } */
 </style>

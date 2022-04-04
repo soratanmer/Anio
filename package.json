@@ -13,6 +13,7 @@
     "axios": "^0.26.1",
     "color.js": "^1.2.0",
     "colord": "^2.9.2",
+    "daisyui": "^2.13.6",
     "dayjs": "^1.11.0",
     "dotenv": "^16.0.0",
     "element-plus": "^2.1.6",
@@ -23,7 +24,8 @@
     "pinia-plugin-persist": "^1.0.0",
     "vue": "^3.2.31",
     "vue-query": "^1.19.3",
-    "vue-router": "4"
+    "vue-router": "4",
+    "vue-slider-component": "^4.0.0-beta.4"
   },
   "devDependencies": {
     "@types/howler": "^2.2.6",

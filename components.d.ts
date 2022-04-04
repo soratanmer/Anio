@@ -28,6 +28,8 @@ declare module 'vue' {
     Home: typeof import('./src/view/Home.vue')['default']
     Library: typeof import('./src/view/Library.vue')['default']
     Login: typeof import('./src/view/Login.vue')['default']
+    NewSongs: typeof import('./src/view/NewSongs.vue')['default']
+    NewSongsCard: typeof import('./src/components/NewSongsCard.vue')['default']
     Player: typeof import('./src/components/Player.vue')['default']
     Playlist: typeof import('./src/view/Playlist.vue')['default']
     Search: typeof import('./src/view/Search.vue')['default']

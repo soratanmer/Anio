@@ -4,7 +4,15 @@
         class="sticky bottom-0 grid h-16 w-full grid-cols-3 grid-rows-1 bg-opacity-[0.86] py-2.5 px-5 backdrop-blur-xl backdrop-saturate-[1.8]"
     >
         <!-- mock slider -->
-        <div class="absolute h-[2px] w-full bg-black bg-opacity-5"></div>
+        <div class="absolute h-[2px] w-full bg-black bg-opacity-5">
+            <input
+                type="range"
+                min="0"
+                :max="player?.currentTrackDuration"
+                v-model="player.progress"
+                class="h-0.5 w-full absolute"
+            />
+        </div>
 
         <!-- Left part -->
         <div class="flex items-center gap-3">
@@ -98,12 +106,17 @@
             <ButtonIcon :disabled="!player?.isShuffle" @click="player?.switchShuffle()">
                 <SvgIcon class="h-4 w-4 text-black dark:text-white" name="shuffle"></SvgIcon>
             </ButtonIcon>
-            <ButtonIcon @click="player?.mute()">
-                <SvgIcon
-                    class="h-4 w-4 text-black dark:text-white"
-                    :name="player?.isMute ? 'volume-mute' : 'volume'"
-                ></SvgIcon>
-            </ButtonIcon>
+            <div class="ml-1 flex items-center">
+                <ButtonIcon @click="player?.mute()">
+                    <SvgIcon
+                        class="h-4 w-4 text-black dark:text-white"
+                        :name="player?.isMute ? 'volume-mute' : 'volume'"
+                    ></SvgIcon>
+                </ButtonIcon>
+                <div class="w-20">
+                    <input type="range" min="0" max="1" step="0.01" v-model="player.volume" class="h-1 w-full">
+                </div>
+            </div>
             <ButtonIcon>
                 <SvgIcon class="h-4 w-4 text-black dark:text-white" name="arrow-up"></SvgIcon>
             </ButtonIcon>
