@@ -57,12 +57,12 @@ export enum NewAlbumsArea {
 }
 
 export interface FetchNewAlbumsParams {
-    limit?: number
-    offset?: number
+    limit: number
+    offset: number
     area: NewAlbumsArea
 }
 
-interface FetchNewAlbumsResponse {
+export interface FetchNewAlbumsResponse {
     total: number
     albums: Album[]
     code: number
