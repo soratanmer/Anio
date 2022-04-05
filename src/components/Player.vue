@@ -117,9 +117,9 @@
                     <input type="range" min="0" max="1" step="0.01" v-model="player.volume" class="h-0.5 w-full">
                 </div>
             </div>
-            <ButtonIcon>
+            <!-- <ButtonIcon>
                 <SvgIcon class="h-4 w-4 text-black dark:text-white" name="arrow-up"></SvgIcon>
-            </ButtonIcon>
+            </ButtonIcon> -->
         </div>
     </div>
 </template>

@@ -42,9 +42,9 @@
 </template>
 
 <script setup lang="ts">
-    import { loginWithEmail } from '@/api/auth';
-import { setCookie } from '@/utils/cookie';
-import md5 from 'md5';
+    import { loginWithEmail } from '@/api/auth'
+    import { setCookie } from '@/utils/cookie'
+    import md5 from 'md5'
 
     const router = useRouter()
 

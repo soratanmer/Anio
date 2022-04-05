@@ -79,6 +79,16 @@ const routes: RouteRecordRaw[] = [
         },
     },
     {
+        name: 'nextSongs',
+        path: '/nextSongs',
+        component: () => import('@/view/NextSongs.vue'),
+    },
+    {
+        name: 'settings',
+        path: '/settings',
+        component: () => import('@/view/Settings.vue'),
+    },
+    {
         name: '404',
         path: '/404',
         component: () => import('@/view/404.vue'),

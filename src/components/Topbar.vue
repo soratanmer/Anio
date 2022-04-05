@@ -7,13 +7,9 @@
         <div class="flex gap-2">
             <!-- Navigation buttons -->
             <div class="flex gap-1">
-                <div
-                    v-for="action in ['back', 'forward']"
-                    class="app-region-no-drag btn-hover-animation rounded-lg p-2.5 text-black dark:text-white transition duration-300 after:rounded-lg after:bg-green-200 hover:text-gray-900"
-                    @click="router[action]()"
-                >
-                    <SvgIcon class="h-5 w-5" :name="action"></SvgIcon>
-                </div>
+                <ButtonIcon v-for="action in ['back', 'forward']" @click="router[action]()">
+                    <SvgIcon class="h-5 w-5 text-black dark:text-white" :name="action"></SvgIcon>
+                </ButtonIcon>
             </div>
 
             <!-- Search input -->
@@ -36,11 +32,15 @@
 
         <!-- Right part -->
         <div class="flex items-center gap-3">
-            <div
-                class="app-region-no-drag btn-hover-animation rounded-lg p-2.5 text-black dark:text-white transition duration-300 after:rounded-lg after:bg-green-200 hover:text-gray-900"
+            <ButtonIcon
+                @click="
+                    router.push({
+                        name: 'settings',
+                    })
+                "
             >
-                <SvgIcon class="w-5 h-5" name="settings"></SvgIcon>
-            </div>
+                <SvgIcon class="h-5 w-5 text-black dark:text-white" name="settings"></SvgIcon>
+            </ButtonIcon>
             <img
                 class="app-region-no-drag h-9 w-9 rounded-lg bg-gray-500"
                 :src="

@@ -73,7 +73,7 @@
     const secondaryTabs: Tab[] = [
         {
             name: '播放列表',
-            route: '/next',
+            route: '/nextSongs',
         },
         {
             name: '最近播放',

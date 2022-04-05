@@ -43,7 +43,7 @@
 
             <!-- Track number -->
             <div v-if="isAlbum && !isHighLight" class="self-center group-hover:hidden text-black dark:text-white">
-                {{ props.track.no }}
+                {{ track.no }}
             </div>
 
             <!-- Pause button -->
@@ -69,7 +69,7 @@
                         'text-base': !fullWidth,
                     }"
                 >
-                    {{ props.track.name }}
+                    {{ track.name }}
                 </div>
                 <Skeleton
                     v-else
@@ -139,7 +139,6 @@
 <script setup lang="ts">
     import usePlayer from '@/hooks/usePlayer'
     import { formatDuration, resizeImage } from '@/utils/common'
-    import { track } from '@vue/reactivity'
     import type { PropType } from 'vue'
 
     const props = defineProps({
