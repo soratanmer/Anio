@@ -1,7 +1,7 @@
 <template>
     <div
         v-if="!isLoadingNewSongs"
-        class="relative cursor-pointer overflow-hidden rounded-lg"
+        class="relative cursor-pointer overflow-hidden rounded-lg group"
         @click="
             router.push({
                 name: 'newSongs',
@@ -9,12 +9,21 @@
         "
     >
         <!-- Cover -->
-        <Cover :image-url="coverUrl"></Cover>
-        <!-- <img class="absolute top-0 left-0 w-full" :src="coverUrl" alt="cover" /> -->
+        <img class="absolute top-0 left-0 h-full w-full" :src="coverUrl" alt="cover" />
 
         <!-- 新歌速递 -->
         <div class="absolute z-10 text-white text-4xl top-2 left-2">New</div>
         <div class="absolute h-32 w-32 bg-green-500 rounded-full -top-16 -left-16"></div>
+
+        <!-- Play button -->
+        <div class="absolute top-0 hidden h-full w-full place-content-center group-hover:grid">
+            <button
+                class="btn-pressed-animation grid h-11 w-11 cursor-default place-content-center rounded-lg border border-white border-opacity-[.08] bg-white bg-opacity-[.14] text-white backdrop-blur backdrop-filter transition-all hover:bg-opacity-[.44]"
+                @click.stop="play"
+            >
+                <SvgIcon class="ml-1 h-4 w-4 text-black dark:text-white" name="play"></SvgIcon>
+            </button>
+        </div>
     </div>
     <Skeleton v-else class="relative h-64 rounded-lg"></Skeleton>
 </template>

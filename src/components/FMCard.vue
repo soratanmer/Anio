@@ -4,7 +4,7 @@
         <img id="background" class="absolute top-0 left-0 w-full blur-lg opacity-75" :src="albumUrl" />
 
         <!-- cover -->
-        <img class="z-10 rounded-lg shadow-2xl" :src="albumUrl" />
+        <img class="z-10 rounded-lg" :src="albumUrl" />
 
         <!-- track info  -->
         <div class="z-10 ml-5 flex w-full flex-col justify-between text-white">
