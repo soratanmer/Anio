@@ -27,7 +27,7 @@
                         'h-12 w-12': fullWidth,
                         'h-9 w-9': !fullWidth,
                     }"
-                    :src="resizeImage(track.al.picUrl, 'xs')"
+                    :src="coverUrl"
                     alt="cover"
                 />
 
@@ -43,7 +43,7 @@
 
             <!-- Track number -->
             <div v-if="isAlbum && !isHighLight" class="self-center group-hover:hidden text-black dark:text-white">
-                {{ track.no }}
+                {{ props.track.no }}
             </div>
 
             <!-- Pause button -->
@@ -69,7 +69,7 @@
                         'text-base': !fullWidth,
                     }"
                 >
-                    {{ track.name }}
+                    {{ props.track.name }}
                 </div>
                 <Skeleton
                     v-else
@@ -87,7 +87,7 @@
                         'text-xs': !fullWidth,
                     }"
                 >
-                    <ArtistInline v-if="!isSkeleton" :artists="track.ar"></ArtistInline>
+                    <ArtistInline v-if="!isSkeleton" :artists="artists"></ArtistInline>
                     <Skeleton v-else class="w-2/3 translate-y-px">PLACE</Skeleton>
                 </div>
             </div>
@@ -96,12 +96,12 @@
         <!-- Album name (playlist page only) -->
         <div v-if="isList && !isSkeleton" class="col-span-4 flex items-center text-black dark:text-white">
             <span
-                @click="router.push({ name: 'album', params: { id: track.al.id } })"
+                @click="router.push({ name: 'album', params: { id: albumID } })"
                 class="decoration-2 hover:underline"
                 :class="{
                     'decoration-gray-600': !isHighLight,
                 }"
-                >{{ track.al.name }}</span
+                >{{ albumName }}</span
             ><span class="flex-grow"></span>
         </div>
 
@@ -111,7 +111,7 @@
 
         <!-- Artists (album page only) -->
         <div v-if="isAlbum" class="col-span-4 text-black dark:text-white">
-            <ArtistInline v-if="!isSkeleton" :artists="track.ar" />
+            <ArtistInline v-if="!isSkeleton" :artists="artists" />
             <Skeleton v-else class="w-2/3 translate-y-px">PLACE</Skeleton>
         </div>
 
@@ -129,7 +129,7 @@
 
             <!-- Track duration -->
             <div v-if="!isSkeleton" class="text-black dark:text-white">{{
-                formatDuration(track.dt, 'zh-CN', 'hh:mm:ss')
+                formatDuration(trackDuration, 'zh-CN', 'hh:mm:ss')
             }}</div>
             <Skeleton v-else>0:00</Skeleton>
         </div>
@@ -137,8 +137,9 @@
 </template>
 
 <script setup lang="ts">
-import usePlayer from '@/hooks/usePlayer';
+    import usePlayer from '@/hooks/usePlayer'
     import { formatDuration, resizeImage } from '@/utils/common'
+    import { track } from '@vue/reactivity'
     import type { PropType } from 'vue'
 
     const props = defineProps({
@@ -185,5 +186,37 @@ import usePlayer from '@/hooks/usePlayer';
 
     const isHighLight = computed(() => {
         return player?.track?.id === props.track.id
+    })
+
+    const coverUrl = computed(() => {
+        if (props.track.al) {
+            return resizeImage(props.track.al.picUrl, 'xs')
+        } else if (props.track.album) {
+            return resizeImage(props.track.album.picUrl, 'xs')
+        }
+    })
+
+    const artists = computed(() => {
+        return props.track.ar || props.track.artists
+    })
+
+    const albumID = computed(() => {
+        if (props.track.al) {
+            return props.track.al.id
+        } else if (props.track.album) {
+            return props.track.album.id
+        }
+    })
+
+    const albumName = computed(() => {
+        if (props.track.al) {
+            return props.track.al.name
+        } else if (props.track.album) {
+            return props.track.album.name
+        }
+    })
+
+    const trackDuration = computed(() => {
+        return props.track.dt || props.track.duration
     })
 </script>

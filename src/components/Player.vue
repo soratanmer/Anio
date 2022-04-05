@@ -113,8 +113,8 @@
                         :name="player?.isMute ? 'volume-mute' : 'volume'"
                     ></SvgIcon>
                 </ButtonIcon>
-                <div class="w-20">
-                    <input type="range" min="0" max="1" step="0.01" v-model="player.volume" class="h-1 w-full">
+                <div class="w-20 flex items-center">
+                    <input type="range" min="0" max="1" step="0.01" v-model="player.volume" class="h-0.5 w-full">
                 </div>
             </div>
             <ButtonIcon>

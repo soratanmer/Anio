@@ -15,15 +15,22 @@
     import useFetchRecentSongs from '@/hooks/useFetchRecentSongs'
     import useFetchTracksInfinite from '@/hooks/useFetchTracksInfinite'
     import { useSettingsStore } from '@/stores/settints'
+    import { usePlayerStore } from "@/stores/player";
+
+    const playerStore = usePlayerStore()
 
     const { recentSongsLimit } = useSettingsStore()
 
     // const recentSongsLimit = ref<number>(300)
 
-    const { data: recentSongs, isLoading: isLoadingRecentSongs } = useFetchRecentSongs(reactive({ limit: recentSongsLimit }))
+    // const { data: recentSongs, isLoading: isLoadingRecentSongs } = useFetchRecentSongs(reactive({ limit: recentSongsLimit }))
 
-    const trackIDs = computed(() => {
-        return recentSongs.value?.data.list.map((item) => item.data.id) || []
+    // const trackIDs = computed(() => {
+    //     return recentSongs.value?.data.list.map((item) => item.data.id) || []
+    // })
+
+    const trackIDs = computed(()=>{
+        return playerStore.history
     })
 
     const {

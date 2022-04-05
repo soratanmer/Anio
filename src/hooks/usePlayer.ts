@@ -46,6 +46,7 @@ export interface PlayerPublic {
     state: PlayerState
     playlistSource: PlaylistSource | null
     mode: PlayerMode
+    currentPlaylist: TrackID[]
     track: Track | null
     personalFMTrack: Track | null
     currentTrackDuration: number
@@ -93,6 +94,14 @@ export function usePlayerProvider() {
         set(mode: PlayerMode) {
             playerStore.updatePlayerMode(mode)
         },
+    })
+
+    /**
+     * 获取当前播放列表
+     */
+
+    const currentPlaylist = computed<number[]>(() => {
+        return isShuffle.value ? playerStore.shufflePlaylist : playerStore.playlist
     })
 
     /**
@@ -219,15 +228,6 @@ export function usePlayerProvider() {
     })
 
     /**
-     * 获取当前播放列表
-     * @private
-     */
-
-    const _currentPlaylist = computed<number[]>(() => {
-        return isShuffle.value ? playerStore.shufflePlaylist : playerStore.playlist
-    })
-
-    /**
      * 上一首的歌曲ID
      * @returns {[number, number]} [上一首的歌曲ID, 上一首歌曲在歌曲列表里 index]
      * @private
@@ -235,9 +235,9 @@ export function usePlayerProvider() {
 
     const _previousTrackID = computed<number[]>(() => {
         if (_trackIndex.value === 0 && repeatMode.value === RepeatMode.ON) {
-            return [_currentPlaylist.value[_currentPlaylist.value.length - 1], _currentPlaylist.value.length - 1]
+            return [currentPlaylist.value[currentPlaylist.value.length - 1], currentPlaylist.value.length - 1]
         } else {
-            return [_currentPlaylist.value[_trackIndex.value - 1], _trackIndex.value - 1]
+            return [currentPlaylist.value[_trackIndex.value - 1], _trackIndex.value - 1]
         }
     })
 
@@ -248,10 +248,10 @@ export function usePlayerProvider() {
      */
 
     const _nextTrackID = computed<number[]>(() => {
-        if (_currentPlaylist.value.length === _trackIndex.value + 1 && repeatMode.value === RepeatMode.ON) {
-            return [_currentPlaylist.value[0], 0]
+        if (currentPlaylist.value.length === _trackIndex.value + 1 && repeatMode.value === RepeatMode.ON) {
+            return [currentPlaylist.value[0], 0]
         } else {
-            return [_currentPlaylist.value[_trackIndex.value + 1], _trackIndex.value + 1]
+            return [currentPlaylist.value[_trackIndex.value + 1], _trackIndex.value + 1]
         }
     })
 
@@ -534,13 +534,14 @@ export function usePlayerProvider() {
             _shuffleTheList()
         }
 
-        _replaceTrack(_currentPlaylist.value[0], 0)
+        _replaceTrack(currentPlaylist.value[0], 0)
     }
 
     const player = reactive({
         state,
         playlistSource,
         mode,
+        currentPlaylist,
         track,
         personalFMTrack,
         currentTrackDuration,

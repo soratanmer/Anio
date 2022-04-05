@@ -1,0 +1,84 @@
+<template>
+    <div class="mt-10">
+        <div class="grid grid-cols-[16rem_auto] items-center gap-9">
+            <!-- Cover -->
+            <div class="relative z-0 aspect-square self-start">
+                <div
+                    v-if="!isLoadingNewSongs"
+                    class="absolute top-3.5 z-[-1] h-full w-full scale-x-[.92] scale-y-[.96] rounded-lg bg-cover opacity-40 blur-lg filter"
+                    :style="{
+                        backgroundImage: `url(&quot;${coverUrl}&quot;)`,
+                    }"
+                >
+                </div>
+
+                <img
+                    v-if="!isLoadingNewSongs"
+                    class="rounded-lg border border-black border-opacity-5"
+                    :src="coverUrl"
+                    alt="cover"
+                />
+                <Skeleton v-else class="h-full w-full rounded-lg"></Skeleton>
+            </div>
+
+            <!-- DailyTracks Info -->
+            <div class="z-10">
+                <div v-if="!isLoadingNewSongs" class="text-4xl font-bold text-black dark:text-white">
+                    新歌速递
+                </div>
+                <Skeleton v-else class="w-3/4 text-4xl">PLACEHOLDER</Skeleton>
+
+                <!-- DailyTracks description -->
+                <div
+                    v-if="!isLoadingNewSongs"
+                    class="line-clamp-2 mt-5 min-h-10 text-sm text-black dark:text-white"
+                >
+                    开启最强新歌雷达，为你带来专属新歌能量！
+                </div>
+                <Skeleton v-else class="mt-5 min-h-10 w-1/2 text-sm">PLACEHOLDER</Skeleton>
+
+                <!-- Buttons -->
+                <div class="mt-5 flex gap-4">
+                    <Button :is-skeleton="isLoadingNewSongs" shape="button">
+                        <SvgIcon class="h-4 w-4" name="play"></SvgIcon>
+                    </Button>
+
+                    <Button :is-skeleton="isLoadingNewSongs" shape="button" color="gray">
+                        <SvgIcon class="h-4 w-4" name="heart"></SvgIcon>
+                    </Button>
+                </div>
+            </div>
+        </div>
+
+        <TrackList
+            class="mt-10"
+            :tracks="newSongs?.data || []"
+            layout="list"
+            :is-loading="isLoadingNewSongs"
+        ></TrackList>
+    </div>
+</template>
+
+<script setup lang="ts">
+    import useFetchTopSongs from '@/hooks/useFetchTopSongs'
+    import usePlayer from '@/hooks/usePlayer'
+    import { PlaylistSourceType, PlayerMode } from '@/hooks/usePlayer'
+    import { TopSongsType } from '@/api/track'
+    import { resizeImage } from '@/utils/common'
+
+    const player = usePlayer()
+
+    const { data: newSongs, isLoading: isLoadingNewSongs } = useFetchTopSongs(
+        reactive({
+            type: TopSongsType.JP,
+        }),
+    )
+
+    const coverUrl = computed(() => {
+        return resizeImage(newSongs.value?.data[0].album.picUrl || '', 'lg')
+    })
+
+    const trackIDs = computed(() => {
+        return newSongs.value?.data.map((item) => item.id) || []
+    })
+</script>
