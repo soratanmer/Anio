@@ -39,13 +39,9 @@
 
                 <!-- Buttons -->
                 <div class="mt-5 flex gap-4">
-                    <Button :is-skeleton="isLoadingNewSongs" shape="button">
-                        <SvgIcon class="h-4 w-4" name="play"></SvgIcon>
-                    </Button>
-
-                    <Button :is-skeleton="isLoadingNewSongs" shape="button" color="gray">
-                        <SvgIcon class="h-4 w-4" name="heart"></SvgIcon>
-                    </Button>
+                    <ButtonIcon @click="play">
+                        <SvgIcon class="h-5 w-5 text-black dark:text-white" name="play"></SvgIcon>
+                    </ButtonIcon>
                 </div>
             </div>
         </div>
@@ -81,4 +77,12 @@
     const trackIDs = computed(() => {
         return newSongs.value?.data.map((item) => item.id) || []
     })
+
+        const play = () => {
+        player!.mode = PlayerMode.PLAYLIST
+        player?.replacePlaylist(trackIDs.value, {
+            type: PlaylistSourceType.PLAYLIST,
+            id: Number(newSongs.value?.data[0].id),
+        })
+    }
 </script>

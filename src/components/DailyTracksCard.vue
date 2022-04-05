@@ -9,24 +9,12 @@
         "
     >
         <!-- cover  -->
-        <img class="absolute top-0 left-0 w-full will-change-transform" :src="coverUrl" />
+        <Cover :image-url="coverUrl"></Cover>
+        <!-- <img class="absolute top-0 left-0 w-full will-change-transform" :src="coverUrl" /> -->
 
         <!-- 每日推荐 -->
-        <div class="absolute flex h-full w-1/2 items-center bg-gradient-to-r from-[#0000004d] to-transparent pl-8">
-            <div
-                class="grid grid-cols-2 grid-rows-2 gap-2 text-[64px] font-semibold leading-[64px] text-white opacity-[96]"
-            >
-                <div v-for="word in Array.from('每日推荐')">{{ word }}</div>
-            </div>
-        </div>
-
-        <!-- play button -->
-        <button
-            class="btn-pressed-animation absolute right-6 bottom-6 grid h-11 w-11 cursor-default place-content-center rounded-lg border border-white border-opacity-[.08] bg-white bg-opacity-[.14] text-white backdrop-blur backdrop-filter transition-all hover:bg-opacity-[.44]"
-            @click.stop="play"
-        >
-            <SvgIcon name="play" class="ml-1 h-4 w-4 text-green-500" />
-        </button>
+        <div class="absolute z-10 text-white text-4xl top-2 right-2">Daily</div>
+        <div class="absolute h-32 w-32 bg-blue-500 rounded-full -top-16 -right-16"></div>
     </div>
     <Skeleton v-else class="relative h-64 rounded-lg"></Skeleton>
 </template>
@@ -58,19 +46,3 @@
         })
     }
 </script>
-
-<style scoped langs="scss">
-    /* @keyframes move {
-        0% {
-            transform: translateY(0);
-        }
-        100% {
-            transform: translateY(-50%);
-        }
-    }
-
-    img {
-        animation: move 38s infinite;
-        animation-direction: alternate;
-    } */
-</style>

@@ -39,13 +39,9 @@
 
                 <!-- Buttons -->
                 <div class="mt-5 flex gap-4">
-                    <Button :is-skeleton="isLoadingRecommendTracks" shape="button">
-                        <SvgIcon class="h-4 w-4" name="play"></SvgIcon>
-                    </Button>
-
-                    <Button :is-skeleton="isLoadingRecommendTracks" shape="button" color="gray">
-                        <SvgIcon class="h-4 w-4" name="heart"></SvgIcon>
-                    </Button>
+                    <ButtonIcon @click="play">
+                        <SvgIcon class="h-5 w-5 text-black dark:text-white" name="play"></SvgIcon>
+                    </ButtonIcon>
                 </div>
             </div>
         </div>
@@ -61,6 +57,7 @@
 
 <script setup lang="ts">
     import usePlayer from '@/hooks/usePlayer'
+    import { PlaylistSourceType, PlayerMode } from '@/hooks/usePlayer'
     import useFetchRecommendTracks from '@/hooks/useFetchRecommendTracks'
     import { resizeImage } from '@/utils/common'
 
@@ -75,4 +72,12 @@
     const trackIDs = computed(() => {
         return recommendTracks.value?.data.dailySongs.map((t) => t.id) || []
     })
+
+    const play = () => {
+        player!.mode = PlayerMode.PLAYLIST
+        player?.replacePlaylist(trackIDs.value, {
+            type: PlaylistSourceType.PLAYLIST,
+            id: Number(recommendTracks.value?.data.dailySongs[0].id),
+        })
+    }
 </script>

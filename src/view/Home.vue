@@ -2,9 +2,9 @@
     <div>
         <div class="mt-10 mb-4 text-3xl font-bold text-black dark:text-white">For You</div>
         <div class="grid grid-cols-6 gap-6 mt-10 mb-4">
-            <FMCard class="col-span-2"></FMCard>
-            <DailyTracksCard class="col-span-2"></DailyTracksCard>
-            <NewSongsCard class="col-span-2"></NewSongsCard>
+            <FMCard class="col-span-3"></FMCard>
+            <DailyTracksCard class="col-span-1"></DailyTracksCard>
+            <NewSongsCard class="col-span-1"></NewSongsCard>
         </div>
 
         <CoverRow
