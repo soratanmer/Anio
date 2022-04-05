@@ -1,11 +1,31 @@
-# Vue 3 + Typescript + Vite
+# Anio Music
 
-This template should help get you started developing with Vue 3 and Typescript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+![home][home-screenshot]
 
-## Recommended IDE Setup
+## ✨ 特性
 
-- [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar)
+- ✅ 使用 Vue 3 + Typescript + Vite + Tailwind CSS 开发
+- 🔴 网易云账号登录（手机/邮箱登录）
+- 📻 支持私人 FM / 每日推荐歌曲
+- 🚫🤝 无任何社交功能
+- 🛠 更多特性开发中
 
-## Type Support For `.vue` Imports in TS
+## :computer: 配置开发环境
 
-Since TypeScript cannot handle type information for `.vue` imports, they are shimmed to be a generic Vue component type by default. In most cases this is fine if you don't really care about component prop types outside of templates. However, if you wish to get actual prop types in `.vue` imports (for example to get props validation when using manual `h(...)` calls), you can enable Volar's `.vue` type support plugin by running `Volar: Switch TS Plugin on/off` from VSCode command palette.
+本项目使用 [Binaryify/NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi) 。
+
+运行本项目
+
+```shell
+# 安装依赖
+yarn
+
+# 创建本地环境变量
+cp .env.example .env
+
+# 运行
+yarn dev
+```
+
+[home-screenshot]: images/home-screenshot.png
+
