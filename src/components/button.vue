@@ -5,7 +5,7 @@
             'px-4 py-1.5': shape === 'default',
             'px-3 py-1.5': shape === 'square',
             'px-3 py-3': shape === 'button',
-            'animate-pulse bg-gray-100 text-transparent': isSkeleton,
+            'animate-pulse bg-green-400 text-transparent': isSkeleton,
         }"
     >
         <slot></slot>

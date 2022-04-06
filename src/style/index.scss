@@ -49,6 +49,44 @@
     .line-clamp-3 {
         @include line-clamp(3);
     }
+    .range-slider {
+        -webkit-appearance: none;
+
+        @apply bg-transparent overflow-hidden;
+
+        &:focus-visible::-webkit-slider-thumb {
+            --focus-shadow: 0 0 0 6px;
+        }
+
+        &:focus-visible::-moz-range-thumb {
+            --focus-shadow: 0 0 0 6px;
+        }
+
+        &::-webkit-slider-runnable-track {
+            @apply h-1 w-full bg-gray-400;
+        }
+
+        &::-moz-range-track {
+            @apply h-1 w-full bg-gray-400;
+        }
+
+        &::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            @apply relative h-1 w-1 text-green-500 top-1/2 -translate-y-1/2;
+            --filler-size: 100rem;
+            --filler-offset: 0.1rem;
+            box-shadow: 0 0 0 3px #22c55e inset, var(--focus-shadow, 0 0),
+                calc(var(--filler-size) * -1 - var(--filler-offset)) 0 0 var(--filler-size);
+        }
+
+        &::-moz-range-thumb {
+            @apply relative h-1 w-1 text-green-500 top-1/2 -translate-y-1/2;
+            --filler-size: 100rem;
+            --filler-offset: 0.1rem;
+            box-shadow: 0 0 0 3px #22c55e inset, var(--focus-shadow, 0 0),
+                calc(var(--filler-size) * -1 - var(--filler-offset)) 0 0 var(--filler-size);
+        }
+    }
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
