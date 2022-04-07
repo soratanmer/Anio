@@ -60,15 +60,18 @@
 </template>
 
 <script setup lang="ts">
-    import useFetchUserAccount from '@/hooks/useFetchUserAccount'
     import { useUiStore } from '@/stores/ui'
+    import { useUserStore } from '@/stores/user'
     import { resizeImage } from '@/utils/common'
     import { isLoggedIn } from '@/utils/user'
 
     const router = useRouter()
     const uiStore = useUiStore()
+    const userStore = useUserStore()
 
-    const { data: userAccount } = useFetchUserAccount()
+    const userAccount = computed(() => {
+        return userStore.userAccount
+    })
 
     const doSearch = () => {
         router.push({

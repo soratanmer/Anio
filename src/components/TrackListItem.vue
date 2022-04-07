@@ -124,6 +124,7 @@
                     'opacity-0': !isLiked,
                     'group-hover:opacity-100': !isSkeleton,
                 }"
+                @click="likeTrack"
                 ><SvgIcon :name="isLiked ? 'heart' : 'heart-outline'" class="h-4 w-4 text-black dark:text-white"
             /></button>
 
@@ -137,9 +138,12 @@
 </template>
 
 <script setup lang="ts">
+    import type { PropType } from 'vue'
+
     import usePlayer from '@/hooks/usePlayer'
     import { formatDuration, resizeImage } from '@/utils/common'
-    import type { PropType } from 'vue'
+    import { likeATrack } from '@/api/track'
+    import { useUserStore } from '@/stores/user'
 
     const props = defineProps({
         // 歌曲
@@ -166,6 +170,7 @@
 
     const router = useRouter()
     const player = usePlayer()
+    const userStore = useUserStore()
 
     const isAlbum = computed(() => {
         return props.layout === 'album'
@@ -218,4 +223,12 @@
     const trackDuration = computed(() => {
         return props.track.dt || props.track.duration
     })
+
+    const likeTrack = async () => {
+        await likeATrack({
+            id: props.track.id,
+            like: props.isLiked ? false : true,
+        })
+        await userStore.updateLikedList()
+    }
 </script>

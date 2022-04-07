@@ -12,7 +12,7 @@
             :track="track"
             :fullWidth="layout !== 'grid'"
             :layout="layout"
-            :isLiked="userLikedSongs?.ids.includes(track.id)"
+            :isLiked="userStore.likedList.includes(track.id)"
         ></TrackListItem>
     </div>
 
@@ -30,8 +30,7 @@
 <script setup lang="ts">
     import type { PropType } from 'vue'
 
-    import useFetchUserAccount from '@/hooks/useFetchUserAccount'
-    import useFetchUserLikedSongsIDs from '@/hooks/useFetchUserLikedSongsIDs'
+    import { useUserStore } from '@/stores/user'
 
     const props = defineProps({
         // 歌曲列表
@@ -56,12 +55,8 @@
             default: false,
         },
     })
-    
 
-    const { data: userAccount } = useFetchUserAccount()
-    const { data: userLikedSongs } = useFetchUserLikedSongsIDs({
-        uid: userAccount.value?.account?.id ?? 0,
-    })
+    const userStore = useUserStore()
 
     // 计算 grid 的列数
     const gridCols = computed(() => {

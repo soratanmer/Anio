@@ -59,17 +59,19 @@
 <script setup lang="ts">
     import pkg from '../../package.json'
 
-    import { logout } from '@/api/auth'
-    import { isLoggedIn,doLogout } from '@/utils/user'
+    import { isLoggedIn, doLogout } from '@/utils/user'
     import { resizeImage } from '@/utils/common'
     import { useSettingsStore } from '@/stores/settints'
-    import useFetchUserAccount from '@/hooks/useFetchUserAccount'
+    import { useUserStore } from '@/stores/user'
 
     const router = useRouter()
 
     const settingsStore = useSettingsStore()
+    const userStore = useUserStore()
 
-    const { data: userAccount, isLoading: isLoadingUserAccount } = useFetchUserAccount()
+    const userAccount = computed(() => {
+        return userStore.userAccount
+    })
 
     const logouts = () => {
         doLogout()

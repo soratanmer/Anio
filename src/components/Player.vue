@@ -145,26 +145,18 @@
 <script setup lang="ts">
     import usePlayer from '@/hooks/usePlayer'
     import { RepeatMode } from '@/hooks/usePlayer'
-    import useUserLikedSongsIDs from '@/hooks/useFetchUserLikedSongsIDs'
-    import useUserAccount from '@/hooks/useFetchUserAccount'
     import { likeATrack } from '@/api/track'
     import { resizeImage } from '@/utils/common'
+    import { useUserStore } from '@/stores/user'
 
     const router = useRouter()
     const player = usePlayer()
-
-    // Is track liked by user
-    const { data: userAccount } = useUserAccount()
-
-    const { data: userLikedSongs } = useUserLikedSongsIDs({
-        uid: userAccount.value?.account?.id ?? 0,
-    })
+    const userStore = useUserStore()
 
     const isLiked = computed(() => {
-        return userLikedSongs.value?.ids.includes(Number(player?.track?.id))
+        return userStore.likedList.includes(Number(player?.track?.id))
     })
 
-    // Current playing track
     const cover = computed(() => {
         const cover = player?.track?.al?.picUrl || ''
         return cover ? resizeImage(cover, 'sm') : null
@@ -174,10 +166,11 @@
         return player?.track?.name
     })
 
-    const likeTrack = () => {
-        likeATrack({
+    const likeTrack = async () => {
+        await likeATrack({
             id: Number(player?.track?.id),
             like: isLiked.value ? false : true,
         })
+        await userStore.updateLikedList()
     }
 </script>

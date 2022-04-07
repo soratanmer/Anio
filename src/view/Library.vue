@@ -4,44 +4,34 @@
         <div class="grid grid-cols-[17rem_auto] items-center gap-10">
             <!-- Cover -->
             <div class="relative z-0 aspect-square self-start">
-                <img
-                    v-if="!isLoadingAccount"
-                    class="rounded-lg border border-black border-opacity-5"
-                    :src="coverUrl"
-                    alt="cover"
-                />
-                <Skeleton v-else class="h-full w-full rounded-lg"></Skeleton>
+                <img class="rounded-lg border border-black border-opacity-5" :src="coverUrl" alt="cover" />
             </div>
 
             <!-- User info -->
             <div class="z-10">
                 <!-- User name -->
-                <div v-if="!isLoadingAccount" class="text-6xl font-bold text-black dark:text-white">
+                <div class="text-6xl font-bold text-black dark:text-white">
                     {{ userAccount?.profile?.nickname }}
                     <span class="pb-1">的音乐库</span>
                 </div>
-                <Skeleton v-else class="w-3/4 text-7xl">PLACEHOLDER</Skeleton>
 
                 <!-- User ID -->
-                <div v-if="!isLoadingAccount" class="mt-5 text-sm font-thin text-black dark:text-white">
+                <div class="mt-5 text-sm font-thin text-black dark:text-white">
                     ID:
                     <span class="font-semibold decoration-2">
                         {{ userAccount?.profile?.userId }}
                     </span>
                 </div>
-                <Skeleton v-else class="mt-5 w-64 text-lg">PLACEHOLDER</Skeleton>
 
                 <!-- Create time -->
-                <div v-if="!isLoadingAccount" class="mt-5 text-sm font-thin text-black dark:text-white">
+                <div class="mt-5 text-sm font-thin text-black dark:text-white">
                     创建时间: {{ formatDate(Number(userAccount?.profile?.createTime), 'zh-CN') }}
                 </div>
-                <Skeleton v-else class="mt-5 w-64 text-lg">PLACEHOLDER</Skeleton>
 
                 <!-- Signature -->
-                <div v-if="!isLoadingAccount" class="mt-5 text-sm font-thin text-black dark:text-white">
+                <div class="mt-5 text-sm font-thin text-black dark:text-white">
                     {{ userAccount?.profile?.signature }}
                 </div>
-                <Skeleton v-else class="mt-5 w-64 text-lg">PLACEHOLDER</Skeleton>
             </div>
         </div>
 
@@ -64,14 +54,14 @@
             v-if="activeTab === 'MyPlaylists'"
             :playlists="userCreatePlaylist || []"
             subtitle="creator"
-            :is-skeleton="isLoadingAccount"
+            :is-skeleton="isLoadingPlaylists"
         ></CoverRow>
 
         <CoverRow
             v-if="activeTab === 'LikedPlaylists'"
             :playlists="userLikedPlaylist || []"
             subtitle="creator"
-            :is-skeleton="isLoadingAccount"
+            :is-skeleton="isLoadingPlaylists"
         ></CoverRow>
 
         <CoverRow
@@ -92,16 +82,18 @@
 </template>
 
 <script setup lang="ts">
-    import useFetchUserAccount from '@/hooks/useFetchUserAccount'
     import useFetchUserLikedAlbums from '@/hooks/useFetchUserLikedAlbums'
     import useFetchUserLikedArtist from '@/hooks/useFetchUserLikedArtists'
     import useFetchUserPlayLists from '@/hooks/useFetchUserPlaylists'
     import { formatDate, resizeImage } from '@/utils/common'
+    import { useUserStore } from '@/stores/user'
 
     interface Tab {
         name: string
         id: string
     }
+
+    const userStore = useUserStore()
 
     const activeTab = ref<string>('MyPlaylists')
 
@@ -128,7 +120,9 @@
         activeTab.value = tab.id
     }
 
-    const { data: userAccount, isLoading: isLoadingAccount } = useFetchUserAccount()
+    const userAccount = computed(() => {
+        return userStore.userAccount
+    })
 
     const coverUrl = computed(() => {
         return userAccount.value?.profile?.avatarUrl ? resizeImage(userAccount.value?.profile?.avatarUrl, 'sm') : ''
