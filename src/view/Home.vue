@@ -10,18 +10,21 @@
         <CoverRow
             title="推荐歌单"
             :playlists="recommendedPlaylists?.result.slice(0, 12) ?? []"
+            type="playlist"
             :is-skeleton="isLoadingRecommendedPlaylists"
         ></CoverRow>
 
         <CoverRow
             title="新专速递"
             :albums="newAlbums?.pages[0].albums ?? []"
+            type="album"
             :is-skeleton="isLoadingNewAlbums"
         ></CoverRow>
 
         <CoverRow
             title="推荐艺人"
             :artists="shuffle(toplistArtists?.list.artists).slice(0, 6) || []"
+            type="artist"
             :is-skeleton="isLoadingToplistArtists"
         ></CoverRow>
     </div>

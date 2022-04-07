@@ -38,6 +38,7 @@
         <div class="mt-10 mb-4 text-xl font-semibold text-black dark:text-white">Albums</div>
         <CoverRow
             :albums="albums?.hotAlbums || []"
+            type="album"
             :is-skeleton="isLoadingAlbums"
             subtitle="type+releaseYear"
         ></CoverRow>

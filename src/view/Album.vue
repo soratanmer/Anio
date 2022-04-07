@@ -99,6 +99,7 @@
         <div class="mt-3">
             <CoverRow
                 :albums="filteredOtherAlbums"
+                type="album"
                 :is-skeleton="isLoadingMoreAlbums"
                 subtitle="type+releaseYear"
             ></CoverRow>

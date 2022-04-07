@@ -51,19 +51,22 @@
             "
             v-for="page in topPlaylists?.pages"
             :playlists="page.playlists"
+            type="playlist"
             subtitle="creator"
             :is-skeleton="isLoadingTopPlaylists"
         ></CoverRow>
 
         <CoverRow
             v-if="route.query.active === '排行榜'"
-            :toplists="toplists?.list"
+            :playlists="toplists?.list"
+            type="playlist"
             :is-skeleton="isLoadingToplists"
         ></CoverRow>
 
         <CoverRow
             v-if="route.query.active === '推荐歌单'"
-            :toplists="recommendedPlaylists?.result"
+            :playlists="recommendedPlaylists?.result"
+            type="playlist"
             :is-skeleton="isLoadingRecommendedPlaylists"
         ></CoverRow>
 
@@ -71,6 +74,7 @@
             v-if="route.query.active === '精品歌单'"
             v-for="page in hightQualityPlaylists?.pages"
             :playlists="page.playlists"
+            type="playlist"
             subtitle="creator"
             :is-skeleton="isLoadingHighQualityPlaylists"
         ></CoverRow>

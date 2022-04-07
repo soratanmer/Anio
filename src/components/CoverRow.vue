@@ -86,9 +86,6 @@
         artists: {
             type: Array as PropType<Artist[]> | undefined,
         },
-        toplists: {
-            type: Array as PropType<Playlist[]> | undefined,
-        },
         type: {
             type: String,
             required: true,
@@ -182,6 +179,6 @@
             return skeletonItems
         }
 
-        return props.albums ?? props.playlists ?? props.toplists ?? props.artists ?? []
+        return props.albums ?? props.playlists ?? props.artists ?? []
     })
 </script>
