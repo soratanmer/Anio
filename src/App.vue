@@ -19,8 +19,13 @@
     import { useQueryProvider } from 'vue-query'
 
     import { usePlayerProvider } from '@/hooks/usePlayer'
+    import { useUserStore } from "@/stores/user";
 
     const route = useRoute()
+    const userStore = useUserStore()
+
+    userStore.updateUserAccount()
+    userStore.updateLikedList()
 
     useQueryProvider()
     usePlayerProvider()

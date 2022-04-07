@@ -1,20 +1,24 @@
 import { defineStore } from 'pinia'
+import { fetchUserAccount, fetchUserLikedSongsIDs } from '@/api/user'
+import type { FetchUserAccountResponse } from '@/api/user'
 
 export const useUserStore = defineStore('user', {
     state: () => {
         return {
-            history: [] as number[],
+            userAccount: {} as FetchUserAccountResponse,
+            likedList: [] as number[],
         }
     },
     getters: {},
     actions: {
-        updateHistory(trackID: number) {
-            let history = this.history.filter((t) => t !== trackID)
-            if (history.length > 1000) {
-                history.pop()
-            }
-            history.unshift(trackID)
-            this.history = history
+        async updateUserAccount() {
+            this.userAccount = await fetchUserAccount()
+        },
+        async updateLikedList() {
+            const { ids } = await fetchUserLikedSongsIDs({
+                uid: this.userAccount.account?.id ?? 0,
+            })
+            this.likedList = ids
         },
     },
     persist: {

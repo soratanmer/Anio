@@ -9,7 +9,7 @@
                 type="range"
                 min="0"
                 :max="player?.currentTrackDuration"
-                v-model.number="player.progress"
+                v-model.number="player!.progress"
                 class="range-slider w-full absolute"
             />
         </div>
@@ -114,12 +114,12 @@
                         name="volume-mute"
                     ></SvgIcon>
                     <SvgIcon
-                        v-show="player?.volume <= 0.5 && player?.volume !== 0"
+                        v-show="player!.volume <= 0.5 && player?.volume !== 0"
                         class="h-4 w-4 text-black dark:text-white"
                         name="volume-half"
                     ></SvgIcon>
                     <SvgIcon
-                        v-show="player?.volume > 0.5"
+                        v-show="player!.volume > 0.5"
                         class="h-4 w-4 text-black dark:text-white"
                         name="volume"
                     ></SvgIcon>
@@ -130,7 +130,7 @@
                         :min="0"
                         :max="1"
                         :step="0.01"
-                        v-model.number="player.volume"
+                        v-model.number="player!.volume"
                         class="range-slider w-full"
                     />
                 </div>

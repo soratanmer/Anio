@@ -8,5 +8,5 @@ export function isLoggedIn(): boolean {
 export function doLogout(){
     logout()
     sessionStorage.clear()
-    
+    localStorage.clear()
 }
