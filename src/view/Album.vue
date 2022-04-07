@@ -57,12 +57,12 @@
 
                 <!-- Button -->
                 <div class="mt-5 flex gap-4">
-                    <Button :is-skeleton="isLoadingAlbum" @click="play">
-                        <SvgIcon class="h-4 w-4" name="play"></SvgIcon
-                    ></Button>
-                    <Button :is-skeleton="isLoadingAlbum" shape="square" color="gray">
-                        <SvgIcon class="h-4 w-4" name="heart"></SvgIcon
-                    ></Button>
+                    <ButtonIcon @click="play">
+                        <SvgIcon class="h-5 w-5 text-black dark:text-white" name="play"></SvgIcon>
+                    </ButtonIcon>
+                    <ButtonIcon>
+                        <SvgIcon class="h-5 w-5 text-black dark:text-white" name="heart"></SvgIcon>
+                    </ButtonIcon>
                 </div>
             </div>
         </div>

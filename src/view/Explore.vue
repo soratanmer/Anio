@@ -4,20 +4,20 @@
     <div class="flex flex-wrap">
         <div
             v-for="category in staticCategory"
-            class="py-2 px-4 mt-1 mr-4 mb-1.5 flex content-center items-center rounded-lg"
+            class="py-2 px-4 mt-1 mr-4 mb-1.5 flex content-center items-center rounded-lg text-black dark:text-white"
             :class="{
-                'bg-gray-100': route.query.active !== category.name,
-                'bg-green-200': route.query.active === category.name,
+                'bg-gray-500': route.query.active !== category.name,
+                'bg-green-500': route.query.active === category.name,
             }"
             @click="updateActiveStatic(category)"
         >
             {{ category.name }}
         </div>
         <div
-            class="py-2 px-4 mt-1 mr-4 mb-1.5 flex content-center items-center rounded-lg bg-gray-100"
+            class="py-2 px-4 mt-1 mr-4 mb-1.5 flex content-center items-center rounded-lg bg-gray-500"
             @click="showPanel = !showPanel"
         >
-            <SvgIcon class="h-4 w-4" name="more"></SvgIcon>
+            <SvgIcon class="h-4 w-4 text-black dark:text-white" name="more"></SvgIcon>
         </div>
     </div>
 
@@ -30,10 +30,10 @@
             <div v-for="cat in playlistCategory?.sub">
                 <div
                     v-if="cat.category === Number(index)"
-                    class="py-2 px-4 mt-1 mr-4 mb-1.5 flex content-center items-center rounded-lg"
+                    class="py-2 px-4 mt-1 mr-4 mb-1.5 flex content-center items-center rounded-lg text-black dark:text-white"
                     :class="{
-                        'bg-gray-100': route.query.active !== cat.name,
-                        'bg-green-200': route.query.active === cat.name,
+                        'bg-gray-500': route.query.active !== cat.name,
+                        'bg-green-500': route.query.active === cat.name,
                     }"
                     @click="updateActiveStatic(cat)"
                     >{{ cat.name }}
@@ -84,8 +84,8 @@
     import useFetchToplist from '@/hooks/useFetchToplist'
     import useFetchTopPlaylists from '@/hooks/useFetchTopPlaylists'
 
-    interface Category{
-        name:string
+    interface Category {
+        name: string
     }
 
     const showPanel = ref<boolean>(false)

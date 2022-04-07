@@ -49,7 +49,7 @@
 
 <script setup lang="ts">
     import useFetchUserPlaylists from '@/hooks/useFetchUserPlaylists'
-    import { useUserStore } from "@/stores/user";
+    import { useUserStore } from '@/stores/user'
 
     interface Tab {
         name: string

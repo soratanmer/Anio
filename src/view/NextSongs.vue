@@ -17,9 +17,6 @@
 
     const player = usePlayer()
 
-    console.log(player?.currentPlaylist);
-    
-
     const {
         data: infiniteTracks,
         isLoading: isLoadingInfiniteTracks,

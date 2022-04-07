@@ -26,7 +26,7 @@ export enum PlaylistApiNames {
  */
 
 export interface FetchPlaylistParams {
-    id: number | string
+    id: number
     s?: number
 }
 

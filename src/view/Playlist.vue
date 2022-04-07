@@ -49,13 +49,15 @@
 
                 <!-- Buttons -->
                 <div class="mt-5 flex gap-4">
-                    <Button :is-skeleton="isLoadingPlaylist" shape="button" @click="play">
-                        <SvgIcon class="h-4 w-4" name="play"></SvgIcon>
-                    </Button>
-
-                    <Button :is-skeleton="isLoadingPlaylist" shape="button" color="gray">
-                        <SvgIcon class="h-4 w-4" name="heart"></SvgIcon>
-                    </Button>
+                    <ButtonIcon @click="play">
+                        <SvgIcon class="h-5 w-5 text-black dark:text-white" name="play"></SvgIcon>
+                    </ButtonIcon>
+                    <ButtonIcon :disabled="!isMyPlaylist" @click="subscribe">
+                        <SvgIcon
+                            class="h-5 w-5 text-black dark:text-white"
+                            :name="playlist?.subscribed ? 'heart' : 'heart-outline'"
+                        ></SvgIcon>
+                    </ButtonIcon>
                 </div>
             </div>
         </div>
@@ -66,28 +68,34 @@
 </template>
 
 <script setup lang="ts">
+    import { focusManager } from 'vue-query'
+
     import usePlayer from '@/hooks/usePlayer'
     import { PlaylistSourceType, PlayerMode } from '@/hooks/usePlayer'
     import useFetchPlaylist from '@/hooks/useFetchPlaylist'
     import useFetchTracksInfinite from '@/hooks/useFetchTracksInfinite'
+    import { useUserStore } from '@/stores/user'
     import { formatDate, resizeImage } from '@/utils/common'
+    import { isLoggedIn } from '@/utils/user'
+    import { subscribePlaylist, fetchPlaylist } from '@/api/playlist'
 
     const route = useRoute()
     const router = useRouter()
     const player = usePlayer()
+    const userStore = useUserStore()
 
     // Validate playlist id
     const playlistID = computed(() => {
-        return route.params.id as string
+        return Number(route.params.id)
     })
-    if (!playlistID.value || isNaN(Number(playlistID.value))) {
+    if (!playlistID.value || isNaN(playlistID.value)) {
         router.replace('/404')
     }
 
     // Fetch playlist date
     const { data: playlistRaw, isLoading: isLoadingPlaylist } = useFetchPlaylist(
         reactive({
-            id: playlistID,
+            id: playlistID.value,
             s: 0,
         }),
     )
@@ -158,6 +166,20 @@
         player!.mode = PlayerMode.PLAYLIST
         player?.replacePlaylist(trackIDs.value, {
             type: PlaylistSourceType.PLAYLIST,
+            id: playlistID.value,
+        })
+    }
+
+    const isMyPlaylist = computed(() => {
+        return userStore.userAccount.account?.id !== playlistRaw.value?.playlist.creator.userId
+    })
+
+    const subscribe = async () => {
+        if (!isLoggedIn()) {
+            return
+        }
+        await subscribePlaylist({
+            t: playlist.value?.subscribed ? 2 : 1,
             id: playlistID.value,
         })
     }
