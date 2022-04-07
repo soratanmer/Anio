@@ -3,10 +3,9 @@ import shuffle from 'lodash/shuffle'
 
 import { fetchTracks, fetchAudioSource, scrobble } from '@/api/track'
 import { fetchPersonalFM, FMTrash } from '@/api/FM'
-import type { FMTrashParams } from '@/api/FM'
-
-import useUserLikedSongsIDs from '@/hooks/useFetchUserLikedSongsIDs'
-import useUserAccount from '@/hooks/useFetchUserAccount'
+import { fetchPlaylist } from '@/api/playlist'
+import { fetchAlbum } from '@/api/album'
+import { fetchArtistSongs, OrderType } from '@/api/artist'
 
 import { usePlayerStore } from '@/stores/player'
 
@@ -67,6 +66,9 @@ export interface PlayerPublic {
     previousTrack: () => void
     nextTrack: () => void
     replacePlaylist: (trackIDs: TrackID[], playlistSource: PlaylistSource) => void
+    playPlaylistByID: (playlistID: number) => void
+    playAlbumByID: (albumID: number) => void
+    playArtistByID: (artistID: number) => void
 }
 
 export function usePlayerProvider() {
@@ -537,6 +539,47 @@ export function usePlayerProvider() {
         _replaceTrack(currentPlaylist.value[0], 0)
     }
 
+    const playPlaylistByID = async (playlistID: number) => {
+        const res = await fetchPlaylist({
+            id: playlistID,
+            s: 0,
+        })
+        const trackIDs = computed(() => {
+            return res.playlist.trackIds.map((item) => item.id) || []
+        })
+        replacePlaylist(trackIDs.value, {
+            type: PlaylistSourceType.PLAYLIST,
+            id: playlistID,
+        })
+    }
+
+    const playAlbumByID = async (albumID: number) => {
+        const res = await fetchAlbum({
+            id: albumID,
+        })
+        const trackIDs = computed(() => {
+            return res.songs.map((item) => item.id)
+        })
+        replacePlaylist(trackIDs.value, {
+            type: PlaylistSourceType.PLAYLIST,
+            id: albumID,
+        })
+    }
+
+    const playArtistByID = async (artistID: number) => {
+        const res = await fetchArtistSongs({
+            id: artistID,
+            order: OrderType.hot,
+        })
+        const trackIDs = computed(() => {
+            return res.songs.map((item) => item.id)
+        })
+        replacePlaylist(trackIDs.value, {
+            type: PlaylistSourceType.PLAYLIST,
+            id: artistID,
+        })
+    }
+
     const player = reactive({
         state,
         playlistSource,
@@ -562,6 +605,9 @@ export function usePlayerProvider() {
         previousTrack,
         nextTrack,
         replacePlaylist,
+        playPlaylistByID,
+        playAlbumByID,
+        playArtistByID
     })
 
     _initPlayer()

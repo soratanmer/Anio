@@ -23,7 +23,13 @@
     >
         <div v-for="(item, index) in renderItems">
             <!-- Cover -->
-            <Cover v-if="!isSkeleton" :imageUrl="getImageUrl(item)" @click="goTo(item)"></Cover>
+            <Cover
+                v-if="!isSkeleton"
+                :id="item.id"
+                :type="type"
+                :imageUrl="getImageUrl(item)"
+                @click="goTo(item)"
+            ></Cover>
             <Skeleton v-else class="aspect-square w-full rounded-lg"></Skeleton>
 
             <!-- Info -->
@@ -82,6 +88,10 @@
         },
         toplists: {
             type: Array as PropType<Playlist[]> | undefined,
+        },
+        type: {
+            type: String,
+            required: true,
         },
         title: {
             type: String,

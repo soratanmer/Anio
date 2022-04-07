@@ -9,6 +9,7 @@
         "sourceMap": true,
         "resolveJsonModule": true,
         "esModuleInterop": true,
+        "suppressImplicitAnyIndexErrors": true,
         "baseUrl": ".",
         "lib": ["esnext", "dom"],
         "types": ["vite/client"],

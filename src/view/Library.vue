@@ -53,6 +53,7 @@
         <CoverRow
             v-if="activeTab === 'MyPlaylists'"
             :playlists="userCreatePlaylist || []"
+            type="playlist"
             subtitle="creator"
             :is-skeleton="isLoadingPlaylists"
         ></CoverRow>
@@ -60,6 +61,7 @@
         <CoverRow
             v-if="activeTab === 'LikedPlaylists'"
             :playlists="userLikedPlaylist || []"
+            type="playlist"
             subtitle="creator"
             :is-skeleton="isLoadingPlaylists"
         ></CoverRow>
@@ -68,6 +70,7 @@
             v-if="activeTab === 'albums'"
             v-for="page in likedAlbums?.pages"
             :albums="page.data || []"
+            type="album"
             subtitle="artist"
             :is-skeleton="isLoadingLikedAlbums"
         ></CoverRow>
@@ -76,6 +79,7 @@
             v-if="activeTab === 'artists'"
             v-for="page in likedArtists?.pages"
             :artists="page.data || []"
+            type="artist"
             :is-skeleton="isLoadingLikedArtists"
         ></CoverRow>
     </div>
