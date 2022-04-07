@@ -22,10 +22,12 @@
 
                 <!-- Buttons -->
                 <div class="mt-5 flex gap-4">
-                    <Button :is-skeleton="isLoading" @click="play">
-                        <SvgIcon class="mr-2 h-4 w-4" name="play"></SvgIcon>
-                    </Button>
-                    <Button :is-skeleton="isLoading" color="gray" iconColor="gray">Follow</Button>
+                    <ButtonIcon @click="play">
+                        <SvgIcon class="h-5 w-5 text-black dark:text-white" name="play"></SvgIcon>
+                    </ButtonIcon>
+                    <ButtonIcon>
+                        <SvgIcon class="h-5 w-5 text-black dark:text-white" name="heart-outline"></SvgIcon>
+                    </ButtonIcon>
                 </div>
             </div>
         </div>
@@ -67,7 +69,7 @@
 
 <script setup lang="ts">
     import usePlayer from '@/hooks/usePlayer'
-    import { PlaylistSourceType,PlayerMode } from '@/hooks/usePlayer'
+    import { PlaylistSourceType, PlayerMode } from '@/hooks/usePlayer'
     import useFetchArtist from '@/hooks/useFetchArtist'
     import useFetchArtistAlbums from '@/hooks/useFetchArtistAlbums'
     import { resizeImage } from '@/utils/common'
@@ -109,7 +111,7 @@
     // Fetch artist data
     const { data: ArtistRaw, isLoading } = useFetchArtist(
         reactive({
-            id: artistID,
+            id: artistID.value,
         }),
     )
     const artist = computed(() => {
@@ -138,7 +140,7 @@
         fetchNextPage: fetchAlbumsNextPage,
     } = useFetchArtistAlbums(
         reactive({
-            id: artistID,
+            id: artistID.value,
             limit: 60,
         }),
     )

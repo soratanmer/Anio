@@ -33,7 +33,17 @@
                 <!-- Artist -->
                 <div v-if="!isLoadingAlbum" class="mt-5 text-lg font-medium text-black dark:text-white"
                     >Album by
-                    <span class="font-semibold decoration-2 hover:underline">
+                    <span
+                        class="font-semibold decoration-2 hover:underline"
+                        @click="
+                            router.push({
+                                name: 'artist',
+                                params: {
+                                    id: album?.artist.id,
+                                },
+                            })
+                        "
+                    >
                         {{ album?.artist.name }}
                     </span>
                 </div>
@@ -77,33 +87,6 @@
                 {{ album.company }}
             </div>
         </div>
-
-        <!-- More by artist -->
-        <div class="my-5 h-px w-full bg-gray-100"></div>
-        <div class="pl-px text-[1.375rem] font-semibold text-black dark:text-white">
-            More by
-            <span
-                class="hover:underline"
-                @click="
-                    router.push({
-                        name: 'artist',
-                        params: {
-                            id: artistIDs,
-                        },
-                    })
-                "
-            >
-                {{ album?.artist.name }}
-            </span>
-        </div>
-        <div class="mt-3">
-            <CoverRow
-                :albums="filteredOtherAlbums"
-                type="album"
-                :is-skeleton="isLoadingMoreAlbums"
-                subtitle="type+releaseYear"
-            ></CoverRow>
-        </div>
     </div>
 </template>
 
@@ -111,7 +94,6 @@
     import usePlayer from '@/hooks/usePlayer'
     import { PlaylistSourceType, PlayerMode } from '@/hooks/usePlayer'
     import useFetchAlbum from '@/hooks/useFetchAlbum'
-    import useFetchArtistAlbums from '@/hooks/useFetchArtistAlbums'
     import { formatDate, formatDuration, resizeImage } from '@/utils/common'
     import dayjs from 'dayjs'
 
@@ -121,10 +103,10 @@
 
     // Validate album id
     const albumID = computed(() => {
-        return route.params.id as string
+        return Number(route.params.id)
     })
 
-    if (!albumID.value || isNaN(Number(albumID.value))) {
+    if (!albumID.value || isNaN(albumID.value)) {
         router.replace('/404')
     }
 
@@ -136,7 +118,7 @@
     )
 
     const artistIDs = computed(() => {
-        return albumRaw.value?.album.artist.id
+        return albumRaw.value?.album.artist.id || 0
     })
 
     const album = computed(() => {
@@ -154,40 +136,6 @@
     const albumDuration = computed(() => {
         const duration = tracks.value?.reduce((acc, cur) => acc + Number(cur.dt), 0) || 0
         return formatDuration(duration, 'zh-CN', 'hh[hr] mm[min]')
-    })
-
-    // Fetch artist's albums
-
-    const { data: otherAlbums, isLoading: isLoadingMoreAlbums } = useFetchArtistAlbums(
-        reactive({
-            id: artistIDs.value as number,
-        }),
-    )
-
-    const filteredOtherAlbums = computed(() => {
-        const allRealease = otherAlbums.value?.hotAlbums || []
-
-        const albums = allRealease.filter((album) => {
-            return ['专辑', 'EP/Single', 'EP'].includes(album.type) && album.size > 1
-        })
-
-        const singles = allRealease.filter((album) => {
-            return album.type === 'Single'
-        })
-
-        // 去除名字相同的专辑和当前页面现实的专辑
-        const deDuplicatedAlbums: Album[] = []
-
-        albums.forEach((album) => {
-            if (
-                deDuplicatedAlbums.findIndex((a) => a.name === album.name) === -1 &&
-                String(album.id) !== albumID.value
-            ) {
-                deDuplicatedAlbums.push(album)
-            }
-        })
-
-        return [...deDuplicatedAlbums, ...singles].slice(0, 5)
     })
 
     // Handle play album

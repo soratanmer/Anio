@@ -14,7 +14,7 @@ export enum AlbumApiNames {
  */
 
 export interface FetchAlbumParams {
-    id: number | string
+    id: number
 }
 
 interface FetchAlbumResponse {
