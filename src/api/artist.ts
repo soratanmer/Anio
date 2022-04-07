@@ -64,7 +64,7 @@ export interface FetchArtistSongsParams {
     offset?: number
 }
 
-interface FetchArtistSongsResponse {
+export interface FetchArtistSongsResponse {
     songs: Track[]
     more: boolean
     total: number
@@ -96,7 +96,7 @@ export interface FetchArtistAlbumsParams {
     offset?: number
 }
 
-interface FetchArtistAlbumsResponse {
+export interface FetchArtistAlbumsResponse {
     code: number
     hotAlbums: Album[]
     more: boolean

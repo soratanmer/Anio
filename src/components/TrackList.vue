@@ -30,7 +30,7 @@
 <script setup lang="ts">
     import type { PropType } from 'vue'
 
-    import { useUserStore } from '@/stores/user'
+    import { useUserStore } from "@/stores/user";
 
     const props = defineProps({
         // 歌曲列表
@@ -57,6 +57,7 @@
     })
 
     const userStore = useUserStore()
+    
 
     // 计算 grid 的列数
     const gridCols = computed(() => {

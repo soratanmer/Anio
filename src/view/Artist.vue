@@ -22,7 +22,7 @@
 
                 <!-- Buttons -->
                 <div class="mt-5 flex gap-4">
-                    <Button :is-skeleton="isLoading">
+                    <Button :is-skeleton="isLoading" @click="play">
                         <SvgIcon class="mr-2 h-4 w-4" name="play"></SvgIcon>
                     </Button>
                     <Button :is-skeleton="isLoading" color="gray" iconColor="gray">Follow</Button>
@@ -30,14 +30,34 @@
             </div>
         </div>
 
+        <!-- Tabs -->
+        <div class="mt-8 mb-4 flex gap-3.5">
+            <div
+                v-for="tab in tabs"
+                class="btn-hover-animation rounded-lg px-3.5 py-1.5 text-lg font-semibold text-black dark:text-white after:bg-green-400"
+                :class="{
+                    'bg-green-500': tab.id === activeTab,
+                }"
+                @click="updateTabs(tab)"
+            >
+                {{ tab.name }}
+            </div>
+        </div>
+
         <!-- Top tracks -->
-        <div class="mt-10 mb-4 text-xl font-semibold text-black dark:text-white">Top Tracks</div>
-        <TrackList :tracks="topTracks.slice(0, 12)" :col="4" :is-loading="isLoading"></TrackList>
+        <TrackList
+            v-if="activeTab === 'tracks'"
+            :tracks="topTracks"
+            :col="4"
+            :is-loading="isLoading"
+            layout="list"
+        ></TrackList>
 
         <!-- Albums -->
-        <div class="mt-10 mb-4 text-xl font-semibold text-black dark:text-white">Albums</div>
         <CoverRow
-            :albums="albums?.hotAlbums || []"
+            v-if="activeTab === 'albums'"
+            v-for="page in albums?.pages"
+            :albums="page.hotAlbums || []"
             type="album"
             :is-skeleton="isLoadingAlbums"
             subtitle="type+releaseYear"
@@ -46,12 +66,37 @@
 </template>
 
 <script setup lang="ts">
+    import usePlayer from '@/hooks/usePlayer'
+    import { PlaylistSourceType,PlayerMode } from '@/hooks/usePlayer'
     import useFetchArtist from '@/hooks/useFetchArtist'
     import useFetchArtistAlbums from '@/hooks/useFetchArtistAlbums'
     import { resizeImage } from '@/utils/common'
 
     const route = useRoute()
     const router = useRouter()
+    const player = usePlayer()
+
+    interface Tab {
+        name: string
+        id: string
+    }
+
+    const activeTab = ref<string>('tracks')
+
+    const tabs: Tab[] = [
+        {
+            name: 'Top Tracks',
+            id: 'tracks',
+        },
+        {
+            name: 'Albums',
+            id: 'albums',
+        },
+    ]
+
+    const updateTabs = (tab: Tab) => {
+        activeTab.value = tab.id
+    }
 
     // Validate artist id
     const artistID = computed(() => {
@@ -80,10 +125,44 @@
         return ArtistRaw.value?.hotSongs || []
     })
 
+    const trackIDs = computed(() => {
+        return ArtistRaw.value?.hotSongs.map((item) => item.id) || []
+    })
+
     // Fetch artist's albums
-    const { data: albums, isLoading: isLoadingAlbums } = useFetchArtistAlbums(
+    const {
+        data: albums,
+        isLoading: isLoadingAlbums,
+        isFetching: isFetchingAlbums,
+        hasNextPage: AlbumsHasNextPage,
+        fetchNextPage: fetchAlbumsNextPage,
+    } = useFetchArtistAlbums(
         reactive({
             id: artistID,
+            limit: 60,
         }),
     )
+
+    const mainContainerRef = ref<HTMLElement | null>(document.getElementById('mainContainer'))
+
+    const mainContainerScroll = useScroll(mainContainerRef)
+
+    watch(
+        () => mainContainerScroll.arrivedState.bottom,
+        (isScrolledToBottom) => {
+            if (!isScrolledToBottom && isFetchingAlbums.value && !AlbumsHasNextPage?.value) {
+                return
+            }
+            console.debug('scrolled to bottom, load more tracks!')
+            fetchAlbumsNextPage.value()
+        },
+    )
+
+    const play = () => {
+        player!.mode = PlayerMode.PLAYLIST
+        player?.replacePlaylist(trackIDs.value, {
+            type: PlaylistSourceType.PLAYLIST,
+            id: artistID.value,
+        })
+    }
 </script>
