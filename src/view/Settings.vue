@@ -43,7 +43,7 @@
 
             <!-- Footer -->
             <div class="w-[720px] mt-20 font-semibold">
-                <a href="#" target="_blank" class="hover:underline">Anio Music</a>
+                <a href="https://github.com/soratanmer/Anio" target="_blank" class="hover:underline">Anio Music</a>
                 <p class="mt-1">当前版本：{{ version }}</p>
                 <p class="mt-1">
                     MADE BY
@@ -57,12 +57,11 @@
 </template>
 
 <script setup lang="ts">
-    import pkg from '../../package.json'
-
-    import { isLoggedIn, doLogout } from '@/utils/user'
-    import { resizeImage } from '@/utils/common'
     import { useSettingsStore } from '@/stores/settints'
     import { useUserStore } from '@/stores/user'
+    import { resizeImage } from '@/utils/common'
+    import { doLogout, isLoggedIn } from '@/utils/user'
+    import pkg from '../../package.json'
 
     const router = useRouter()
 
