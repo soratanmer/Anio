@@ -4,7 +4,7 @@
         class="sticky bottom-0 grid h-16 w-full grid-cols-3 grid-rows-1 bg-opacity-[0.86] py-2.5 px-5 backdrop-blur-xl backdrop-saturate-[1.8]"
     >
         <!-- mock slider -->
-        <div class="absolute -top-1.5 w-full bg-black bg-opacity-5">
+        <div class="absolute -top-1 w-full bg-black bg-opacity-5">
             <input
                 type="range"
                 min="0"

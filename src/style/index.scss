@@ -52,7 +52,7 @@
     .range-slider {
         -webkit-appearance: none;
 
-        @apply bg-transparent h-1.5 overflow-hidden;
+        @apply bg-transparent h-1 overflow-hidden;
 
         &::-webkit-slider-runnable-track {
             @apply h-1 w-full bg-gray-300;
