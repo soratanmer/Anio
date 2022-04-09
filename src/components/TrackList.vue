@@ -8,23 +8,18 @@
     >
         <TrackListItem
             v-for="track in tracks"
-            :id="id"
             :track="track"
-            :trackIDs="trackIDs"
-            :dbclickTrackFunc="dbclickTrackFunc"
             :layout="layout"
             :isLiked="userStore.likedList.includes(track.id)"
+            @dblclick="playThisList(track.id)"
         ></TrackListItem>
     </div>
 
     <div v-else class="grid w-full gap-1">
         <TrackListItem
             v-for="track in skeletonTracks"
-            :id="id"
             :track="track"
-            :trackIDs="trackIDs"
             :layout="layout"
-            :dbclickTrackFunc="dbclickTrackFunc"
             :is-skeleton="true"
         ></TrackListItem>
     </div>
@@ -33,6 +28,8 @@
 <script setup lang="ts">
     import type { PropType } from 'vue'
 
+    import usePlayer from '@/hooks/usePlayer'
+    import { PlayerMode, PlaylistSourceType } from '@/hooks/usePlayer'
     import { useUserStore } from '@/stores/user'
 
     const props = defineProps({
@@ -69,6 +66,7 @@
     })
 
     const userStore = useUserStore()
+    const player = usePlayer()
 
     // 用于填充 Skeleton 的假数据
     const skeletonTracks: Track[] = new Array(props.layout === 'list' ? 7 : 8).fill({})
@@ -76,4 +74,36 @@
     const trackIDs = computed(() => {
         return props.tracks.map((t) => t.id)
     })
+
+    const playThisList = (trackID: number) => {
+        if (props.dbclickTrackFunc === 'playPlaylistByID') {
+            player?.playPlaylistByID(props.id, trackID)
+        } else if (props.dbclickTrackFunc === 'playAlbumByID') {
+            player?.playAlbumByID(props.id, trackID)
+        } else if (props.dbclickTrackFunc === 'playArtistByID') {
+            player?.playArtistByID(props.id, trackID)
+        } else if (props.dbclickTrackFunc === 'playAList') {
+            player!.mode = PlayerMode.PLAYLIST
+            player?.replacePlaylist(
+                trackIDs.value,
+                {
+                    type: PlaylistSourceType.PLAYLIST,
+                    id: props.id,
+                },
+                trackID,
+            )
+        } else if (props.dbclickTrackFunc === 'dailyTracks') {
+            player!.mode = PlayerMode.PLAYLIST
+            player?.replacePlaylist(
+                trackIDs.value,
+                {
+                    type: PlaylistSourceType.PLAYLIST,
+                    id: props.id,
+                },
+                trackID,
+            )
+        } else if (props.dbclickTrackFunc === 'playTrackOnListByID') {
+            player?.playTrackOnListByID(trackID)
+        }
+    }
 </script>

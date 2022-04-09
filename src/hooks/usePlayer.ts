@@ -12,8 +12,11 @@ import { usePlayerStore } from '@/stores/player'
 type TrackID = number
 
 export enum PlaylistSourceType {
+    TRACK = 'track',
     ALBUM = 'album',
+    ARTIST = 'artist',
     PLAYLIST = 'playlist',
+    DAILYTRACKS = 'dailyTracks',
     FM = 'fm',
 }
 
@@ -575,7 +578,7 @@ export function usePlayerProvider() {
         replacePlaylist(
             trackIDs.value,
             {
-                type: PlaylistSourceType.PLAYLIST,
+                type: PlaylistSourceType.ALBUM,
                 id: albumID,
             },
             trackID,
@@ -594,7 +597,7 @@ export function usePlayerProvider() {
         replacePlaylist(
             trackIDs.value,
             {
-                type: PlaylistSourceType.PLAYLIST,
+                type: PlaylistSourceType.ARTIST,
                 id: artistID,
             },
             trackID,

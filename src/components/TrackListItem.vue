@@ -5,7 +5,6 @@
             'btn-hover-animation after:bg-green-400': !isSkeleton && !isHighLight,
             'bg-green-500': !isSkeleton && isHighLight,
         }"
-        @dblclick="playThisList(track.id)"
     >
         <!-- Track info -->
         <div class="flex col-span-6 pr-8">
@@ -13,19 +12,6 @@
                 <!-- Track number -->
                 <div v-if="isAlbum" class="self-center mr-5 text-black dark:text-white">
                     {{ track.no }}
-                </div>
-
-                <!-- Pause button -->
-                <div v-if="isHighLight" class="self-center mr-5" @click="player?.playOrPause()">
-                    <SvgIcon
-                        class="h-3.5 w-3.5 text-black dark:text-white"
-                        :name="player?.isPlaying ? 'pause' : 'play'"
-                    ></SvgIcon>
-                </div>
-
-                <!-- Play button -->
-                <div v-if="!isHighLight" class="self-center mr-5" @click="playThisList(track.id)">
-                    <SvgIcon class="h-3.5 w-3.5 text-black dark:text-white" name="play"></SvgIcon>
                 </div>
 
                 <button
@@ -92,40 +78,20 @@
     import type { PropType } from 'vue'
 
     import usePlayer from '@/hooks/usePlayer'
-    import { PlayerMode, PlaylistSourceType } from '@/hooks/usePlayer'
     import { formatDuration } from '@/utils/common'
     import { likeATrack } from '@/api/track'
     import { useUserStore } from '@/stores/user'
 
     const props = defineProps({
-        id: {
-            type: Number,
-            default: 0,
-        },
         // 歌曲
         track: {
             type: Object as PropType<Track>,
-            required: true,
-        },
-        trackIDs: {
-            type: Array as PropType<number[]>,
             required: true,
         },
         // 布局类型
         layout: {
             type: String as PropType<'list' | 'album'>,
             default: 'list',
-        },
-        dbclickTrackFunc: {
-            type: String as PropType<
-                | 'playPlaylistByID'
-                | 'playAlbumByID'
-                | 'playArtistByID'
-                | 'playTrackOnListByID'
-                | 'playAList'
-                | 'dailyTracks'
-            >,
-            default: 'playAList',
         },
         // 是否已经收藏此歌曲
         isLiked: {
@@ -178,38 +144,6 @@
     const trackDuration = computed(() => {
         return props.track.dt || props.track.duration
     })
-
-    const playThisList = (trackID: number) => {
-        if (props.dbclickTrackFunc === 'playPlaylistByID') {
-            player?.playPlaylistByID(props.id, trackID)
-        } else if (props.dbclickTrackFunc === 'playAlbumByID') {
-            player?.playAlbumByID(props.id, trackID)
-        } else if (props.dbclickTrackFunc === 'playArtistByID') {
-            player?.playArtistByID(props.id, trackID)
-        } else if (props.dbclickTrackFunc === 'playAList') {
-            player!.mode = PlayerMode.PLAYLIST
-            player?.replacePlaylist(
-                props.trackIDs,
-                {
-                    type: PlaylistSourceType.PLAYLIST,
-                    id: props.id,
-                },
-                trackID,
-            )
-        } else if (props.dbclickTrackFunc === 'dailyTracks') {
-            player!.mode = PlayerMode.PLAYLIST
-            player?.replacePlaylist(
-                props.trackIDs,
-                {
-                    type: PlaylistSourceType.PLAYLIST,
-                    id: props.id,
-                },
-                trackID,
-            )
-        } else if (props.dbclickTrackFunc === 'playTrackOnListByID') {
-            player?.playTrackOnListByID(trackID)
-        }
-    }
 
     const likeTrack = async () => {
         await likeATrack({

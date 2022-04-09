@@ -53,6 +53,8 @@
             :col="4"
             :is-loading="isLoading"
             layout="list"
+            :id="artistID"
+            dbclick-track-func="playArtistByID"
         ></TrackList>
 
         <!-- Albums -->
@@ -102,7 +104,7 @@
 
     // Validate artist id
     const artistID = computed(() => {
-        return route.params.id as string
+        return Number(route.params.id)
     })
     if (!artistID.value || isNaN(Number(artistID.value))) {
         router.replace('/404')

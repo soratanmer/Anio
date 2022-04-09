@@ -78,7 +78,7 @@
         </div>
 
         <!-- Tracks -->
-        <TrackList class="mt-10" :tracks="tracks || []" layout="album" :isLoading="isLoadingAlbum"></TrackList>
+        <TrackList class="mt-10" :tracks="tracks || []" layout="album" :isLoading="isLoadingAlbum" :id="albumID" dbclickTrackFunc="playAlbumByID"></TrackList>
 
         <!-- Release date and company -->
         <div class="mt-5 text-xs text-black dark:text-white">

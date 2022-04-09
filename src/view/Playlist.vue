@@ -63,7 +63,7 @@
         </div>
 
         <!-- Infinite tracks -->
-        <TrackList v-for="page in infiniteTracks?.pages" :tracks="page?.songs || []" layout="list" />
+        <TrackList v-for="page in infiniteTracks?.pages" :tracks="page?.songs || []" layout="list" :id="playlistID" dbclick-track-func="playPlaylistByID" />
     </div>
 </template>
 
