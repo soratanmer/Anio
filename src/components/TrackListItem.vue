@@ -8,32 +8,11 @@
     >
         <!-- Track info -->
         <div class="flex col-span-6 pr-8">
-            <div v-if="isAlbum" class="flex items-center">
+            <div class="flex items-center">
                 <!-- Track number -->
                 <div v-if="isAlbum" class="self-center mr-5 text-black dark:text-white">
                     {{ track.no }}
                 </div>
-
-                <!-- <button
-                    class="mr-5 cursor-default transition duration-300 hover:scale-[1.2]"
-                    :class="{
-                        'group-hover:opacity-100': !isSkeleton,
-                    }"
-                    @click="likeTrack"
-                    ><SvgIcon :name="isLiked ? 'heart' : 'heart-outline'" class="h-4 w-4 text-black dark:text-white"
-                /></button> -->
-
-                <!-- Cover -->
-                <!-- <div class="mr-5" v-if="!isAlbum">
-                    <img
-                        v-if="!isSkeleton"
-                        class="box-content h-12 w-12 rounded-md border border-black border-opacity-[.03]"
-                        :src="coverUrl"
-                        alt="cover"
-                    />
-
-                    <Skeleton v-else class="mr-4 h-12 w-12 rounded-md border border-gray-100"></Skeleton>
-                </div> -->
             </div>
             <!-- Track name & Artists -->
             <div class="flex flex-col justify-center w-full">
@@ -73,9 +52,15 @@
         <!-- Actions & Track duration -->
         <div class="col-span-2 flex items-center justify-end">
             <!-- Like button -->
-            <div class="mr-5 cursor-default transition duration-300 hover:scale-[1.2]">
-                <SvgIcon name="more" class="h-4 w-4 text-black dark:text-white" />
-            </div>
+            <div
+                class="mr-5 cursor-default transition duration-300 hover:scale-[1.2]"
+                :class="{
+                    'opacity-0': !isLiked,
+                    'group-hover:opacity-100': !isSkeleton,
+                }"
+                @click="likeTrack"
+                ><SvgIcon :name="isLiked ? 'heart' : 'heart-outline'" class="h-4 w-4 text-black dark:text-white"
+            /></div>
 
             <!-- Track duration -->
             <div v-if="!isSkeleton" class="text-black dark:text-white">{{
