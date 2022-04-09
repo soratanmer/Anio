@@ -65,10 +65,10 @@ export interface PlayerPublic {
     playOrPause: () => void
     previousTrack: () => void
     nextTrack: () => void
-    replacePlaylist: (trackIDs: TrackID[], playlistSource: PlaylistSource) => void
-    playPlaylistByID: (playlistID: number) => void
-    playAlbumByID: (albumID: number) => void
-    playArtistByID: (artistID: number) => void
+    replacePlaylist: (trackIDs: TrackID[], playlistSource: PlaylistSource, trackID?: TrackID) => void
+    playPlaylistByID: (playlistID: number, trackID?: TrackID) => void
+    playAlbumByID: (albumID: number, trackID?: TrackID) => void
+    playArtistByID: (artistID: number, trackID?: TrackID) => void
     playTrackOnListByID: (trackID: TrackID) => void
 }
 
