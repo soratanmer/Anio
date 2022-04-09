@@ -1,92 +1,48 @@
 <template>
     <div
-        class="group grid w-full rounded-lg after:scale-[.98] after:rounded-lg"
+        class="grid w-full grid-cols-12 p-2 px-4 rounded-lg after:scale-[.98]"
         :class="{
-            'grid-cols-1 py-1.5 px-2': isGrid,
-            'grid-cols-12 p-2 pr-4': isList,
-            'grid-cols-12 py-2.5 px-4': isAlbum,
             'btn-hover-animation after:bg-green-400': !isSkeleton && !isHighLight,
             'bg-green-500': !isSkeleton && isHighLight,
         }"
     >
         <!-- Track info -->
-        <div
-            class="grid"
-            :class="{
-                'grid-cols-[3rem_auto] items-center': isGrid,
-                'col-span-6 grid-cols-[4.2rem_auto] pr-8': isList,
-                'col-span-6 grid-cols-[2rem_auto] pr-8': isAlbum,
-            }"
-        >
-            <!-- Cover -->
-            <div v-if="!isAlbum">
-                <img
-                    v-if="!isSkeleton"
-                    class="box-content rounded-md border border-black border-opacity-[.03]"
+        <div class="flex col-span-6 pr-8">
+            <div class="flex items-center">
+                <!-- Track number -->
+                <div v-if="isAlbum" class="self-center mr-5 text-black dark:text-white">
+                    {{ track.no }}
+                </div>
+
+                <!-- Pause button -->
+                <div v-if="isHighLight" class="self-center mr-5" @click="player?.playOrPause()">
+                    <SvgIcon
+                        class="h-3.5 w-3.5 text-black dark:text-white"
+                        :name="player?.isPlaying ? 'pause' : 'play'"
+                    ></SvgIcon>
+                </div>
+
+                <!-- Play button -->
+                <div v-if="!isHighLight" class="self-center mr-5">
+                    <SvgIcon class="h-3.5 w-3.5 text-black dark:text-white" name="play"></SvgIcon>
+                </div>
+
+                <button
+                    class="mr-5 cursor-default transition duration-300 hover:scale-[1.2]"
                     :class="{
-                        'h-12 w-12': fullWidth,
-                        'h-9 w-9': !fullWidth,
+                        'group-hover:opacity-100': !isSkeleton,
                     }"
-                    :src="coverUrl"
-                    alt="cover"
-                />
-
-                <Skeleton
-                    v-else
-                    class="mr-4 rounded-md border border-gray-100"
-                    :class="{
-                        'h-12 w-12': fullWidth,
-                        'h-9 w-9': !fullWidth,
-                    }"
-                ></Skeleton>
+                    @click="likeTrack"
+                    ><SvgIcon :name="isLiked ? 'heart' : 'heart-outline'" class="h-4 w-4 text-black dark:text-white"
+                /></button>
             </div>
-
-            <!-- Track number -->
-            <div v-if="isAlbum && !isHighLight" class="self-center group-hover:hidden text-black dark:text-white">
-                {{ track.no }}
-            </div>
-
-            <!-- Pause button -->
-            <div v-if="isAlbum && isHighLight" class="self-center" @click="player?.playOrPause()">
-                <SvgIcon
-                    class="h-3.5 w-3.5 text-black dark:text-white"
-                    :name="player?.isPlaying ? 'pause' : 'play'"
-                ></SvgIcon>
-            </div>
-
-            <!-- Play button -->
-            <div v-if="isAlbum && !isHighLight" class="self-center hidden group-hover:block">
-                <SvgIcon class="h-3.5 w-3.5 text-black dark:text-white" name="play"></SvgIcon>
-            </div>
-
             <!-- Track name & Artists -->
             <div class="flex flex-col justify-center">
-                <div
-                    v-if="!isSkeleton"
-                    class="line-clamp-1 break-all font-semibold text-black dark:text-white"
-                    :class="{
-                        'text-lg': fullWidth,
-                        'text-base': !fullWidth,
-                    }"
-                >
+                <div v-if="!isSkeleton" class="line-clamp-1 text-lg font-semibold text-black dark:text-white">
                     {{ track.name }}
                 </div>
-                <Skeleton
-                    v-else
-                    :class="{
-                        'text-lg': fullWidth,
-                        'text-base': !fullWidth,
-                    }"
-                    >PLACEHOLDER12345</Skeleton
-                >
-                <div
-                    v-if="!isAlbum"
-                    class="text-black dark:text-white"
-                    :class="{
-                        'text-sm': fullWidth,
-                        'text-xs': !fullWidth,
-                    }"
-                >
+                <Skeleton v-else class="text-lg">PLACEHOLDER12345</Skeleton>
+                <div v-if="!isAlbum" class="text-sm text-black dark:text-white">
                     <ArtistInline v-if="!isSkeleton" :artists="artists"></ArtistInline>
                     <Skeleton v-else class="w-2/3 translate-y-px">PLACE</Skeleton>
                 </div>
@@ -116,17 +72,11 @@
         </div>
 
         <!-- Actions & Track duration -->
-        <div v-if="fullWidth" class="col-span-2 flex items-center justify-end">
+        <div class="col-span-2 flex items-center justify-end">
             <!-- Like button -->
-            <button
-                class="mr-5 cursor-default transition duration-300 hover:scale-[1.2]"
-                :class="{
-                    'opacity-0': !isLiked,
-                    'group-hover:opacity-100': !isSkeleton,
-                }"
-                @click="likeTrack"
-                ><SvgIcon :name="isLiked ? 'heart' : 'heart-outline'" class="h-4 w-4 text-black dark:text-white"
-            /></button>
+            <button class="mr-5 cursor-default transition duration-300 hover:scale-[1.2]">
+                <SvgIcon name="more" class="h-4 w-4 text-black dark:text-white" />
+            </button>
 
             <!-- Track duration -->
             <div v-if="!isSkeleton" class="text-black dark:text-white">{{
@@ -141,7 +91,7 @@
     import type { PropType } from 'vue'
 
     import usePlayer from '@/hooks/usePlayer'
-    import { formatDuration, resizeImage } from '@/utils/common'
+    import { formatDuration } from '@/utils/common'
     import { likeATrack } from '@/api/track'
     import { useUserStore } from '@/stores/user'
 
@@ -153,8 +103,8 @@
         },
         // 布局类型
         layout: {
-            type: String as PropType<'grid' | 'list' | 'album'>,
-            default: 'grid',
+            type: String as PropType<'list' | 'album'>,
+            default: 'list',
         },
         // 是否已经收藏此歌曲
         isLiked: {
@@ -176,28 +126,12 @@
         return props.layout === 'album'
     })
 
-    const isGrid = computed(() => {
-        return props.layout === 'grid'
-    })
-
     const isList = computed(() => {
         return props.layout === 'list'
     })
 
-    const fullWidth = computed(() => {
-        return props.layout !== 'grid'
-    })
-
     const isHighLight = computed(() => {
         return player?.track?.id === props.track.id
-    })
-
-    const coverUrl = computed(() => {
-        if (props.track.al) {
-            return resizeImage(props.track.al.picUrl, 'xs')
-        } else if (props.track.album) {
-            return resizeImage(props.track.album.picUrl, 'xs')
-        }
     })
 
     const artists = computed(() => {
