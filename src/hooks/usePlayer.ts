@@ -291,7 +291,7 @@ export function usePlayerProvider() {
      */
 
     const _shuffleTheList = (trackID?: TrackID) => {
-        let list = playerStore.playlist.filter((tid) => tid !== track.value.id)
+        let list = playerStore.playlist.filter((tid) => tid !== trackID)
 
         if (!trackID) {
             list = playerStore.playlist
@@ -546,6 +546,7 @@ export function usePlayerProvider() {
     }
 
     const playPlaylistByID = async (playlistID: number, trackID?: TrackID) => {
+        mode.value = PlayerMode.PLAYLIST
         const res = await fetchPlaylist({
             id: playlistID,
             s: 0,
@@ -564,6 +565,7 @@ export function usePlayerProvider() {
     }
 
     const playAlbumByID = async (albumID: number, trackID?: TrackID) => {
+        mode.value = PlayerMode.PLAYLIST
         const res = await fetchAlbum({
             id: albumID,
         })
@@ -581,6 +583,7 @@ export function usePlayerProvider() {
     }
 
     const playArtistByID = async (artistID: number, trackID?: TrackID) => {
+        mode.value = PlayerMode.PLAYLIST
         const res = await fetchArtistSongs({
             id: artistID,
             order: OrderType.hot,
@@ -599,6 +602,7 @@ export function usePlayerProvider() {
     }
 
     const playTrackOnListByID = (trackID: TrackID) => {
+        mode.value = PlayerMode.PLAYLIST
         _trackIndex.value = currentPlaylist.value.indexOf(trackID)
         _replaceTrack(currentPlaylist.value[_trackIndex.value], _trackIndex.value)
     }
