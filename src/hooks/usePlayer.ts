@@ -69,6 +69,7 @@ export interface PlayerPublic {
     playPlaylistByID: (playlistID: number) => void
     playAlbumByID: (albumID: number) => void
     playArtistByID: (artistID: number) => void
+    playTrackOnListByID: (trackID: TrackID) => void
 }
 
 export function usePlayerProvider() {
@@ -289,17 +290,17 @@ export function usePlayerProvider() {
      * @private
      */
 
-    const _shuffleTheList = () => {
+    const _shuffleTheList = (trackID?: TrackID) => {
         let list = playerStore.playlist.filter((tid) => tid !== track.value.id)
 
-        if (_trackIndex.value === 0) {
+        if (!trackID) {
             list = playerStore.playlist
         }
 
         list = shuffle(list)
 
-        if (_trackIndex.value !== 0) {
-            list.unshift(track.value.id)
+        if (trackID) {
+            list.unshift(trackID)
         }
 
         playerStore.updateShufflePlaylist(list)
@@ -528,18 +529,23 @@ export function usePlayerProvider() {
      * @param source 列表来源
      */
 
-    const replacePlaylist = (trackIDs: TrackID[], source: PlaylistSource) => {
+    const replacePlaylist = (trackIDs: TrackID[], source: PlaylistSource, trackID?: TrackID) => {
         playerStore.updatePlaylist(trackIDs)
         playlistSource.value = source
 
         if (isShuffle.value) {
-            _shuffleTheList()
+            _shuffleTheList(trackID)
         }
 
-        _replaceTrack(currentPlaylist.value[0], 0)
+        if (!trackID) {
+            _replaceTrack(currentPlaylist.value[0], 0)
+        } else {
+            _trackIndex.value = trackIDs.indexOf(trackID)
+            _replaceTrack(currentPlaylist.value[_trackIndex.value], _trackIndex.value)
+        }
     }
 
-    const playPlaylistByID = async (playlistID: number) => {
+    const playPlaylistByID = async (playlistID: number, trackID?: TrackID) => {
         const res = await fetchPlaylist({
             id: playlistID,
             s: 0,
@@ -547,26 +553,34 @@ export function usePlayerProvider() {
         const trackIDs = computed(() => {
             return res.playlist.trackIds.map((item) => item.id) || []
         })
-        replacePlaylist(trackIDs.value, {
-            type: PlaylistSourceType.PLAYLIST,
-            id: playlistID,
-        })
+        replacePlaylist(
+            trackIDs.value,
+            {
+                type: PlaylistSourceType.PLAYLIST,
+                id: playlistID,
+            },
+            trackID,
+        )
     }
 
-    const playAlbumByID = async (albumID: number) => {
+    const playAlbumByID = async (albumID: number, trackID?: TrackID) => {
         const res = await fetchAlbum({
             id: albumID,
         })
         const trackIDs = computed(() => {
             return res.songs.map((item) => item.id)
         })
-        replacePlaylist(trackIDs.value, {
-            type: PlaylistSourceType.PLAYLIST,
-            id: albumID,
-        })
+        replacePlaylist(
+            trackIDs.value,
+            {
+                type: PlaylistSourceType.PLAYLIST,
+                id: albumID,
+            },
+            trackID,
+        )
     }
 
-    const playArtistByID = async (artistID: number) => {
+    const playArtistByID = async (artistID: number, trackID?: TrackID) => {
         const res = await fetchArtistSongs({
             id: artistID,
             order: OrderType.hot,
@@ -574,10 +588,19 @@ export function usePlayerProvider() {
         const trackIDs = computed(() => {
             return res.songs.map((item) => item.id)
         })
-        replacePlaylist(trackIDs.value, {
-            type: PlaylistSourceType.PLAYLIST,
-            id: artistID,
-        })
+        replacePlaylist(
+            trackIDs.value,
+            {
+                type: PlaylistSourceType.PLAYLIST,
+                id: artistID,
+            },
+            trackID,
+        )
+    }
+
+    const playTrackOnListByID = (trackID: TrackID) => {
+        _trackIndex.value = currentPlaylist.value.indexOf(trackID)
+        _replaceTrack(currentPlaylist.value[_trackIndex.value], _trackIndex.value)
     }
 
     const player = reactive({
@@ -607,7 +630,8 @@ export function usePlayerProvider() {
         replacePlaylist,
         playPlaylistByID,
         playAlbumByID,
-        playArtistByID
+        playArtistByID,
+        playTrackOnListByID,
     })
 
     _initPlayer()

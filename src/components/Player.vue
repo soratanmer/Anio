@@ -89,12 +89,15 @@
         <!-- Right part -->
         <div class="flex items-center justify-end gap-2 pr-2">
             <ButtonIcon
-                :disabled="player?.isPersonalFM || player?.repeatMode === RepeatMode.OFF"
+                :disabled="player?.isPersonalFM"
                 @click="player?.switchRepeatMode()"
             >
                 <SvgIcon
                     v-show="player?.repeatMode === RepeatMode.ON || player?.repeatMode === RepeatMode.OFF"
                     class="h-4 w-4 text-black dark:text-white"
+                    :class="{
+                        'opacity-30': player?.isPersonalFM || player?.repeatMode === RepeatMode.OFF,
+                    }"
                     name="repeat"
                 ></SvgIcon>
                 <SvgIcon
@@ -103,8 +106,14 @@
                     name="repeat-1"
                 ></SvgIcon>
             </ButtonIcon>
-            <ButtonIcon :disabled="!player?.isShuffle" @click="player?.switchShuffle()">
-                <SvgIcon class="h-4 w-4 text-black dark:text-white" name="shuffle"></SvgIcon>
+            <ButtonIcon :disabled="player?.isPersonalFM" @click="player?.switchShuffle()">
+                <SvgIcon
+                    class="h-4 w-4 text-black dark:text-white"
+                    :class="{
+                        'opacity-30': player?.isPersonalFM || !player?.isShuffle,
+                    }"
+                    name="shuffle"
+                ></SvgIcon>
             </ButtonIcon>
             <div class="ml-1 flex items-center">
                 <ButtonIcon @click="player?.mute()">
