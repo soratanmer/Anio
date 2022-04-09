@@ -25,7 +25,7 @@
 
                 <!-- Create time -->
                 <div class="mt-5 text-sm font-thin text-black dark:text-white">
-                    创建时间: {{ formatDate(Number(userAccount?.profile?.createTime), 'zh-CN') }}
+                    注册时间: {{ formatDate(Number(userAccount?.profile?.createTime), 'zh-CN') }}
                 </div>
 
                 <!-- Signature -->

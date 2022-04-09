@@ -1,5 +1,5 @@
 <template>
-    <div class="flex truncate">
+    <div class="truncate">
         <span
             v-for="(artist, index) in artists"
             @click="

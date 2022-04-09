@@ -40,7 +40,7 @@
                 <SvgIcon class="h-6 w-6 text-gray-300" name="music-note"></SvgIcon>
             </div>
 
-            <div class="flex flex-col justify-center leading-tight">
+            <div class="flex flex-col justify-center leading-tight w-full">
                 <!-- Track name -->
                 <div v-if="player?.track?.id" class="line-clamp-1 font-semibold text-black dark:text-white">
                     {{ trackName }}

@@ -8,23 +8,35 @@
     >
         <!-- Track info -->
         <div class="flex col-span-6 pr-8">
-            <div class="flex items-center">
+            <div v-if="isAlbum" class="flex items-center">
                 <!-- Track number -->
                 <div v-if="isAlbum" class="self-center mr-5 text-black dark:text-white">
                     {{ track.no }}
                 </div>
 
-                <button
+                <!-- <button
                     class="mr-5 cursor-default transition duration-300 hover:scale-[1.2]"
                     :class="{
                         'group-hover:opacity-100': !isSkeleton,
                     }"
                     @click="likeTrack"
                     ><SvgIcon :name="isLiked ? 'heart' : 'heart-outline'" class="h-4 w-4 text-black dark:text-white"
-                /></button>
+                /></button> -->
+
+                <!-- Cover -->
+                <!-- <div class="mr-5" v-if="!isAlbum">
+                    <img
+                        v-if="!isSkeleton"
+                        class="box-content h-12 w-12 rounded-md border border-black border-opacity-[.03]"
+                        :src="coverUrl"
+                        alt="cover"
+                    />
+
+                    <Skeleton v-else class="mr-4 h-12 w-12 rounded-md border border-gray-100"></Skeleton>
+                </div> -->
             </div>
             <!-- Track name & Artists -->
-            <div class="flex flex-col justify-center">
+            <div class="flex flex-col justify-center w-full">
                 <div v-if="!isSkeleton" class="line-clamp-1 break-all text-lg font-semibold text-black dark:text-white">
                     {{ track.name }}
                 </div>
@@ -78,7 +90,7 @@
     import type { PropType } from 'vue'
 
     import usePlayer from '@/hooks/usePlayer'
-    import { formatDuration } from '@/utils/common'
+    import { formatDuration, resizeImage } from '@/utils/common'
     import { likeATrack } from '@/api/track'
     import { useUserStore } from '@/stores/user'
 
@@ -119,6 +131,14 @@
 
     const isHighLight = computed(() => {
         return player?.track?.id === props.track.id
+    })
+
+    const coverUrl = computed(() => {
+        if (props.track.al) {
+            return resizeImage(props.track.al.picUrl, 'xs')
+        } else if (props.track.album) {
+            return resizeImage(props.track.album.picUrl, 'xs')
+        }
     })
 
     const artists = computed(() => {

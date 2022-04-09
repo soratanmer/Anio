@@ -5,7 +5,7 @@ import { fetchTracks, fetchAudioSource, scrobble } from '@/api/track'
 import { fetchPersonalFM, FMTrash } from '@/api/FM'
 import { fetchPlaylist } from '@/api/playlist'
 import { fetchAlbum } from '@/api/album'
-import { fetchArtistSongs, OrderType } from '@/api/artist'
+import { fetchArtist } from '@/api/artist'
 
 import { usePlayerStore } from '@/stores/player'
 
@@ -587,12 +587,11 @@ export function usePlayerProvider() {
 
     const playArtistByID = async (artistID: number, trackID?: TrackID) => {
         mode.value = PlayerMode.PLAYLIST
-        const res = await fetchArtistSongs({
+        const res = await fetchArtist({
             id: artistID,
-            order: OrderType.hot,
         })
         const trackIDs = computed(() => {
-            return res.songs.map((item) => item.id)
+            return res.hotSongs.map((item) => item.id)
         })
         replacePlaylist(
             trackIDs.value,
