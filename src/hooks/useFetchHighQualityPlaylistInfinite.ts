@@ -6,12 +6,13 @@ export default function useFetchHighQualityPlaylistInfinite(params: FetchHighQua
 
     return useInfiniteQuery(
         reactive([PlaylistApiNames.FETCH_HIGH_QUALITY_PLAYLIST, params]),
-        ({ pageParam = 0 }) => {
-            return fetchHighQualityPlaylist({
+        async ({ pageParam = 0 }) => {
+            const { data } = await fetchHighQualityPlaylist({
                 cat: params.cat,
                 limit: params.limit,
                 before: pageParam,
-            }).data.value
+            })
+            return data.value
         },
         reactive({
             enabled: true,

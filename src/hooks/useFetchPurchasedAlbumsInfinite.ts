@@ -10,11 +10,12 @@ export default function useFetchPurchasedAlbumsInfinite(params: FetchPurchasedAl
 
     return useInfiniteQuery(
         reactive([UserApiNames.FETCH_PURCHASED_ALBUMS, params]),
-        ({ pageParam = 0 }) => {
-            return fetchPurchasedAlbums({
+        async ({ pageParam = 0 }) => {
+            const { data } = await fetchPurchasedAlbums({
                 limit: params.limit,
                 offset: pageParam * params.limit,
-            }).data.value
+            })
+            return data.value
         },
         reactive({
             enabled,

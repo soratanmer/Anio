@@ -10,13 +10,14 @@ export default function useFetchTopPlaylistsInfinite(params: FetchTopPlaylistPar
 
     return useInfiniteQuery(
         reactive([PlaylistApiNames.FETCH_TOP_PLAYLIST, params]),
-        ({ pageParam = 0 }) => {
-            return fetchTopPlaylist({
+        async ({ pageParam = 0 }) => {
+            const { data } = await fetchTopPlaylist({
                 order: params.order,
                 cat: params.cat,
                 limit: params.limit,
                 offset: pageParam * params.limit,
-            }).data.value
+            })
+            return data.value
         },
         reactive({
             enabled,

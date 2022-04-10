@@ -7,6 +7,7 @@ export const useRequest = createFetch({
     baseUrl: baseURL, // 基础路由
     options: {
         timeout: 30000, // 请求过期时间
+        refetch: true,
         // 在请求前修改配置，如：注入 token 值
         async beforeFetch({ options }) {
             return { options }

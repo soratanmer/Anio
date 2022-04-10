@@ -6,13 +6,14 @@ export default function useFetchArtistSongsInfinite(params: FetchArtistSongsPara
 
     return useInfiniteQuery(
         reactive([ArtistApiNames.FETCH_ARTIST_SONGS, params]),
-        ({ pageParam = 0 }) => {
-            return fetchArtistSongs({
+        async ({ pageParam = 0 }) => {
+            const { data } = await fetchArtistSongs({
                 id: params.id,
                 order: OrderType.time,
                 limit: params.limit,
                 offset: pageParam * Number(params.limit),
-            }).data.value
+            })
+            return data.value
         },
         reactive({
             enabled: true,

@@ -10,12 +10,12 @@ export default function useFetchTracksInfinite(params: FetchTracksParams) {
 
     return useInfiniteQuery(
         reactive([TrackApiNames.FETCH_TRACKS, params]),
-        ({ pageParam = 0 }) => {
+        async ({ pageParam = 0 }) => {
             const cursorStart = pageParam * offset
             const cursorEnd = cursorStart + offset
             const ids = params.ids.slice(cursorStart, cursorEnd)
 
-            const { data } = fetchTracks({ ids })
+            const { data } = await fetchTracks({ ids })
 
             return data.value
         },

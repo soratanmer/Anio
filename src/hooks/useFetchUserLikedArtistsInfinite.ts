@@ -10,11 +10,12 @@ export default function useFetchUserLikedArtistsInfinite(params: FetchUserLikedA
 
     return useInfiniteQuery(
         reactive([UserApiNames.FETCH_USER_LIKED_ARTISTS, params]),
-        ({ pageParam = 0 }) => {
-            return fetchUserLikedArtists({
+        async ({ pageParam = 0 }) => {
+            const { data } = await fetchUserLikedArtists({
                 limit: params.limit,
                 offset: pageParam * params.limit,
-            }).data.value
+            })
+            return data.value
         },
         reactive({
             enabled,

@@ -10,12 +10,13 @@ export default function useFetchArtistAlbumsInfinite(params: FetchArtistAlbumsPa
 
     return useInfiniteQuery(
         reactive([ArtistApiNames.FETCH_ARTIST_ALBUMS, params]),
-        ({ pageParam = 0 }) => {
-            return fetchArtistAlbums({
+        async ({ pageParam = 0 }) => {
+            const { data } = await fetchArtistAlbums({
                 id: params.id,
                 limit: params.limit,
                 offset: pageParam * Number(params.limit),
-            }).data.value
+            })
+            return data.value
         },
         reactive({
             enabled,

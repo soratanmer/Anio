@@ -10,12 +10,13 @@ export default function useFetchNewAlbumsInfinite(params: FetchNewAlbumsParams) 
 
     return useInfiniteQuery(
         reactive([AlbumApiNames.FETCH_NEW_ALBUMS, params]),
-        ({ pageParam = 0 }) => {
-            return fetchNewAlbums({
+        async ({ pageParam = 0 }) => {
+            const { data } = await fetchNewAlbums({
                 limit: params.limit,
                 offset: pageParam * params.limit,
                 area: params.area,
-            }).data.value
+            })
+            return data.value
         },
         reactive({
             enabled,
