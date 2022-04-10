@@ -55,7 +55,7 @@
                     <ButtonIcon :disabled="!isMyPlaylist" @click="subscribe">
                         <SvgIcon
                             class="h-5 w-5 text-black dark:text-white"
-                            :name="playlist?.subscribed ? 'heart' : 'heart-outline'"
+                            :name="isSubscribe ? 'heart' : 'heart-outline'"
                         ></SvgIcon>
                     </ButtonIcon>
                 </div>
@@ -96,7 +96,11 @@
     }
 
     // Fetch playlist date
-    const { data: playlistRaw, isFetching: isFetchingPlaylist } = fetchPlaylist(
+    const {
+        data: playlistRaw,
+        isFetching: isFetchingPlaylist,
+        isFinished: isFinishedPlaylist,
+    } = fetchPlaylist(
         reactive({
             id: playlistID.value,
             s: 0,
@@ -106,6 +110,26 @@
     const playlist = computed(() => {
         return playlistRaw.value?.playlist
     })
+
+    const isSub = ref<boolean>(false)
+
+    const isSubscribe = computed<boolean>({
+        get() {
+            return isSub.value
+        },
+        set(value) {
+            isSub.value = value
+        },
+    })
+
+    watch(
+        () => isFetchingPlaylist.value,
+        () => {
+            if (isFinishedPlaylist) {
+                isSubscribe.value = playlistRaw.value?.playlist.subscribed as boolean
+            }
+        },
+    )
 
     const coverUrl = computed(() => {
         return resizeImage(playlist.value?.coverImgUrl || '', 'md')
@@ -185,5 +209,6 @@
             t: playlist.value?.subscribed ? 2 : 1,
             id: playlistID.value,
         })
+        isSubscribe.value = !isSubscribe.value
     }
 </script>
