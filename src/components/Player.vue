@@ -20,14 +20,7 @@
             <img
                 v-if="cover"
                 class="aspect-square h-full rounded-md shadow-md"
-                @click="
-                    router.push({
-                        name: 'album',
-                        params: {
-                            id: player?.playlistSource?.id,
-                        },
-                    })
-                "
+                @click="gotoAlbum"
                 :src="cover"
                 alt="Cover"
             />
@@ -88,10 +81,7 @@
 
         <!-- Right part -->
         <div class="flex items-center justify-end gap-2 pr-2">
-            <ButtonIcon
-                :disabled="player?.isPersonalFM"
-                @click="player?.switchRepeatMode()"
-            >
+            <ButtonIcon :disabled="player?.isPersonalFM" @click="player?.switchRepeatMode()">
                 <SvgIcon
                     v-show="player?.repeatMode === RepeatMode.ON || player?.repeatMode === RepeatMode.OFF"
                     class="h-4 w-4 text-black dark:text-white"
@@ -174,6 +164,19 @@
     const trackName = computed(() => {
         return player?.track?.name
     })
+
+    const albumID = computed(() => {
+        return player?.track?.al.id || player?.track?.album.id || 0
+    })
+
+    const gotoAlbum = () => {
+        router.push({
+            name: 'album',
+            params: {
+                id: albumID.value,
+            },
+        })
+    }
 
     const likeTrack = async () => {
         await likeATrack({

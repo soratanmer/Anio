@@ -77,6 +77,7 @@ export interface PlayerPublic {
 
 export function usePlayerProvider() {
     const playerStore = usePlayerStore()
+    const title = useTitle('Anio Music')
 
     const state = ref<PlayerState>(PlayerState.INITIALIZING) // 播放器状态
     const playlistSource = ref<PlaylistSource | null>(null) // 当前播放列表的信息
@@ -341,7 +342,6 @@ export function usePlayerProvider() {
 
         if (autoplay) {
             play()
-            document.title = `${track.value.name} · ${track.value.ar[0].name} - Anio Music`
         }
 
         if (!_progressInterval.value) {
@@ -471,6 +471,7 @@ export function usePlayerProvider() {
     const play = () => {
         _howler.value.play()
         state.value = PlayerState.PLAYING
+        title.value = `${track.value.name} · ${track.value.ar[0].name} - Anio Music`
     }
 
     /**
@@ -480,6 +481,7 @@ export function usePlayerProvider() {
     const pause = () => {
         _howler.value.pause()
         state.value = PlayerState.PAUSED
+        title.value = 'Anio Music'
     }
 
     /**

@@ -1,7 +1,17 @@
 <template>
     <div class="grid grid-cols-3 gap-6">
         <!-- cover -->
-        <div class="relative flex overflow-hidden rounded-lg col-span-1">
+        <div
+            class="relative flex overflow-hidden rounded-lg col-span-1"
+            @click="
+                router.push({
+                    name: 'album',
+                    params: {
+                        id: player?.personalFMTrack?.album.id,
+                    },
+                })
+            "
+        >
             <img class="box-content aspect-square h-full w-full" :src="albumUrl" alt="cover" />
         </div>
 
@@ -51,6 +61,7 @@
     import { resizeImage } from '@/utils/common'
 
     const player = usePlayer()
+    const router = useRouter()
 
     const albumUrl = computed(() => {
         return resizeImage(player?.personalFMTrack?.album?.picUrl || '', 'lg')
