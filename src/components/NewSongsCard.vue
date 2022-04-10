@@ -9,7 +9,7 @@
         "
     >
         <!-- Cover -->
-        <img class="absolute top-0 left-0 h-full w-full" :src="coverUrl" alt="cover" />
+        <img class="box-content aspect-square h-full w-full" :src="coverUrl" alt="cover" />
 
         <!-- 新歌速递 -->
         <div class="absolute z-10 text-white text-4xl top-2 left-2">New</div>
@@ -25,7 +25,7 @@
             </button>
         </div>
     </div>
-    <Skeleton v-else class="relative h-64 rounded-lg"></Skeleton>
+    <Skeleton v-else class="relative rounded-lg"></Skeleton>
 </template>
 
 <script setup lang="ts">

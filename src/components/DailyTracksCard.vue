@@ -1,7 +1,7 @@
 <template>
     <div
         v-if="!isLoadingRecommendTracks"
-        class="relative h-64 cursor-pointer overflow-hidden rounded-lg group"
+        class="relative cursor-pointer overflow-hidden rounded-lg group"
         @click="
             router.push({
                 name: 'dailyTrack',
@@ -9,7 +9,7 @@
         "
     >
         <!-- cover  -->
-        <img class="absolute top-0 left-0 h-full w-full" :src="coverUrl" />
+        <img class="box-content aspect-square h-full w-full" :src="coverUrl" />
 
         <!-- 每日推荐 -->
         <div class="absolute z-10 text-white text-4xl top-2 right-2">Daily</div>
@@ -25,7 +25,7 @@
             </button>
         </div>
     </div>
-    <Skeleton v-else class="relative h-64 rounded-lg"></Skeleton>
+    <Skeleton v-else class="relative rounded-lg"></Skeleton>
 </template>
 
 <script setup lang="ts">

@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="mt-10 mb-4 text-3xl font-bold text-black dark:text-white">For You</div>
-        <div class="grid grid-cols-6 gap-6 mt-10 mb-4">
+        <div class="grid grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-6 mt-10 mb-4">
             <FMCard class="col-span-3"></FMCard>
             <DailyTracksCard v-if="isLoggedIn()" class="col-span-1"></DailyTracksCard>
             <NewSongsCard class="col-span-1"></NewSongsCard>
