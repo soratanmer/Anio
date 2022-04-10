@@ -15,7 +15,7 @@
                 </div>
             </div>
             <!-- Track name & Artists -->
-            <div class="flex flex-col justify-center w-full">
+            <div class="flex flex-col justify-center max-w-full">
                 <div v-if="!isSkeleton" class="line-clamp-1 break-all text-lg font-semibold text-black dark:text-white">
                     {{ track.name }}
                 </div>
@@ -52,15 +52,14 @@
         <!-- Actions & Track duration -->
         <div class="col-span-2 flex items-center justify-end">
             <!-- Like button -->
-            <div
+            <button
                 class="mr-5 cursor-default transition duration-300 hover:scale-[1.2]"
                 :class="{
-                    'opacity-0': !isLiked,
                     'group-hover:opacity-100': !isSkeleton,
                 }"
                 @click="likeTrack"
                 ><SvgIcon :name="isLiked ? 'heart' : 'heart-outline'" class="h-4 w-4 text-black dark:text-white"
-            /></div>
+            /></button>
 
             <!-- Track duration -->
             <div v-if="!isSkeleton" class="text-black dark:text-white">{{
