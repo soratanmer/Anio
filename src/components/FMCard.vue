@@ -1,14 +1,16 @@
 <template>
-    <div class="relative h-64 flex overflow-hidden rounded-lg p-4">
-        <!-- Background -->
-        <img id="background" class="absolute top-0 left-0 w-full blur-lg opacity-75" :src="albumUrl" />
-
+    <div class="grid grid-cols-3 gap-6">
         <!-- cover -->
-        <img class="z-10 rounded-lg" :src="albumUrl" />
+        <div class="relative flex overflow-hidden rounded-lg col-span-1">
+            <img class="box-content aspect-square h-full w-full" :src="albumUrl" />
+        </div>
 
         <!-- track info  -->
-        <div class="z-10 ml-5 flex w-full flex-col justify-between text-white">
-            <div>
+        <div class="flex flex-col justify-between text-white relative p-4 col-span-2 overflow-hidden rounded-lg">
+            <!-- Background -->
+            <img id="background" class="absolute top-0 left-0 w-full blur opacity-90" :src="albumUrl" />
+
+            <div class="z-10">
                 <div class="text-xl font-semibold">{{ trackName }}</div>
 
                 <ArtistInline :artists="(artists as Artist[])"></ArtistInline>
@@ -34,7 +36,7 @@
                 </div>
 
                 <!-- fm symbol  -->
-                <div class="right-4 bottom-5 flex text-white opacity-20">
+                <div class="right-5 bottom-5 flex text-white opacity-20">
                     <SvgIcon name="fm" class="mr-2 h-5 w-5" />
                     <span class="font-semibold">私人FM</span>
                 </div>
@@ -78,19 +80,3 @@
         }
     }
 </script>
-
-<style scoped langs="scss">
-    @keyframes move {
-        0% {
-            transform: translateY(0);
-        }
-        100% {
-            transform: translateY(-50%);
-        }
-    }
-
-    #background {
-        animation: move 38s infinite;
-        animation-direction: alternate;
-    }
-</style>
