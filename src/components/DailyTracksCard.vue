@@ -1,6 +1,6 @@
 <template>
     <div
-        v-if="!isLoadingRecommendTracks"
+        v-if="!isFetchingRecommendTracks"
         class="relative cursor-pointer overflow-hidden rounded-lg group"
         @click="
             router.push({
@@ -29,7 +29,7 @@
 </template>
 
 <script setup lang="ts">
-    import useFetchRecommendTracks from '@/hooks/useFetchRecommendTracks'
+    import { fetchDailyRecommendTracks } from '@/api/playlist'
     import usePlayer from '@/hooks/usePlayer'
     import { PlaylistSourceType, PlayerMode } from '@/hooks/usePlayer'
     import { resizeImage } from '@/utils/common'
@@ -37,7 +37,7 @@
     const router = useRouter()
     const player = usePlayer()
 
-    const { data: recommendTracks, isLoading: isLoadingRecommendTracks } = useFetchRecommendTracks()
+    const { data: recommendTracks, isFetching: isFetchingRecommendTracks } = fetchDailyRecommendTracks()
 
     const coverUrl = computed(() => {
         return resizeImage(recommendTracks.value?.data.dailySongs[0].al?.picUrl || '', 'lg')

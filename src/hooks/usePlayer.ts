@@ -286,7 +286,7 @@ export function usePlayerProvider() {
 
     const _fetchPersonalFM = async () => {
         const { data } = await fetchPersonalFM()
-        personalFMTrack.value = data[0]
+        personalFMTrack.value = data.value?.data[0] as Track
     }
 
     /**
@@ -378,8 +378,8 @@ export function usePlayerProvider() {
             br: 128000,
         })
 
-        if (neteaseSource[0].url) {
-            _playTrack(neteaseSource[0].url as string, autoplay)
+        if (neteaseSource.value?.data[0].url) {
+            _playTrack(neteaseSource.value?.data[0].url as string, autoplay)
         } else {
             nextTrack()
         }
@@ -394,8 +394,8 @@ export function usePlayerProvider() {
      */
 
     const _replaceTrack = async (trackID: TrackID, index: number, autoplay = true) => {
-        const { songs } = await fetchTracks({ ids: [trackID] })
-        track.value = songs[0]
+        const { data } = await fetchTracks({ ids: [trackID] })
+        track.value = data.value?.songs[0] as Track
         _trackIndex.value = index
 
         _scrobble(track.value)
@@ -457,9 +457,9 @@ export function usePlayerProvider() {
      * 将当前播放的私人FM曲子以至垃圾桶
      */
 
-    const moveToFMTrash = () => {
-        nextTrack()
-        FMTrash({
+    const moveToFMTrash = async () => {
+        await nextTrack()
+        await FMTrash({
             id: Number(personalFMTrack.value.id),
         })
     }
@@ -552,12 +552,12 @@ export function usePlayerProvider() {
 
     const playPlaylistByID = async (playlistID: number, trackID?: TrackID) => {
         mode.value = PlayerMode.PLAYLIST
-        const res = await fetchPlaylist({
+        const { data } = await fetchPlaylist({
             id: playlistID,
             s: 0,
         })
         const trackIDs = computed(() => {
-            return res.playlist.trackIds.map((item) => item.id) || []
+            return data.value?.playlist.trackIds.map((item) => item.id) || []
         })
         replacePlaylist(
             trackIDs.value,
@@ -571,11 +571,11 @@ export function usePlayerProvider() {
 
     const playAlbumByID = async (albumID: number, trackID?: TrackID) => {
         mode.value = PlayerMode.PLAYLIST
-        const res = await fetchAlbum({
+        const { data } = await fetchAlbum({
             id: albumID,
         })
         const trackIDs = computed(() => {
-            return res.songs.map((item) => item.id)
+            return data.value?.songs.map((item) => item.id) || []
         })
         replacePlaylist(
             trackIDs.value,
@@ -589,11 +589,11 @@ export function usePlayerProvider() {
 
     const playArtistByID = async (artistID: number, trackID?: TrackID) => {
         mode.value = PlayerMode.PLAYLIST
-        const res = await fetchArtist({
+        const { data } = await fetchArtist({
             id: artistID,
         })
         const trackIDs = computed(() => {
-            return res.hotSongs.map((item) => item.id)
+            return data.value?.hotSongs.map((item) => item.id) || []
         })
         replacePlaylist(
             trackIDs.value,

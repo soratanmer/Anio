@@ -51,7 +51,7 @@
             v-if="activeTab === 'tracks'"
             :tracks="topTracks"
             :col="4"
-            :is-loading="isLoading"
+            :is-loading="isFetching"
             layout="list"
             :id="artistID"
             dbclick-track-func="playArtistByID"
@@ -72,8 +72,8 @@
 <script setup lang="ts">
     import usePlayer from '@/hooks/usePlayer'
     import { PlaylistSourceType, PlayerMode } from '@/hooks/usePlayer'
-    import useFetchArtist from '@/hooks/useFetchArtist'
-    import useFetchArtistAlbums from '@/hooks/useFetchArtistAlbums'
+    import useFetchArtistAlbums from '@/hooks/useFetchArtistAlbumsInfinite'
+    import { fetchArtist } from '@/api/artist'
     import { resizeImage } from '@/utils/common'
 
     const route = useRoute()
@@ -111,7 +111,7 @@
     }
 
     // Fetch artist data
-    const { data: ArtistRaw, isLoading } = useFetchArtist(
+    const { data: ArtistRaw, isFetching } = fetchArtist(
         reactive({
             id: artistID.value,
         }),

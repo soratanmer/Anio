@@ -1,4 +1,5 @@
-import request from '@/utils/request'
+import { useGet, usePost } from '@/hooks/useFetchNetEase'
+import { UseFetchReturn } from '@vueuse/core'
 
 export enum UserApiNames {
     FETCH_USER_DETAIL = 'fetchUserDetail',
@@ -10,7 +11,7 @@ export enum UserApiNames {
     FETCH_USER_LIKED_ARTISTS = 'fetchUserLikedArtists',
     FETCH_PURCHASED_ALBUMS = 'fetchPurchasedAlbums',
     FETCH_PURCHASED_SONGS = 'fetchPurchasedSongs',
-    FETCH_RECENT_SONGS = 'fetchRecentSongs'
+    FETCH_RECENT_SONGS = 'fetchRecentSongs',
 }
 
 /**
@@ -24,13 +25,9 @@ export interface FetchUserDetailParams {
 }
 
 export function fetchUserDetail(params: FetchUserDetailParams) {
-    return request({
-        url: '/user/detail',
-        method: 'get',
-        params: {
-            uid: params.uid,
-            timestamp: new Date().getTime(),
-        },
+    return useGet('/user/detail', {
+        uid: params.uid,
+        timestamp: new Date().getTime(),
     })
 }
 
@@ -97,13 +94,9 @@ export interface FetchUserAccountResponse {
     } | null
 }
 
-export function fetchUserAccount(): Promise<FetchUserAccountResponse> {
-    return request({
-        url: '/user/account',
-        method: 'get',
-        params: {
-            timestamp: new Date().getTime(),
-        },
+export function fetchUserAccount(): UseFetchReturn<FetchUserAccountResponse> {
+    return useGet('/user/account', {
+        timestamp: new Date().getTime(),
     })
 }
 
@@ -128,12 +121,13 @@ interface FetchUserPlaylistsResponse {
     playlist: Playlist[]
 }
 
-export function fetchUserPlaylists(params: FetchUserPlaylistsParams): Promise<FetchUserPlaylistsResponse> {
-    return request({
-        url: '/user/playlist',
-        method: 'get',
-        params,
-    })
+export function fetchUserPlaylists(params: FetchUserPlaylistsParams): UseFetchReturn<FetchUserPlaylistsResponse> {
+    // return request({
+    //     url: '/user/playlist',
+    //     method: 'get',
+    //     params,
+    // })
+    return useGet('/user/playlist', params)
 }
 
 /**
@@ -152,14 +146,12 @@ interface FetchUserLikedSongsIdsResponse {
     ids: number[]
 }
 
-export function fetchUserLikedSongsIDs(params: FetchUserLikedSongsIdsParams): Promise<FetchUserLikedSongsIdsResponse> {
-    return request({
-        url: '/likelist',
-        method: 'get',
-        params: {
-            uid: params.uid,
-            timestamp: new Date().getTime(),
-        },
+export function fetchUserLikedSongsIDs(
+    params: FetchUserLikedSongsIdsParams,
+): UseFetchReturn<FetchUserLikedSongsIdsResponse> {
+    return useGet('/likelist', {
+        uid: params.uid,
+        timestamp: new Date().getTime(),
     })
 }
 
@@ -175,13 +167,9 @@ export interface FetchUserDailySignInParams {
 }
 
 export function fetchUserDailySignIn(type: number = 0) {
-    return request({
-        url: '/daily_signin',
-        method: 'post',
-        params: {
-            type,
-            timestamp: new Date().getTime(),
-        },
+    return usePost('/daily_signin', {
+        type,
+        timestamp: new Date().getTime(),
     })
 }
 
@@ -206,14 +194,10 @@ interface FetchUserLikedAlbumsResponse {
     code: number
 }
 
-export function fetchUserLikedAlbums(params: FetchUserLikedAlbumsParams): Promise<FetchUserLikedAlbumsResponse> {
-    return request({
-        url: '/album/sublist',
-        method: 'get',
-        params: {
-            ...params,
-            timestamp: new Date().getTime(),
-        },
+export function fetchUserLikedAlbums(params: FetchUserLikedAlbumsParams): UseFetchReturn<FetchUserLikedAlbumsResponse> {
+    return useGet('/album/sublist', {
+        ...params,
+        timestamp: new Date().getTime(),
     })
 }
 
@@ -235,14 +219,12 @@ interface FetchUserLikedArtistsResponse {
     code: number
 }
 
-export function fetchUserLikedArtists(params: FetchUserLikedArtistsParams): Promise<FetchUserLikedArtistsResponse> {
-    return request({
-        url: '/artist/sublist',
-        method: 'get',
-        params: {
-            ...params,
-            timestamp: new Date().getTime(),
-        },
+export function fetchUserLikedArtists(
+    params: FetchUserLikedArtistsParams,
+): UseFetchReturn<FetchUserLikedArtistsResponse> {
+    return useGet('/artist/sublist', {
+        ...params,
+        timestamp: new Date().getTime(),
     })
 }
 
@@ -264,14 +246,10 @@ interface FetchPurchasedAlbumsResponse {
     code: number
 }
 
-export function fetchPurchasedAlbums(params: FetchPurchasedAlbumsParams): Promise<FetchPurchasedAlbumsResponse> {
-    return request({
-        url: '/digitalAlbum/purchased',
-        method: 'get',
-        params: {
-            ...params,
-            timestamp: new Date().getTime(),
-        },
+export function fetchPurchasedAlbums(params: FetchPurchasedAlbumsParams): UseFetchReturn<FetchPurchasedAlbumsResponse> {
+    return useGet('/digitalAlbum/purchased', {
+        ...params,
+        timestamp: new Date().getTime(),
     })
 }
 
@@ -312,14 +290,10 @@ interface FetchPurchasedSongsResponse {
     message: string
 }
 
-export function fetchPurchasedSongs(params: FetchPurchasedSongsParams): Promise<FetchPurchasedSongsResponse> {
-    return request({
-        url: '/song/purchased',
-        method: 'get',
-        params: {
-            ...params,
-            timestamp: new Date().getTime(),
-        },
+export function fetchPurchasedSongs(params: FetchPurchasedSongsParams): UseFetchReturn<FetchPurchasedSongsResponse> {
+    return useGet('/song/purchased', {
+        ...params,
+        timestamp: new Date().getTime(),
     })
 }
 
@@ -347,10 +321,6 @@ interface FetchRecentSongsResponse {
     message: string
 }
 
-export function fetchRecentSongs(params: FetchRecentSongsParams): Promise<FetchRecentSongsResponse> {
-    return request({
-        url: '/record/recent/song',
-        method: 'get',
-        params,
-    })
+export function fetchRecentSongs(params: FetchRecentSongsParams): UseFetchReturn<FetchRecentSongsResponse> {
+    return useGet('/record/recent/song', params)
 }

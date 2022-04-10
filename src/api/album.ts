@@ -1,4 +1,5 @@
-import request from '@/utils/request'
+import { useGet, usePost } from '@/hooks/useFetchNetEase'
+import { UseFetchReturn } from '@vueuse/core'
 
 export enum AlbumApiNames {
     FETCH_ALBUM = 'fetchAlbum',
@@ -25,18 +26,14 @@ interface FetchAlbumResponse {
     description: string
 }
 
-export function fetchAlbum(params: FetchAlbumParams, noCache: boolean = false): Promise<FetchAlbumResponse> {
+export function fetchAlbum(params: FetchAlbumParams, noCache: boolean = false): UseFetchReturn<FetchAlbumResponse> {
     const otherParams: { timestamp?: number } = {}
     if (noCache) {
         otherParams.timestamp = new Date().getTime()
     }
-    return request({
-        url: '/album',
-        method: 'get',
-        params: {
-            ...params,
-            ...otherParams,
-        },
+    return useGet('/album', {
+        ...params,
+        ...otherParams,
     })
 }
 
@@ -68,12 +65,8 @@ export interface FetchNewAlbumsResponse {
     code: number
 }
 
-export function fetchNewAlbums(params: FetchNewAlbumsParams): Promise<FetchNewAlbumsResponse> {
-    return request({
-        url: '/album/new',
-        method: 'get',
-        params,
-    })
+export function fetchNewAlbums(params: FetchNewAlbumsParams): UseFetchReturn<FetchNewAlbumsResponse> {
+    return useGet('/album/new', params)
 }
 
 /**
@@ -100,14 +93,10 @@ interface FetchAlbumDynamicDetailResponse {
 
 export function fetchAlbumDynamicDetail(
     params: FetchAlbumDynamicDetailParams,
-): Promise<FetchAlbumDynamicDetailResponse> {
-    return request({
-        url: '/album/detail/dynamic',
-        method: 'get',
-        params: {
-            ...params,
-            timestamp: new Date().getTime(),
-        },
+): UseFetchReturn<FetchAlbumDynamicDetailResponse> {
+    return useGet('/album/detail/dynamic', {
+        ...params,
+        timestamp: new Date().getTime(),
     })
 }
 
@@ -120,7 +109,7 @@ export function fetchAlbumDynamicDetail(
 
 export enum AAlbum {
     LIKE = 1,
-    DISLIKED = 0
+    DISLIKED = 0,
 }
 
 export interface LikeAAlbumParams {
@@ -133,10 +122,6 @@ interface LikedAALbumResponse {
     time: number
 }
 
-export function likeAAlbum(params: LikeAAlbumParams): Promise<LikedAALbumResponse> {
-    return request({
-        url: '/album/sub',
-        method: 'post',
-        params,
-    })
+export function likeAAlbum(params: LikeAAlbumParams): UseFetchReturn<LikedAALbumResponse> {
+    return usePost('/album/sub', params)
 }

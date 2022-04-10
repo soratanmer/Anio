@@ -55,7 +55,7 @@
             :playlists="userCreatePlaylist || []"
             type="playlist"
             subtitle="creator"
-            :is-skeleton="isLoadingPlaylists"
+            :is-skeleton="isFetchingPlaylists"
         ></CoverRow>
 
         <CoverRow
@@ -63,32 +63,32 @@
             :playlists="userLikedPlaylist || []"
             type="playlist"
             subtitle="creator"
-            :is-skeleton="isLoadingPlaylists"
+            :is-skeleton="isFetchingPlaylists"
         ></CoverRow>
 
         <CoverRow
             v-if="activeTab === 'albums'"
             v-for="page in likedAlbums?.pages"
-            :albums="page.data || []"
+            :albums="page?.data || []"
             type="album"
             subtitle="artist"
-            :is-skeleton="isLoadingLikedAlbums"
+            :is-skeleton="isFetchingLikedAlbums"
         ></CoverRow>
 
         <CoverRow
             v-if="activeTab === 'artists'"
             v-for="page in likedArtists?.pages"
-            :artists="page.data || []"
+            :artists="page?.data || []"
             type="artist"
-            :is-skeleton="isLoadingLikedArtists"
+            :is-skeleton="isFetchingLikedArtists"
         ></CoverRow>
     </div>
 </template>
 
 <script setup lang="ts">
-    import useFetchUserLikedAlbums from '@/hooks/useFetchUserLikedAlbums'
-    import useFetchUserLikedArtist from '@/hooks/useFetchUserLikedArtists'
-    import useFetchUserPlayLists from '@/hooks/useFetchUserPlaylists'
+    import { fetchUserPlaylists } from "@/api/user";
+    import useFetchUserLikedAlbumsInfinite from '@/hooks/useFetchUserLikedAlbumsInfinite'
+    import useFetchUserLikedArtistsInfinite from '@/hooks/useFetchUserLikedArtistsInfinite'
     import { formatDate, resizeImage } from '@/utils/common'
     import { useUserStore } from '@/stores/user'
 
@@ -132,7 +132,7 @@
         return userAccount.value?.profile?.avatarUrl ? resizeImage(userAccount.value?.profile?.avatarUrl, 'sm') : ''
     })
 
-    const { data: userPlaylists, isLoading: isLoadingPlaylists } = useFetchUserPlayLists(
+    const { data: userPlaylists, isFetching: isFetchingPlaylists } = fetchUserPlaylists(
         reactive({
             uid: computed(() => {
                 return userAccount.value?.account?.id ?? 0
@@ -155,11 +155,10 @@
 
     const {
         data: likedArtists,
-        isLoading: isLoadingLikedArtists,
         isFetching: isFetchingLikedArtists,
         hasNextPage: likedArtistsHasNextPage,
         fetchNextPage: fetchLikedArtistsNextPage,
-    } = useFetchUserLikedArtist(
+    } = useFetchUserLikedArtistsInfinite(
         reactive({
             limit: 90,
         }),
@@ -167,11 +166,10 @@
 
     const {
         data: likedAlbums,
-        isLoading: isLoadingLikedAlbums,
         isFetching: isFetchingLikedAlbums,
         hasNextPage: likedAlbumsHasNextPage,
         fetchNextPage: fetchLikedAlbumsNextPage,
-    } = useFetchUserLikedAlbums(
+    } = useFetchUserLikedAlbumsInfinite(
         reactive({
             limit: 90,
         }),

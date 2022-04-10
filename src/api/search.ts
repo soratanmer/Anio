@@ -1,4 +1,5 @@
-import request from '@/utils/request'
+import { useGet } from '@/hooks/useFetchNetEase'
+import { UseFetchReturn } from '@vueuse/core'
 
 export enum SearchApiName {
     SEARCH = 'search',
@@ -80,12 +81,8 @@ interface SearchResponse {
     }
 }
 
-export function search(params: SearchParams): Promise<SearchResponse> {
-    return request({
-        url: '/search',
-        method: 'get',
-        params,
-    })
+export function search(params: SearchParams): UseFetchReturn<SearchResponse> {
+    return useGet('/search', params)
 }
 
 /**
@@ -109,10 +106,6 @@ interface MultiMatchSearchResponse {
     }
 }
 
-export function multiMatchSearch(params: MultiMatchSearchParams): Promise<MultiMatchSearchResponse> {
-    return request({
-        url: '/search/multimatch',
-        method: 'get',
-        params,
-    })
+export function multiMatchSearch(params: MultiMatchSearchParams): UseFetchReturn<MultiMatchSearchResponse> {
+    return useGet('/search/multimatch', params)
 }

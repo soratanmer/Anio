@@ -1,4 +1,5 @@
-import request from '@/utils/request'
+import { usePost } from '@/hooks/useFetchNetEase'
+import { UseFetchReturn } from '@vueuse/core'
 import type { FetchUserAccountResponse } from '@/api/user'
 
 export enum AuthApiNames {
@@ -39,11 +40,7 @@ export interface LoginWithEmailResponse extends FetchUserAccountResponse {
 }
 
 export function loginWithEmail(params: LoginWithEmailParams) {
-    return request({
-        url: '/login',
-        method: 'post',
-        params,
-    })
+    return usePost('/login', params)
 }
 
 /**
@@ -56,11 +53,8 @@ interface RefreshCookieResponse {
     code: number
 }
 
-export function refreshCookie(): Promise<RefreshCookieResponse> {
-    return request({
-        url: '/login/refresh',
-        method: 'post',
-    })
+export function refreshCookie(): UseFetchReturn<RefreshCookieResponse> {
+    return usePost('/login/refresh')
 }
 
 /**
@@ -72,9 +66,6 @@ interface LogoutResponse {
     code: number
 }
 
-export function logout(): Promise<LogoutResponse> {
-    return request({
-        url: '/logout',
-        method: 'post',
-    })
+export function logout(): UseFetchReturn<LogoutResponse> {
+    return usePost('/logout')
 }

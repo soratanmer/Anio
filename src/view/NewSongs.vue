@@ -4,7 +4,7 @@
             <!-- Cover -->
             <div class="relative z-0 aspect-square self-start">
                 <div
-                    v-if="!isLoadingNewSongs"
+                    v-if="!isFetchingNewSongs"
                     class="absolute top-3.5 z-[-1] h-full w-full scale-x-[.92] scale-y-[.96] rounded-lg bg-cover opacity-40 blur-lg filter"
                     :style="{
                         backgroundImage: `url(&quot;${coverUrl}&quot;)`,
@@ -13,7 +13,7 @@
                 </div>
 
                 <img
-                    v-if="!isLoadingNewSongs"
+                    v-if="!isFetchingNewSongs"
                     class="rounded-lg border border-black border-opacity-5"
                     :src="coverUrl"
                     alt="cover"
@@ -23,14 +23,14 @@
 
             <!-- DailyTracks Info -->
             <div class="z-10">
-                <div v-if="!isLoadingNewSongs" class="text-4xl font-bold text-black dark:text-white">
+                <div v-if="!isFetchingNewSongs" class="text-4xl font-bold text-black dark:text-white">
                     新歌速递
                 </div>
                 <Skeleton v-else class="w-3/4 text-4xl">PLACEHOLDER</Skeleton>
 
                 <!-- DailyTracks description -->
                 <div
-                    v-if="!isLoadingNewSongs"
+                    v-if="!isFetchingNewSongs"
                     class="line-clamp-2 mt-5 min-h-10 text-sm text-black dark:text-white"
                 >
                     开启最强新歌雷达，为你带来专属新歌能量！
@@ -50,13 +50,13 @@
             class="mt-10"
             :tracks="newSongs?.data || []"
             layout="list"
-            :is-loading="isLoadingNewSongs"
+            :is-loading="isFetchingNewSongs"
         ></TrackList>
     </div>
 </template>
 
 <script setup lang="ts">
-    import useFetchTopSongs from '@/hooks/useFetchTopSongs'
+    import { fetchTopSongs } from "@/api/track";
     import usePlayer from '@/hooks/usePlayer'
     import { PlaylistSourceType, PlayerMode } from '@/hooks/usePlayer'
     import { TopSongsType } from '@/api/track'
@@ -64,7 +64,7 @@
 
     const player = usePlayer()
 
-    const { data: newSongs, isLoading: isLoadingNewSongs } = useFetchTopSongs(
+    const { data: newSongs, isFetching: isFetchingNewSongs } = fetchTopSongs(
         reactive({
             type: TopSongsType.JP,
         }),

@@ -1,4 +1,5 @@
-import request from '@/utils/request'
+import { useGet, usePost } from '@/hooks/useFetchNetEase'
+import { UseFetchReturn } from '@vueuse/core'
 
 export enum ArtistApiNames {
     FETCH_ARTIST = 'fetchArtist',
@@ -26,18 +27,14 @@ interface FetchArtistResponse {
     hotSongs: Track[]
 }
 
-export function fetchArtist(params: FetchArtistParams, noCache: boolean = false): Promise<FetchArtistResponse> {
+export function fetchArtist(params: FetchArtistParams, noCache: boolean = false): UseFetchReturn<FetchArtistResponse> {
     const otherParams: { timestamp?: number } = {}
     if (noCache) {
         otherParams.timestamp = new Date().getTime()
     }
-    return request({
-        url: '/artists',
-        method: 'get',
-        params: {
-            ...params,
-            ...otherParams,
-        },
+    return useGet('/artists', {
+        ...params,
+        ...otherParams,
     })
 }
 
@@ -71,14 +68,10 @@ export interface FetchArtistSongsResponse {
     code: number
 }
 
-export function fetchArtistSongs(params: FetchArtistSongsParams): Promise<FetchArtistSongsResponse> {
-    return request({
-        url: '/artist/songs',
-        method: 'get',
-        params: {
-            ...params,
-            timestamp: new Date().getTime(),
-        },
+export function fetchArtistSongs(params: FetchArtistSongsParams): UseFetchReturn<FetchArtistSongsResponse> {
+    return useGet('/artist/songs', {
+        ...params,
+        timestamp: new Date().getTime(),
     })
 }
 
@@ -103,12 +96,8 @@ export interface FetchArtistAlbumsResponse {
     artist: Artist
 }
 
-export function fetchArtistAlbums(params: FetchArtistAlbumsParams): Promise<FetchArtistAlbumsResponse> {
-    return request({
-        url: '/artist/album',
-        method: 'get',
-        params,
-    })
+export function fetchArtistAlbums(params: FetchArtistAlbumsParams): UseFetchReturn<FetchArtistAlbumsResponse> {
+    return useGet('/artist/album', params)
 }
 
 /**
@@ -141,12 +130,10 @@ interface FetchToplistOfArtistsResponse {
     code: number
 }
 
-export function fetchToplistOfArtists(params: FetchToplistOfArtistsParams): Promise<FetchToplistOfArtistsResponse> {
-    return request({
-        url: '/toplist/artist',
-        method: 'get',
-        params,
-    })
+export function fetchToplistOfArtists(
+    params: FetchToplistOfArtistsParams,
+): UseFetchReturn<FetchToplistOfArtistsResponse> {
+    return useGet('/toplist/artist', params)
 }
 
 /**
@@ -172,12 +159,8 @@ interface FollowAArtistResponse {
     data: null
 }
 
-export function followAArtist(params: FollowAArtistParams): Promise<FollowAArtistResponse> {
-    return request({
-        url: '/artist/sub',
-        method: 'post',
-        params,
-    })
+export function followAArtist(params: FollowAArtistParams): UseFetchReturn<FollowAArtistResponse> {
+    return usePost('/artist/sub', params)
 }
 
 /**
@@ -195,10 +178,6 @@ interface FetchSimilarArtistsResponse {
     code: number
 }
 
-export function fetchSimilarArtists(params: FetchSimilarArtistsParams): Promise<FetchSimilarArtistsResponse> {
-    return request({
-        url: '/simi/artist',
-        method: 'post',
-        params,
-    })
+export function fetchSimilarArtists(params: FetchSimilarArtistsParams): UseFetchReturn<FetchSimilarArtistsResponse> {
+    return usePost('/simi/artist', params)
 }

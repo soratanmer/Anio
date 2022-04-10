@@ -1,4 +1,5 @@
-import request from '@/utils/request'
+import { useGet, usePost } from '@/hooks/useFetchNetEase'
+import { UseFetchReturn } from '@vueuse/core'
 
 export enum TrackApiNames {
     FETCH_TRACKS = 'fetchTracks',
@@ -27,13 +28,9 @@ interface FetchTracksResponse {
     }
 }
 
-export function fetchTracks(params: FetchTracksParams): Promise<FetchTracksResponse> {
-    return request({
-        url: '/song/detail',
-        method: 'get',
-        params: {
-            ids: params.ids.join(','),
-        },
+export function fetchTracks(params: FetchTracksParams): UseFetchReturn<FetchTracksResponse> {
+    return useGet('/song/detail', {
+        ids: params.ids.join(','),
     })
 }
 
@@ -80,12 +77,8 @@ interface FetchAudioSourceResponse {
     }[]
 }
 
-export function fetchAudioSource(params: FetchAudioSourceParams): Promise<FetchAudioSourceResponse> {
-    return request({
-        url: '/song/url',
-        method: 'get',
-        params,
-    })
+export function fetchAudioSource(params: FetchAudioSourceParams): UseFetchReturn<FetchAudioSourceResponse> {
+    return useGet('/song/url', params)
 }
 
 /**
@@ -102,43 +95,39 @@ export interface FetchLyricResponse {
     sgc: boolean
     sfy: boolean
     qfy: boolean
-    transUser:{
-        id:number
-        status:number
-        demand:number
-        userid:number
-        nickname:string
-        uptime:number
+    transUser: {
+        id: number
+        status: number
+        demand: number
+        userid: number
+        nickname: string
+        uptime: number
     }
-    lyricUser:{
-        id:number
-        status:number
-        demand:number
-        userid:number
-        nickname:string
-        uptime:number
+    lyricUser: {
+        id: number
+        status: number
+        demand: number
+        userid: number
+        nickname: string
+        uptime: number
     }
-    lrc:{
+    lrc: {
         version: number
         lyric: string
     }
-    klyric:{
+    klyric: {
         version: number
         lyric: string
     }
-    tlyric:{
+    tlyric: {
         version: number
         lyric: string
     }
     code: number
 }
 
-export function fetchLyric(params: FetchLyricParams): Promise<FetchLyricResponse> {
-    return request({
-        url: '/lyric',
-        method: 'get',
-        params,
-    })
+export function fetchLyric(params: FetchLyricParams): UseFetchReturn<FetchLyricResponse> {
+    return useGet('/lyric', params)
 }
 
 /**
@@ -169,12 +158,8 @@ interface FetchTopSongsResponse {
     data: Track[]
 }
 
-export function fetchTopSongs(params: FetchTopSongsParams): Promise<FetchTopSongsResponse> {
-    return request({
-        url: '/top/song',
-        method: 'get',
-        params,
-    })
+export function fetchTopSongs(params: FetchTopSongsParams): UseFetchReturn<FetchTopSongsResponse> {
+    return useGet('/top/song', params)
 }
 
 /**
@@ -195,14 +180,10 @@ interface LikeATrackResponse {
     code: number
 }
 
-export function likeATrack(params: LikeATrackParams): Promise<LikeATrackResponse> {
-    return request({
-        url: '/like',
-        method: 'post',
-        params: {
-            ...params,
-            timestamp: new Date().getTime(),
-        },
+export function likeATrack(params: LikeATrackParams): UseFetchReturn<LikeATrackResponse> {
+    return usePost('/like', {
+        ...params,
+        timestamp: new Date().getTime(),
     })
 }
 
@@ -221,18 +202,14 @@ export interface ScrobbleParams {
 }
 
 interface ScrobbleResponse {
-    code:number
-    data:string
-    message:string
+    code: number
+    data: string
+    message: string
 }
 
-export function scrobble(params: ScrobbleParams):Promise<ScrobbleResponse> {
-    return request({
-        url: '/scrobble',
-        method: 'get',
-        params: {
-            ...params,
-            timestamp: new Date().getTime(),
-        },
+export function scrobble(params: ScrobbleParams): UseFetchReturn<ScrobbleResponse> {
+    return useGet('/scrobble', {
+        ...params,
+        timestamp: new Date().getTime(),
     })
 }

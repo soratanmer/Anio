@@ -5,20 +5,21 @@ import type { FetchUserAccountResponse } from '@/api/user'
 export const useUserStore = defineStore('user', {
     state: () => {
         return {
-            userAccount: {} as FetchUserAccountResponse,
-            likedList: [] as number[],
+            userAccount: {} as FetchUserAccountResponse | null,
+            likedList: [] as number[] | undefined,
         }
     },
     getters: {},
     actions: {
         async updateUserAccount() {
-            this.userAccount = await fetchUserAccount()
+            const { data } = await fetchUserAccount()
+            this.userAccount = data.value
         },
         async updateLikedList() {
-            const { ids } = await fetchUserLikedSongsIDs({
-                uid: this.userAccount.account?.id ?? 0,
+            const { data } = await fetchUserLikedSongsIDs({
+                uid: this.userAccount?.account?.id ?? 0,
             })
-            this.likedList = ids
+            this.likedList = data.value?.ids
         },
     },
     persist: {

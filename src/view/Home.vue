@@ -11,21 +11,21 @@
             title="推荐歌单"
             :playlists="recommendedPlaylists?.result.slice(0, 12) ?? []"
             type="playlist"
-            :is-skeleton="isLoadingRecommendedPlaylists"
+            :is-skeleton="isFetchingRecommendedPlaylists"
         ></CoverRow>
 
         <CoverRow
             title="新专速递"
-            :albums="newAlbums?.pages[0].albums ?? []"
+            :albums="newAlbums?.albums ?? []"
             type="album"
-            :is-skeleton="isLoadingNewAlbums"
+            :is-skeleton="isFetchingNewAlbums"
         ></CoverRow>
 
         <CoverRow
             title="推荐艺人"
             :artists="shuffle(toplistArtists?.list.artists).slice(0, 6) || []"
             type="artist"
-            :is-skeleton="isLoadingToplistArtists"
+            :is-skeleton="isFetchingToplistArtists"
         ></CoverRow>
     </div>
 </template>
@@ -33,9 +33,9 @@
 <script setup lang="ts">
     import { shuffle } from 'lodash'
 
-    import useFetchRecommendedPlaylists from '@/hooks/useFetchRecommendedPlaylists'
-    import useFetchNewAlbums from '@/hooks/useFetchNewAlbums'
-    import useFetchToplistArtists from '@/hooks/useFetchToplistArtists'
+    import { fetchRecommendedPlaylists } from "@/api/playlist";
+    import { fetchNewAlbums } from "@/api/album";
+    import { fetchToplistOfArtists } from "@/api/artist";
     import { NewAlbumsArea } from '@/api/album'
     import { ToplistOfArtists } from '@/api/artist'
     import { useUserStore } from '@/stores/user'
@@ -46,16 +46,16 @@
     const userStore = useUserStore()
 
     const userName = computed(() => {
-        return userStore.userAccount.profile?.nickname
+        return userStore.userAccount?.profile?.nickname
     })
 
-    const { data: recommendedPlaylists, isLoading: isLoadingRecommendedPlaylists } = useFetchRecommendedPlaylists(
+    const { data: recommendedPlaylists, isFetching: isFetchingRecommendedPlaylists } = fetchRecommendedPlaylists(
         reactive({
             limit: 30,
         }),
     )
 
-    const { data: newAlbums, isLoading: isLoadingNewAlbums } = useFetchNewAlbums(
+    const { data: newAlbums, isFetching: isFetchingNewAlbums } = fetchNewAlbums(
         reactive({
             limit: 12,
             offset: 0,
@@ -63,7 +63,7 @@
         }),
     )
 
-    const { data: toplistArtists, isLoading: isLoadingToplistArtists } = useFetchToplistArtists(
+    const { data: toplistArtists, isFetching: isFetchingToplistArtists } = fetchToplistOfArtists(
         reactive({
             type: ToplistOfArtists.JP,
         }),

@@ -4,7 +4,7 @@
             <!-- Cover -->
             <div class="relative z-0 aspect-square self-start">
                 <div
-                    v-if="!isLoadingPlaylist"
+                    v-if="!isFetchingPlaylist"
                     class="absolute top-3.5 z-[-1] h-full w-full scale-x-[.92] scale-y-[.96] rounded-lg bg-cover opacity-40 blur-lg filter"
                     :style="{
                         backgroundImage: `url(&quot;${coverUrl}&quot;)`,
@@ -13,7 +13,7 @@
                 </div>
 
                 <img
-                    v-if="!isLoadingPlaylist"
+                    v-if="!isFetchingPlaylist"
                     class="rounded-lg border border-black border-opacity-5"
                     :src="coverUrl"
                     alt="cover"
@@ -24,25 +24,25 @@
             <!-- Playlist Info -->
             <div class="z-10">
                 <!-- Playlist name -->
-                <div v-if="!isLoadingPlaylist" class="text-4xl font-bold text-black dark:text-white">
+                <div v-if="!isFetchingPlaylist" class="text-4xl font-bold text-black dark:text-white">
                     {{ playlist?.name }}
                 </div>
                 <Skeleton v-else class="w-3/4 text-4xl">PLACEHOLDER</Skeleton>
 
                 <!-- playlist Creator -->
-                <div v-if="!isLoadingPlaylist" class="mt-5 text-lg font-medium text-black dark:text-white">
+                <div v-if="!isFetchingPlaylist" class="mt-5 text-lg font-medium text-black dark:text-white">
                     Playlist by <span>{{ playlist?.creator.nickname }}</span>
                 </div>
                 <Skeleton v-else class="mt-5 w-64 text-lg">PLACEHOLDER</Skeleton>
 
                 <!-- Playlist last update time & track count -->
-                <div v-if="!isLoadingPlaylist" class="text-sm font-thin text-black dark:text-white">
+                <div v-if="!isFetchingPlaylist" class="text-sm font-thin text-black dark:text-white">
                     Update at {{ formatDate(playlist?.updateTime || 0, 'zh-CN') }} · {{ playlist?.trackCount }} Songs
                 </div>
                 <Skeleton v-else class="w-72 translate-x-px text-sm">PLACEHOLDER</Skeleton>
 
                 <!-- Playlist description -->
-                <div v-if="!isLoadingPlaylist" class="line-clamp-2 mt-5 min-h-10 text-sm text-black dark:text-white">
+                <div v-if="!isFetchingPlaylist" class="line-clamp-2 mt-5 min-h-10 text-sm text-black dark:text-white">
                     {{ playlist?.description }}
                 </div>
                 <Skeleton v-else class="mt-5 min-h-10 w-1/2 text-sm">PLACEHOLDER</Skeleton>
@@ -63,16 +63,19 @@
         </div>
 
         <!-- Infinite tracks -->
-        <TrackList v-for="page in infiniteTracks?.pages" :tracks="page?.songs || []" layout="list" :id="playlistID" dbclick-track-func="playPlaylistByID" />
+        <TrackList
+            v-for="page in infiniteTracks?.pages"
+            :tracks="page?.songs || []"
+            layout="list"
+            :id="playlistID"
+            dbclick-track-func="playPlaylistByID"
+        />
     </div>
 </template>
 
 <script setup lang="ts">
-    import { focusManager } from 'vue-query'
-
     import usePlayer from '@/hooks/usePlayer'
     import { PlaylistSourceType, PlayerMode } from '@/hooks/usePlayer'
-    import useFetchPlaylist from '@/hooks/useFetchPlaylist'
     import useFetchTracksInfinite from '@/hooks/useFetchTracksInfinite'
     import { useUserStore } from '@/stores/user'
     import { formatDate, resizeImage } from '@/utils/common'
@@ -93,7 +96,7 @@
     }
 
     // Fetch playlist date
-    const { data: playlistRaw, isLoading: isLoadingPlaylist } = useFetchPlaylist(
+    const { data: playlistRaw, isFetching: isFetchingPlaylist } = fetchPlaylist(
         reactive({
             id: playlistID.value,
             s: 0,
@@ -171,7 +174,7 @@
     }
 
     const isMyPlaylist = computed(() => {
-        return userStore.userAccount.account?.id !== playlistRaw.value?.playlist.creator.userId
+        return userStore.userAccount?.account?.id !== playlistRaw.value?.playlist.creator.userId
     })
 
     const subscribe = async () => {

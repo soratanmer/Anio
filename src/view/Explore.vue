@@ -50,7 +50,7 @@
                 route.query.active !== '推荐歌单'
             "
             v-for="page in topPlaylists?.pages"
-            :playlists="page.playlists"
+            :playlists="page?.playlists"
             type="playlist"
             subtitle="creator"
             :is-skeleton="isLoadingTopPlaylists"
@@ -60,20 +60,20 @@
             v-if="route.query.active === '排行榜'"
             :playlists="toplists?.list"
             type="playlist"
-            :is-skeleton="isLoadingToplists"
+            :is-skeleton="isFetchingToplists"
         ></CoverRow>
 
         <CoverRow
             v-if="route.query.active === '推荐歌单'"
             :playlists="recommendedPlaylists?.result"
             type="playlist"
-            :is-skeleton="isLoadingRecommendedPlaylists"
+            :is-skeleton="isFetchingRecommendedPlaylists"
         ></CoverRow>
 
         <CoverRow
             v-if="route.query.active === '精品歌单'"
             v-for="page in hightQualityPlaylists?.pages"
-            :playlists="page.playlists"
+            :playlists="page?.playlists"
             type="playlist"
             subtitle="creator"
             :is-skeleton="isLoadingHighQualityPlaylists"
@@ -82,11 +82,9 @@
 </template>
 
 <script setup lang="ts">
-    import useFetchHighQualityPlaylists from '@/hooks/useFetchHighQualityPlaylist'
-    import useFetchPlaylistCategory from '@/hooks/useFetchPlaylistCategory'
-    import useFetchRecommendedPlaylists from '@/hooks/useFetchRecommendedPlaylists'
-    import useFetchToplist from '@/hooks/useFetchToplist'
-    import useFetchTopPlaylists from '@/hooks/useFetchTopPlaylists'
+    import { fetchPlaylistCategory, fetchRecommendedPlaylists, fetchToplist } from '@/api/playlist'
+    import useFetchHighQualityPlaylistInfinite from '@/hooks/useFetchHighQualityPlaylistInfinite'
+    import useFetchTopPlaylistsInfinite from '@/hooks/useFetchTopPlaylistsInfinite'
 
     interface Category {
         name: string
@@ -135,7 +133,7 @@
     const route = useRoute()
     const router = useRouter()
 
-    const { data: playlistCategory, isLoading: isLoadingPlaylistCategory } = useFetchPlaylistCategory()
+    const { data: playlistCategory } = fetchPlaylistCategory()
 
     const {
         data: topPlaylists,
@@ -143,14 +141,14 @@
         isFetching: isFetchingTopPlaylists,
         hasNextPage: TopPlaylistsHasNextPage,
         fetchNextPage: fetchTopPlaylistsNextPage,
-    } = useFetchTopPlaylists(
+    } = useFetchTopPlaylistsInfinite(
         reactive({
             cat: String(route.query.category),
             limit: 90,
         }),
     )
 
-    const { data: toplists, isLoading: isLoadingToplists } = useFetchToplist()
+    const { data: toplists, isFetching: isFetchingToplists } = fetchToplist()
 
     const {
         data: hightQualityPlaylists,
@@ -158,12 +156,12 @@
         isFetching: isFetchingHighQualityPlaylists,
         hasNextPage: HighQualityPlaylistsHasNextPage,
         fetchNextPage: fetchHighQualityPlaylistsNextPage,
-    } = useFetchHighQualityPlaylists({
+    } = useFetchHighQualityPlaylistInfinite({
         cat: '全部',
         limit: 90,
     })
 
-    const { data: recommendedPlaylists, isLoading: isLoadingRecommendedPlaylists } = useFetchRecommendedPlaylists(
+    const { data: recommendedPlaylists, isFetching: isFetchingRecommendedPlaylists } = fetchRecommendedPlaylists(
         reactive({ limit: 100 }),
     )
 

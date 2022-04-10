@@ -144,7 +144,7 @@
     } = useQuery(
         reactive([SearchApiName.SEARCH, keywords]),
         async () => {
-            const data = await search({
+            const { data } = await search({
                 keywords: keywords.value,
                 type: SearchTypes.ALL,
             })
@@ -192,7 +192,7 @@
     )
 
     const topResult = computed(() => {
-        const searchData = multiMatchSearchResult.value?.result
+        const searchData = multiMatchSearchResult.value?.data.value?.result
         if (!searchData) {
             return null
         }

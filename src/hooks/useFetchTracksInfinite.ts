@@ -2,7 +2,7 @@ import { fetchTracks, TrackApiNames } from '@/api/track'
 import type { FetchTracksParams } from '@/api/track'
 
 export default function useFetchTracksInfinite(params: FetchTracksParams) {
-    console.debug('useTracksInfinite', params.ids)
+    console.debug('useFetchTracksInfinite', params.ids)
     const enabled = computed(() => params.ids.length !== 0)
 
     // 20 tracks each page
@@ -15,7 +15,9 @@ export default function useFetchTracksInfinite(params: FetchTracksParams) {
             const cursorEnd = cursorStart + offset
             const ids = params.ids.slice(cursorStart, cursorEnd)
 
-            return fetchTracks({ ids })
+            const { data } = fetchTracks({ ids })
+
+            return data.value
         },
         reactive({
             enabled,

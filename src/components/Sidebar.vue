@@ -48,7 +48,7 @@
 </template>
 
 <script setup lang="ts">
-    import useFetchUserPlaylists from '@/hooks/useFetchUserPlaylists'
+    import { fetchUserPlaylists } from "@/api/user";
     import { useUserStore } from '@/stores/user'
 
     interface Tab {
@@ -82,10 +82,10 @@
         },
     ]
 
-    const { data: userPlaylists } = useFetchUserPlaylists(
+    const { data: userPlaylists } = fetchUserPlaylists(
         reactive({
             uid: computed(() => {
-                return userStore.userAccount.account?.id ?? 0
+                return userStore.userAccount?.account?.id ?? 0
             }),
             offset: 0,
         }),

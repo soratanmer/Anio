@@ -66,10 +66,10 @@
     }
 
     const login = async () => {
-        const result = await loginWithEmail({
+        const { data } = await loginWithEmail({
             email: email.value.trim(),
             md5_password: md5(password.value.trim()),
         })
-        handlePostLogin(result.cookie)
+        handlePostLogin(data.value.cookie)
     }
 </script>

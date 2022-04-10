@@ -4,7 +4,7 @@
             <!-- Cover -->
             <div class="relative z-0 aspect-square self-start">
                 <div
-                    v-if="!isLoadingRecommendTracks"
+                    v-if="!isFetchingRecommendTracks"
                     class="absolute top-3.5 z-[-1] h-full w-full scale-x-[.92] scale-y-[.96] rounded-lg bg-cover opacity-40 blur-lg filter"
                     :style="{
                         backgroundImage: `url(&quot;${coverUrl}&quot;)`,
@@ -13,7 +13,7 @@
                 </div>
 
                 <img
-                    v-if="!isLoadingRecommendTracks"
+                    v-if="!isFetchingRecommendTracks"
                     class="rounded-lg border border-black border-opacity-5"
                     :src="coverUrl"
                     alt="cover"
@@ -23,14 +23,14 @@
 
             <!-- DailyTracks Info -->
             <div class="z-10">
-                <div v-if="!isLoadingRecommendTracks" class="text-4xl font-bold text-black dark:text-white">
+                <div v-if="!isFetchingRecommendTracks" class="text-4xl font-bold text-black dark:text-white">
                     每日歌曲推荐
                 </div>
                 <Skeleton v-else class="w-3/4 text-4xl">PLACEHOLDER</Skeleton>
 
                 <!-- DailyTracks description -->
                 <div
-                    v-if="!isLoadingRecommendTracks"
+                    v-if="!isFetchingRecommendTracks"
                     class="line-clamp-2 mt-5 min-h-10 text-sm text-black dark:text-white"
                 >
                     根据你的音乐口味生成，每天 6:00 更新
@@ -50,20 +50,20 @@
             class="mt-10"
             :tracks="recommendTracks?.data.dailySongs || []"
             layout="list"
-            :is-loading="isLoadingRecommendTracks"
+            :is-loading="isFetchingRecommendTracks"
         ></TrackList>
     </div>
 </template>
 
 <script setup lang="ts">
+    import { fetchDailyRecommendTracks } from '@/api/playlist'
     import usePlayer from '@/hooks/usePlayer'
     import { PlaylistSourceType, PlayerMode } from '@/hooks/usePlayer'
-    import useFetchRecommendTracks from '@/hooks/useFetchRecommendTracks'
     import { resizeImage } from '@/utils/common'
 
     const player = usePlayer()
 
-    const { data: recommendTracks, isLoading: isLoadingRecommendTracks } = useFetchRecommendTracks()
+    const { data: recommendTracks, isFetching: isFetchingRecommendTracks } = fetchDailyRecommendTracks()
 
     const coverUrl = computed(() => {
         return resizeImage(recommendTracks.value?.data.dailySongs[0].al?.picUrl || '', 'md')

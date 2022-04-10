@@ -1,4 +1,5 @@
-import request from '@/utils/request'
+import { useGet, usePost } from '@/hooks/useFetchNetEase'
+import { UseFetchReturn } from '@vueuse/core'
 
 export enum PlaylistApiNames {
     FETCH_PLAYLIST = 'fetchPlaylist',
@@ -39,7 +40,10 @@ interface FetchPlaylistResponse {
     urls: null
 }
 
-export function fetchPlaylist(params: FetchPlaylistParams, noCache: boolean = false): Promise<FetchPlaylistResponse> {
+export function fetchPlaylist(
+    params: FetchPlaylistParams,
+    noCache: boolean = false,
+): UseFetchReturn<FetchPlaylistResponse> {
     const otherParams: { timestamp?: number } = {}
     if (noCache) {
         otherParams.timestamp = new Date().getTime()
@@ -48,13 +52,9 @@ export function fetchPlaylist(params: FetchPlaylistParams, noCache: boolean = fa
         params.s = 0
     }
 
-    return request({
-        url: '/playlist/detail',
-        method: 'get',
-        params: {
-            ...params,
-            ...otherParams,
-        },
+    return useGet('/playlist/detail', {
+        ...params,
+        ...otherParams,
     })
 }
 
@@ -77,12 +77,8 @@ interface FetchRecommendedPlaylistsResponse {
 
 export function fetchRecommendedPlaylists(
     params: FetchRecommendedPlaylistsParams,
-): Promise<FetchRecommendedPlaylistsResponse> {
-    return request({
-        url: '/personalized',
-        method: 'get',
-        params,
-    })
+): UseFetchReturn<FetchRecommendedPlaylistsResponse> {
+    return useGet('/personalized', params)
 }
 
 /**
@@ -103,12 +99,8 @@ interface FetchDailyRecommendPlaylistsResponse {
 
 export function fetchDailyRecommendPlaylists(
     params: FetchDailyRecommendPlaylistsParams,
-): Promise<FetchDailyRecommendPlaylistsResponse> {
-    return request({
-        url: '/recommend/resource',
-        method: 'get',
-        params,
-    })
+): UseFetchReturn<FetchDailyRecommendPlaylistsResponse> {
+    return useGet('/recommend/resource', params)
 }
 
 /**
@@ -128,13 +120,9 @@ interface FetchDailyRecommendTracksResponse {
     }
 }
 
-export function fetchDailyRecommendTracks(): Promise<FetchDailyRecommendTracksResponse> {
-    return request({
-        url: '/recommend/songs',
-        method: 'get',
-        params: {
-            timestamp: new Date().getTime(),
-        },
+export function fetchDailyRecommendTracks(): UseFetchReturn<FetchDailyRecommendTracksResponse> {
+    return useGet('/recommend/songs', {
+        timestamp: new Date().getTime(),
     })
 }
 
@@ -162,12 +150,8 @@ interface FetchHighQualityPlaylistResponse {
 
 export function fetchHighQualityPlaylist(
     params: FetchHighQualityPlaylistParams,
-): Promise<FetchHighQualityPlaylistResponse> {
-    return request({
-        url: '/top/playlist/highquality',
-        method: 'get',
-        params,
-    })
+): UseFetchReturn<FetchHighQualityPlaylistResponse> {
+    return useGet('/top/playlist/highquality', params)
 }
 
 /**
@@ -193,12 +177,8 @@ interface FetchTopPlaylistResponse {
     cat: string
 }
 
-export function fetchTopPlaylist(params: FetchTopPlaylistParams): Promise<FetchTopPlaylistResponse> {
-    return request({
-        url: '/top/playlist',
-        method: 'get',
-        params,
-    })
+export function fetchTopPlaylist(params: FetchTopPlaylistParams): UseFetchReturn<FetchTopPlaylistResponse> {
+    return useGet('/top/playlist', params)
 }
 
 /**
@@ -219,11 +199,8 @@ interface FetchPlaylistCategoryResponse {
     }
 }
 
-export function fetchPlaylistCategory(): Promise<FetchPlaylistCategoryResponse> {
-    return request({
-        url: '/playlist/catlist',
-        method: 'get',
-    })
+export function fetchPlaylistCategory(): UseFetchReturn<FetchPlaylistCategoryResponse> {
+    return useGet('/playlist/catlist')
 }
 
 /**
@@ -243,11 +220,8 @@ interface FetchToplistResponse {
     }
 }
 
-export function fetchToplist(): Promise<FetchToplistResponse> {
-    return request({
-        url: '/toplist',
-        method: 'get',
-    })
+export function fetchToplist(): UseFetchReturn<FetchToplistResponse> {
+    return useGet('/toplist')
 }
 
 /**
@@ -266,14 +240,10 @@ interface SubscribePlaylistResponse {
     code: number
 }
 
-export function subscribePlaylist(params: SubscribePlaylistParams): Promise<SubscribePlaylistResponse> {
-    return request({
-        url: '/playlist/subscribe',
-        method: 'post',
-        params: {
-            ...params,
-            timestamp: new Date().getTime(),
-        },
+export function subscribePlaylist(params: SubscribePlaylistParams): UseFetchReturn<SubscribePlaylistResponse> {
+    return usePost('/playlist/subscribe', {
+        ...params,
+        timestamp: new Date().getTime(),
     })
 }
 
@@ -294,13 +264,9 @@ interface DeletePlaylistResponse {
     data: null
 }
 
-export function deletePlaylist(params: DeletePlaylistParams): Promise<DeletePlaylistResponse> {
-    return request({
-        url: '/playlist/delete',
-        method: 'post',
-        params: {
-            id: params.id.join(','),
-        },
+export function deletePlaylist(params: DeletePlaylistParams): UseFetchReturn<DeletePlaylistResponse> {
+    return usePost('/playlist/delete', {
+        id: params.id.join(','),
     })
 }
 
@@ -324,14 +290,10 @@ interface CreatePlaylistResponse {
     playlist: Playlist
 }
 
-export function createPlaylist(params: CreatePlaylistParams): Promise<CreatePlaylistResponse> {
-    return request({
-        url: '/playlist/create',
-        method: 'post',
-        params: {
-            ...params,
-            timestamp: new Date().getTime(),
-        },
+export function createPlaylist(params: CreatePlaylistParams): UseFetchReturn<CreatePlaylistResponse> {
+    return usePost('/playlist/create', {
+        ...params,
+        timestamp: new Date().getTime(),
     })
 }
 
@@ -364,15 +326,11 @@ interface AddOrRemoveTrackFromPlaylistResponse {
 
 export function addOrRemoveTrackFromPlaylist(
     params: AddOrRemoveTrackFromPlaylistParams,
-): Promise<AddOrRemoveTrackFromPlaylistResponse> {
-    return request({
-        url: '/playlist/tracks',
-        method: 'post',
-        params: {
-            op: params.op,
-            pid: params.pid,
-            tracks: params.tracks.join(','),
-            timestamp: new Date().getTime(),
-        },
+): UseFetchReturn<AddOrRemoveTrackFromPlaylistResponse> {
+    return usePost('/playlist/tracks', {
+        op: params.op,
+        pid: params.pid,
+        tracks: params.tracks.join(','),
+        timestamp: new Date().getTime(),
     })
 }

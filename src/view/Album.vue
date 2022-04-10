@@ -5,7 +5,7 @@
             <!-- Cover -->
             <div class="relative z-0 aspect-square self-start">
                 <div
-                    v-if="!isLoadingAlbum"
+                    v-if="!isFetchingAlbum"
                     class="absolute top-3.5 z-[-1] h-full w-full scale-x-[.92] scale-y-[.96] rounded-lg bg-cover opacity-60 blur-lg filter"
                     :style="{
                         backgroundImage: `url(&quot;${coverUrl}&quot;)`,
@@ -14,7 +14,7 @@
                 </div>
 
                 <img
-                    v-if="!isLoadingAlbum"
+                    v-if="!isFetchingAlbum"
                     class="rounded-lg border border-black border-opacity-5"
                     :src="coverUrl"
                     alt="cover"
@@ -25,13 +25,13 @@
             <!-- Album info -->
             <div class="z-10">
                 <!-- Name -->
-                <div v-if="!isLoadingAlbum" class="text-6xl font-bold text-black dark:text-white">
+                <div v-if="!isFetchingAlbum" class="text-6xl font-bold text-black dark:text-white">
                     {{ album?.name }}
                 </div>
                 <Skeleton v-else class="w-3/4 text-7xl">PLACEHOLDER</Skeleton>
 
                 <!-- Artist -->
-                <div v-if="!isLoadingAlbum" class="mt-5 text-lg font-medium text-black dark:text-white"
+                <div v-if="!isFetchingAlbum" class="mt-5 text-lg font-medium text-black dark:text-white"
                     >Album by
                     <span
                         class="font-semibold decoration-2 hover:underline"
@@ -50,7 +50,7 @@
                 <Skeleton v-else class="mt-5 w-64 text-lg">PLACEHOLDER</Skeleton>
 
                 <!-- Last update time & time count -->
-                <div v-if="!isLoadingAlbum" class="text-sm font-thin text-black dark:text-white">
+                <div v-if="!isFetchingAlbum" class="text-sm font-thin text-black dark:text-white">
                     {{ dayjs(album?.publishTime || 0).year() }} · {{ album?.size }} Songs,
                     {{ albumDuration }}
                 </div>
@@ -58,7 +58,7 @@
 
                 <!-- Description -->
                 <div
-                    v-if="!isLoadingAlbum"
+                    v-if="!isFetchingAlbum"
                     class="line-clamp-3 mt-5 min-h-[3.75rem] max-w-xl text-sm text-black dark:text-white"
                 >
                     {{ album?.description }}
@@ -78,7 +78,14 @@
         </div>
 
         <!-- Tracks -->
-        <TrackList class="mt-10" :tracks="tracks || []" layout="album" :isLoading="isLoadingAlbum" :id="albumID" dbclickTrackFunc="playAlbumByID"></TrackList>
+        <TrackList
+            class="mt-10"
+            :tracks="tracks || []"
+            layout="album"
+            :isLoading="isFetchingAlbum"
+            :id="albumID"
+            dbclickTrackFunc="playAlbumByID"
+        ></TrackList>
 
         <!-- Release date and company -->
         <div class="mt-5 text-xs text-black dark:text-white">
@@ -91,9 +98,9 @@
 </template>
 
 <script setup lang="ts">
+    import { fetchAlbum } from '@/api/album'
     import usePlayer from '@/hooks/usePlayer'
     import { PlaylistSourceType, PlayerMode } from '@/hooks/usePlayer'
-    import useFetchAlbum from '@/hooks/useFetchAlbum'
     import { formatDate, formatDuration, resizeImage } from '@/utils/common'
     import dayjs from 'dayjs'
 
@@ -111,7 +118,7 @@
     }
 
     // Fetch album data
-    const { data: albumRaw, isLoading: isLoadingAlbum } = useFetchAlbum(
+    const { data: albumRaw, isFetching: isFetchingAlbum } = fetchAlbum(
         reactive({
             id: albumID.value,
         }),

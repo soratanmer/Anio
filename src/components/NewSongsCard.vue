@@ -1,6 +1,6 @@
 <template>
     <div
-        v-if="!isLoadingNewSongs"
+        v-if="!isFetchingNewSongs"
         class="relative cursor-pointer overflow-hidden rounded-lg group"
         @click="
             router.push({
@@ -29,16 +29,15 @@
 </template>
 
 <script setup lang="ts">
-    import useFetchTopSongs from '@/hooks/useFetchTopSongs'
+    import { fetchTopSongs, TopSongsType } from '@/api/track'
     import usePlayer from '@/hooks/usePlayer'
     import { PlaylistSourceType, PlayerMode } from '@/hooks/usePlayer'
-    import { TopSongsType } from '@/api/track'
     import { resizeImage } from '@/utils/common'
 
     const router = useRouter()
     const player = usePlayer()
 
-    const { data: newSongs, isLoading: isLoadingNewSongs } = useFetchTopSongs(
+    const { data: newSongs, isFetching: isFetchingNewSongs } = fetchTopSongs(
         reactive({
             type: TopSongsType.JP,
         }),

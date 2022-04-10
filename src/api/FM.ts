@@ -1,4 +1,5 @@
-import request from '@/utils/request'
+import { useGet, usePost } from '@/hooks/useFetchNetEase'
+import { UseFetchReturn } from '@vueuse/core'
 
 export enum FMApiNames {
     FETCH_PERSONAL_FM = 'fetchPersonalFM',
@@ -11,13 +12,9 @@ interface FetchPersonalFMResponse {
     code: number
 }
 
-export function fetchPersonalFM(): Promise<FetchPersonalFMResponse> {
-    return request({
-        url: '/personal_fm',
-        method: 'get',
-        params: {
-            timestamp: new Date().getTime(),
-        },
+export function fetchPersonalFM(): UseFetchReturn<FetchPersonalFMResponse> {
+    return useGet('/personal_fm', {
+        timestamp: new Date().getTime(),
     })
 }
 
@@ -31,13 +28,9 @@ interface FMTrashResponse {
     code: number
 }
 
-export function FMTrash(params: FMTrashParams): Promise<FMTrashResponse> {
-    return request({
-        url: '/fm_trash',
-        method: 'post',
-        params: {
-            ...params,
-            timestamp: new Date().getTime(),
-        },
+export function FMTrash(params: FMTrashParams): UseFetchReturn<FMTrashResponse> {
+    return usePost('/fm_trash', {
+        ...params,
+        timestamp: new Date().getTime(),
     })
 }
