@@ -2,18 +2,18 @@
     <div class="grid grid-cols-3 gap-6">
         <!-- cover -->
         <div class="relative flex overflow-hidden rounded-lg col-span-1">
-            <img class="box-content aspect-square h-full w-full" :src="albumUrl" />
+            <img class="box-content aspect-square h-full w-full" :src="albumUrl" alt="cover" />
         </div>
 
         <!-- track info  -->
         <div class="flex flex-col justify-between text-white relative p-4 col-span-2 overflow-hidden rounded-lg">
             <!-- Background -->
-            <img id="background" class="absolute top-0 left-0 w-full blur opacity-90" :src="albumUrl" />
+            <img class="absolute top-0 left-0 w-full blur opacity-80" :src="albumUrl" alt="cover" />
 
             <div class="z-10">
                 <div class="text-xl font-semibold">{{ trackName }}</div>
 
-                <ArtistInline :artists="(artists as Artist[])"></ArtistInline>
+                <ArtistInline :artists="artists"></ArtistInline>
             </div>
             <div class="flex items-center justify-between">
                 <!-- buttons -->
@@ -36,7 +36,7 @@
                 </div>
 
                 <!-- fm symbol  -->
-                <div class="right-5 bottom-5 flex text-white opacity-20">
+                <div class="right-5 bottom-5 flex text-white opacity-60">
                     <SvgIcon name="fm" class="mr-2 h-5 w-5" />
                     <span class="font-semibold">私人FM</span>
                 </div>
@@ -53,7 +53,7 @@
     const player = usePlayer()
 
     const albumUrl = computed(() => {
-        return resizeImage(player?.personalFMTrack?.album?.picUrl || '', 'sm')
+        return resizeImage(player?.personalFMTrack?.album?.picUrl || '', 'lg')
     })
 
     const personalFMTrackID = computed(() => {

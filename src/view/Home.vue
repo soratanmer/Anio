@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="mt-10 mb-4 text-3xl font-bold text-black dark:text-white">For You</div>
+        <div class="mt-10 mb-4 text-3xl font-bold text-black dark:text-white">Hi {{ userName }} 今日为你推荐</div>
         <div class="grid grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-6 mt-10 mb-4">
             <FMCard class="col-span-3"></FMCard>
             <DailyTracksCard v-if="isLoggedIn()" class="col-span-1"></DailyTracksCard>
@@ -38,10 +38,16 @@
     import useFetchToplistArtists from '@/hooks/useFetchToplistArtists'
     import { NewAlbumsArea } from '@/api/album'
     import { ToplistOfArtists } from '@/api/artist'
+    import { useUserStore } from '@/stores/user'
 
-    import { isLoggedIn } from "@/utils/user";
+    import { isLoggedIn } from '@/utils/user'
 
     const router = useRouter()
+    const userStore = useUserStore()
+
+    const userName = computed(() => {
+        return userStore.userAccount.profile?.nickname
+    })
 
     const { data: recommendedPlaylists, isLoading: isLoadingRecommendedPlaylists } = useFetchRecommendedPlaylists(
         reactive({
