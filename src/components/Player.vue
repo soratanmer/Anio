@@ -134,9 +134,9 @@
                     />
                 </div>
             </div>
-            <!-- <ButtonIcon>
+            <ButtonIcon @click="uiStore.updateShowLyrics(true)">
                 <SvgIcon class="h-4 w-4 text-black dark:text-white" name="arrow-up"></SvgIcon>
-            </ButtonIcon> -->
+            </ButtonIcon>
         </div>
     </div>
 </template>
@@ -147,13 +147,15 @@
     import { likeATrack } from '@/api/track'
     import { resizeImage } from '@/utils/common'
     import { useUserStore } from '@/stores/user'
+    import { useUiStore } from '@/stores/ui'
 
     const router = useRouter()
     const player = usePlayer()
     const userStore = useUserStore()
+    const uiStore = useUiStore()
 
     const isLiked = computed(() => {
-        return userStore.likedList.includes(Number(player?.track?.id))
+        return userStore.likedList?.includes(Number(player?.track?.id))
     })
 
     const cover = computed(() => {

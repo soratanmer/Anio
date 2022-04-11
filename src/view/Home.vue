@@ -9,7 +9,7 @@
 
         <CoverRow
             title="推荐歌单"
-            :playlists="recommendedPlaylists?.result.slice(0, 12) ?? []"
+            :playlists="shuffle(recommendedPlaylists?.result).slice(0, 12) ?? []"
             type="playlist"
             :is-skeleton="isFetchingRecommendedPlaylists"
         ></CoverRow>
@@ -23,7 +23,7 @@
 
         <CoverRow
             title="推荐艺人"
-            :artists="shuffle(toplistArtists?.list.artists).slice(0, 6) || []"
+            :artists="shuffle(toplistArtists?.list.artists).slice(0, 12) || []"
             type="artist"
             :is-skeleton="isFetchingToplistArtists"
         ></CoverRow>

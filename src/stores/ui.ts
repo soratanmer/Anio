@@ -9,10 +9,11 @@ export const useUiStore = defineStore('ui', {
                 text: '',
                 timer: 0,
             },
+            showLyrics: false,
         }
     },
     actions: {
-        showToast(text) {
+        showToast(text: string) {
             if (this.toast.timer !== 0) {
                 clearTimeout(this.toast.timer)
                 this.toast = {
@@ -32,6 +33,9 @@ export const useUiStore = defineStore('ui', {
                     }
                 }, 3200),
             }
+        },
+        updateShowLyrics(showLyrics: boolean) {
+            this.showLyrics = showLyrics
         },
     },
 })

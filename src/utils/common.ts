@@ -89,3 +89,19 @@ export function formatDuration(
 
     return String(milliseconds)
 }
+
+export function formatTrackTime(value: number) {
+    if (!value) {
+        return '00:00'
+    }
+    let min = ~~((value / 60) % 60)
+    let sec = (~~(value % 60)).toString().padStart(2, '0')
+    return `${min}:${sec}`
+}
+
+export function toHttps(url: string) {
+    if (!url) {
+        return ''
+    }
+    return url.replace(/^http:/, 'https:')
+}
