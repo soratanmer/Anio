@@ -1,7 +1,7 @@
 import { Howler, Howl } from 'howler'
 import shuffle from 'lodash/shuffle'
 
-import { fetchTracks, fetchAudioSource, scrobble } from '@/api/track'
+import { fetchTracks, fetchAudioSource, scrobble, fetchLyric } from '@/api/track'
 import { fetchPersonalFM, FMTrash } from '@/api/FM'
 import { fetchPlaylist } from '@/api/playlist'
 import { fetchAlbum } from '@/api/album'
@@ -47,6 +47,10 @@ export enum PlayerState {
 export interface PlayerPublic {
     state: PlayerState
     playlistSource: PlaylistSource | null
+    lyrics: {
+        lyric: string
+        tlyric: string
+    }
     mode: PlayerMode
     currentPlaylist: TrackID[]
     track: Track | null
@@ -81,6 +85,10 @@ export function usePlayerProvider() {
 
     const state = ref<PlayerState>(PlayerState.INITIALIZING) // 播放器状态
     const playlistSource = ref<PlaylistSource | null>(null) // 当前播放列表的信息
+    const lyrics = reactive({
+        lyric: '',
+        tlyric: '',
+    })
 
     const _progressInterval = ref<ReturnType<typeof setInterval> | undefined>(undefined)
     const _howler = ref<Howl>(
@@ -275,7 +283,6 @@ export function usePlayerProvider() {
         if (track.value.id) {
             const autoplay = false
             _replaceTrack(track.value.id, _trackIndex.value, autoplay)
-            _howler.value.seek(playerStore.progress)
         }
     }
 
@@ -394,11 +401,18 @@ export function usePlayerProvider() {
      */
 
     const _replaceTrack = async (trackID: TrackID, index: number, autoplay = true) => {
-        const { data } = await fetchTracks({ ids: [trackID] })
-        track.value = data.value?.songs[0] as Track
+        const { data: trackRaw } = await fetchTracks({ ids: [trackID] })
+        const { data: lyricRaw } = await fetchLyric({
+            id: trackID,
+        })
+        track.value = trackRaw.value?.songs[0] as Track
         _trackIndex.value = index
+        lyrics.lyric = lyricRaw.value?.lrc.lyric || ''
+        lyrics.tlyric = lyricRaw.value?.tlyric.lyric || ''
 
-        _scrobble(track.value)
+        if (isPlaying) {
+            _scrobble(track.value)
+        }
 
         playerStore.updateHistory(track.value.id)
 
@@ -614,6 +628,7 @@ export function usePlayerProvider() {
     const player = reactive({
         state,
         playlistSource,
+        lyrics,
         mode,
         currentPlaylist,
         track,

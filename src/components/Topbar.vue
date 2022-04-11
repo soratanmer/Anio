@@ -1,7 +1,7 @@
 <template>
     <div
         id="topbar"
-        class="app-region-drag sticky top-0 z-30 flex h-16 min-h-[4rem] w-full cursor-default items-center justify-between px-8 transition duration-300"
+        class="app-region-drag sticky top-0 flex h-16 min-h-[4rem] w-full cursor-default items-center justify-between px-8 transition duration-300"
     >
         <!-- Left part -->
         <div class="flex gap-2">

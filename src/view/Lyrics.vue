@@ -1,15 +1,15 @@
 <template>
-    <transition name="slide-up">
+    <transition :name="showLyrics ? 'slide-up' : 'slide-down'">
         <!-- lyrics page -->
-        <div class="fixed top-0 right-0 left-0 bottom-0 z-50 flex bg-gray-100">
+        <div class="fixed top-0 right-0 left-0 bottom-0 flex bg-gray-100 dark:bg-gray-900">
             <!-- Background -->
-            <div class="absolute h-screen w-screen blur-3xl contrast-75 brightness-125">
+            <div class="absolute h-screen w-screen blur-3xl contrast-75 brightness-125 overflow-hidden">
                 <div
-                    class="z-0 w-[140vw] h-[140vw] opacity-60 absolute bg-cover right-0 top-0 mix-blend-luminosity"
+                    class="w-[140vw] h-[140vw] opacity-60 absolute bg-cover right-0 top-0 mix-blend-luminosity"
                     :style="{ backgroundImage: `url(${coverURL})` }"
                 ></div>
                 <div
-                    class="z-0 w-[140vw] h-[140vw] opacity-60 absolute bg-cover left-0 bottom-0"
+                    class="w-[140vw] h-[140vw] opacity-60 absolute bg-cover left-0 bottom-0"
                     :style="{ backgroundImage: `url(${coverURL})` }"
                 ></div>
             </div>
@@ -32,7 +32,7 @@
                     </div>
 
                     <!-- Controls -->
-                    <div class="max-w-[50vh] mt-6 text-black dark:text-white">
+                    <div class="w-[50vh] mt-6 text-black dark:text-white">
                         <!-- Top part -->
                         <div class="flex justify-between items-center">
                             <!-- Track info -->
@@ -54,17 +54,17 @@
 
                         <!-- Progress -->
                         <div class="mt-6 flex items-center justify-between">
-                            <span class="min-w-7">{{ formatTrackTime(player?.progress) }}</span>
-                            <div class="grow px-2 w-full">
-                                <!-- <input
+                            <span>{{ formatTrackTime(player?.progress) }}</span>
+                            <div class="grow flex items-center px-2">
+                                <input
                                 type="range"
                                 min="0"
                                 :max="player?.currentTrackDuration"
                                 v-model.number="player!.progress"
-                                class="range-slider w-full absolute"
-                            /> -->
+                                class="range-slider w-full"
+                            />
                             </div>
-                            <span class="min-w-7">{{ formatTrackTime(player?.currentTrackDuration) }}</span>
+                            <span>{{ formatTrackTime(player?.currentTrackDuration) }}</span>
                         </div>
 
                         <!-- Media controls -->
@@ -182,7 +182,6 @@
     import usePlayer from '@/hooks/usePlayer'
     import { RepeatMode } from '@/hooks/usePlayer'
     import { resizeImage, formatTrackTime } from '@/utils/common'
-    import { fetchLyric } from '@/api/track'
     import { useUiStore } from '@/stores/ui'
 
     interface LyricItem {
@@ -196,7 +195,6 @@
 
     const lyricsInterval = ref<ReturnType<typeof setInterval> | undefined>(undefined)
     const highlightLyricIndex = ref(1)
-    const minimize = ref<boolean>(true)
 
     const showLyrics = computed<boolean>({
         get() {
@@ -211,20 +209,12 @@
         showLyrics.value = !showLyrics.value
     }
 
-    const trackID = computed(() => {
-        return player?.track?.id || 0
-    })
-
-    const { data: lyricRaw, isFetching: isFetchingLyric } = fetchLyric({
-        id: trackID.value,
-    })
-
     const lyrics = computed(() => {
-        return parseLyric(lyricRaw.value?.lrc.lyric || '')
+        return parseLyric(player?.lyrics.lyric || '')
     })
 
     const tlyrics = computed(() => {
-        return parseLyric(lyricRaw.value?.tlyric.lyric || '')
+        return parseLyric(player?.lyrics.tlyric || '')
     })
 
     const noLyric = computed(() => {
@@ -232,7 +222,7 @@
     })
 
     const coverURL = computed(() => {
-        return resizeImage(player?.track?.al?.picUrl || player?.track?.album.picUrl || '', 'lg')
+        return resizeImage(player?.track?.al?.picUrl || player?.track?.album.picUrl || '', 'md')
     })
 
     const artist = computed(() => {
@@ -297,7 +287,7 @@
                     })
                 }
             }
-        }, 10)
+        }, 1000)
     }
 
     const formatLine = (line: LyricItem) => {
@@ -329,12 +319,33 @@
         display: none;
     }
 
+    .slide-up-enter-from,
+    .slide-up-leave-from {
+        transform: translateY(100%);
+    }
+
     .slide-up-enter-active,
     .slide-up-leave-active {
         transition: all 0.4s;
     }
 
-    .slide-up-enter, .slide-up-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    .slide-up-enter-to,
+    .slide-up-leave-to {
+        transform: translateY(0%);
+    }
+
+    .slide-down-enter-from,
+    .slide-down-leave-from {
+        transform: translateY(0%);
+    }
+
+    .slide-down-enter-active,
+    .slide-down-leave-active {
+        transition: all 0.4s;
+    }
+
+    .slide-down-enter-to,
+    .slide-down-leave-to {
         transform: translateY(100%);
     }
 

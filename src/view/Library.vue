@@ -3,12 +3,12 @@
         <!-- XXX's Library -->
         <div class="grid grid-cols-[17rem_auto] items-center gap-10">
             <!-- Cover -->
-            <div class="relative z-0 aspect-square self-start">
+            <div class="relative aspect-square self-start">
                 <img class="rounded-lg border border-black border-opacity-5" :src="coverUrl" alt="cover" />
             </div>
 
             <!-- User info -->
-            <div class="z-10">
+            <div>
                 <!-- User name -->
                 <div class="text-6xl font-bold text-black dark:text-white">
                     {{ userAccount?.profile?.nickname }}
@@ -86,7 +86,7 @@
 </template>
 
 <script setup lang="ts">
-    import { fetchUserPlaylists } from "@/api/user";
+    import { fetchUserPlaylists } from '@/api/user'
     import useFetchUserLikedAlbumsInfinite from '@/hooks/useFetchUserLikedAlbumsInfinite'
     import useFetchUserLikedArtistsInfinite from '@/hooks/useFetchUserLikedArtistsInfinite'
     import { formatDate, resizeImage } from '@/utils/common'
