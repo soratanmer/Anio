@@ -139,10 +139,6 @@ export function usePlayerProvider() {
         return isShuffle.value ? playerStore.shufflePlaylist : playerStore.playlist
     })
 
-    const _playlist = computed<number[]>(()=>{
-        return playerStore.playlist
-    })
-
     /**
      * 当前正在播放的歌曲
      */
@@ -281,7 +277,7 @@ export function usePlayerProvider() {
     })
 
     /**
-     * 当前播放歌曲在 playlist 里的index
+     * 当前播放歌曲在 currentPlaylist 里的index
      * @private
      */
 
@@ -293,6 +289,11 @@ export function usePlayerProvider() {
             playerStore.updateTrackIndex(index)
         },
     })
+
+    /**
+     * 随机播放模式下当前播放歌曲在 playlist 里的index
+     * @private
+     */
 
     const _shuffleTrackIndex = computed<number>({
         get() {
