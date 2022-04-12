@@ -12,8 +12,8 @@
             </main>
             <Player></Player>
         </div>
+        <Lyrics v-show="showLyrics" />
     </div>
-    <Lyrics v-show="showLyrics" />
 </template>
 
 <script setup lang="ts">

@@ -3,7 +3,7 @@
         <!-- Container -->
         <div class="w-[720px] text-black dark:text-white">
             <!-- User -->
-            <div v-if="isLoggedIn()" class="flex items-center justify-between bg-gray-800 py-4 px-5 rounded-lg mt-12">
+            <div v-if="isLoggedIn()" class="flex items-center justify-between bg-gray-800 py-4 px-5 rounded-lg my-12">
                 <!-- Left part -->
                 <div class="flex items-center">
                     <img
