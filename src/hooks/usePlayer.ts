@@ -62,8 +62,8 @@ export interface PlayerPublic {
     progress: number
     repeatMode: RepeatMode
     volume: number
-    translate:string
-    isTranslate:boolean
+    translate: string
+    isTranslate: boolean
     isPlaying: boolean
     isPersonalFM: boolean
     isMute: boolean
@@ -290,6 +290,15 @@ export function usePlayerProvider() {
         },
     })
 
+    const _shuffleTrackIndex = computed<number>({
+        get() {
+            return playerStore.shuffleTrackIndex
+        },
+        set(index) {
+            playerStore.updateShuffleTrackIndex(index)
+        },
+    })
+
     /**
      * 上一首的歌曲ID
      * @returns {[number, number]} [上一首的歌曲ID, 上一首歌曲在歌曲列表里 index]
@@ -458,6 +467,8 @@ export function usePlayerProvider() {
         lyrics.tlyric = lyricRaw.value?.tlyric?.lyric || ''
         _trackIndex.value = index
 
+        _shuffleTrackIndex.value = playerStore.playlist.indexOf(Number(trackID))
+
         if (isPlaying) {
             _scrobble(track.value)
         }
@@ -535,6 +546,7 @@ export function usePlayerProvider() {
             _shuffleTheList()
         } else {
             playerStore.updateShufflePlaylist([])
+            _trackIndex.value = _shuffleTrackIndex.value
         }
     }
 
