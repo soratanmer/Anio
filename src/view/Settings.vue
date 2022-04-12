@@ -41,6 +41,27 @@
                 </div>
             </div>
 
+            <!-- Area -->
+            <div class="my-6 flex items-center justify-between text-black dark:text-white">
+                <!-- Left part -->
+                <div>
+                    <div class="text-lg font-medium">语种偏好</div>
+                </div>
+                <!-- Right part -->
+                <div>
+                    <select
+                        v-model="areaType"
+                        class="w-24 font-semibold border-none py-2 px-3 rounded-lg bg-gray-800 appearance-none focus:outline-none focus:text-green-500"
+                    >
+                        <option :value="AreaType.ALL">无偏好</option>
+                        <option :value="AreaType.ZH">华语</option>
+                        <option :value="AreaType.JP">日语</option>
+                        <option :value="AreaType.EA">欧美</option>
+                        <option :value="AreaType.KR">韩语</option>
+                    </select>
+                </div>
+            </div>
+
             <!-- Footer -->
             <div class="w-[720px] mt-20 font-semibold">
                 <a href="https://github.com/soratanmer/Anio" target="_blank" class="hover:underline">Anio Music</a>
@@ -57,7 +78,7 @@
 </template>
 
 <script setup lang="ts">
-    import { useSettingsStore } from '@/stores/settints'
+    import { useSettingsStore, AreaType } from '@/stores/settints'
     import { useUserStore } from '@/stores/user'
     import { resizeImage } from '@/utils/common'
     import { doLogout, isLoggedIn } from '@/utils/user'
@@ -81,5 +102,14 @@
 
     const version = computed(() => {
         return pkg.version
+    })
+
+    const areaType = computed<AreaType>({
+        get() {
+            return settingsStore.areaType
+        },
+        set(areaType) {
+            settingsStore.updateArea(areaType)
+        },
     })
 </script>

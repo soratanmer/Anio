@@ -1,19 +1,18 @@
 <template>
     <!-- Header -->
     <div class="text-2xl font-semibold text-black dark:text-white py-2 px-4 mt-10">新专速递</div>
-    <CoverRow
-        :albums="newAlbums?.albums ?? []"
-        type="album"
-        :is-skeleton="isFetchingNewAlbums"
-    ></CoverRow>
+    <CoverRow :albums="newAlbums?.albums ?? []" type="album" :is-skeleton="isFetchingNewAlbums"></CoverRow>
 </template>
 
 <script setup lang="ts">
-    import { NewAlbumsArea, fetchNewAlbums } from '@/api/album'
+    import { fetchNewAlbums } from '@/api/album'
+    import { useSettingsStore } from '@/stores/settints'
+
+    const settingsStore = useSettingsStore()
 
     const { data: newAlbums, isFetching: isFetchingNewAlbums } = fetchNewAlbums({
         limit: 90,
         offset: 0,
-        area: NewAlbumsArea.JP,
+        area: settingsStore.area.album,
     })
 </script>

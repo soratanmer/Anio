@@ -29,17 +29,19 @@
 </template>
 
 <script setup lang="ts">
-    import { fetchTopSongs, TopSongsType } from '@/api/track'
+    import { fetchTopSongs } from '@/api/track'
     import usePlayer from '@/hooks/usePlayer'
     import { PlaylistSourceType, PlayerMode } from '@/hooks/usePlayer'
     import { resizeImage } from '@/utils/common'
+    import { useSettingsStore } from '@/stores/settints'
 
     const router = useRouter()
     const player = usePlayer()
+    const settingsStore = useSettingsStore()
 
     const { data: newSongs, isFetching: isFetchingNewSongs } = fetchTopSongs(
         reactive({
-            type: TopSongsType.JP,
+            type: settingsStore.area.track,
         }),
     )
 

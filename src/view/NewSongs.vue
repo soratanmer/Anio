@@ -23,16 +23,11 @@
 
             <!-- DailyTracks Info -->
             <div class="z-10">
-                <div v-if="!isFetchingNewSongs" class="text-4xl font-bold text-black dark:text-white">
-                    新歌速递
-                </div>
+                <div v-if="!isFetchingNewSongs" class="text-4xl font-bold text-black dark:text-white"> 新歌速递 </div>
                 <Skeleton v-else class="w-3/4 text-4xl">PLACEHOLDER</Skeleton>
 
                 <!-- DailyTracks description -->
-                <div
-                    v-if="!isFetchingNewSongs"
-                    class="line-clamp-2 mt-5 min-h-10 text-sm text-black dark:text-white"
-                >
+                <div v-if="!isFetchingNewSongs" class="line-clamp-2 mt-5 min-h-10 text-sm text-black dark:text-white">
                     开启最强新歌雷达，为你带来专属新歌能量！
                 </div>
                 <Skeleton v-else class="mt-5 min-h-10 w-1/2 text-sm">PLACEHOLDER</Skeleton>
@@ -56,17 +51,18 @@
 </template>
 
 <script setup lang="ts">
-    import { fetchTopSongs } from "@/api/track";
+    import { fetchTopSongs } from '@/api/track'
     import usePlayer from '@/hooks/usePlayer'
     import { PlaylistSourceType, PlayerMode } from '@/hooks/usePlayer'
-    import { TopSongsType } from '@/api/track'
     import { resizeImage } from '@/utils/common'
+    import { useSettingsStore } from '@/stores/settints'
 
     const player = usePlayer()
+    const settingsStore = useSettingsStore()
 
     const { data: newSongs, isFetching: isFetchingNewSongs } = fetchTopSongs(
         reactive({
-            type: TopSongsType.JP,
+            type: settingsStore.area.track,
         }),
     )
 
@@ -78,7 +74,7 @@
         return newSongs.value?.data.map((item) => item.id) || []
     })
 
-        const play = () => {
+    const play = () => {
         player!.mode = PlayerMode.PLAYLIST
         player?.replacePlaylist(trackIDs.value, {
             type: PlaylistSourceType.NEWSONGS,

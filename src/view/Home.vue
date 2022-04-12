@@ -37,14 +37,15 @@
     import { fetchRecommendedPlaylists } from '@/api/playlist'
     import { fetchNewAlbums } from '@/api/album'
     import { fetchToplistOfArtists } from '@/api/artist'
-    import { NewAlbumsArea } from '@/api/album'
     import { ToplistOfArtists } from '@/api/artist'
     import { useUserStore } from '@/stores/user'
+    import { useSettingsStore } from "@/stores/settints";
 
     import { isLoggedIn } from '@/utils/user'
 
     const router = useRouter()
     const userStore = useUserStore()
+    const settingsStore = useSettingsStore()
 
     const userName = computed(() => {
         return userStore.userAccount?.profile?.nickname
@@ -60,13 +61,13 @@
         reactive({
             limit: 12,
             offset: 0,
-            area: NewAlbumsArea.JP,
+            area: settingsStore.area.album,
         }),
     )
 
     const { data: toplistArtists, isFetching: isFetchingToplistArtists } = fetchToplistOfArtists(
         reactive({
-            type: ToplistOfArtists.JP,
+            type: settingsStore.area.artist as ToplistOfArtists,
         }),
     )
 </script>
