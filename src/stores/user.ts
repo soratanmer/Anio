@@ -6,7 +6,7 @@ export const useUserStore = defineStore('user', {
     state: () => {
         return {
             userAccount: {} as FetchUserAccountResponse | null,
-            likedList: [] as number[] | undefined,
+            likedList: [0],
         }
     },
     getters: {},
@@ -19,7 +19,11 @@ export const useUserStore = defineStore('user', {
             const { data } = await fetchUserLikedSongsIDs({
                 uid: this.userAccount?.account?.id ?? 0,
             })
-            this.likedList = data.value?.ids
+            if (data.value?.ids?.length) {
+                this.likedList = data.value?.ids
+            } else {
+                this.likedList = [0]
+            }
         },
     },
     persist: {

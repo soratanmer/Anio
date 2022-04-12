@@ -1,7 +1,7 @@
-import { defineStore } from 'pinia'
 import { NewAlbumsArea } from '@/api/album'
 import { ToplistOfArtists } from '@/api/artist'
 import { TopSongsType } from '@/api/track'
+import { defineStore } from 'pinia'
 
 export enum AreaType {
     ALL = 'ALL',
@@ -20,7 +20,7 @@ export const useSettingsStore = defineStore('settings', {
                 track: TopSongsType.JP,
                 artist: ToplistOfArtists.JP as ToplistOfArtists | null,
             },
-            areaType: AreaType.ALL,
+            areaType: AreaType.JP,
         }
     },
     actions: {

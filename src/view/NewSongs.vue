@@ -45,7 +45,7 @@
             class="mt-10"
             :tracks="newSongs?.data || []"
             layout="list"
-            :is-loading="isFetchingNewSongs"
+            :isLoading="isFetchingNewSongs"
         ></TrackList>
     </div>
 </template>

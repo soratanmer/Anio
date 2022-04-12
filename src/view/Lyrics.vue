@@ -236,15 +236,30 @@
     })
 
     const coverURL = computed(() => {
-        return resizeImage(player?.track?.al?.picUrl || player?.track?.album.picUrl || '', 'md')
+        return resizeImage(player?.track?.al?.picUrl || player?.track?.album?.picUrl || '', 'md')
     })
 
     const artist = computed(() => {
-        return player?.track?.ar[0] || player?.track?.artists[0]
+        if (player?.track?.ar?.length) {
+            return player?.track?.ar[0]
+        } else if (player?.track?.artists?.length) {
+            return player?.track?.artists[0]
+        } else {
+            return {
+                id: 0,
+                name: '',
+            }
+        }
     })
 
     const album = computed(() => {
-        return player?.track?.al || player?.track?.album
+        return (
+            player?.track?.al ||
+            player?.track?.album || {
+                id: 0,
+                name: '',
+            }
+        )
     })
 
     const lyricWithTranslation = computed(() => {

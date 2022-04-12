@@ -42,7 +42,7 @@
 
                 <!-- Artists -->
                 <div v-if="player?.track?.id" class="mt-0.5 text-xs text-black dark:text-white">
-                    <ArtistInline :artists="player?.track.ar ?? []"></ArtistInline>
+                    <ArtistInline :artists="player?.track.ar ?? player?.track?.artists ?? []"></ArtistInline>
                 </div>
             </div>
 

@@ -48,7 +48,7 @@
 </template>
 
 <script setup lang="ts">
-    import { fetchUserPlaylists } from "@/api/user";
+    import { fetchUserPlaylists } from '@/api/user'
     import { useUserStore } from '@/stores/user'
 
     interface Tab {

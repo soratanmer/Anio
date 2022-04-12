@@ -44,9 +44,11 @@
 <script setup lang="ts">
     import { loginWithEmail } from '@/api/auth'
     import { setCookie } from '@/utils/cookie'
+    import { useUserStore } from '@/stores/user'
     import md5 from 'md5'
 
     const router = useRouter()
+    const userStore = useUserStore()
 
     const showPassword = ref<boolean>(false)
     const email = ref<string>('')
@@ -62,6 +64,8 @@
             return
         }
         setCookie(cookies)
+        userStore.updateUserAccount()
+        userStore.updateLikedList()
         router.push('/library')
     }
 
@@ -70,6 +74,6 @@
             email: email.value.trim(),
             md5_password: md5(password.value.trim()),
         })
-        handlePostLogin(data.value.cookie)
+        handlePostLogin(data.value?.cookie)
     }
 </script>

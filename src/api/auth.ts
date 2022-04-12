@@ -39,7 +39,7 @@ export interface LoginWithEmailResponse extends FetchUserAccountResponse {
     }[]
 }
 
-export function loginWithEmail(params: LoginWithEmailParams) {
+export function loginWithEmail(params: LoginWithEmailParams):UseFetchReturn<LoginWithEmailResponse> {
     return usePost('/login', params)
 }
 

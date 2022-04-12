@@ -5,7 +5,7 @@ export function isLoggedIn(): boolean {
     return getCookie('MUSIC_U') !== undefined
 }
 
-export function doLogout(){
+export function doLogout() {
     logout()
     sessionStorage.clear()
     localStorage.clear()
