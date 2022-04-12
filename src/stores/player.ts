@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 
-import { RepeatMode, PlayerMode } from '@/hooks/usePlayer'
+import { RepeatMode, PlayerMode, PlaylistSource } from '@/hooks/usePlayer'
 
 type TrackID = number
 
@@ -20,6 +20,7 @@ export const usePlayerStore = defineStore('player', {
             shuffle: false, // 是否随机播放
             repeatMode: RepeatMode.ON, //循环播放模式
             mode: PlayerMode.PLAYLIST, // 播放模式：播放列表 / 私人MF
+            playlistSource: {} as PlaylistSource, // 当前播放列表的信息
         }
     },
     getters: {},
@@ -67,6 +68,9 @@ export const usePlayerStore = defineStore('player', {
         },
         updatePlayerMode(mode: PlayerMode) {
             this.mode = mode
+        },
+        updatePlaylistSource(source: PlaylistSource) {
+            this.playlistSource = source
         },
     },
     persist: {

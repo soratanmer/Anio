@@ -18,12 +18,12 @@ export enum PlaylistSourceType {
     ALBUM = 'album',
     ARTIST = 'artist',
     PLAYLIST = 'playlist',
-    DAILYTRACKS = 'dailyTracks',
+    DAILYTRACKS = 'dailyTrack',
     NEWSONGS = 'newSongs',
     FM = 'fm',
 }
 
-interface PlaylistSource {
+export interface PlaylistSource {
     type: PlaylistSourceType
     id: number | string
 }
@@ -98,7 +98,6 @@ export function usePlayerProvider() {
     })
 
     const state = ref<PlayerState>(PlayerState.INITIALIZING) // 播放器状态
-    const playlistSource = ref<PlaylistSource | null>(null) // 当前播放列表的信息
 
     const _progressInterval = ref<ReturnType<typeof setInterval> | undefined>(undefined)
     const _howler = ref<Howl>(
@@ -107,6 +106,15 @@ export function usePlayerProvider() {
             format: ['mp3', 'flac'],
         }),
     ) //Howler
+
+    const playlistSource = computed<PlaylistSource>({
+        get() {
+            return playerStore.playlistSource
+        },
+        set(source) {
+            playerStore.updatePlaylistSource(source)
+        },
+    })
 
     /**
      * 播放模式
