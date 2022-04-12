@@ -221,7 +221,7 @@ export function usePlayerProvider() {
      */
 
     const translate = computed<string>(() => {
-        if (track.value.tns.length) {
+        if (track.value.tns?.length) {
             return track.value.tns[0]
         } else {
             return track.value.alia[0]
@@ -233,7 +233,7 @@ export function usePlayerProvider() {
      */
 
     const isTranslate = computed<boolean>(() => {
-        return track.value.tns.length > 0 || track.value.alia.length > 0
+        return track.value.tns?.length > 0 || track.value.alia?.length > 0
     })
 
     /**

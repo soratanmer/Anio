@@ -126,11 +126,11 @@
     })
 
     const isTranslate = computed(() => {
-        return props.track.tns.length > 0 || props.track.alia.length > 0
+        return props.track.tns?.length > 0 || props.track.alia?.length > 0
     })
 
     const translate = computed(() => {
-        if (props.track.tns.length) {
+        if (props.track.tns?.length) {
             return props.track.tns[0]
         } else {
             return props.track.alia[0]
