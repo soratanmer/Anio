@@ -1,7 +1,7 @@
 <template>
     <transition :name="showLyrics ? 'slide-up' : 'slide-down'">
         <!-- lyrics page -->
-        <div class="z-50 fixed top-0 right-0 left-0 bottom-0 flex bg-gray-100 dark:bg-gray-900">
+        <div class="z-50 fixed top-0 right-0 left-0 bottom-0 flex bg-white dark:bg-black">
             <!-- Background -->
             <div class="absolute h-screen w-screen blur-3xl contrast-75 brightness-150 overflow-hidden">
                 <div
@@ -159,7 +159,7 @@
                         <div class="mt-[50vh]"></div>
                         <div
                             v-for="(line, index) in lyricWithTranslation"
-                            class="p-4 duration-200 rounded-lg hover:bg-gray-200/50"
+                            class="p-4 duration-200 rounded-lg hover:bg-green-500"
                             :id="`line${index}`"
                             @click="clickLyricLine(line.time)"
                             @dblclick="clickLyricLine(line.time, true)"

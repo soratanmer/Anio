@@ -313,6 +313,8 @@ export function usePlayerProvider() {
     const _previousTrackID = computed<number[]>(() => {
         if (_trackIndex.value === 0 && repeatMode.value === RepeatMode.ON) {
             return [currentPlaylist.value[currentPlaylist.value.length - 1], currentPlaylist.value.length - 1]
+        } else if (repeatMode.value === RepeatMode.ONE) {
+            return [currentPlaylist.value[_trackIndex.value], _trackIndex.value]
         } else {
             return [currentPlaylist.value[_trackIndex.value - 1], _trackIndex.value - 1]
         }
@@ -327,6 +329,8 @@ export function usePlayerProvider() {
     const _nextTrackID = computed<number[]>(() => {
         if (currentPlaylist.value.length === _trackIndex.value + 1 && repeatMode.value === RepeatMode.ON) {
             return [currentPlaylist.value[0], 0]
+        } else if (repeatMode.value === RepeatMode.ONE) {
+            return [currentPlaylist.value[_trackIndex.value], _trackIndex.value]
         } else {
             return [currentPlaylist.value[_trackIndex.value + 1], _trackIndex.value + 1]
         }
