@@ -1,9 +1,9 @@
 <template>
     <transition :name="showLyrics ? 'slide-up' : 'slide-down'">
         <!-- lyrics page -->
-        <div class="fixed top-0 right-0 left-0 bottom-0 flex bg-gray-100 dark:bg-gray-900">
+        <div class="z-50 fixed top-0 right-0 left-0 bottom-0 flex bg-gray-100 dark:bg-gray-900">
             <!-- Background -->
-            <div class="absolute h-screen w-screen blur-3xl contrast-75 brightness-125 overflow-hidden">
+            <div class="absolute h-screen w-screen blur-3xl contrast-75 brightness-150 overflow-hidden">
                 <div
                     class="w-[140vw] h-[140vw] opacity-60 absolute bg-cover right-0 top-0 mix-blend-luminosity"
                     :style="{ backgroundImage: `url(${coverURL})` }"
@@ -299,15 +299,13 @@
         return 'unknown'
     }
 
-    // watch(showLyrics, (show) => {
-    //     if (show) {
-    //         setLyricsInterval()
-    //     } else {
-    //         clearInterval(lyricsInterval.value)
-    //     }
-    // })
-
-    setLyricsInterval()
+    watch(showLyrics, (show) => {
+        if (show) {
+            setLyricsInterval()
+        } else {
+            clearInterval(lyricsInterval.value)
+        }
+    })
 
     onUnmounted(() => {
         clearInterval(lyricsInterval.value)

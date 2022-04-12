@@ -134,7 +134,7 @@
                     />
                 </div>
             </div>
-            <ButtonIcon @click="uiStore.updateShowLyrics(true)">
+            <ButtonIcon @click="toggleLyrics">
                 <SvgIcon class="h-4 w-4 text-black dark:text-white" name="arrow-up"></SvgIcon>
             </ButtonIcon>
         </div>
@@ -186,5 +186,11 @@
             like: isLiked.value ? false : true,
         })
         await userStore.updateLikedList()
+    }
+
+    const toggleLyrics = () => {
+        if (player?.track?.id) {
+            uiStore.updateShowLyrics(true)
+        }
     }
 </script>

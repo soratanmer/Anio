@@ -38,4 +38,13 @@ export const useUiStore = defineStore('ui', {
             this.showLyrics = showLyrics
         },
     },
+    persist: {
+        enabled: true,
+        strategies: [
+            {
+                key: 'ui',
+                storage: localStorage,
+            },
+        ],
+    },
 })
