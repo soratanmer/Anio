@@ -43,12 +43,17 @@
                                 }}</div>
                                 <!-- Subtitle -->
                                 <div class="mt-1 text-base line-clamp-1 overflow-hidden">
-                                    <span>{{ artist }}</span> - <span>{{ album?.name }}</span>
+                                    <span class="hover:underline cursor-default" @click="goTo('artist', artist?.id)">{{ artist?.name }}</span>
+                                    -
+                                    <span class="hover:underline cursor-default" @click="goTo('album', album?.id)">{{ album?.name }}</span>
                                 </div>
                             </div>
                             <!-- Liked -->
-                            <ButtonIcon class="flex items-center ml-1">
-                                <SvgIcon class="h-4 w-4 text-black dark:text-white" name="heart"></SvgIcon>
+                            <ButtonIcon class="flex items-center ml-1" @click="player?.likeTrack()">
+                                <SvgIcon
+                                    class="h-4 w-4 text-black dark:text-white"
+                                    :name="player?.isLiked ? 'heart' : 'heart-outline'"
+                                ></SvgIcon>
                             </ButtonIcon>
                         </div>
 
@@ -57,12 +62,12 @@
                             <span>{{ formatTrackTime(player?.progress) }}</span>
                             <div class="grow flex items-center px-2">
                                 <input
-                                type="range"
-                                min="0"
-                                :max="player?.currentTrackDuration"
-                                v-model.number="player!.progress"
-                                class="range-slider w-full"
-                            />
+                                    type="range"
+                                    min="0"
+                                    :max="player?.currentTrackDuration"
+                                    v-model.number="player!.progress"
+                                    class="range-slider w-full"
+                                />
                             </div>
                             <span>{{ formatTrackTime(player?.currentTrackDuration) }}</span>
                         </div>
@@ -190,6 +195,8 @@
         contents: string[]
     }
 
+    const router = useRouter()
+
     const player = usePlayer()
     const uiStore = useUiStore()
 
@@ -218,7 +225,9 @@
     })
 
     const noLyric = computed(() => {
-        return lyrics.value.length === 0
+        return lyrics.value.length === 0 || lyrics.value.find((item) => item.content === '纯音乐，请欣赏')
+            ? true
+            : false
     })
 
     const coverURL = computed(() => {
@@ -226,7 +235,7 @@
     })
 
     const artist = computed(() => {
-        return player?.track?.ar[0].name || player?.track?.artists[0].name || ''
+        return player?.track?.ar[0] || player?.track?.artists[0]
     })
 
     const album = computed(() => {
@@ -261,6 +270,7 @@
         } else {
             ret = lyricFiltered.map(({ time, content }) => ({ time, content, contents: [content] }))
         }
+
         return ret
     })
 
@@ -297,6 +307,16 @@
             return `${line.contents[0]}`
         }
         return 'unknown'
+    }
+
+    const goTo = (name: string, id: number) => {
+        toggleLyrics()
+        router.push({
+            name,
+            params: {
+                id,
+            },
+        })
     }
 
     watch(showLyrics, (show) => {

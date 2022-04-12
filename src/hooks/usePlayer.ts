@@ -6,13 +6,14 @@ import { fetchPersonalFM, FMTrash } from '@/api/FM'
 import { fetchPlaylist } from '@/api/playlist'
 import { fetchAlbum } from '@/api/album'
 import { fetchArtist } from '@/api/artist'
+import { likeATrack } from '@/api/track'
 
 import { usePlayerStore } from '@/stores/player'
+import { useUserStore } from '@/stores/user'
 
 type TrackID = number
 
 export enum PlaylistSourceType {
-    TRACK = 'track',
     ALBUM = 'album',
     ARTIST = 'artist',
     PLAYLIST = 'playlist',
@@ -63,9 +64,11 @@ export interface PlayerPublic {
     isPersonalFM: boolean
     isMute: boolean
     isShuffle: boolean
+    isLiked:boolean
     switchRepeatMode: () => void
     switchShuffle: () => void
     mute: () => void
+    likeTrack: () => void
     moveToFMTrash: () => void
     play: () => void
     pause: () => void
@@ -81,14 +84,17 @@ export interface PlayerPublic {
 
 export function usePlayerProvider() {
     const playerStore = usePlayerStore()
+    const userStore = useUserStore()
+
     const title = useTitle('Anio Music')
 
-    const state = ref<PlayerState>(PlayerState.INITIALIZING) // 播放器状态
-    const playlistSource = ref<PlaylistSource | null>(null) // 当前播放列表的信息
     const lyrics = reactive({
         lyric: '',
         tlyric: '',
     })
+
+    const state = ref<PlayerState>(PlayerState.INITIALIZING) // 播放器状态
+    const playlistSource = ref<PlaylistSource | null>(null) // 当前播放列表的信息
 
     const _progressInterval = ref<ReturnType<typeof setInterval> | undefined>(undefined)
     const _howler = ref<Howl>(
@@ -226,6 +232,14 @@ export function usePlayerProvider() {
 
     const isShuffle = computed<boolean>(() => {
         return playerStore.shuffle
+    })
+
+    /**
+     * 是否喜欢当前播放音乐
+     */
+
+    const isLiked = computed<boolean | undefined>(() => {
+        return userStore.likedList?.includes(track.value.id)
     })
 
     /**
@@ -406,9 +420,9 @@ export function usePlayerProvider() {
             id: trackID,
         })
         track.value = trackRaw.value?.songs[0] as Track
+        lyrics.lyric = lyricRaw.value?.lrc?.lyric || ''
+        lyrics.tlyric = lyricRaw.value?.tlyric?.lyric || ''
         _trackIndex.value = index
-        lyrics.lyric = lyricRaw.value?.lrc.lyric || ''
-        lyrics.tlyric = lyricRaw.value?.tlyric.lyric || ''
 
         if (isPlaying) {
             _scrobble(track.value)
@@ -465,6 +479,18 @@ export function usePlayerProvider() {
             playerStore.updateVolumeBeforeMuted(volume.value)
             volume.value = 0
         }
+    }
+
+    /**
+     * 喜欢当前播放歌曲
+     */
+
+     const likeTrack = async () => {
+        await likeATrack({
+            id: track.value.id,
+            like: isLiked.value ? false : true,
+        })
+        await userStore.updateLikedList()
     }
 
     /**
@@ -641,9 +667,11 @@ export function usePlayerProvider() {
         isPersonalFM,
         isMute,
         isShuffle,
+        isLiked,
         switchRepeatMode,
         switchShuffle,
         mute,
+        likeTrack,
         moveToFMTrash,
         play,
         pause,

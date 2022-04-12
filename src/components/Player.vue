@@ -45,10 +45,10 @@
                 </div>
             </div>
 
-            <ButtonIcon v-show="player?.track?.id" @click="likeTrack">
+            <ButtonIcon v-show="player?.track?.id" @click="player?.likeTrack()">
                 <SvgIcon
                     class="h-4 w-4 text-black dark:text-white"
-                    :name="isLiked ? 'heart' : 'heart-outline'"
+                    :name="player?.isLiked ? 'heart' : 'heart-outline'"
                 ></SvgIcon>
             </ButtonIcon>
         </div>
@@ -144,19 +144,12 @@
 <script setup lang="ts">
     import usePlayer from '@/hooks/usePlayer'
     import { RepeatMode } from '@/hooks/usePlayer'
-    import { likeATrack } from '@/api/track'
     import { resizeImage } from '@/utils/common'
-    import { useUserStore } from '@/stores/user'
     import { useUiStore } from '@/stores/ui'
 
     const router = useRouter()
     const player = usePlayer()
-    const userStore = useUserStore()
     const uiStore = useUiStore()
-
-    const isLiked = computed(() => {
-        return userStore.likedList?.includes(Number(player?.track?.id))
-    })
 
     const cover = computed(() => {
         const cover = player?.track?.al?.picUrl || ''
@@ -178,14 +171,6 @@
                 id: albumID.value,
             },
         })
-    }
-
-    const likeTrack = async () => {
-        await likeATrack({
-            id: Number(player?.track?.id),
-            like: isLiked.value ? false : true,
-        })
-        await userStore.updateLikedList()
     }
 
     const toggleLyrics = () => {
