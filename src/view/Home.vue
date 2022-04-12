@@ -15,17 +15,18 @@
         ></CoverRow>
 
         <CoverRow
-            title="新专速递"
-            :albums="newAlbums?.albums ?? []"
-            type="album"
-            :is-skeleton="isFetchingNewAlbums"
-        ></CoverRow>
-
-        <CoverRow
             title="推荐艺人"
             :artists="shuffle(toplistArtists?.list.artists).slice(0, 12) || []"
             type="artist"
             :is-skeleton="isFetchingToplistArtists"
+        ></CoverRow>
+
+        <CoverRow
+            title="新专速递"
+            :albums="newAlbums?.albums ?? []"
+            type="album"
+            see-more-link="newAlbums"
+            :is-skeleton="isFetchingNewAlbums"
         ></CoverRow>
     </div>
 </template>
@@ -33,9 +34,9 @@
 <script setup lang="ts">
     import { shuffle } from 'lodash'
 
-    import { fetchRecommendedPlaylists } from "@/api/playlist";
-    import { fetchNewAlbums } from "@/api/album";
-    import { fetchToplistOfArtists } from "@/api/artist";
+    import { fetchRecommendedPlaylists } from '@/api/playlist'
+    import { fetchNewAlbums } from '@/api/album'
+    import { fetchToplistOfArtists } from '@/api/artist'
     import { NewAlbumsArea } from '@/api/album'
     import { ToplistOfArtists } from '@/api/artist'
     import { useUserStore } from '@/stores/user'

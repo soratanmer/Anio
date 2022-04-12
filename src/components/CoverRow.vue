@@ -8,7 +8,11 @@
         <div
             v-if="seeMoreLink"
             class="text-[13px] font-semibold text-black dark:text-white hover:underline"
-            @click="router.push(seeMoreLink as string)"
+            @click="
+                router.push({
+                    name: seeMoreLink,
+                })
+            "
             >查看全部</div
         >
     </div>
