@@ -37,6 +37,7 @@
                 <!-- Track name -->
                 <div v-if="player?.track?.id" class="line-clamp-1 font-semibold text-black dark:text-white">
                     {{ trackName }}
+                    <span v-if="player.isTranslate" class="ml-1"> ( {{ player.translate }} )</span>
                 </div>
 
                 <!-- Artists -->

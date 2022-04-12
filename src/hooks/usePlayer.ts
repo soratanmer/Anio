@@ -62,6 +62,8 @@ export interface PlayerPublic {
     progress: number
     repeatMode: RepeatMode
     volume: number
+    translate:string
+    isTranslate:boolean
     isPlaying: boolean
     isPersonalFM: boolean
     isMute: boolean
@@ -212,6 +214,26 @@ export function usePlayerProvider() {
             playerStore.updateVolume(volume)
             Howler.volume(volume)
         },
+    })
+
+    /**
+     * 歌曲译名
+     */
+
+    const translate = computed<string>(() => {
+        if (track.value.tns.length) {
+            return track.value.tns[0]
+        } else {
+            return track.value.alia[0]
+        }
+    })
+
+    /**
+     * 是否有歌曲译名
+     */
+
+    const isTranslate = computed<boolean>(() => {
+        return track.value.tns.length > 0 || track.value.alia.length > 0
     })
 
     /**
@@ -711,6 +733,8 @@ export function usePlayerProvider() {
         progress,
         repeatMode,
         volume,
+        translate,
+        isTranslate,
         isPlaying,
         isPersonalFM,
         isMute,

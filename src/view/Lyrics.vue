@@ -38,14 +38,19 @@
                             <!-- Track info -->
                             <div>
                                 <!-- Title -->
-                                <div class="mt-2 text-2xl font-semibold line-clamp-1 overflow-hidden">{{
-                                    player?.track?.name
-                                }}</div>
+                                <div class="mt-2 text-2xl font-semibold line-clamp-1 overflow-hidden">
+                                    {{ player?.track?.name }}
+                                    <span v-if="player.isTranslate" class="ml-1"> ( {{ player.translate }} )</span>
+                                </div>
                                 <!-- Subtitle -->
                                 <div class="mt-1 text-base line-clamp-1 overflow-hidden">
-                                    <span class="hover:underline cursor-default" @click="goTo('artist', artist?.id)">{{ artist?.name }}</span>
+                                    <span class="hover:underline cursor-default" @click="goTo('artist', artist?.id)">{{
+                                        artist?.name
+                                    }}</span>
                                     -
-                                    <span class="hover:underline cursor-default" @click="goTo('album', album?.id)">{{ album?.name }}</span>
+                                    <span class="hover:underline cursor-default" @click="goTo('album', album?.id)">{{
+                                        album?.name
+                                    }}</span>
                                 </div>
                             </div>
                             <!-- Liked -->
@@ -319,7 +324,7 @@
         })
     }
 
-    const goToPlaylistSource = ()=>{
+    const goToPlaylistSource = () => {
         toggleLyrics()
         player?.goToPlaylistSource()
     }
