@@ -139,6 +139,10 @@ export function usePlayerProvider() {
         return isShuffle.value ? playerStore.shufflePlaylist : playerStore.playlist
     })
 
+    const _playlist = computed<number[]>(()=>{
+        return playerStore.playlist
+    })
+
     /**
      * 当前正在播放的歌曲
      */
@@ -667,7 +671,7 @@ export function usePlayerProvider() {
         if (!trackID) {
             _replaceTrack(currentPlaylist.value[0], 0)
         } else {
-            _trackIndex.value = trackIDs.indexOf(trackID)
+            _trackIndex.value = currentPlaylist.value.indexOf(trackID)
             _replaceTrack(currentPlaylist.value[_trackIndex.value], _trackIndex.value)
         }
     }
