@@ -23,7 +23,7 @@
             >
                 <div>
                     <!-- Cover -->
-                    <div class="relative">
+                    <div class="relative" @click="goToPlaylistSource">
                         <img
                             class="rounded-lg h-[50vh] w-[50vh] select-none object-cover"
                             :src="coverURL"
@@ -317,6 +317,11 @@
                 id,
             },
         })
+    }
+
+    const goToPlaylistSource = ()=>{
+        toggleLyrics()
+        player?.goToPlaylistSource()
     }
 
     watch(showLyrics, (show) => {

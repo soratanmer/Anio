@@ -76,8 +76,8 @@
     const play = () => {
         player!.mode = PlayerMode.PLAYLIST
         player?.replacePlaylist(trackIDs.value, {
-            type: PlaylistSourceType.PLAYLIST,
-            id: Number(recommendTracks.value?.data.dailySongs[0].id),
+            type: PlaylistSourceType.DAILYTRACKS,
+            id: PlaylistSourceType.DAILYTRACKS,
         })
     }
 </script>

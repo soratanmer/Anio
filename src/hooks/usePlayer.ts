@@ -14,10 +14,12 @@ import { useUserStore } from '@/stores/user'
 type TrackID = number
 
 export enum PlaylistSourceType {
+    TRACK = 'track',
     ALBUM = 'album',
     ARTIST = 'artist',
     PLAYLIST = 'playlist',
     DAILYTRACKS = 'dailyTracks',
+    NEWSONGS = 'newSongs',
     FM = 'fm',
 }
 
@@ -64,7 +66,8 @@ export interface PlayerPublic {
     isPersonalFM: boolean
     isMute: boolean
     isShuffle: boolean
-    isLiked:boolean
+    isLiked: boolean
+    goToPlaylistSource: () => void
     switchRepeatMode: () => void
     switchShuffle: () => void
     mute: () => void
@@ -85,6 +88,7 @@ export interface PlayerPublic {
 export function usePlayerProvider() {
     const playerStore = usePlayerStore()
     const userStore = useUserStore()
+    const router = useRouter()
 
     const title = useTitle('Anio Music')
 
@@ -340,7 +344,7 @@ export function usePlayerProvider() {
     const _scrobble = async (track: Track) => {
         await scrobble({
             id: track.id,
-            sourceid: Number(playlistSource.value?.id),
+            sourceid: track.id,
             time: ~~(track.dt / 1000),
         })
     }
@@ -436,6 +440,42 @@ export function usePlayerProvider() {
     }
 
     /**
+     * 跳转到播放源页面
+     */
+
+    const goToPlaylistSource = () => {
+        if (
+            playlistSource.value?.type === PlaylistSourceType.PLAYLIST ||
+            playlistSource.value?.type === PlaylistSourceType.ALBUM ||
+            playlistSource.value?.type === PlaylistSourceType.ARTIST
+        ) {
+            router.push({
+                name: playlistSource.value.type,
+                params: {
+                    id: playlistSource.value.id,
+                },
+            })
+        } else if (
+            playlistSource.value?.type === PlaylistSourceType.DAILYTRACKS ||
+            playlistSource.value?.type === PlaylistSourceType.NEWSONGS
+        ) {
+            router.push({
+                name: playlistSource.value.type,
+            })
+        } else if (
+            playlistSource.value?.type === PlaylistSourceType.FM ||
+            playlistSource.value?.type === PlaylistSourceType.TRACK
+        ) {
+            router.push({
+                name: 'album',
+                params: {
+                    id: track.value.al.id || track.value.album.id || 0,
+                },
+            })
+        }
+    }
+
+    /**
      * 切换循环播放模式
      */
 
@@ -485,7 +525,7 @@ export function usePlayerProvider() {
      * 喜欢当前播放歌曲
      */
 
-     const likeTrack = async () => {
+    const likeTrack = async () => {
         await likeATrack({
             id: track.value.id,
             like: isLiked.value ? false : true,
@@ -668,6 +708,7 @@ export function usePlayerProvider() {
         isMute,
         isShuffle,
         isLiked,
+        goToPlaylistSource,
         switchRepeatMode,
         switchShuffle,
         mute,

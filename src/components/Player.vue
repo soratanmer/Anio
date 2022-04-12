@@ -20,7 +20,7 @@
             <img
                 v-if="cover"
                 class="aspect-square h-full rounded-md shadow-md"
-                @click="gotoAlbum"
+                @click="player?.goToPlaylistSource()"
                 :src="cover"
                 alt="Cover"
             />
@@ -147,7 +147,6 @@
     import { resizeImage } from '@/utils/common'
     import { useUiStore } from '@/stores/ui'
 
-    const router = useRouter()
     const player = usePlayer()
     const uiStore = useUiStore()
 
@@ -159,19 +158,6 @@
     const trackName = computed(() => {
         return player?.track?.name
     })
-
-    const albumID = computed(() => {
-        return player?.track?.al.id || player?.track?.album.id || 0
-    })
-
-    const gotoAlbum = () => {
-        router.push({
-            name: 'album',
-            params: {
-                id: albumID.value,
-            },
-        })
-    }
 
     const toggleLyrics = () => {
         if (player?.track?.id) {

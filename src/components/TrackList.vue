@@ -87,8 +87,8 @@
             player?.replacePlaylist(
                 trackIDs.value,
                 {
-                    type: PlaylistSourceType.PLAYLIST,
-                    id: props.id,
+                    type: PlaylistSourceType.TRACK,
+                    id: PlaylistSourceType.TRACK,
                 },
                 trackID,
             )
@@ -97,8 +97,8 @@
             player?.replacePlaylist(
                 trackIDs.value,
                 {
-                    type: PlaylistSourceType.PLAYLIST,
-                    id: props.id,
+                    type: PlaylistSourceType.DAILYTRACKS,
+                    id: PlaylistSourceType.DAILYTRACKS,
                 },
                 trackID,
             )

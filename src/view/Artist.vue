@@ -165,7 +165,7 @@
     const play = () => {
         player!.mode = PlayerMode.PLAYLIST
         player?.replacePlaylist(trackIDs.value, {
-            type: PlaylistSourceType.PLAYLIST,
+            type: PlaylistSourceType.ARTIST,
             id: artistID.value,
         })
     }

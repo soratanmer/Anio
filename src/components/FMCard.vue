@@ -84,7 +84,7 @@
         if (player?.personalFMTrack?.id !== player?.track?.id) {
             player?.replacePlaylist([personalFMTrackID.value], {
                 type: PlaylistSourceType.FM,
-                id: personalFMTrackID.value,
+                id: PlaylistSourceType.FM,
             })
         } else {
             player?.playOrPause()
