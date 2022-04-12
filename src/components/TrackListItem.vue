@@ -18,6 +18,14 @@
             <div class="flex flex-col justify-center max-w-full">
                 <div v-if="!isSkeleton" class="line-clamp-1 break-all text-lg font-semibold text-black dark:text-white">
                     {{ track.name }}
+                    <span
+                        v-if="isTranslate"
+                        class="ml-1"
+                        :class="{
+                            'opacity-50': !isHighLight,
+                        }"
+                        >( {{ translate }} )</span
+                    >
                 </div>
                 <Skeleton v-else class="text-lg">PLACEHOLDER12345</Skeleton>
                 <div v-if="!isAlbum" class="text-sm text-black dark:text-white">
@@ -115,6 +123,18 @@
 
     const isHighLight = computed(() => {
         return player?.track?.id === props.track.id
+    })
+
+    const isTranslate = computed(() => {
+        return props.track.tns.length > 0 || props.track.alia.length > 0
+    })
+
+    const translate = computed(() => {
+        if (props.track.tns.length) {
+            return props.track.tns[0]
+        } else {
+            return props.track.alia[0]
+        }
     })
 
     const coverUrl = computed(() => {

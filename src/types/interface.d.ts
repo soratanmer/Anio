@@ -294,6 +294,8 @@ declare interface Track {
 
     transName: null
 
+    tns: string[]
+
     trUrls: unknown[]
 
     v: number
