@@ -136,17 +136,21 @@ export function usePlayerProvider() {
      * 获取当前播放列表
      */
 
-    const currentPlaylist = computed<number[]>({
-        get() {
-            return isShuffle.value ? playerStore.shufflePlaylist : playerStore.playlist
-        },
-        set(trackIDs) {
-            if (isShuffle.value) {
-                playerStore.updateShufflePlaylist(trackIDs)
-            } else {
-                playerStore.updatePlaylist(trackIDs)
-            }
-        },
+    // const currentPlaylist = computed<number[]>({
+    //     get() {
+    //         return isShuffle.value ? playerStore.shufflePlaylist : playerStore.playlist
+    //     },
+    //     set(trackIDs) {
+    //         if (isShuffle.value) {
+    //             playerStore.updateShufflePlaylist(trackIDs)
+    //         } else {
+    //             playerStore.updatePlaylist(trackIDs)
+    //         }
+    //     },
+    // })
+
+    const currentPlaylist = computed<number[]>(() => {
+        return isShuffle.value ? playerStore.shufflePlaylist : playerStore.playlist
     })
 
     /**
@@ -675,10 +679,14 @@ export function usePlayerProvider() {
      */
 
     const addToQueue = (trackID: number[]) => {
-        const trackIndex = currentPlaylist.value.indexOf(track.value.id)
-        const trackIDs = currentPlaylist.value
-        trackIDs.splice(trackIndex + 1, 0, ...trackID)
-        currentPlaylist.value = trackIDs
+        const normalIndex = playerStore.playlist.indexOf(track.value.id)
+        const shuffleIndex = playerStore.shufflePlaylist.indexOf(track.value.id)
+        const playlist = playerStore.playlist
+        const shufflePlaylist = playerStore.shufflePlaylist
+        playlist.splice(normalIndex + 1, 0, ...trackID)
+        shufflePlaylist.splice(shuffleIndex + 1, 0, ...trackID)
+        playerStore.updatePlaylist(playlist)
+        playerStore.updateShufflePlaylist(shufflePlaylist)
     }
 
     /**
