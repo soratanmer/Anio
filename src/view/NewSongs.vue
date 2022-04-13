@@ -1,6 +1,6 @@
 <template>
     <div class="mt-10">
-        <div class="grid grid-cols-[16rem_auto] items-center gap-9">
+        <div class="grid grid-cols-[16rem_auto] items-center gap-9 mb-10">
             <!-- Cover -->
             <div class="relative z-0 aspect-square self-start">
                 <div
@@ -42,7 +42,6 @@
         </div>
 
         <TrackList
-            class="mt-10"
             :tracks="newSongs?.data || []"
             layout="list"
             :isLoading="isFetchingNewSongs"

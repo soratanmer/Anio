@@ -80,6 +80,7 @@ export interface PlayerPublic {
     playOrPause: () => void
     previousTrack: () => void
     nextTrack: () => void
+    addToQueue: (trackID: number) => void
     replacePlaylist: (trackIDs: TrackID[], playlistSource: PlaylistSource, trackID?: TrackID) => void
     playPlaylistByID: (playlistID: number, trackID?: TrackID) => void
     playAlbumByID: (albumID: number, trackID?: TrackID) => void
@@ -135,8 +136,17 @@ export function usePlayerProvider() {
      * 获取当前播放列表
      */
 
-    const currentPlaylist = computed<number[]>(() => {
-        return isShuffle.value ? playerStore.shufflePlaylist : playerStore.playlist
+    const currentPlaylist = computed<number[]>({
+        get() {
+            return isShuffle.value ? playerStore.shufflePlaylist : playerStore.playlist
+        },
+        set(trackIDs) {
+            if (isShuffle.value) {
+                playerStore.updateShufflePlaylist(trackIDs)
+            } else {
+                playerStore.updatePlaylist(trackIDs)
+            }
+        },
     })
 
     /**
@@ -368,7 +378,7 @@ export function usePlayerProvider() {
      */
 
     const _shuffleTheList = (trackID?: TrackID) => {
-        let list = playerStore.playlist.filter((tid) => tid !== trackID)
+        let list = playerStore.playlist.filter((tid: number) => tid !== trackID)
 
         if (!trackID) {
             list = playerStore.playlist
@@ -660,6 +670,18 @@ export function usePlayerProvider() {
     }
 
     /**
+     * 添加至歌曲列表
+     * @param trackID
+     */
+
+    const addToQueue = (trackID: number[]) => {
+        const trackIndex = currentPlaylist.value.indexOf(track.value.id)
+        const trackIDs = currentPlaylist.value
+        trackIDs.splice(trackIndex + 1, 0, ...trackID)
+        currentPlaylist.value = trackIDs
+    }
+
+    /**
      * 替换当前歌曲列表
      * @param trackIDs 歌曲ID列表
      * @param source 列表来源
@@ -688,7 +710,7 @@ export function usePlayerProvider() {
             s: 0,
         })
         const trackIDs = computed(() => {
-            return data.value?.playlist.trackIds.map((item) => item.id) || []
+            return data.value?.playlist.trackIds.map((item: Track) => item.id) || []
         })
         replacePlaylist(
             trackIDs.value,
@@ -706,7 +728,7 @@ export function usePlayerProvider() {
             id: albumID,
         })
         const trackIDs = computed(() => {
-            return data.value?.songs.map((item) => item.id) || []
+            return data.value?.songs.map((item: Track) => item.id) || []
         })
         replacePlaylist(
             trackIDs.value,
@@ -724,7 +746,7 @@ export function usePlayerProvider() {
             id: artistID,
         })
         const trackIDs = computed(() => {
-            return data.value?.hotSongs.map((item) => item.id) || []
+            return data.value?.hotSongs.map((item: Track) => item.id) || []
         })
         replacePlaylist(
             trackIDs.value,
@@ -772,6 +794,7 @@ export function usePlayerProvider() {
         playOrPause,
         previousTrack,
         nextTrack,
+        addToQueue,
         replacePlaylist,
         playPlaylistByID,
         playAlbumByID,
