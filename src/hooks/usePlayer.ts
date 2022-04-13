@@ -675,16 +675,16 @@ export function usePlayerProvider() {
 
     /**
      * 添加至歌曲列表
-     * @param trackID
+     * @param trackIDs
      */
 
-    const addToQueue = (trackID: number[]) => {
+    const addToQueue = (trackIDs: number[]) => {
         const normalIndex = playerStore.playlist.indexOf(track.value.id)
         const shuffleIndex = playerStore.shufflePlaylist.indexOf(track.value.id)
         const playlist = playerStore.playlist
         const shufflePlaylist = playerStore.shufflePlaylist
-        playlist.splice(normalIndex + 1, 0, ...trackID)
-        shufflePlaylist.splice(shuffleIndex + 1, 0, ...trackID)
+        playlist.splice(normalIndex + 1, 0, ...trackIDs)
+        shufflePlaylist.splice(shuffleIndex + 1, 0, ...trackIDs)
         playerStore.updatePlaylist(playlist)
         playerStore.updateShufflePlaylist(shufflePlaylist)
     }
