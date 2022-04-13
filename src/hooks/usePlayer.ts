@@ -81,6 +81,7 @@ export interface PlayerPublic {
     previousTrack: () => void
     nextTrack: () => void
     addToQueue: (trackID: number) => void
+    removeToQueue: (trackID: number) => void
     replacePlaylist: (trackIDs: TrackID[], playlistSource: PlaylistSource, trackID?: TrackID) => void
     playPlaylistByID: (playlistID: number, trackID?: TrackID) => void
     playAlbumByID: (albumID: number, trackID?: TrackID) => void
@@ -674,17 +675,33 @@ export function usePlayerProvider() {
     }
 
     /**
-     * 添加至歌曲列表
-     * @param trackIDs
+     * 下一首播放
+     * @param trackID
      */
 
-    const addToQueue = (trackIDs: number[]) => {
+    const addToQueue = (trackID: number) => {
         const normalIndex = playerStore.playlist.indexOf(track.value.id)
         const shuffleIndex = playerStore.shufflePlaylist.indexOf(track.value.id)
         const playlist = playerStore.playlist
         const shufflePlaylist = playerStore.shufflePlaylist
-        playlist.splice(normalIndex + 1, 0, ...trackIDs)
-        shufflePlaylist.splice(shuffleIndex + 1, 0, ...trackIDs)
+        playlist.splice(normalIndex + 1, 0, trackID)
+        shufflePlaylist.splice(shuffleIndex + 1, 0, trackID)
+        playerStore.updatePlaylist(playlist)
+        playerStore.updateShufflePlaylist(shufflePlaylist)
+    }
+
+    /**
+     * 从列表中移除
+     * @param trackID
+     */
+
+    const removeToQueue = (trackID: number)=>{
+        const normalIndex = playerStore.playlist.indexOf(trackID)
+        const shuffleIndex = playerStore.shufflePlaylist.indexOf(trackID)
+        const playlist = playerStore.playlist
+        const shufflePlaylist = playerStore.shufflePlaylist
+        playlist.splice(normalIndex, 1)
+        shufflePlaylist.splice(shuffleIndex, 1)
         playerStore.updatePlaylist(playlist)
         playerStore.updateShufflePlaylist(shufflePlaylist)
     }
@@ -803,6 +820,7 @@ export function usePlayerProvider() {
         previousTrack,
         nextTrack,
         addToQueue,
+        removeToQueue,
         replacePlaylist,
         playPlaylistByID,
         playAlbumByID,

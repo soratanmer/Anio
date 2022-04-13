@@ -32,12 +32,14 @@
             >播放</div
         >
         <div
+            v-if="!player?.currentPlaylist.includes(rightTrack.id)"
             class="font-semibold text-sm py-2.5 px-3.5 rounded-lg cursor-default text-black dark:text-white flex center hover:bg-green-500"
-            @click="player?.addToQueue([rightTrack.id])"
+            @click="player?.addToQueue(rightTrack.id)"
             >下一首播放</div
         >
-        <div
+        <div v-else
             class="font-semibold text-sm py-2.5 px-3.5 rounded-lg cursor-default text-black dark:text-white flex center hover:bg-green-500"
+            @click="player?.removeToQueue(rightTrack.id)"
             >从列表中删除</div
         >
         <div
