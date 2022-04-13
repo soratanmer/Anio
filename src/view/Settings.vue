@@ -1,7 +1,7 @@
 <template>
     <div class="flex justify-center mt-10">
         <!-- Container -->
-        <div class="w-[720px] text-black dark:text-white">
+        <div class="w-1/2 text-black dark:text-white">
             <!-- User -->
             <div v-if="isLoggedIn()" class="flex items-center justify-between bg-gray-800 py-4 px-5 rounded-lg my-12">
                 <!-- Left part -->
@@ -63,7 +63,7 @@
             </div>
 
             <!-- Footer -->
-            <div class="w-[720px] mt-20 font-semibold">
+            <div class="mt-12 font-semibold">
                 <a href="https://github.com/soratanmer/Anio" target="_blank" class="hover:underline">Anio Music</a>
                 <p class="mt-1">当前版本：{{ version }}</p>
                 <p class="mt-1">
@@ -93,11 +93,13 @@
         return userStore.userAccount
     })
 
-    const logouts = () => {
-        doLogout()
-        router.push({
+    const logouts = async () => {
+        await doLogout()
+        await router.push({
             name: 'home',
         })
+        await userStore.updateUserAccount()
+        await userStore.updateLikedList()
     }
 
     const version = computed(() => {

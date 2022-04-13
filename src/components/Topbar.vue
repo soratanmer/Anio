@@ -45,7 +45,7 @@
                 class="app-region-no-drag h-9 w-9 rounded-lg bg-gray-500"
                 :src="
                     userAccount?.profile?.avatarUrl
-                        ? resizeImage(userAccount.profile.avatarUrl, 'md')
+                        ? resizeImage(userAccount?.profile?.avatarUrl, 'md')
                         : resizeImage('https://s4.music.126.net/style/web2/img/default/default_avatar.jpg', 'md')
                 "
                 @click="

@@ -32,7 +32,7 @@
         </div>
 
         <!-- Playlists -->
-        <div class="overflow-auto">
+        <div class="overflow-auto" v-if="isLoggedIn()">
             <div
                 v-for="playlist in userPlaylists?.playlist || []"
                 class="btn-hover-animation mx-3 flex items-center rounded-lg px-3 py-2 mb-2 text-black dark:text-white transition-colors duration-200 after:scale-[0.97] after:bg-green-400"
@@ -50,6 +50,7 @@
 <script setup lang="ts">
     import { fetchUserPlaylists } from '@/api/user'
     import { useUserStore } from '@/stores/user'
+    import { isLoggedIn } from "@/utils/user";
 
     interface Tab {
         name: string
