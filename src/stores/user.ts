@@ -7,6 +7,7 @@ export const useUserStore = defineStore('user', {
         return {
             userAccount: {} as FetchUserAccountResponse | null,
             likedList: [0],
+            userLikedSongListID: 0,
         }
     },
     getters: {},
@@ -24,6 +25,9 @@ export const useUserStore = defineStore('user', {
             } else {
                 this.likedList = [0]
             }
+        },
+        updateUserLikedSongListID(id: number) {
+            this.userLikedSongListID = id
         },
     },
     persist: {

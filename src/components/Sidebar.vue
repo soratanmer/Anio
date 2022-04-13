@@ -50,7 +50,7 @@
 <script setup lang="ts">
     import { fetchUserPlaylists } from '@/api/user'
     import { useUserStore } from '@/stores/user'
-    import { isLoggedIn } from "@/utils/user";
+    import { isLoggedIn } from '@/utils/user'
 
     interface Tab {
         name: string
@@ -83,7 +83,7 @@
         },
     ]
 
-    const { data: userPlaylists } = fetchUserPlaylists(
+    const { data: userPlaylists, isFetching: isFetchingUserPlaylists } = fetchUserPlaylists(
         reactive({
             uid: computed(() => {
                 return userStore.userAccount?.account?.id ?? 0
@@ -91,6 +91,10 @@
             offset: 0,
         }),
     )
+
+    const userLikedSongListID = computed(() => {
+        return userPlaylists.value?.playlist[0].id || 0
+    })
 
     const routePush = (tab: Tab) => {
         if (tab.route === '/explore') {
@@ -105,4 +109,8 @@
             router.push(tab.route)
         }
     }
+
+    watch(isFetchingUserPlaylists, () => {
+        userStore.updateUserLikedSongListID(userLikedSongListID.value)
+    })
 </script>

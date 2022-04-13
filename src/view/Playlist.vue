@@ -68,6 +68,7 @@
             :tracks="page?.songs || []"
             layout="list"
             :id="playlistID"
+            :isUserOwnPlaylist="isUserOwnPlaylist"
             dbclick-track-func="playPlaylistByID"
         />
     </div>
@@ -109,6 +110,13 @@
 
     const playlist = computed(() => {
         return playlistRaw.value?.playlist
+    })
+
+    const isUserOwnPlaylist = computed(() => {
+        return (
+            userStore.userAccount?.profile?.userId === playlistRaw.value?.playlist.creator.userId &&
+            playlistID.value !== userStore.userLikedSongListID
+        )
     })
 
     const isSub = ref<boolean>(false)

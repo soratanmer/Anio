@@ -37,7 +37,8 @@
             @click="player?.addToQueue(rightTrack.id)"
             >下一首播放</div
         >
-        <div v-else
+        <div
+            v-else
             class="font-semibold text-sm py-2.5 px-3.5 rounded-lg cursor-default text-black dark:text-white flex center hover:bg-green-500"
             @click="player?.removeToQueue(rightTrack.id)"
             >从列表中删除</div
@@ -55,11 +56,14 @@
             >从我喜欢的音乐中删除</div
         >
         <div
+            v-if="isLoggedIn()"
             class="font-semibold text-sm py-2.5 px-3.5 rounded-lg cursor-default text-black dark:text-white flex center hover:bg-green-500"
             >保存到歌单</div
         >
         <div
+            v-if="isUserOwnPlaylist"
             class="font-semibold text-sm py-2.5 px-3.5 rounded-lg cursor-default text-black dark:text-white flex center hover:bg-green-500"
+            @click="removeTrackFromPlaylist(rightTrack.id)"
             >从歌单中删除</div
         >
     </ContextMenu>
@@ -69,9 +73,11 @@
     import type { PropType } from 'vue'
 
     import { likeATrack } from '@/api/track'
+    import { addOrRemoveTrackFromPlaylist } from '@/api/playlist'
     import usePlayer from '@/hooks/usePlayer'
     import { PlayerMode, PlaylistSourceType } from '@/hooks/usePlayer'
     import { useUserStore } from '@/stores/user'
+    import { isLoggedIn } from '@/utils/user'
 
     const props = defineProps({
         id: {
@@ -101,6 +107,10 @@
         },
         // 是否正在加载数据中（加载中时会显示 Skeleton ）
         isLoading: {
+            type: Boolean,
+            default: false,
+        },
+        isUserOwnPlaylist: {
             type: Boolean,
             default: false,
         },
@@ -167,5 +177,13 @@
             like,
         })
         await userStore.updateLikedList()
+    }
+
+    const removeTrackFromPlaylist = async (id: number) => {
+        await addOrRemoveTrackFromPlaylist({
+            tracks: [id],
+            op: 'del',
+            pid: props.id,
+        })
     }
 </script>
