@@ -23,6 +23,7 @@ declare module 'vue' {
     Library: typeof import('./src/view/Library.vue')['default']
     Login: typeof import('./src/view/Login.vue')['default']
     Lyrics: typeof import('./src/view/Lyrics.vue')['default']
+    Modal: typeof import('./src/components/Modal.vue')['default']
     NewAlbum: typeof import('./src/view/NewAlbum.vue')['default']
     NewSongs: typeof import('./src/view/NewSongs.vue')['default']
     NewSongsCard: typeof import('./src/components/NewSongsCard.vue')['default']

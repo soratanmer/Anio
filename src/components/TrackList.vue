@@ -26,47 +26,70 @@
     </div>
 
     <ContextMenu ref="menuRef">
-        <div
-            class="font-semibold text-sm py-2.5 px-3.5 rounded-lg cursor-default text-black dark:text-white flex center hover:bg-green-500"
-            @click="playThisList(rightTrack.id)"
+        <div class="py-2.5 px-3.5 rounded-lg cursor-default hover:bg-green-500" @click="playThisList(rightTrack.id)"
             >播放</div
         >
         <div
             v-if="!player?.currentPlaylist.includes(rightTrack.id)"
-            class="font-semibold text-sm py-2.5 px-3.5 rounded-lg cursor-default text-black dark:text-white flex center hover:bg-green-500"
+            class="py-2.5 px-3.5 rounded-lg cursor-default hover:bg-green-500"
             @click="player?.addToQueue(rightTrack.id)"
             >下一首播放</div
         >
         <div
             v-else
-            class="font-semibold text-sm py-2.5 px-3.5 rounded-lg cursor-default text-black dark:text-white flex center hover:bg-green-500"
+            class="py-2.5 px-3.5 rounded-lg cursor-default hover:bg-green-500"
             @click="player?.removeToQueue(rightTrack.id)"
             >从列表中删除</div
         >
         <div
             v-if="!userStore.likedList.includes(rightTrack.id)"
-            class="font-semibold text-sm py-2.5 px-3.5 rounded-lg cursor-default text-black dark:text-white flex center hover:bg-green-500"
+            class="py-2.5 px-3.5 rounded-lg cursor-default hover:bg-green-500"
             @click="likeTrack(rightTrack.id, true)"
             >保存到我喜欢的音乐</div
         >
         <div
             v-else
-            class="font-semibold text-sm py-2.5 px-3.5 rounded-lg cursor-default text-black dark:text-white flex center hover:bg-green-500"
+            class="py-2.5 px-3.5 rounded-lg cursor-default hover:bg-green-500"
             @click="likeTrack(rightTrack.id, false)"
             >从我喜欢的音乐中删除</div
         >
         <div
             v-if="isLoggedIn()"
-            class="font-semibold text-sm py-2.5 px-3.5 rounded-lg cursor-default text-black dark:text-white flex center hover:bg-green-500"
-            >保存到歌单</div
+            class="py-2.5 px-3.5 rounded-lg cursor-default hover:bg-green-500"
+            @click="handleModal"
         >
+            保存到歌单
+        </div>
         <div
             v-if="isUserOwnPlaylist"
-            class="font-semibold text-sm py-2.5 px-3.5 rounded-lg cursor-default text-black dark:text-white flex center hover:bg-green-500"
+            class="py-2.5 px-3.5 rounded-lg cursor-default hover:bg-green-500"
             @click="removeTrackFromPlaylist(rightTrack.id)"
             >从歌单中删除</div
         >
     </ContextMenu>
+
+    <Modal id="modal" ref="modal" width="25vw" title="添加到播放列表">
+        <template v-slot:content>
+            <div
+                class="flex justify-between items-center h-10 mb-2 p-2 text-base font-medium text-white rounded-lg cursor-pointer bg-gray-800 hover:bg-green-500"
+            >
+                <div>新建歌单</div>
+                <ButtonIcon>
+                    <SvgIcon class="h-4 w-4" name="plus"></SvgIcon>
+                </ButtonIcon>
+            </div>
+            <div
+                v-for="playlist in userCreatePlaylist"
+                class="flex justify-between items-center p-2 rounded-lg mt-1 text-white bg-gray-800 hover:bg-green-500"
+                @click="addTrackFromPlaylist(rightTrack.id, playlist.id)"
+            >
+                <div>
+                    {{ playlist.name }}
+                </div>
+                <div class="opacity-70 text-xs"> {{ playlist.trackCount }} 首歌 </div>
+            </div>
+        </template>
+    </Modal>
 </template>
 
 <script setup lang="ts">
@@ -74,6 +97,7 @@
 
     import { likeATrack } from '@/api/track'
     import { addOrRemoveTrackFromPlaylist } from '@/api/playlist'
+    import { fetchUserPlaylists } from '@/api/user'
     import usePlayer from '@/hooks/usePlayer'
     import { PlayerMode, PlaylistSourceType } from '@/hooks/usePlayer'
     import { useUserStore } from '@/stores/user'
@@ -185,5 +209,38 @@
             op: 'del',
             pid: props.id,
         })
+    }
+
+    const { data: userPlaylists, isFetching: isFetchingUserPlaylists } = fetchUserPlaylists(
+        reactive({
+            uid: computed(() => {
+                return userStore.userAccount?.account?.id ?? 0
+            }),
+            offset: 0,
+        }),
+    )
+
+    const modal = ref()
+
+    const handleModal = () => {
+        modal.value.handleModal()
+    }
+
+    const userCreatePlaylist = computed(() => {
+        return userPlaylists.value?.playlist.filter((item) => {
+            return (
+                item.creator.userId === userStore.userAccount?.profile?.userId &&
+                item.id !== userStore.userLikedSongListID
+            )
+        })
+    })
+
+    const addTrackFromPlaylist = async (id: number, pid: number) => {
+        await addOrRemoveTrackFromPlaylist({
+            tracks: [id],
+            op: 'add',
+            pid,
+        })
+        await handleModal()
     }
 </script>
