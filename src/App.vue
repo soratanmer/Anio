@@ -11,6 +11,8 @@
                 </router-view>
             </main>
             <Player></Player>
+            <ModalNewPlaylist></ModalNewPlaylist>
+            <ModalAddTrackToPlaylist></ModalAddTrackToPlaylist>
         </div>
         <Lyrics v-show="showLyrics" />
     </div>
@@ -22,6 +24,7 @@
     import { usePlayerProvider } from '@/hooks/usePlayer'
     import { useUserStore } from '@/stores/user'
     import { useUiStore } from '@/stores/ui'
+    import ModalAddTrackToPlaylist from './components/ModalAddTrackToPlaylist.vue'
 
     const route = useRoute()
     const userStore = useUserStore()

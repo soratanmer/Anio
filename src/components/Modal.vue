@@ -1,18 +1,18 @@
 <template>
     <div
-        v-if="showModal"
+        v-if="show"
         id="modal"
         ref="modal"
         class="absolute top-0 bottom-0 left-0 right-0 flex justify-center items-center z-[1000]"
-        @click="handleModal(clickOutSideHide)"
+        @click="clickOutside"
     >
         <!-- modal -->
         <div class="bg-gray-900 rounded-lg text-sm flex flex-col max-h-[90vh]" :style="modalStyles">
             <!-- header -->
-            <div v-if="!clickOutSideHide" class="flex justify-between items-center p-6">
+            <div class="flex justify-between items-center p-6">
                 <!-- title -->
                 <div class="font-semibold text-xl">{{ title }}</div>
-                <ButtonIcon @click="handleModal()">
+                <ButtonIcon @click="close()">
                     <SvgIcon class="h-4 w-4" name="x"></SvgIcon>
                 </ButtonIcon>
             </div>
@@ -30,6 +30,10 @@
 
 <script setup lang="ts">
     const props = defineProps({
+        show: {
+            type: Boolean,
+            default: false,
+        },
         title: {
             type: String,
             default: 'Title',
@@ -46,6 +50,10 @@
             type: String,
             default: '50vw',
         },
+        close: {
+            type: Function,
+            required: true,
+        },
     })
 
     const modalStyles = computed(() => {
@@ -56,9 +64,13 @@
 
     const showModal = ref(false)
 
-    const handleModal = (hide: boolean = true) => {
-        if (hide) {
-            showModal.value = !showModal.value
+    const handleModal = () => {
+        showModal.value = !showModal.value
+    }
+
+    const clickOutside = () => {
+        if (props.clickOutSideHide) {
+            props.close()
         }
     }
 

@@ -10,6 +10,14 @@ export const useUiStore = defineStore('ui', {
                 timer: 0,
             },
             showLyrics: false,
+            addTrackToPlaylistModal: {
+                show: false,
+                selectedTrackID: 0,
+            },
+            newPlaylistModal: {
+                show: false,
+                afterCreateAddTrackID: 0,
+            },
         }
     },
     actions: {
@@ -36,6 +44,14 @@ export const useUiStore = defineStore('ui', {
         },
         updateShowLyrics(showLyrics: boolean) {
             this.showLyrics = showLyrics
+        },
+        updateAddTrackToPlaylistModal(show: boolean = false, id: number = 0) {
+            this.addTrackToPlaylistModal.show = show
+            this.addTrackToPlaylistModal.selectedTrackID = id
+        },
+        updateNewPlaylistModal(show: boolean = false, id: number = 0) {
+            this.newPlaylistModal.show = show
+            this.newPlaylistModal.afterCreateAddTrackID = id
         },
     },
     persist: {

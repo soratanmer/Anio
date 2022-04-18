@@ -56,7 +56,7 @@
         <div
             v-if="isLoggedIn()"
             class="py-2.5 px-3.5 rounded-lg cursor-default hover:bg-green-500"
-            @click="handleModal"
+            @click="addTrackToPlaylist"
         >
             保存到歌单
         </div>
@@ -67,29 +67,6 @@
             >从歌单中删除</div
         >
     </ContextMenu>
-
-    <Modal id="modal" ref="modal" width="25vw" title="添加到播放列表">
-        <template v-slot:content>
-            <div
-                class="flex justify-between items-center h-10 mb-2 p-2 text-base font-medium text-white rounded-lg cursor-pointer bg-gray-800 hover:bg-green-500"
-            >
-                <div>新建歌单</div>
-                <ButtonIcon>
-                    <SvgIcon class="h-4 w-4" name="plus"></SvgIcon>
-                </ButtonIcon>
-            </div>
-            <div
-                v-for="playlist in userCreatePlaylist"
-                class="flex justify-between items-center p-2 rounded-lg mt-1 text-white bg-gray-800 hover:bg-green-500"
-                @click="addTrackFromPlaylist(rightTrack.id, playlist.id)"
-            >
-                <div>
-                    {{ playlist.name }}
-                </div>
-                <div class="opacity-70 text-xs"> {{ playlist.trackCount }} 首歌 </div>
-            </div>
-        </template>
-    </Modal>
 </template>
 
 <script setup lang="ts">
@@ -97,10 +74,10 @@
 
     import { likeATrack } from '@/api/track'
     import { addOrRemoveTrackFromPlaylist } from '@/api/playlist'
-    import { fetchUserPlaylists } from '@/api/user'
     import usePlayer from '@/hooks/usePlayer'
     import { PlayerMode, PlaylistSourceType } from '@/hooks/usePlayer'
     import { useUserStore } from '@/stores/user'
+    import { useUiStore } from '@/stores/ui'
     import { isLoggedIn } from '@/utils/user'
 
     const props = defineProps({
@@ -141,6 +118,7 @@
     })
 
     const userStore = useUserStore()
+    const UiStore = useUiStore()
     const player = usePlayer()
 
     // 用于填充 Skeleton 的假数据
@@ -204,6 +182,9 @@
     }
 
     const removeTrackFromPlaylist = async (id: number) => {
+        if (!isLoggedIn()) {
+            return
+        }
         await addOrRemoveTrackFromPlaylist({
             tracks: [id],
             op: 'del',
@@ -211,36 +192,11 @@
         })
     }
 
-    const { data: userPlaylists, isFetching: isFetchingUserPlaylists } = fetchUserPlaylists(
-        reactive({
-            uid: computed(() => {
-                return userStore.userAccount?.account?.id ?? 0
-            }),
-            offset: 0,
-        }),
-    )
+    const addTrackToPlaylist = () => {
+        if (!isLoggedIn()) {
+            return
+        }
 
-    const modal = ref()
-
-    const handleModal = () => {
-        modal.value.handleModal()
-    }
-
-    const userCreatePlaylist = computed(() => {
-        return userPlaylists.value?.playlist.filter((item) => {
-            return (
-                item.creator.userId === userStore.userAccount?.profile?.userId &&
-                item.id !== userStore.userLikedSongListID
-            )
-        })
-    })
-
-    const addTrackFromPlaylist = async (id: number, pid: number) => {
-        await addOrRemoveTrackFromPlaylist({
-            tracks: [id],
-            op: 'add',
-            pid,
-        })
-        await handleModal()
+        UiStore.updateAddTrackToPlaylistModal(true, rightTrack.id)
     }
 </script>
