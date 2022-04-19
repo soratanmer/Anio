@@ -425,7 +425,7 @@ export function usePlayerProvider() {
             src: [audioSource],
             format: ['mp3', 'flac'],
             volume: volume.value,
-            html5: true,
+            // html5: true,
             onend: () => nextTrack(),
         })
 
@@ -736,7 +736,7 @@ export function usePlayerProvider() {
             s: 0,
         })
         const trackIDs = computed(() => {
-            return data.value?.playlist.trackIds.map((item: Track) => item.id) || []
+            return data.value?.playlist.trackIds.map((item) => item.id) || []
         })
         replacePlaylist(
             trackIDs.value,
