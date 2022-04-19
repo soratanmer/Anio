@@ -9,8 +9,11 @@ export const useRequest = createFetch({
         timeout: 30000, // 请求过期时间
         refetch: true,
         // 在请求前修改配置，如：注入 token 值
-        async beforeFetch({ options }) {
-            return { options }
+        async beforeFetch({ url, options }) {
+            if (url.indexOf('?') !== -1) {
+                url = url.concat('&realIP=116.25.146.177')
+            }
+            return { url, options }
         },
         // 在请求后处理数据，如：拦截错误、处理过期
         afterFetch({ data, response }) {
