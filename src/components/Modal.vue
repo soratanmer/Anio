@@ -79,7 +79,7 @@
     })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
     ::-webkit-scrollbar {
         display: none;
     }

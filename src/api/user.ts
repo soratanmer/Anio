@@ -114,7 +114,7 @@ export interface FetchUserPlaylistsParams {
     limit?: number
 }
 
-interface FetchUserPlaylistsResponse {
+export interface FetchUserPlaylistsResponse {
     code: number
     more: false
     version: string

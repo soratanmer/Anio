@@ -4,11 +4,7 @@
         <div class="relative flex h-screen max-h-screen flex-grow flex-col bg-white dark:bg-black">
             <Topbar></Topbar>
             <main id="mainContainer" ref="mainContainer" class="pb-10 overflow-y-auto flex-grow px-8">
-                <router-view v-slot="{ Component }">
-                    <keep-alive>
-                        <component :is="Component" :key="route.fullPath"></component>
-                    </keep-alive>
-                </router-view>
+                <router-view :key="route.fullPath"></router-view>
             </main>
             <Player></Player>
             <ModalNewPlaylist></ModalNewPlaylist>
@@ -24,7 +20,6 @@
     import { usePlayerProvider } from '@/hooks/usePlayer'
     import { useUserStore } from '@/stores/user'
     import { useUiStore } from '@/stores/ui'
-    import ModalAddTrackToPlaylist from './components/ModalAddTrackToPlaylist.vue'
 
     const route = useRoute()
     const userStore = useUserStore()
@@ -36,6 +31,7 @@
 
     userStore.updateUserAccount()
     userStore.updateLikedList()
+    userStore.updateUserPlaylists()
 
     useQueryProvider()
     usePlayerProvider()

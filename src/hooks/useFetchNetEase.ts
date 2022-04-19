@@ -25,6 +25,7 @@ export const useRequest = createFetch({
     },
     fetchOptions: {
         mode: 'cors',
+        cache: 'no-store',
     },
 })
 

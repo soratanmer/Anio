@@ -83,17 +83,25 @@
         },
     ]
 
-    const { data: userPlaylists, isFetching: isFetchingUserPlaylists } = fetchUserPlaylists(
-        reactive({
-            uid: computed(() => {
-                return userStore.userAccount?.account?.id ?? 0
-            }),
-            offset: 0,
-        }),
-    )
+    // const { data: userPlaylists, isFetching: isFetchingUserPlaylists } = fetchUserPlaylists(
+    //     reactive({
+    //         uid: computed(() => {
+    //             return userStore.userAccount?.account?.id ?? 0
+    //         }),
+    //         offset: 0,
+    //     }),
+    // )
 
-    const userLikedSongListID = computed(() => {
-        return userPlaylists.value?.playlist[0].id || 0
+    // const userLikedSongListID = computed(() => {
+    //     return userPlaylists.value?.playlist[0].id || 0
+    // })
+
+    // watch(isFetchingUserPlaylists, () => {
+    //     userStore.updateUserLikedSongListID(userLikedSongListID.value)
+    // })
+
+    const userPlaylists = computed(()=>{
+        return userStore.userPlaylists
     })
 
     const routePush = (tab: Tab) => {
@@ -109,8 +117,4 @@
             router.push(tab.route)
         }
     }
-
-    watch(isFetchingUserPlaylists, () => {
-        userStore.updateUserLikedSongListID(userLikedSongListID.value)
-    })
 </script>

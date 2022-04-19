@@ -3,7 +3,7 @@
         <template v-slot:content>
             <input
                 v-model="title"
-                class="mb-2 w-full bg-gray-200 py-2 px-3"
+                class="mb-2 w-full py-2 px-3"
                 type="text"
                 placeholder="请输入新歌单标题"
                 maxlength="40"
@@ -21,10 +21,12 @@
 
 <script setup lang="ts">
     import { useUiStore } from '@/stores/ui'
+    import { useUserStore } from '@/stores/user'
     import { createPlaylist, addOrRemoveTrackFromPlaylist } from '@/api/playlist'
     import type { CreatePlaylistParams } from '@/api/playlist'
 
     const UiStore = useUiStore()
+    const userStore = useUserStore()
 
     const title = ref<string>('')
     const privatePlaylist = ref<boolean>(false)
@@ -69,5 +71,7 @@
         }
 
         await close()
+
+        await userStore.updateUserPlaylists()
     }
 </script>

@@ -55,7 +55,6 @@
             :playlists="userCreatePlaylist || []"
             type="playlist"
             subtitle="creator"
-            :is-skeleton="isFetchingPlaylists"
         ></CoverRow>
 
         <CoverRow
@@ -63,7 +62,6 @@
             :playlists="userLikedPlaylist || []"
             type="playlist"
             subtitle="creator"
-            :is-skeleton="isFetchingPlaylists"
         ></CoverRow>
 
         <CoverRow
@@ -86,7 +84,6 @@
 </template>
 
 <script setup lang="ts">
-    import { fetchUserPlaylists } from '@/api/user'
     import useFetchUserLikedAlbumsInfinite from '@/hooks/useFetchUserLikedAlbumsInfinite'
     import useFetchUserLikedArtistsInfinite from '@/hooks/useFetchUserLikedArtistsInfinite'
     import { formatDate, resizeImage } from '@/utils/common'
@@ -132,14 +129,9 @@
         return userAccount.value?.profile?.avatarUrl ? resizeImage(userAccount.value?.profile?.avatarUrl, 'sm') : ''
     })
 
-    const { data: userPlaylists, isFetching: isFetchingPlaylists } = fetchUserPlaylists(
-        reactive({
-            uid: computed(() => {
-                return userAccount.value?.account?.id ?? 0
-            }),
-            offset: 0,
-        }),
-    )
+    const userPlaylists = computed(()=>{
+        return userStore.userPlaylists
+    })
 
     const userCreatePlaylist = computed(() => {
         return userPlaylists.value?.playlist.filter((item) => {
