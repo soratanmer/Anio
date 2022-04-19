@@ -6,7 +6,7 @@ export enum FMApiNames {
     FM_TRASH = 'FMTrash',
 }
 
-interface FetchPersonalFMResponse {
+export interface FetchPersonalFMResponse {
     popAdjust: boolean
     data: Track[]
     code: number
@@ -22,7 +22,7 @@ export interface FMTrashParams {
     id: number
 }
 
-interface FMTrashResponse {
+export interface FMTrashResponse {
     songs: Track[]
     count: number
     code: number

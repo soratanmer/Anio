@@ -140,7 +140,7 @@ export interface FetchUserLikedSongsIdsParams {
     uid: number
 }
 
-interface FetchUserLikedSongsIdsResponse {
+export interface FetchUserLikedSongsIdsResponse {
     code: number
     checkPoint: number
     ids: number[]
@@ -185,7 +185,7 @@ export interface FetchUserLikedAlbumsParams {
     offset?: number
 }
 
-interface FetchUserLikedAlbumsResponse {
+export interface FetchUserLikedAlbumsResponse {
     data: Album[]
     count: number
     hasMore: boolean
@@ -213,7 +213,7 @@ export interface FetchUserLikedArtistsParams {
     offset?: number
 }
 
-interface FetchUserLikedArtistsResponse {
+export interface FetchUserLikedArtistsResponse {
     data: Artist[]
     hasMore: boolean
     code: number
@@ -240,7 +240,7 @@ export interface FetchPurchasedAlbumsParams {
     offset?: number
 }
 
-interface FetchPurchasedAlbumsResponse {
+export interface FetchPurchasedAlbumsResponse {
     total: number
     paidAlbums: Album[]
     code: number
@@ -265,7 +265,7 @@ export interface FetchPurchasedSongsParams {
     offset?: number
 }
 
-interface FetchPurchasedSongsResponse {
+export interface FetchPurchasedSongsResponse {
     code: number
     data: {
         count: number
@@ -307,7 +307,7 @@ export interface FetchRecentSongsParams {
     limit?: number
 }
 
-interface FetchRecentSongsResponse {
+export interface FetchRecentSongsResponse {
     code: number
     data: {
         total: number

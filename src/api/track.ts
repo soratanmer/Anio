@@ -20,7 +20,7 @@ export interface FetchTracksParams {
     ids: number[]
 }
 
-interface FetchTracksResponse {
+export interface FetchTracksResponse {
     code: number
     songs: Track[]
     privileges: {
@@ -47,7 +47,7 @@ export interface FetchAudioSourceParams {
     br?: number
 }
 
-interface FetchAudioSourceResponse {
+export interface FetchAudioSourceResponse {
     code: number
     data: {
         br: number
@@ -153,7 +153,7 @@ export interface FetchTopSongsParams {
     type: TopSongsType
 }
 
-interface FetchTopSongsResponse {
+export interface FetchTopSongsResponse {
     code: number
     data: Track[]
 }
@@ -174,7 +174,7 @@ export interface LikeATrackParams {
     like: boolean
 }
 
-interface LikeATrackResponse {
+export interface LikeATrackResponse {
     songs: []
     playlistId: number
     code: number
@@ -201,7 +201,7 @@ export interface ScrobbleParams {
     time: number
 }
 
-interface ScrobbleResponse {
+export interface ScrobbleResponse {
     code: number
     data: string
     message: string

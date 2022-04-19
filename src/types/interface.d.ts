@@ -118,30 +118,14 @@ declare interface Playlist {
 }
 
 declare interface Track {
-    [key in ('h' | 'm' | 'l')]: {
-        br: number
-        fid: number
-        size: number
-        vd: number
-    }
+    
+    id: number
 
-    [key in ('bMusic' | 'hMusic' | 'lMusic' | 'mMusic')]: {
-        name: null
-        id: number
-        size: number
-        extension: string
-        sr: number
-        dfsId: number
-        bitrate: number
-        playTime: number
-        volumeDelta: number
-    }
-
+    album: Album
+    
     a: null
 
     al: Album
-
-    album: Album
 
     alg: string
 
@@ -186,8 +170,6 @@ declare interface Track {
     ftype: number
 
     hearTime: number
-
-    id: number
 
     mark: number
 
@@ -301,6 +283,25 @@ declare interface Track {
     v: number
 
     version: number
+
+    [key in ('h' | 'm' | 'l')]: {
+        br: number
+        fid: number
+        size: number
+        vd: number
+    }
+
+    [key in ('bMusic' | 'hMusic' | 'lMusic' | 'mMusic')]: {
+        name: null
+        id: number
+        size: number
+        extension: string
+        sr: number
+        dfsId: number
+        bitrate: number
+        playTime: number
+        volumeDelta: number
+    }
 }
 
 declare interface Artist {

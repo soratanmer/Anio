@@ -31,7 +31,7 @@ export interface FetchPlaylistParams {
     s?: number
 }
 
-interface FetchPlaylistResponse {
+export interface FetchPlaylistResponse {
     code: number
     playlist: Playlist
     relatedVideos: null
@@ -68,7 +68,7 @@ export interface FetchRecommendedPlaylistsParams {
     limit?: number
 }
 
-interface FetchRecommendedPlaylistsResponse {
+export interface FetchRecommendedPlaylistsResponse {
     code: number
     category: number
     hasTaste: boolean
@@ -90,7 +90,7 @@ export interface FetchDailyRecommendPlaylistsParams {
     limit?: number
 }
 
-interface FetchDailyRecommendPlaylistsResponse {
+export interface FetchDailyRecommendPlaylistsResponse {
     code: number
     featureFirst: boolean
     hoveRcmdSongs: boolean
@@ -108,7 +108,7 @@ export function fetchDailyRecommendPlaylists(
  * 说明 : 调用此接口 , 可获得每日推荐歌曲 ( 需要登录 )
  */
 
-interface FetchDailyRecommendTracksResponse {
+ export interface FetchDailyRecommendTracksResponse {
     code: number
     data: {
         dailySongs: Track[]
@@ -140,7 +140,7 @@ export interface FetchHighQualityPlaylistParams {
     before?: number
 }
 
-interface FetchHighQualityPlaylistResponse {
+export interface FetchHighQualityPlaylistResponse {
     playlists: Playlist[]
     code: number
     more: boolean
@@ -169,7 +169,7 @@ export interface FetchTopPlaylistParams {
     offset?: number
 }
 
-interface FetchTopPlaylistResponse {
+export interface FetchTopPlaylistResponse {
     playlists: Playlist[]
     total: number
     code: number
@@ -186,7 +186,7 @@ export function fetchTopPlaylist(params: FetchTopPlaylistParams): UseFetchReturn
  * 说明 : 调用此接口,可获取歌单分类,包含 category 信息
  */
 
-interface FetchPlaylistCategoryResponse {
+ export interface FetchPlaylistCategoryResponse {
     code: number
     all: PlaylistCategory
     sub: PlaylistCategory[]
@@ -208,7 +208,7 @@ export function fetchPlaylistCategory(): UseFetchReturn<FetchPlaylistCategoryRes
  * 说明 : 调用此接口,可获取所有榜单 接口地址 : /toplist
  */
 
-interface FetchToplistResponse {
+ export interface FetchToplistResponse {
     code: number
     list: Playlist[]
     artistToplist: {
@@ -236,7 +236,7 @@ export interface SubscribePlaylistParams {
     id: number
 }
 
-interface SubscribePlaylistResponse {
+export interface SubscribePlaylistResponse {
     code: number
 }
 
@@ -257,7 +257,7 @@ export interface DeletePlaylistParams {
     id: number[]
 }
 
-interface DeletePlaylistResponse {
+export interface DeletePlaylistResponse {
     code: number
     msg: null
     message: null
@@ -284,7 +284,7 @@ export interface CreatePlaylistParams {
     type?: 'NORMAL' | 'VIDEO' | 'SHARED'
 }
 
-interface CreatePlaylistResponse {
+export interface CreatePlaylistResponse {
     code: number
     id: number
     playlist: Playlist
@@ -311,7 +311,7 @@ export interface AddOrRemoveTrackFromPlaylistParams {
     tracks: number[]
 }
 
-interface AddOrRemoveTrackFromPlaylistResponse {
+export interface AddOrRemoveTrackFromPlaylistResponse {
     status: number
     body: {
         coverImgUrl?: string

@@ -18,7 +18,7 @@ export interface FetchAlbumParams {
     id: number
 }
 
-interface FetchAlbumResponse {
+export interface FetchAlbumResponse {
     code: number
     resourceState: boolean
     album: Album
@@ -79,7 +79,7 @@ export interface FetchAlbumDynamicDetailParams {
     id: number
 }
 
-interface FetchAlbumDynamicDetailResponse {
+export interface FetchAlbumDynamicDetailResponse {
     onSale: boolean
     albumGameInfo: null
     commentCount: number
@@ -117,7 +117,7 @@ export interface LikeAAlbumParams {
     t: AAlbum
 }
 
-interface LikedAALbumResponse {
+export interface LikedAALbumResponse {
     code: number
     time: number
 }

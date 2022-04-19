@@ -1,5 +1,5 @@
 import { fetchHighQualityPlaylist, PlaylistApiNames } from '@/api/playlist'
-import { FetchHighQualityPlaylistParams } from '@/api/playlist'
+import { FetchHighQualityPlaylistParams, FetchHighQualityPlaylistResponse } from '@/api/playlist'
 
 export default function useFetchHighQualityPlaylistInfinite(params: FetchHighQualityPlaylistParams) {
     console.debug('useFetchHighQualityPlaylistInfinite', params)
@@ -20,7 +20,10 @@ export default function useFetchHighQualityPlaylistInfinite(params: FetchHighQua
             refetchOnWindowFocus: false,
             refetchOnReconnect: false,
             refetchInterval: 0,
-            getNextPageParam: (lastPage, pages) => {
+            getNextPageParam: (
+                lastPage: FetchHighQualityPlaylistResponse,
+                pages: FetchHighQualityPlaylistResponse[],
+            ) => {
                 return params.limit === lastPage.playlists.length
                     ? lastPage.playlists[lastPage.playlists.length - 1].updateTime
                     : undefined

@@ -20,7 +20,7 @@ export interface FetchArtistParams {
     id: number | string
 }
 
-interface FetchArtistResponse {
+export interface FetchArtistResponse {
     code: number
     more: boolean
     artist: Artist
@@ -121,7 +121,7 @@ export interface FetchToplistOfArtistsParams {
     type: ToplistOfArtists
 }
 
-interface FetchToplistOfArtistsResponse {
+export interface FetchToplistOfArtistsResponse {
     list: {
         artists: Artist[]
         updateTime: number
@@ -153,7 +153,7 @@ export interface FollowAArtistParams {
     t: AArtist
 }
 
-interface FollowAArtistResponse {
+export interface FollowAArtistResponse {
     code: number
     message: string
     data: null
@@ -173,7 +173,7 @@ export interface FetchSimilarArtistsParams {
     id: number
 }
 
-interface FetchSimilarArtistsResponse {
+export interface FetchSimilarArtistsResponse {
     artists: Artist[]
     code: number
 }

@@ -39,7 +39,7 @@ export interface LoginWithEmailResponse extends FetchUserAccountResponse {
     }[]
 }
 
-export function loginWithEmail(params: LoginWithEmailParams):UseFetchReturn<LoginWithEmailResponse> {
+export function loginWithEmail(params: LoginWithEmailParams): UseFetchReturn<LoginWithEmailResponse> {
     return usePost('/login', params)
 }
 
@@ -49,7 +49,7 @@ export function loginWithEmail(params: LoginWithEmailParams):UseFetchReturn<Logi
  * - 调用例子 : /login/refresh
  */
 
-interface RefreshCookieResponse {
+export interface RefreshCookieResponse {
     code: number
 }
 
@@ -62,7 +62,7 @@ export function refreshCookie(): UseFetchReturn<RefreshCookieResponse> {
  * 说明 : 调用此接口 , 可退出登录
  */
 
-interface LogoutResponse {
+export interface LogoutResponse {
     code: number
 }
 

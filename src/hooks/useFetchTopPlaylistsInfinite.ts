@@ -1,5 +1,5 @@
 import { fetchTopPlaylist, PlaylistApiNames } from '@/api/playlist'
-import type { FetchTopPlaylistParams } from '@/api/playlist'
+import type { FetchTopPlaylistParams,FetchTopPlaylistResponse } from '@/api/playlist'
 
 export default function useFetchTopPlaylistsInfinite(params: FetchTopPlaylistParams) {
     console.debug('useFetchTopPlaylistsInfinite', params)
@@ -25,7 +25,7 @@ export default function useFetchTopPlaylistsInfinite(params: FetchTopPlaylistPar
             refetchOnWindowFocus: false,
             refetchOnReconnect: false,
             refetchInterval: 0,
-            getNextPageParam: (lastPage, pages) => {
+            getNextPageParam: (lastPage:FetchTopPlaylistResponse, pages:FetchTopPlaylistResponse[]) => {
                 return params.limit === lastPage.playlists.length ? pages.length : undefined
             },
         }),

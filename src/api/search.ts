@@ -37,7 +37,7 @@ export interface SearchParams {
     type?: SearchTypes
 }
 
-interface SearchResponse {
+export interface SearchResponse {
     code: number
     result: {
         album: {
@@ -95,7 +95,7 @@ export interface MultiMatchSearchParams {
     keywords: string
 }
 
-interface MultiMatchSearchResponse {
+export interface MultiMatchSearchResponse {
     code: number
     result: {
         album: Album[]
