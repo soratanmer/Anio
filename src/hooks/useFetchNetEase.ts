@@ -4,7 +4,7 @@ import { stringifyQuery, LocationQueryRaw } from 'vue-router'
 let baseURL = String(import.meta.env.VITE_APP_NETEASE_API_URL)
 
 export const useRequest = createFetch({
-    baseUrl: baseURL, // 基础路由
+    baseUrl: '/api', // 基础路由
     options: {
         timeout: 30000, // 请求过期时间
         refetch: true,
