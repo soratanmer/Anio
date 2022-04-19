@@ -425,6 +425,7 @@ export function usePlayerProvider() {
             src: [audioSource],
             format: ['mp3', 'flac'],
             volume: volume.value,
+            html5: true,
             onend: () => nextTrack(),
         })
 
@@ -695,7 +696,7 @@ export function usePlayerProvider() {
      * @param trackID
      */
 
-    const removeToQueue = (trackID: number)=>{
+    const removeToQueue = (trackID: number) => {
         const normalIndex = playerStore.playlist.indexOf(trackID)
         const shuffleIndex = playerStore.shufflePlaylist.indexOf(trackID)
         const playlist = playerStore.playlist

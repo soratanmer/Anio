@@ -12,6 +12,8 @@ export const useRequest = createFetch({
         async beforeFetch({ url, options }) {
             if (url.indexOf('?') !== -1) {
                 url = url.concat('&realIP=116.25.146.177')
+            }else{
+                url = url.concat('?realIP=116.25.146.177')
             }
             return { url, options }
         },
