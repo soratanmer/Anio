@@ -19,7 +19,7 @@
 
     <!-- Items -->
     <div
-        class="grid gap-x-6 gap-y-7 mt-7"
+        class="grid gap-x-6 gap-y-7"
         :class="{
             'grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6': !gridClass,
             [`${gridClass}`]: gridClass,

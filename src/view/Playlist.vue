@@ -1,77 +1,63 @@
 <template>
-    <div class="mt-10">
-        <div class="grid grid-cols-[16rem_auto] items-center gap-9 mb-10">
-            <!-- Cover -->
-            <div class="relative z-0 aspect-square self-start">
-                <div
-                    v-if="!isFetchingPlaylist"
-                    class="absolute top-3.5 z-[-1] h-full w-full scale-x-[.92] scale-y-[.96] rounded-lg bg-cover opacity-40 blur-lg filter"
-                    :style="{
-                        backgroundImage: `url(&quot;${coverUrl}&quot;)`,
-                    }"
-                >
-                </div>
+    <div class="grid-layout-col items-center gap-9 my-10">
+        <!-- Cover -->
+        <div class="relative aspect-square self-start col-span-1">
 
-                <img
-                    v-if="!isFetchingPlaylist"
-                    class="rounded-lg border border-black border-opacity-5"
-                    :src="coverUrl"
-                    alt="cover"
-                />
-                <Skeleton v-else class="h-full w-full rounded-lg"></Skeleton>
-            </div>
-
-            <!-- Playlist Info -->
-            <div class="z-10">
-                <!-- Playlist name -->
-                <div v-if="!isFetchingPlaylist" class="text-4xl font-bold text-black dark:text-white">
-                    {{ playlist?.name }}
-                </div>
-                <Skeleton v-else class="w-3/4 text-4xl">PLACEHOLDER</Skeleton>
-
-                <!-- playlist Creator -->
-                <div v-if="!isFetchingPlaylist" class="mt-5 text-lg font-medium text-black dark:text-white">
-                    Playlist by <span>{{ playlist?.creator.nickname }}</span>
-                </div>
-                <Skeleton v-else class="mt-5 w-64 text-lg">PLACEHOLDER</Skeleton>
-
-                <!-- Playlist last update time & track count -->
-                <div v-if="!isFetchingPlaylist" class="text-sm font-thin text-black dark:text-white">
-                    Update at {{ formatDate(playlist?.updateTime || 0, 'zh-CN') }} · {{ playlist?.trackCount }} Songs
-                </div>
-                <Skeleton v-else class="w-72 translate-x-px text-sm">PLACEHOLDER</Skeleton>
-
-                <!-- Playlist description -->
-                <div v-if="!isFetchingPlaylist" class="line-clamp-2 mt-5 min-h-10 text-sm text-black dark:text-white">
-                    {{ playlist?.description }}
-                </div>
-                <Skeleton v-else class="mt-5 min-h-10 w-1/2 text-sm">PLACEHOLDER</Skeleton>
-
-                <!-- Buttons -->
-                <div class="mt-5 flex gap-4">
-                    <ButtonIcon @click="play">
-                        <SvgIcon class="h-5 w-5 text-black dark:text-white" name="play"></SvgIcon>
-                    </ButtonIcon>
-                    <ButtonIcon :disabled="!isMyPlaylist" @click="subscribe">
-                        <SvgIcon
-                            class="h-5 w-5 text-black dark:text-white"
-                            :name="isSubscribe ? 'heart' : 'heart-outline'"
-                        ></SvgIcon>
-                    </ButtonIcon>
-                </div>
-            </div>
+            <img v-if="!isFetchingPlaylist" class="rounded-lg" :src="coverUrl" alt="cover" />
+            <Skeleton v-else class="h-full w-full rounded-lg"></Skeleton>
         </div>
 
-        <!-- Infinite tracks -->
-        <TrackList
-            v-for="page in infiniteTracks?.pages"
-            :tracks="page?.songs || []"
-            layout="list"
-            :id="playlistID"
-            :isUserOwnPlaylist="isUserOwnPlaylist"
-            dbclick-track-func="playPlaylistByID"
-        />
+        <!-- Playlist Info -->
+        <div class="cols-span">
+            <!-- Playlist name -->
+            <div v-if="!isFetchingPlaylist" class="line-clamp-1 break-all text-4xl font-bold text-black dark:text-white">
+                {{ playlist?.name }}
+            </div>
+            <Skeleton v-else class="w-3/4 text-4xl">PLACEHOLDER</Skeleton>
+
+            <!-- playlist Creator -->
+            <div v-if="!isFetchingPlaylist" class="mt-1 text-lg font-medium text-black dark:text-white">
+                Playlist by <span>{{ playlist?.creator.nickname }}</span>
+            </div>
+            <Skeleton v-else class="mt-1 w-64 text-lg">PLACEHOLDER</Skeleton>
+
+            <!-- Playlist last update time & track count -->
+            <div v-if="!isFetchingPlaylist" class="text-sm font-thin text-black dark:text-white">
+                Update at {{ formatDate(playlist?.updateTime || 0, 'zh-CN') }} · {{ playlist?.trackCount }} Songs
+            </div>
+            <Skeleton v-else class="w-72 translate-x-px text-sm">PLACEHOLDER</Skeleton>
+
+            <!-- Playlist description -->
+            <div v-if="!isFetchingPlaylist" class="line-clamp-1 break-all mt-1 min-h-10 text-sm text-black dark:text-white">
+                {{ playlist?.description }}
+            </div>
+            <Skeleton v-else class="mt-1 min-h-10 w-1/2 text-sm">PLACEHOLDER</Skeleton>
+
+            <!-- Buttons -->
+            <div class="mt-1 flex gap-4">
+                <ButtonIcon @click="play">
+                    <SvgIcon class="h-5 w-5 text-black dark:text-white" name="play"></SvgIcon>
+                </ButtonIcon>
+                <ButtonIcon :disabled="!isMyPlaylist" @click="subscribe">
+                    <SvgIcon
+                        class="h-5 w-5 text-black dark:text-white"
+                        :name="isSubscribe ? 'heart' : 'heart-outline'"
+                    ></SvgIcon>
+                </ButtonIcon>
+            </div>
+        </div>
     </div>
+
+    <!-- Infinite tracks -->
+    <TrackList
+        v-for="page in infiniteTracks?.pages"
+        :tracks="page?.songs || []"
+        layout="list"
+        :id="playlistID"
+        :is-loading="isFetchingPlaylist"
+        :isUserOwnPlaylist="isUserOwnPlaylist"
+        dbclick-track-func="playPlaylistByID"
+    />
 </template>
 
 <script setup lang="ts">
@@ -92,6 +78,7 @@
     const playlistID = computed(() => {
         return Number(route.params.id)
     })
+
     if (!playlistID.value || isNaN(playlistID.value)) {
         router.replace('/404')
     }

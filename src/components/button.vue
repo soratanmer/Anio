@@ -15,7 +15,7 @@
 <script setup lang="ts">
     import type { PropType } from 'vue'
 
-    const props = defineProps({
+    defineProps({
         shape: {
             type: String as PropType<'square' | 'default' | 'button'>,
             required: false,

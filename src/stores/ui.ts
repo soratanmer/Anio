@@ -53,6 +53,9 @@ export const useUiStore = defineStore('ui', {
             this.newPlaylistModal.show = show
             this.newPlaylistModal.afterCreateAddTrackID = id
         },
+        updateSearchKeywords(keywords: string) {
+            this.searchKeywords = keywords
+        },
     },
     persist: {
         enabled: true,

@@ -134,7 +134,14 @@
     const router = useRouter()
     const uiStore = useUiStore()
 
-    const keywords = ref(uiStore.searchKeywords)
+    const keywords = computed<string>({
+        get() {
+            return uiStore.searchKeywords
+        },
+        set(keywords) {
+            uiStore.updateSearchKeywords(keywords)
+        },
+    })
 
     // 搜索结果
     const {

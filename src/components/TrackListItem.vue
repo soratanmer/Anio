@@ -47,7 +47,7 @@
             ><span class="flex-grow"></span>
         </div>
 
-        <div v-else-if="isList && isSkeleton" class="col-span-5 flex items-center text-gray-900">
+        <div v-else-if="isList && isSkeleton" class="col-span-4 flex items-center text-gray-900">
             <Skeleton>PLACEHOLDER1234567890</Skeleton>
         </div>
 
@@ -61,6 +61,7 @@
         <div class="col-span-2 flex items-center justify-end">
             <!-- Like button -->
             <button
+                v-if="!isSkeleton"
                 class="mr-5 cursor-default transition duration-300 hover:scale-[1.2]"
                 :class="{
                     'group-hover:opacity-100': !isSkeleton,

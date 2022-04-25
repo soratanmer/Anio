@@ -1,98 +1,80 @@
 <template>
-    <div class="mt-10">
-        <!-- -->
-        <div class="grid grid-cols-[17rem_auto] items-center gap-10">
-            <!-- Cover -->
-            <div class="relative z-0 aspect-square self-start">
-                <div
-                    v-if="!isFetchingAlbum"
-                    class="absolute top-3.5 z-[-1] h-full w-full scale-x-[.92] scale-y-[.96] rounded-lg bg-cover opacity-60 blur-lg filter"
-                    :style="{
-                        backgroundImage: `url(&quot;${coverUrl}&quot;)`,
-                    }"
-                >
-                </div>
-
-                <img
-                    v-if="!isFetchingAlbum"
-                    class="rounded-lg border border-black border-opacity-5"
-                    :src="coverUrl"
-                    alt="cover"
-                />
-                <Skeleton v-else class="h-full w-full rounded-lg"></Skeleton>
-            </div>
-
-            <!-- Album info -->
-            <div class="z-10">
-                <!-- Name -->
-                <div v-if="!isFetchingAlbum" class="text-6xl font-bold text-black dark:text-white">
-                    {{ album?.name }}
-                </div>
-                <Skeleton v-else class="w-3/4 text-7xl">PLACEHOLDER</Skeleton>
-
-                <!-- Artist -->
-                <div v-if="!isFetchingAlbum" class="mt-5 text-lg font-medium text-black dark:text-white"
-                    >Album by
-                    <span
-                        class="font-semibold decoration-2 hover:underline"
-                        @click="
-                            router.push({
-                                name: 'artist',
-                                params: {
-                                    id: album?.artist.id,
-                                },
-                            })
-                        "
-                    >
-                        {{ album?.artist.name }}
-                    </span>
-                </div>
-                <Skeleton v-else class="mt-5 w-64 text-lg">PLACEHOLDER</Skeleton>
-
-                <!-- Last update time & time count -->
-                <div v-if="!isFetchingAlbum" class="text-sm font-thin text-black dark:text-white">
-                    {{ dayjs(album?.publishTime || 0).year() }} · {{ album?.size }} Songs,
-                    {{ albumDuration }}
-                </div>
-                <Skeleton v-else class="w-72 translate-y-px text-sm">PLACEHOLDER</Skeleton>
-
-                <!-- Description -->
-                <div
-                    v-if="!isFetchingAlbum"
-                    class="line-clamp-3 mt-5 min-h-[3.75rem] max-w-xl text-sm text-black dark:text-white"
-                >
-                    {{ album?.description }}
-                </div>
-                <Skeleton v-else class="mt-5 flex gap-4">PLACEHOLDER</Skeleton>
-
-                <!-- Button -->
-                <div class="mt-5 flex gap-4">
-                    <ButtonIcon @click="play">
-                        <SvgIcon class="h-5 w-5 text-black dark:text-white" name="play"></SvgIcon>
-                    </ButtonIcon>
-                    <ButtonIcon>
-                        <SvgIcon class="h-5 w-5 text-black dark:text-white" name="heart"></SvgIcon>
-                    </ButtonIcon>
-                </div>
-            </div>
+    <div class="grid-layout-col items-center gap-6 my-10">
+        <!-- Cover -->
+        <div class="relative aspect-square self-start col-span-1">
+            <img v-if="!isFetchingAlbum" class="rounded-lg" :src="coverUrl" alt="cover" />
+            <Skeleton v-else class="h-full w-full rounded-lg"></Skeleton>
         </div>
 
-        <!-- Tracks -->
-        <TrackList
-            class="mt-10"
-            :tracks="tracks || []"
-            layout="album"
-            :isLoading="isFetchingAlbum"
-            :id="albumID"
-            dbclickTrackFunc="playAlbumByID"
-        ></TrackList>
-
-        <!-- Release date and company -->
-        <div class="mt-5 text-xs text-black dark:text-white">
-            <div> Realease {{ formatDate(album?.publishTime || 0, 'zh-CN') }}</div>
-            <div v-if="album?.company" class="mt-[2px]">
-                {{ album.company }}
+        <!-- Album info -->
+        <div class="cols-span">
+            <!-- Name -->
+            <div v-if="!isFetchingAlbum" class="line-clamp-1 break-all text-3xl font-bold text-black dark:text-white">
+                {{ album?.name }}
             </div>
+            <Skeleton v-else class="w-3/4 text-3xl">PLACEHOLDER</Skeleton>
+
+            <!-- Artist -->
+            <div v-if="!isFetchingAlbum" class="mt-1 text-lg font-medium text-black dark:text-white"
+                >Album by
+                <span
+                    class="font-semibold decoration-2 hover:underline"
+                    @click="
+                        router.push({
+                            name: 'artist',
+                            params: {
+                                id: album?.artist.id,
+                            },
+                        })
+                    "
+                >
+                    {{ album?.artist.name }}
+                </span>
+            </div>
+            <Skeleton v-else class="mt-1 w-64 text-lg">PLACEHOLDER</Skeleton>
+
+            <!-- Last update time & time count -->
+            <div v-if="!isFetchingAlbum" class="text-sm font-thin text-black dark:text-white">
+                {{ dayjs(album?.publishTime || 0).year() }} · {{ album?.size }} Songs,
+                {{ albumDuration }}
+            </div>
+            <Skeleton v-else class="w-72 translate-y-px text-sm">PLACEHOLDER</Skeleton>
+
+            <!-- Description -->
+            <div
+                v-if="!isFetchingAlbum"
+                class="line-clamp-1 break-all mt-1 text-sm text-black dark:text-white"
+            >
+                {{ album?.description }}
+            </div>
+            <Skeleton v-else class="mt-1">PLACEHOLDER</Skeleton>
+
+            <!-- Button -->
+            <div class="flex gap-4 mt-1">
+                <ButtonIcon @click="play">
+                    <SvgIcon class="h-5 w-5 text-black dark:text-white" name="play"></SvgIcon>
+                </ButtonIcon>
+                <ButtonIcon>
+                    <SvgIcon class="h-5 w-5 text-black dark:text-white" name="heart"></SvgIcon>
+                </ButtonIcon>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tracks -->
+    <TrackList
+        :tracks="tracks || []"
+        layout="album"
+        :isLoading="isFetchingAlbum"
+        :id="albumID"
+        dbclickTrackFunc="playAlbumByID"
+    ></TrackList>
+
+    <!-- Release date and company -->
+    <div class="mt-5 text-xs text-black dark:text-white">
+        <div> Realease {{ formatDate(album?.publishTime || 0, 'zh-CN') }}</div>
+        <div v-if="album?.company" class="mt-[2px]">
+            {{ album.company }}
         </div>
     </div>
 </template>

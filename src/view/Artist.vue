@@ -1,72 +1,77 @@
 <template>
-    <div class="mt-10">
-        <!-- Artist info -->
-        <div class="relative flex items-center">
-            <img class="mr-12 ml-4 h-60 w-60 rounded-lg shadow-lg" :src="cover" alt="cover" />
-            <div>
-                <!-- Name -->
-                <div class="text-6xl font-bold text-black dark:text-white">
-                    {{ artist?.name }}
-                </div>
-
-                <!-- Artist -->
-                <div class="mt-5 text-lg font-medium text-black dark:text-white"> Artist </div>
-                <div class="text-sm font-thin text-black dark:text-white">
-                    {{ artist?.musicSize }} Tracks · {{ artist?.albumSize }} Albums · {{ artist?.mvSize }} Music Videos
-                </div>
-
-                <!-- Description -->
-                <div class="line-clamp-2 mt-5 min-h-[2.5rem] max-w-xl text-sm text-black dark:text-white">
-                    {{ artist?.briefDesc }}
-                </div>
-
-                <!-- Buttons -->
-                <div class="mt-5 flex gap-4">
-                    <ButtonIcon @click="play">
-                        <SvgIcon class="h-5 w-5 text-black dark:text-white" name="play"></SvgIcon>
-                    </ButtonIcon>
-                    <ButtonIcon>
-                        <SvgIcon class="h-5 w-5 text-black dark:text-white" name="heart-outline"></SvgIcon>
-                    </ButtonIcon>
-                </div>
-            </div>
+    <!-- Artist info -->
+    <div class="grid-layout-col items-center gap-6 my-10">
+        <!-- Cover -->
+        <div class="relative aspect-square self-start col-span-1">
+            <img v-if="!isFetching" class="rounded-lg" :src="cover" alt="cover" />
+            <Skeleton v-else class="h-full w-full rounded-lg"></Skeleton>
         </div>
 
-        <!-- Tabs -->
-        <div class="mt-8 mb-4 flex gap-3.5">
-            <div
-                v-for="tab in tabs"
-                class="btn-hover-animation rounded-lg px-3.5 py-1.5 text-lg font-semibold text-black dark:text-white after:bg-green-400"
-                :class="{
-                    'bg-green-500': tab.id === activeTab,
-                }"
-                @click="updateTabs(tab)"
-            >
-                {{ tab.name }}
+        <div class="cols-span">
+            <!-- Name -->
+            <div v-if="!isFetching" class="text-3xl font-bold text-black dark:text-white">
+                {{ artist?.name }}
+            </div>
+            <Skeleton v-else class="w-3/4 text-3xl">PLACEHOLDER</Skeleton>
+
+            <!-- Artist -->
+            <div class="mt-5 text-lg font-medium text-black dark:text-white"> Artist </div>
+            <div v-if="!isFetching" class="text-sm font-thin text-black dark:text-white">
+                {{ artist?.musicSize }} Tracks · {{ artist?.albumSize }} Albums · {{ artist?.mvSize }} Music Videos
+            </div>
+            <Skeleton v-else class="text-sm w-3/4">PLACEHOLDER</Skeleton>
+
+            <!-- Description -->
+            <div v-if="!isFetching" class="line-clamp-2 mt-5 min-h-[2.5rem] max-w-xl text-sm text-black dark:text-white">
+                {{ artist?.briefDesc }}
+            </div>
+            <Skeleton v-else class="mt-5">PLACEHOLDER1234567890</Skeleton>
+
+            <!-- Buttons -->
+            <div class="mt-5 flex gap-4">
+                <ButtonIcon @click="play">
+                    <SvgIcon class="h-5 w-5 text-black dark:text-white" name="play"></SvgIcon>
+                </ButtonIcon>
+                <ButtonIcon>
+                    <SvgIcon class="h-5 w-5 text-black dark:text-white" name="heart-outline"></SvgIcon>
+                </ButtonIcon>
             </div>
         </div>
-
-        <!-- Top tracks -->
-        <TrackList
-            v-if="activeTab === 'tracks'"
-            :tracks="topTracks"
-            :col="4"
-            :is-loading="isFetching"
-            layout="list"
-            :id="artistID"
-            dbclick-track-func="playArtistByID"
-        ></TrackList>
-
-        <!-- Albums -->
-        <CoverRow
-            v-if="activeTab === 'albums'"
-            v-for="page in albums?.pages"
-            :albums="page.hotAlbums || []"
-            type="album"
-            :is-skeleton="isLoadingAlbums"
-            subtitle="type+releaseYear"
-        ></CoverRow>
     </div>
+
+    <!-- Tabs -->
+    <div class="mb-5 flex gap-3.5">
+        <div
+            v-for="tab in tabs"
+            class="btn-hover-animation rounded-lg px-3.5 py-1.5 text-lg font-semibold text-black dark:text-white after:bg-green-400"
+            :class="{
+                'bg-green-500': tab.id === activeTab,
+            }"
+            @click="updateTabs(tab)"
+        >
+            {{ tab.name }}
+        </div>
+    </div>
+
+    <!-- Top tracks -->
+    <TrackList
+        v-if="activeTab === 'tracks'"
+        :tracks="topTracks"
+        :is-loading="isFetching"
+        layout="list"
+        :id="artistID"
+        dbclick-track-func="playArtistByID"
+    ></TrackList>
+
+    <!-- Albums -->
+    <CoverRow
+        v-if="activeTab === 'albums'"
+        v-for="page in albums?.pages"
+        :albums="page.hotAlbums || []"
+        type="album"
+        :is-skeleton="isLoadingAlbums"
+        subtitle="type+releaseYear"
+    ></CoverRow>
 </template>
 
 <script setup lang="ts">

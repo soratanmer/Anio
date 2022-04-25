@@ -22,7 +22,7 @@
 
     const router = useRouter()
 
-    const props = defineProps({
+    defineProps({
         artists: {
             type: Object as PropType<Artist[]>,
             required: true,

@@ -1,86 +1,84 @@
 <template>
-    <div class="mt-10">
-        <!-- XXX's Library -->
-        <div class="grid grid-cols-[17rem_auto] items-center gap-10">
-            <!-- Cover -->
-            <div class="relative aspect-square self-start">
-                <img class="rounded-lg border border-black border-opacity-5" :src="coverUrl" alt="cover" />
-            </div>
+    <!-- XXX's Library -->
+    <div class="grid-layout-col items-center gap-6 my-10">
 
-            <!-- User info -->
-            <div>
-                <!-- User name -->
-                <div class="text-6xl font-bold text-black dark:text-white">
-                    {{ userAccount?.profile?.nickname }}
-                    <span class="pb-1">的音乐库</span>
-                </div>
-
-                <!-- User ID -->
-                <div class="mt-5 text-sm font-thin text-black dark:text-white">
-                    ID:
-                    <span class="font-semibold decoration-2">
-                        {{ userAccount?.profile?.userId }}
-                    </span>
-                </div>
-
-                <!-- Create time -->
-                <div class="mt-5 text-sm font-thin text-black dark:text-white">
-                    注册时间: {{ formatDate(Number(userAccount?.profile?.createTime), 'zh-CN') }}
-                </div>
-
-                <!-- Signature -->
-                <div class="mt-5 text-sm font-thin text-black dark:text-white">
-                    {{ userAccount?.profile?.signature }}
-                </div>
-            </div>
+        <!-- Cover -->
+        <div class="relative aspect-square self-start col-span-1">
+            <img class="rounded-lg" :src="coverUrl" alt="cover" />
         </div>
 
-        <!-- Tabs -->
-        <div class="mt-8 mb-4 flex gap-3.5">
-            <div
-                v-for="tab in tabs"
-                class="btn-hover-animation rounded-lg px-3.5 py-1.5 text-lg font-semibold text-black dark:text-white after:bg-green-400"
-                :class="{
-                    'bg-green-500': tab.id === activeTab,
-                }"
-                @click="updateTabs(tab)"
-            >
-                {{ tab.name }}
+        <!-- User info -->
+        <div class="cols-span">
+            <!-- User name -->
+            <div class="text-3xl font-bold text-black dark:text-white">
+                {{ userAccount?.profile?.nickname }}
+            </div>
+
+            <!-- User ID -->
+            <div class="mt-5 text-sm font-thin text-black dark:text-white">
+                ID:
+                <span class="font-semibold decoration-2">
+                    {{ userAccount?.profile?.userId }}
+                </span>
+            </div>
+
+            <!-- Create time -->
+            <div class="mt-5 text-sm font-thin text-black dark:text-white">
+                注册时间: {{ formatDate(Number(userAccount?.profile?.createTime), 'zh-CN') }}
+            </div>
+
+            <!-- Signature -->
+            <div class="mt-5 text-sm font-thin text-black dark:text-white">
+                {{ userAccount?.profile?.signature }}
             </div>
         </div>
-
-        <!-- Playlist tab content -->
-        <CoverRow
-            v-if="activeTab === 'MyPlaylists'"
-            :playlists="userCreatePlaylist || []"
-            type="playlist"
-            subtitle="creator"
-        ></CoverRow>
-
-        <CoverRow
-            v-if="activeTab === 'LikedPlaylists'"
-            :playlists="userLikedPlaylist || []"
-            type="playlist"
-            subtitle="creator"
-        ></CoverRow>
-
-        <CoverRow
-            v-if="activeTab === 'albums'"
-            v-for="page in likedAlbums?.pages"
-            :albums="page?.data || []"
-            type="album"
-            subtitle="artist"
-            :is-skeleton="isFetchingLikedAlbums"
-        ></CoverRow>
-
-        <CoverRow
-            v-if="activeTab === 'artists'"
-            v-for="page in likedArtists?.pages"
-            :artists="page?.data || []"
-            type="artist"
-            :is-skeleton="isFetchingLikedArtists"
-        ></CoverRow>
     </div>
+
+    <!-- Tabs -->
+    <div class="mb-5 flex gap-3.5">
+        <div
+            v-for="tab in tabs"
+            class="btn-hover-animation rounded-lg px-3.5 py-1.5 text-lg font-semibold text-black dark:text-white after:bg-green-400"
+            :class="{
+                'bg-green-500': tab.id === activeTab,
+            }"
+            @click="updateTabs(tab)"
+        >
+            {{ tab.name }}
+        </div>
+    </div>
+
+    <!-- Playlist tab content -->
+    <CoverRow
+        v-if="activeTab === 'MyPlaylists'"
+        :playlists="userCreatePlaylist || []"
+        type="playlist"
+        subtitle="creator"
+    ></CoverRow>
+
+    <CoverRow
+        v-if="activeTab === 'LikedPlaylists'"
+        :playlists="userLikedPlaylist || []"
+        type="playlist"
+        subtitle="creator"
+    ></CoverRow>
+
+    <CoverRow
+        v-if="activeTab === 'albums'"
+        v-for="page in likedAlbums?.pages"
+        :albums="page?.data || []"
+        type="album"
+        subtitle="artist"
+        :is-skeleton="isFetchingLikedAlbums"
+    ></CoverRow>
+
+    <CoverRow
+        v-if="activeTab === 'artists'"
+        v-for="page in likedArtists?.pages"
+        :artists="page?.data || []"
+        type="artist"
+        :is-skeleton="isFetchingLikedArtists"
+    ></CoverRow>
 </template>
 
 <script setup lang="ts">
@@ -129,7 +127,7 @@
         return userAccount.value?.profile?.avatarUrl ? resizeImage(userAccount.value?.profile?.avatarUrl, 'sm') : ''
     })
 
-    const userPlaylists = computed(()=>{
+    const userPlaylists = computed(() => {
         return userStore.userPlaylists
     })
 
