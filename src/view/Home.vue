@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="mt-10 mb-4 text-3xl font-bold text-black dark:text-white">Hi {{ userName }} 今日为你推荐</div>
-        <div class="grid-layout-col gap-6 mt-10 mb-4">
+        <div class="grid-layout-col mt-10 mb-4">
             <FMCard class="col-span-3"></FMCard>
             <DailyTracksCard v-if="isLoggedIn()" class="col-span-1"></DailyTracksCard>
             <NewSongsCard class="col-span-1"></NewSongsCard>

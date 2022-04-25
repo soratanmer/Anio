@@ -1,6 +1,6 @@
 <template>
     <!-- XXX's Library -->
-    <div class="grid-layout-col items-center gap-6 my-10">
+    <div class="grid-layout-col my-10">
 
         <!-- Cover -->
         <div class="relative aspect-square self-start col-span-1">
@@ -8,14 +8,14 @@
         </div>
 
         <!-- User info -->
-        <div class="cols-span">
+        <div class="cols-span flex flex-col justify-around">
             <!-- User name -->
             <div class="text-3xl font-bold text-black dark:text-white">
                 {{ userAccount?.profile?.nickname }}
             </div>
 
             <!-- User ID -->
-            <div class="mt-5 text-sm font-thin text-black dark:text-white">
+            <div class="text-sm font-thin text-black dark:text-white">
                 ID:
                 <span class="font-semibold decoration-2">
                     {{ userAccount?.profile?.userId }}
@@ -23,12 +23,12 @@
             </div>
 
             <!-- Create time -->
-            <div class="mt-5 text-sm font-thin text-black dark:text-white">
+            <div class="text-sm font-thin text-black dark:text-white">
                 注册时间: {{ formatDate(Number(userAccount?.profile?.createTime), 'zh-CN') }}
             </div>
 
             <!-- Signature -->
-            <div class="mt-5 text-sm font-thin text-black dark:text-white">
+            <div class="text-sm font-thin text-black dark:text-white">
                 {{ userAccount?.profile?.signature }}
             </div>
         </div>

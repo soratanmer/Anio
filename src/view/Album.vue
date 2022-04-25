@@ -1,5 +1,5 @@
 <template>
-    <div class="grid-layout-col items-center gap-6 my-10">
+    <div class="grid-layout-col my-10">
         <!-- Cover -->
         <div class="relative aspect-square self-start col-span-1">
             <img v-if="!isFetchingAlbum" class="rounded-lg" :src="coverUrl" alt="cover" />
@@ -7,7 +7,7 @@
         </div>
 
         <!-- Album info -->
-        <div class="cols-span">
+        <div class="cols-span flex flex-col justify-around">
             <!-- Name -->
             <div v-if="!isFetchingAlbum" class="line-clamp-1 break-all text-3xl font-bold text-black dark:text-white">
                 {{ album?.name }}
@@ -15,8 +15,7 @@
             <Skeleton v-else class="w-3/4 text-3xl">PLACEHOLDER</Skeleton>
 
             <!-- Artist -->
-            <div v-if="!isFetchingAlbum" class="mt-1 text-lg font-medium text-black dark:text-white"
-                >Album by
+            <div v-if="!isFetchingAlbum" class="text-sm font-medium text-black dark:text-white">
                 <span
                     class="font-semibold decoration-2 hover:underline"
                     @click="
@@ -31,7 +30,7 @@
                     {{ album?.artist.name }}
                 </span>
             </div>
-            <Skeleton v-else class="mt-1 w-64 text-lg">PLACEHOLDER</Skeleton>
+            <Skeleton v-else class="w-64 text-sm">PLACEHOLDER</Skeleton>
 
             <!-- Last update time & time count -->
             <div v-if="!isFetchingAlbum" class="text-sm font-thin text-black dark:text-white">
@@ -41,16 +40,13 @@
             <Skeleton v-else class="w-72 translate-y-px text-sm">PLACEHOLDER</Skeleton>
 
             <!-- Description -->
-            <div
-                v-if="!isFetchingAlbum"
-                class="line-clamp-1 break-all mt-1 text-sm text-black dark:text-white"
-            >
+            <div v-if="!isFetchingAlbum" class="line-clamp-1 break-all text-sm text-black dark:text-white">
                 {{ album?.description }}
             </div>
-            <Skeleton v-else class="mt-1">PLACEHOLDER</Skeleton>
+            <Skeleton v-else class="">PLACEHOLDER</Skeleton>
 
             <!-- Button -->
-            <div class="flex gap-4 mt-1">
+            <div class="flex gap-4">
                 <ButtonIcon @click="play">
                     <SvgIcon class="h-5 w-5 text-black dark:text-white" name="play"></SvgIcon>
                 </ButtonIcon>

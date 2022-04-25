@@ -1,25 +1,27 @@
 <template>
-    <div class="grid-layout-col items-center gap-9 my-10">
+    <div class="grid-layout-col my-10">
         <!-- Cover -->
         <div class="relative aspect-square self-start col-span-1">
-
             <img v-if="!isFetchingPlaylist" class="rounded-lg" :src="coverUrl" alt="cover" />
             <Skeleton v-else class="h-full w-full rounded-lg"></Skeleton>
         </div>
 
         <!-- Playlist Info -->
-        <div class="cols-span">
+        <div class="cols-span flex flex-col justify-around">
             <!-- Playlist name -->
-            <div v-if="!isFetchingPlaylist" class="line-clamp-1 break-all text-4xl font-bold text-black dark:text-white">
+            <div
+                v-if="!isFetchingPlaylist"
+                class="line-clamp-1 break-all text-4xl font-bold text-black dark:text-white"
+            >
                 {{ playlist?.name }}
             </div>
             <Skeleton v-else class="w-3/4 text-4xl">PLACEHOLDER</Skeleton>
 
             <!-- playlist Creator -->
-            <div v-if="!isFetchingPlaylist" class="mt-1 text-lg font-medium text-black dark:text-white">
+            <div v-if="!isFetchingPlaylist" class="text-lg font-medium text-black dark:text-white">
                 Playlist by <span>{{ playlist?.creator.nickname }}</span>
             </div>
-            <Skeleton v-else class="mt-1 w-64 text-lg">PLACEHOLDER</Skeleton>
+            <Skeleton v-else class="w-64 text-lg">PLACEHOLDER</Skeleton>
 
             <!-- Playlist last update time & track count -->
             <div v-if="!isFetchingPlaylist" class="text-sm font-thin text-black dark:text-white">
@@ -28,13 +30,13 @@
             <Skeleton v-else class="w-72 translate-x-px text-sm">PLACEHOLDER</Skeleton>
 
             <!-- Playlist description -->
-            <div v-if="!isFetchingPlaylist" class="line-clamp-1 break-all mt-1 min-h-10 text-sm text-black dark:text-white">
+            <div v-if="!isFetchingPlaylist" class="line-clamp-1 break-all min-h-10 text-sm text-black dark:text-white">
                 {{ playlist?.description }}
             </div>
-            <Skeleton v-else class="mt-1 min-h-10 w-1/2 text-sm">PLACEHOLDER</Skeleton>
+            <Skeleton v-else class="min-h-10 w-1/2 text-sm">PLACEHOLDER</Skeleton>
 
             <!-- Buttons -->
-            <div class="mt-1 flex gap-4">
+            <div class="flex gap-4">
                 <ButtonIcon @click="play">
                     <SvgIcon class="h-5 w-5 text-black dark:text-white" name="play"></SvgIcon>
                 </ButtonIcon>

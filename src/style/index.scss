@@ -80,12 +80,11 @@
         }
     }
     .grid-layout-col {
-        @apply grid grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6;
+        @apply grid grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-6;
     }
     .cols-span {
-        @apply col-span-2 lg:col-span-3 xl:col-span-4 2xl:col-span-5
+        @apply col-span-2 lg:col-span-3 xl:col-span-4 2xl:col-span-5;
     }
-
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');

@@ -1,13 +1,13 @@
 <template>
     <!-- Artist info -->
-    <div class="grid-layout-col items-center gap-6 my-10">
+    <div class="grid-layout-col my-10">
         <!-- Cover -->
         <div class="relative aspect-square self-start col-span-1">
             <img v-if="!isFetching" class="rounded-lg" :src="cover" alt="cover" />
             <Skeleton v-else class="h-full w-full rounded-lg"></Skeleton>
         </div>
 
-        <div class="cols-span">
+        <div class="cols-span flex flex-col justify-around">
             <!-- Name -->
             <div v-if="!isFetching" class="text-3xl font-bold text-black dark:text-white">
                 {{ artist?.name }}
@@ -15,20 +15,20 @@
             <Skeleton v-else class="w-3/4 text-3xl">PLACEHOLDER</Skeleton>
 
             <!-- Artist -->
-            <div class="mt-5 text-lg font-medium text-black dark:text-white"> Artist </div>
+            <div class="text-lg font-medium text-black dark:text-white"> Artist </div>
             <div v-if="!isFetching" class="text-sm font-thin text-black dark:text-white">
                 {{ artist?.musicSize }} Tracks · {{ artist?.albumSize }} Albums · {{ artist?.mvSize }} Music Videos
             </div>
             <Skeleton v-else class="text-sm w-3/4">PLACEHOLDER</Skeleton>
 
             <!-- Description -->
-            <div v-if="!isFetching" class="line-clamp-2 mt-5 min-h-[2.5rem] max-w-xl text-sm text-black dark:text-white">
+            <div v-if="!isFetching" class="line-clamp-1 break-all text-sm text-black dark:text-white">
                 {{ artist?.briefDesc }}
             </div>
-            <Skeleton v-else class="mt-5">PLACEHOLDER1234567890</Skeleton>
+            <Skeleton v-else class="">PLACEHOLDER1234567890</Skeleton>
 
             <!-- Buttons -->
-            <div class="mt-5 flex gap-4">
+            <div class="flex gap-4">
                 <ButtonIcon @click="play">
                     <SvgIcon class="h-5 w-5 text-black dark:text-white" name="play"></SvgIcon>
                 </ButtonIcon>
