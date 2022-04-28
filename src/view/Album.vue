@@ -50,8 +50,11 @@
                 <ButtonIcon @click="play">
                     <SvgIcon class="h-5 w-5 text-black dark:text-white" name="play"></SvgIcon>
                 </ButtonIcon>
-                <ButtonIcon>
-                    <SvgIcon class="h-5 w-5 text-black dark:text-white" name="heart"></SvgIcon>
+                <ButtonIcon @click="subscribe">
+                    <SvgIcon
+                        class="h-5 w-5 text-black dark:text-white"
+                        :name="isSub ? 'heart' : 'heart-outline'"
+                    ></SvgIcon>
                 </ButtonIcon>
             </div>
         </div>
@@ -76,11 +79,13 @@
 </template>
 
 <script setup lang="ts">
-    import { fetchAlbum } from '@/api/album'
+    import dayjs from 'dayjs'
+
+    import { fetchAlbum, fetchAlbumDynamicDetail, likeAAlbum, AAlbum } from '@/api/album'
     import usePlayer from '@/hooks/usePlayer'
     import { PlaylistSourceType, PlayerMode } from '@/hooks/usePlayer'
     import { formatDate, formatDuration, resizeImage } from '@/utils/common'
-    import dayjs from 'dayjs'
+    import { isLoggedIn } from '@/utils/user'
 
     const route = useRoute()
     const router = useRouter()
@@ -96,14 +101,8 @@
     }
 
     // Fetch album data
-    const { data: albumRaw, isFetching: isFetchingAlbum } = fetchAlbum(
-        reactive({
-            id: albumID.value,
-        }),
-    )
-
-    const artistIDs = computed(() => {
-        return albumRaw.value?.album.artist.id || 0
+    const { data: albumRaw, isFetching: isFetchingAlbum } = fetchAlbum({
+        id: albumID.value,
     })
 
     const album = computed(() => {
@@ -130,5 +129,28 @@
             type: PlaylistSourceType.ALBUM,
             id: albumID.value,
         })
+    }
+
+    const isSub = ref<boolean>(false)
+
+    const { data: albumDynamicDetail, isFetching: isFetchingAlbumDynamicDetail } = fetchAlbumDynamicDetail({
+        id: albumID.value,
+    })
+
+    watch(isFetchingAlbumDynamicDetail, () => {
+        isSub.value = albumDynamicDetail.value?.isSub as boolean
+    })
+
+    const subscribe = async () => {
+        if (!isLoggedIn()) {
+            return
+        }
+
+        await likeAAlbum({
+            id: albumID.value,
+            t: isSub.value ? AAlbum.DISLIKED : AAlbum.LIKE,
+        })
+
+        isSub.value = !isSub.value
     }
 </script>
