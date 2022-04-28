@@ -107,21 +107,21 @@ export function fetchAlbumDynamicDetail(
  * - t - 1 为收藏,其他为取消收藏
  */
 
-export enum AAlbum {
+export enum IsSubAlbum {
     LIKE = 1,
     DISLIKED = 0,
 }
 
-export interface LikeAAlbumParams {
+export interface SubScribeAlbumParams {
     id: number
-    t: AAlbum
+    t: IsSubAlbum
 }
 
-export interface LikedAALbumResponse {
+export interface SubScribeALbumResponse {
     code: number
     time: number
 }
 
-export function likeAAlbum(params: LikeAAlbumParams): UseFetchReturn<LikedAALbumResponse> {
+export function SubScribeAlbum(params: SubScribeAlbumParams): UseFetchReturn<SubScribeALbumResponse> {
     return usePost('/album/sub', params)
 }

@@ -69,7 +69,7 @@
     import { useUserStore } from '@/stores/user'
     import { formatDate, resizeImage } from '@/utils/common'
     import { isLoggedIn } from '@/utils/user'
-    import { subscribePlaylist, fetchPlaylist } from '@/api/playlist'
+    import { subscribePlaylist, fetchPlaylist, IsSubPlaylist } from '@/api/playlist'
 
     const route = useRoute()
     const router = useRouter()
@@ -149,25 +149,20 @@
 
     // Show track from usePlaylist() until useTrackInfinite() is loaded
 
-    const isShowTracksFromPlaylistQuery = ref(true)
+    const isShowTracksFromPlaylistQuery = ref<boolean>(true)
 
-    watch(
-        () => isLoadingTracks.value,
-        (isLoadingTracks) => {
-            if (isLoadingTracks) {
-                return
-            }
-            isShowTracksFromPlaylistQuery.value = false
-        },
-    )
+    watch(isLoadingTracks, (isLoadingTracks) => {
+        if (isLoadingTracks) {
+            return
+        }
+        isShowTracksFromPlaylistQuery.value = false
+    })
 
-    watch(
-        // Reset isShowTracksFromPlaylistQuery when Playlist id is changed
-        () => playlistID.value,
-        () => {
-            isShowTracksFromPlaylistQuery.value = true
-        },
-    )
+    // Reset isShowTracksFromPlaylistQuery when Playlist id is changed
+
+    watch(playlistID, () => {
+        isShowTracksFromPlaylistQuery.value = true
+    })
 
     // Play Playlist
 
@@ -193,7 +188,7 @@
         }
 
         await subscribePlaylist({
-            t: isSub.value ? 2 : 1,
+            t: isSub.value ? IsSubPlaylist.DISLIKED : IsSubPlaylist.LIKE,
             id: playlistID.value,
         })
 

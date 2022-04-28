@@ -81,7 +81,7 @@
 <script setup lang="ts">
     import dayjs from 'dayjs'
 
-    import { fetchAlbum, fetchAlbumDynamicDetail, likeAAlbum, AAlbum } from '@/api/album'
+    import { fetchAlbum, fetchAlbumDynamicDetail, SubScribeAlbum, IsSubAlbum } from '@/api/album'
     import usePlayer from '@/hooks/usePlayer'
     import { PlaylistSourceType, PlayerMode } from '@/hooks/usePlayer'
     import { formatDate, formatDuration, resizeImage } from '@/utils/common'
@@ -148,9 +148,9 @@
             return
         }
 
-        await likeAAlbum({
+        await SubScribeAlbum({
             id: albumID.value,
-            t: isSub.value ? AAlbum.DISLIKED : AAlbum.LIKE,
+            t: isSub.value ? IsSubAlbum.DISLIKED : IsSubAlbum.LIKE,
         })
 
         isSub.value = !isSub.value

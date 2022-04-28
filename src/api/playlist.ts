@@ -108,7 +108,7 @@ export function fetchDailyRecommendPlaylists(
  * 说明 : 调用此接口 , 可获得每日推荐歌曲 ( 需要登录 )
  */
 
- export interface FetchDailyRecommendTracksResponse {
+export interface FetchDailyRecommendTracksResponse {
     code: number
     data: {
         dailySongs: Track[]
@@ -186,7 +186,7 @@ export function fetchTopPlaylist(params: FetchTopPlaylistParams): UseFetchReturn
  * 说明 : 调用此接口,可获取歌单分类,包含 category 信息
  */
 
- export interface FetchPlaylistCategoryResponse {
+export interface FetchPlaylistCategoryResponse {
     code: number
     all: PlaylistCategory
     sub: PlaylistCategory[]
@@ -208,7 +208,7 @@ export function fetchPlaylistCategory(): UseFetchReturn<FetchPlaylistCategoryRes
  * 说明 : 调用此接口,可获取所有榜单 接口地址 : /toplist
  */
 
- export interface FetchToplistResponse {
+export interface FetchToplistResponse {
     code: number
     list: Playlist[]
     artistToplist: {
@@ -231,9 +231,14 @@ export function fetchToplist(): UseFetchReturn<FetchToplistResponse> {
  * - id : 歌单 id
  */
 
+export enum IsSubPlaylist {
+    LIKE = 1,
+    DISLIKED = 2,
+}
+
 export interface SubscribePlaylistParams {
-    t: 1 | 2
     id: number
+    t: IsSubPlaylist
 }
 
 export interface SubscribePlaylistResponse {
