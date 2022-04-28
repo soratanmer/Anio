@@ -53,7 +53,7 @@
                 <ButtonIcon @click="subscribe">
                     <SvgIcon
                         class="h-5 w-5 text-black dark:text-white"
-                        :name="isSub ? 'heart' : 'heart-outline'"
+                        :name="albumDynamicDetail?.isSub ? 'heart' : 'heart-outline'"
                     ></SvgIcon>
                 </ButtonIcon>
             </div>
@@ -122,7 +122,7 @@
         return formatDuration(duration, 'zh-CN', 'hh[hr] mm[min]')
     })
 
-    // Handle play album
+    // Play Album
     const play = () => {
         player!.mode = PlayerMode.PLAYLIST
         player?.replacePlaylist(tracks.value?.map((s) => s.id) || [], {
@@ -131,14 +131,10 @@
         })
     }
 
-    const isSub = ref<boolean>(false)
+    // Like Album
 
-    const { data: albumDynamicDetail, isFetching: isFetchingAlbumDynamicDetail } = fetchAlbumDynamicDetail({
+    const { data: albumDynamicDetail } = fetchAlbumDynamicDetail({
         id: albumID.value,
-    })
-
-    watch(isFetchingAlbumDynamicDetail, () => {
-        isSub.value = albumDynamicDetail.value?.isSub as boolean
     })
 
     const subscribe = async () => {
@@ -148,9 +144,7 @@
 
         await likeAAlbum({
             id: albumID.value,
-            t: isSub.value ? AAlbum.DISLIKED : AAlbum.LIKE,
+            t: albumDynamicDetail.value?.isSub ? AAlbum.DISLIKED : AAlbum.LIKE,
         })
-
-        isSub.value = !isSub.value
     }
 </script>
