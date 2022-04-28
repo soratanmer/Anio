@@ -173,22 +173,25 @@
     watch(
         () => mainContainerScroll.arrivedState.bottom,
         (isScrolledToBottom) => {
-            if (!isScrolledToBottom && isFetchingTopPlaylists.value && !TopPlaylistsHasNextPage?.value) {
-                return
-            } else {
-                console.debug('scrolled to bottom, load more tracks!')
-                fetchTopPlaylistsNextPage.value()
-            }
+            if (isScrolledToBottom) {
+                if (isFetchingTopPlaylists.value) {
+                    return
+                } else if (
+                    TopPlaylistsHasNextPage?.value &&
+                    route.query.active !== '排行榜' &&
+                    route.query.active !== '精品歌单' &&
+                    route.query.active !== '推荐歌单'
+                ) {
+                    console.debug('scrolled to bottom, load more tracks!')
+                    fetchTopPlaylistsNextPage.value()
+                }
 
-            if (
-                !isScrolledToBottom &&
-                isFetchingHighQualityPlaylists.value &&
-                !HighQualityPlaylistsHasNextPage?.value
-            ) {
-                return
-            } else {
-                console.debug('scrolled to bottom, load more tracks!')
-                fetchHighQualityPlaylistsNextPage.value()
+                if (isFetchingHighQualityPlaylists.value) {
+                    return
+                } else if (HighQualityPlaylistsHasNextPage?.value && route.query.active === '精品歌单') {
+                    console.debug('scrolled to bottom, load more tracks!')
+                    fetchHighQualityPlaylistsNextPage.value()
+                }
             }
         },
     )

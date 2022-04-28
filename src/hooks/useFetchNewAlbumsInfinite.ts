@@ -16,7 +16,7 @@ export default function useFetchNewAlbumsInfinite(params: FetchNewAlbumsParams) 
                 offset: pageParam * params.limit,
                 area: params.area,
             })
-            return data.value
+            return data.value as FetchNewAlbumsResponse
         },
         reactive({
             enabled,

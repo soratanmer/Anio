@@ -15,7 +15,7 @@ export default function useFetchPurchasedAlbumsInfinite(params: FetchPurchasedAl
                 limit: params.limit,
                 offset: pageParam * params.limit,
             })
-            return data.value
+            return data.value as FetchPurchasedAlbumsResponse
         },
         reactive({
             enabled,

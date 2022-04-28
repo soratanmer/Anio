@@ -12,7 +12,7 @@ export default function useFetchHighQualityPlaylistInfinite(params: FetchHighQua
                 limit: params.limit,
                 before: pageParam,
             })
-            return data.value
+            return data.value as FetchHighQualityPlaylistResponse
         },
         reactive({
             enabled: true,

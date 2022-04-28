@@ -1,7 +1,6 @@
 <template>
     <!-- XXX's Library -->
     <div class="grid-layout-col my-10">
-
         <!-- Cover -->
         <div class="relative aspect-square self-start col-span-1">
             <img class="rounded-lg" :src="coverUrl" alt="cover" />
@@ -69,7 +68,7 @@
         :albums="page?.data || []"
         type="album"
         subtitle="artist"
-        :is-skeleton="isFetchingLikedAlbums"
+        :is-skeleton="isLoadingLikedAlbums"
     ></CoverRow>
 
     <CoverRow
@@ -77,7 +76,7 @@
         v-for="page in likedArtists?.pages"
         :artists="page?.data || []"
         type="artist"
-        :is-skeleton="isFetchingLikedArtists"
+        :is-skeleton="isLoadingLikedArtists"
     ></CoverRow>
 </template>
 
@@ -93,8 +92,6 @@
     }
 
     const userStore = useUserStore()
-
-    const activeTab = ref<string>('MyPlaylists')
 
     const tabs: Tab[] = [
         {
@@ -114,6 +111,8 @@
             id: 'artists',
         },
     ]
+
+    const activeTab = ref<string>('MyPlaylists')
 
     const updateTabs = (tab: Tab) => {
         activeTab.value = tab.id
@@ -145,6 +144,7 @@
 
     const {
         data: likedArtists,
+        isLoading:isLoadingLikedArtists,
         isFetching: isFetchingLikedArtists,
         hasNextPage: likedArtistsHasNextPage,
         fetchNextPage: fetchLikedArtistsNextPage,
@@ -156,6 +156,7 @@
 
     const {
         data: likedAlbums,
+        isLoading:isLoadingLikedAlbums,
         isFetching: isFetchingLikedAlbums,
         hasNextPage: likedAlbumsHasNextPage,
         fetchNextPage: fetchLikedAlbumsNextPage,
@@ -173,18 +174,20 @@
     watch(
         () => mainContainerScroll.arrivedState.bottom,
         (isScrolledToBottom) => {
-            if (!isScrolledToBottom && isFetchingLikedArtists.value && !likedArtistsHasNextPage?.value) {
-                return
-            } else {
-                console.debug('scrolled to bottom, load more tracks!')
-                fetchLikedArtistsNextPage.value()
-            }
+            if (isScrolledToBottom) {
+                if (isFetchingLikedArtists.value) {
+                    return
+                } else if (likedArtistsHasNextPage?.value && activeTab.value === 'artists') {
+                    console.debug('scrolled to bottom, load more tracks!')
+                    fetchLikedArtistsNextPage.value()
+                }
 
-            if (!isScrolledToBottom && isFetchingLikedAlbums.value && !likedAlbumsHasNextPage?.value) {
-                return
-            } else {
-                console.debug('scrolled to bottom, load more tracks!')
-                fetchLikedAlbumsNextPage.value()
+                if (isFetchingLikedAlbums.value) {
+                    return
+                } else if (likedAlbumsHasNextPage?.value && activeTab.value === 'albums') {
+                    console.debug('scrolled to bottom, load more tracks!')
+                    fetchLikedAlbumsNextPage.value()
+                }
             }
         },
     )

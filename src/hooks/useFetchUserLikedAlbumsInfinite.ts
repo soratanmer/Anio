@@ -15,7 +15,7 @@ export default function useFetchUserLikedAlbumsInfinite(params: FetchUserLikedAl
                 limit: params.limit,
                 offset: pageParam * params.limit,
             })
-            return data.value
+            return data.value as FetchUserLikedAlbumsResponse
         },
         reactive({
             enabled,

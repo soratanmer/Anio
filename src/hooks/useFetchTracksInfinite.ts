@@ -17,7 +17,7 @@ export default function useFetchTracksInfinite(params: FetchTracksParams) {
 
             const { data } = await fetchTracks({ ids })
 
-            return data.value
+            return data.value as FetchTracksResponse
         },
         reactive({
             enabled,

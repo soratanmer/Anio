@@ -13,7 +13,7 @@ export default function useFetchArtistSongsInfinite(params: FetchArtistSongsPara
                 limit: params.limit,
                 offset: pageParam * Number(params.limit),
             })
-            return data.value
+            return data.value as FetchArtistSongsResponse
         },
         reactive({
             enabled: true,

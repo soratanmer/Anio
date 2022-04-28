@@ -16,7 +16,7 @@ export default function useFetchArtistAlbumsInfinite(params: FetchArtistAlbumsPa
                 limit: params.limit,
                 offset: pageParam * Number(params.limit),
             })
-            return data.value
+            return data.value as FetchArtistAlbumsResponse
         },
         reactive({
             enabled,
