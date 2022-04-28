@@ -32,8 +32,11 @@
                 <ButtonIcon @click="play">
                     <SvgIcon class="h-5 w-5 text-black dark:text-white" name="play"></SvgIcon>
                 </ButtonIcon>
-                <ButtonIcon>
-                    <SvgIcon class="h-5 w-5 text-black dark:text-white" name="heart-outline"></SvgIcon>
+                <ButtonIcon @click="subscribe">
+                    <SvgIcon
+                        class="h-5 w-5 text-black dark:text-white"
+                        :name="isSub ? 'heart' : 'heart-outline'"
+                    ></SvgIcon>
                 </ButtonIcon>
             </div>
         </div>
@@ -78,8 +81,9 @@
     import usePlayer from '@/hooks/usePlayer'
     import { PlaylistSourceType, PlayerMode } from '@/hooks/usePlayer'
     import useFetchArtistAlbums from '@/hooks/useFetchArtistAlbumsInfinite'
-    import { fetchArtist } from '@/api/artist'
+    import { fetchArtist, subScribeArtist, SubArtist } from '@/api/artist'
     import { resizeImage } from '@/utils/common'
+    import { isLoggedIn } from '@/utils/user'
 
     const route = useRoute()
     const router = useRouter()
@@ -116,20 +120,21 @@
     }
 
     // Fetch artist data
-    const { data: ArtistRaw, isFetching } = fetchArtist(
-        reactive({
-            id: artistID.value,
-        }),
-    )
+    const { data: ArtistRaw, isFetching } = fetchArtist({
+        id: artistID.value,
+    })
+
     const artist = computed(() => {
         return ArtistRaw?.value?.artist
     })
+
     const cover = computed(() => {
         if (!artist.value) {
             return ''
         }
         return resizeImage(artist.value.img1v1Url, 'sm')
     })
+
     const topTracks = computed(() => {
         return ArtistRaw.value?.hotSongs || []
     })
@@ -173,5 +178,26 @@
             type: PlaylistSourceType.ARTIST,
             id: artistID.value,
         })
+    }
+
+    // Subscribe Artist
+
+    const isSub = ref<boolean>(false)
+
+    watch(isFetching, () => {
+        isSub.value = Boolean(artist.value?.followed)
+    })
+
+    const subscribe = async () => {
+        if (!isLoggedIn()) {
+            return
+        }
+
+        await subScribeArtist({
+            id: artistID.value,
+            t: isSub.value ? SubArtist.DISLIKE : SubArtist.LIKE,
+        })
+
+        isSub.value = !isSub.value
     }
 </script>

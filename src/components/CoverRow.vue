@@ -19,13 +19,13 @@
 
     <!-- Items -->
     <div
-        class="grid gap-x-6 gap-y-7"
+        class="grid gap-6 mt-6"
         :class="{
             'grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6': !gridClass,
             [`${gridClass}`]: gridClass,
         }"
     >
-        <div v-for="(item, index) in renderItems">
+        <div v-for="item in renderItems">
             <!-- Cover -->
             <Cover
                 v-if="!isSkeleton"

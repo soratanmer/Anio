@@ -143,23 +143,23 @@ export function fetchToplistOfArtists(
  * - t: 操作,1 为收藏,其他为取消收藏
  */
 
-export enum AArtist {
+export enum SubArtist {
     LIKE = 1,
     DISLIKE = 0,
 }
 
-export interface FollowAArtistParams {
+export interface SubScribeArtistParams {
     id: number
-    t: AArtist
+    t: SubArtist
 }
 
-export interface FollowAArtistResponse {
+export interface SubScribeArtistResponse {
     code: number
     message: string
     data: null
 }
 
-export function followAArtist(params: FollowAArtistParams): UseFetchReturn<FollowAArtistResponse> {
+export function subScribeArtist(params: SubScribeArtistParams): UseFetchReturn<SubScribeArtistResponse> {
     return usePost('/artist/sub', params)
 }
 
