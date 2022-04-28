@@ -53,7 +53,7 @@
                 <ButtonIcon @click="subscribe">
                     <SvgIcon
                         class="h-5 w-5 text-black dark:text-white"
-                        :name="albumDynamicDetail?.isSub ? 'heart' : 'heart-outline'"
+                        :name="isSub ? 'heart' : 'heart-outline'"
                     ></SvgIcon>
                 </ButtonIcon>
             </div>
@@ -133,8 +133,14 @@
 
     // Like Album
 
-    const { data: albumDynamicDetail } = fetchAlbumDynamicDetail({
+    const isSub = ref<boolean>(false)
+
+    const { data: albumDynamicDetail, isFetching: isFetchingAlbumDynamicDetail } = fetchAlbumDynamicDetail({
         id: albumID.value,
+    })
+
+    watch(isFetchingAlbumDynamicDetail, () => {
+        isSub.value = Boolean(albumDynamicDetail.value?.isSub)
     })
 
     const subscribe = async () => {
@@ -144,7 +150,9 @@
 
         await likeAAlbum({
             id: albumID.value,
-            t: albumDynamicDetail.value?.isSub ? AAlbum.DISLIKED : AAlbum.LIKE,
+            t: isSub.value ? AAlbum.DISLIKED : AAlbum.LIKE,
         })
+
+        isSub.value = !isSub.value
     }
 </script>

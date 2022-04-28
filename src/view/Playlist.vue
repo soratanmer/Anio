@@ -77,6 +77,7 @@
     const userStore = useUserStore()
 
     // Validate playlist id
+
     const playlistID = computed(() => {
         return Number(route.params.id)
     })
@@ -86,10 +87,8 @@
     }
 
     // Fetch playlist date
-    const {
-        data: playlistRaw,
-        isFetching: isFetchingPlaylist,
-    } = fetchPlaylist({
+
+    const { data: playlistRaw, isFetching: isFetchingPlaylist } = fetchPlaylist({
         id: playlistID.value,
         s: 0,
     })
@@ -105,12 +104,6 @@
         )
     })
 
-    const isSub = ref<boolean>(false)
-
-    watch(isFetchingPlaylist, () => {
-        isSub.value = playlistRaw.value?.playlist.subscribed as boolean
-    })
-
     const coverUrl = computed(() => {
         return resizeImage(playlist.value?.coverImgUrl || '', 'md')
     })
@@ -119,7 +112,12 @@
         return playlist.value?.trackIds?.map((t) => t.id) || []
     })
 
+    const isMyPlaylist = computed(() => {
+        return userStore.userAccount?.account?.id !== playlistRaw.value?.playlist.creator.userId
+    })
+
     // Infinite query tracks
+
     const {
         data: infiniteTracks,
         isFetching: isFetchingTracks,
@@ -133,6 +131,7 @@
     )
 
     // Load more tracks when scrolled to bottom
+
     const mainContainerRef = ref<HTMLElement | null>(document.getElementById('mainContainer'))
 
     const mainContainerScroll = useScroll(mainContainerRef)
@@ -149,6 +148,7 @@
     )
 
     // Show track from usePlaylist() until useTrackInfinite() is loaded
+
     const isShowTracksFromPlaylistQuery = ref(true)
 
     watch(
@@ -169,6 +169,8 @@
         },
     )
 
+    // Play Playlist
+
     const play = () => {
         player!.mode = PlayerMode.PLAYLIST
         player?.replacePlaylist(trackIDs.value, {
@@ -177,18 +179,24 @@
         })
     }
 
-    const isMyPlaylist = computed(() => {
-        return userStore.userAccount?.account?.id !== playlistRaw.value?.playlist.creator.userId
+    // Like Playlist
+
+    const isSub = ref<boolean>(false)
+
+    watch(isFetchingPlaylist, () => {
+        isSub.value = Boolean(playlistRaw.value?.playlist.subscribed)
     })
 
     const subscribe = async () => {
         if (!isLoggedIn()) {
             return
         }
+
         await subscribePlaylist({
-            t: playlist.value?.subscribed ? 2 : 1,
+            t: isSub.value ? 2 : 1,
             id: playlistID.value,
         })
+
         isSub.value = !isSub.value
     }
 </script>
