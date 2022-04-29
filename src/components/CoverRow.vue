@@ -18,13 +18,7 @@
     </div>
 
     <!-- Items -->
-    <div
-        class="mt-6 grid gap-6"
-        :class="{
-            'grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6': !gridClass,
-            [`${gridClass}`]: gridClass,
-        }"
-    >
+    <div class="grid-layout-col mt-6">
         <div v-for="item in renderItems">
             <!-- Cover -->
             <Cover
@@ -83,12 +77,15 @@
     const props = defineProps({
         playlists: {
             type: Array as PropType<Playlist[]> | undefined,
+            default: undefined,
         },
         albums: {
             type: Array as PropType<Album[]> | undefined,
+            default: undefined,
         },
         artists: {
             type: Array as PropType<Artist[]> | undefined,
+            default: undefined,
         },
         type: {
             type: String,
@@ -109,9 +106,6 @@
         isSkeleton: {
             type: Boolean,
             default: false,
-        },
-        gridClass: {
-            type: String,
         },
     })
 

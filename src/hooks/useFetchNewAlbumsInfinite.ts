@@ -1,4 +1,4 @@
-import { fetchNewAlbums, AlbumApiNames, NewAlbumsArea } from '@/api/album'
+import { fetchNewAlbums, AlbumApiNames } from '@/api/album'
 import { FetchNewAlbumsParams, FetchNewAlbumsResponse } from '@/api/album'
 
 export default function useFetchNewAlbumsInfinite(params: FetchNewAlbumsParams) {

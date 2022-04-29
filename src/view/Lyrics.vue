@@ -169,8 +169,8 @@
                                 :class="{
                                     'opacity-95': highlightLyricIndex === index,
                                 }"
-                                v-html="formatLine(line)"
-                            ></span>
+                                >{{ formatLine(line) }}</span
+                            >
                         </div>
                         <div class="mb-[50vh]"></div>
                     </div>
@@ -189,9 +189,9 @@
 
 <script setup lang="ts">
     import usePlayer, { RepeatMode } from '@/hooks/usePlayer'
-import { useUiStore } from '@/stores/ui'
-import { formatTrackTime, resizeImage } from '@/utils/common'
-import { parseLyric } from '@/utils/lyrics'
+    import { useUiStore } from '@/stores/ui'
+    import { formatTrackTime, resizeImage } from '@/utils/common'
+    import { parseLyric } from '@/utils/lyrics'
 
     interface LyricItem {
         time: number

@@ -48,7 +48,6 @@
 </template>
 
 <script setup lang="ts">
-    import { fetchUserPlaylists } from '@/api/user'
     import { useUserStore } from '@/stores/user'
     import { isLoggedIn } from '@/utils/user'
 
@@ -82,23 +81,6 @@
             route: '/history',
         },
     ]
-
-    // const { data: userPlaylists, isFetching: isFetchingUserPlaylists } = fetchUserPlaylists(
-    //     reactive({
-    //         uid: computed(() => {
-    //             return userStore.userAccount?.account?.id ?? 0
-    //         }),
-    //         offset: 0,
-    //     }),
-    // )
-
-    // const userLikedSongListID = computed(() => {
-    //     return userPlaylists.value?.playlist[0].id || 0
-    // })
-
-    // watch(isFetchingUserPlaylists, () => {
-    //     userStore.updateUserLikedSongListID(userLikedSongListID.value)
-    // })
 
     const userPlaylists = computed(() => {
         return userStore.userPlaylists

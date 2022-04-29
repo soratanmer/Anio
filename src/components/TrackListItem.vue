@@ -20,10 +20,7 @@
                     {{ track.name }}
                     <span
                         v-if="isTranslate"
-                        class="ml-1"
-                        :class="{
-                            'opacity-50': !isHighLight,
-                        }"
+                        class="ml-1 opacity-50"
                         >( {{ translate }} )</span
                     >
                 </div>
@@ -83,7 +80,7 @@
     import type { PropType } from 'vue'
 
     import usePlayer from '@/hooks/usePlayer'
-    import { formatDuration, resizeImage } from '@/utils/common'
+    import { formatDuration } from '@/utils/common'
     import { likeATrack } from '@/api/track'
     import { useUserStore } from '@/stores/user'
 
@@ -135,14 +132,6 @@
             return props.track.tns[0]
         } else {
             return props.track.alia[0]
-        }
-    })
-
-    const coverUrl = computed(() => {
-        if (props.track.al) {
-            return resizeImage(props.track.al.picUrl, 'xs')
-        } else if (props.track.album) {
-            return resizeImage(props.track.album.picUrl, 'xs')
         }
     })
 

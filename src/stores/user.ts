@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia'
 import { fetchUserAccount, fetchUserLikedSongsIDs, fetchUserPlaylists } from '@/api/user'
 import type { FetchUserAccountResponse, FetchUserPlaylistsResponse } from '@/api/user'
-import { update } from 'lodash'
 
 export const useUserStore = defineStore('user', {
     state: () => {

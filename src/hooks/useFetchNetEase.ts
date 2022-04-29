@@ -1,10 +1,10 @@
 import { createFetch, isObject, MaybeRef, UseFetchReturn } from '@vueuse/core'
 import { stringifyQuery, LocationQueryRaw } from 'vue-router'
 
-const baseURL = String(import.meta.env.VITE_APP_NETEASE_API_URL)
+const baseUrl = String(import.meta.env.VITE_APP_NETEASE_API_URL)
 
 export const useRequest = createFetch({
-    baseUrl: '/api', // 基础路由
+    baseUrl, // 基础路由
     options: {
         timeout: 30000, // 请求过期时间
         refetch: true,

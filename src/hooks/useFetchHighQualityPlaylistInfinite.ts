@@ -20,10 +20,7 @@ export default function useFetchHighQualityPlaylistInfinite(params: FetchHighQua
             refetchOnWindowFocus: false,
             refetchOnReconnect: false,
             refetchInterval: 0,
-            getNextPageParam: (
-                lastPage: FetchHighQualityPlaylistResponse,
-                pages: FetchHighQualityPlaylistResponse[],
-            ) => {
+            getNextPageParam: (lastPage: FetchHighQualityPlaylistResponse) => {
                 return params.limit === lastPage.playlists.length
                     ? lastPage.playlists[lastPage.playlists.length - 1].updateTime
                     : undefined

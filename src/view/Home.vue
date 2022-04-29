@@ -43,7 +43,6 @@
 
     import { isLoggedIn } from '@/utils/user'
 
-    const router = useRouter()
     const userStore = useUserStore()
     const settingsStore = useSettingsStore()
 
