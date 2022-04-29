@@ -1,6 +1,8 @@
 import { Howler, Howl } from 'howler'
 import shuffle from 'lodash/shuffle'
 
+import { toHttps } from '@/utils/common'
+
 import { fetchTracks, fetchAudioSource, scrobble, fetchLyric } from '@/api/track'
 import { fetchPersonalFM, FMTrash } from '@/api/FM'
 import { fetchPlaylist } from '@/api/playlist'
@@ -468,7 +470,7 @@ export function usePlayerProvider() {
         })
 
         if (neteaseSource.value?.data[0].url) {
-            _playTrack(neteaseSource.value?.data[0].url as string, autoplay)
+            _playTrack(toHttps(neteaseSource.value?.data[0].url), autoplay)
         } else {
             nextTrack()
         }
