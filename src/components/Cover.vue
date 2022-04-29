@@ -1,12 +1,5 @@
 <template>
     <div class="group relative z-0">
-        <!-- Neon shadow -->
-        <div
-            class="absolute top-2 z-[-1] h-full w-full scale-x-[.92] scale-y-[.96] rounded-lg bg-cover opacity-0 blur-lg filter transition duration-300 group-hover:opacity-60"
-            :style="shadowStyles"
-        >
-        </div>
-
         <!-- The cover -->
         <img
             class="box-content aspect-square h-full w-full rounded-lg border border-black border-opacity-5"
@@ -45,10 +38,6 @@
     })
 
     const player = usePlayer()
-
-    const shadowStyles = {
-        backgroundImage: `url("${props.imageUrl}")`,
-    }
 
     const play = () => {
         if (props.type === 'playlist') {
