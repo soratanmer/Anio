@@ -45,11 +45,11 @@ export const useUiStore = defineStore('ui', {
         updateShowLyrics(showLyrics: boolean) {
             this.showLyrics = showLyrics
         },
-        updateAddTrackToPlaylistModal(show: boolean = false, id: number = 0) {
+        updateAddTrackToPlaylistModal(show = false, id = 0) {
             this.addTrackToPlaylistModal.show = show
             this.addTrackToPlaylistModal.selectedTrackID = id
         },
-        updateNewPlaylistModal(show: boolean = false, id: number = 0) {
+        updateNewPlaylistModal(show = false, id = 0) {
             this.newPlaylistModal.show = show
             this.newPlaylistModal.afterCreateAddTrackID = id
         },

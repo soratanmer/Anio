@@ -2,7 +2,7 @@
     <transition name="fade">
         <div
             v-show="toast.show"
-            class="fixed bottom-16 left-1/2 text-sm text-gray-500 bg-green-200 border rounded-lg backdrop-blur-md py-1.5 px-3 z-100"
+            class="z-100 fixed bottom-16 left-1/2 rounded-lg border bg-green-200 py-1.5 px-3 text-sm text-gray-500 backdrop-blur-md"
             >{{ toast.text }}</div
         >
     </transition>

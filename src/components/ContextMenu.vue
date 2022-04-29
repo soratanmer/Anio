@@ -1,10 +1,10 @@
 <template>
     <div
         v-if="showMenu"
-        ref="menu"
         id="menu"
+        ref="menu"
         tabindex="-1"
-        class="fixed min-w-32 max-w-60 list-none bg-gray-900 rounded-lg p-1.5 no-drag text-white font-semibold text-sm"
+        class="min-w-32 max-w-60 no-drag fixed list-none rounded-lg bg-gray-900 p-1.5 text-sm font-semibold text-white"
         :style="{ top, left }"
         @blur="closeMenu()"
         @click="closeMenu()"

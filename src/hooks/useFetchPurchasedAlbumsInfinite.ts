@@ -1,5 +1,5 @@
 import { fetchPurchasedAlbums, UserApiNames } from '@/api/user'
-import type { FetchPurchasedAlbumsParams,FetchPurchasedAlbumsResponse } from '@/api/user'
+import type { FetchPurchasedAlbumsParams, FetchPurchasedAlbumsResponse } from '@/api/user'
 
 export default function useFetchPurchasedAlbumsInfinite(params: FetchPurchasedAlbumsParams) {
     console.debug('useFetchPurchasedAlbumsInfinite', params)
@@ -23,7 +23,7 @@ export default function useFetchPurchasedAlbumsInfinite(params: FetchPurchasedAl
             refetchOnWindowFocus: false,
             refetchOnReconnect: false,
             refetchInterval: 0,
-            getNextPageParam: (lastPage:FetchPurchasedAlbumsResponse, pages:FetchPurchasedAlbumsResponse[]) => {
+            getNextPageParam: (lastPage: FetchPurchasedAlbumsResponse, pages: FetchPurchasedAlbumsResponse[]) => {
                 return params.limit === lastPage.paidAlbums.length ? pages.length : undefined
             },
         }),

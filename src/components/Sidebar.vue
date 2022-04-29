@@ -6,7 +6,7 @@
 
             <div
                 v-for="tab in primaryTabs"
-                class="btn-hover-animation mx-3 flex items-center rounded-lg px-3 py-2 mb-2 text-black dark:text-white transition-colors duration-200 after:scale-[0.97] after:bg-green-400"
+                class="btn-hover-animation mx-3 mb-2 flex items-center rounded-lg px-3 py-2 text-black transition-colors duration-200 after:scale-[0.97] after:bg-green-400 dark:text-white"
                 :class="{
                     'bg-green-500': route.path === tab.route,
                 }"
@@ -19,7 +19,7 @@
 
             <div
                 v-for="tab in secondaryTabs"
-                class="btn-hover-animation mx-3 flex items-center rounded-lg px-3 py-2 mb-2 text-black dark:text-white transition-colors duration-200 after:scale-[0.97] after:bg-green-400"
+                class="btn-hover-animation mx-3 mb-2 flex items-center rounded-lg px-3 py-2 text-black transition-colors duration-200 after:scale-[0.97] after:bg-green-400 dark:text-white"
                 :class="{
                     'bg-green-500': route.path === tab.route,
                 }"
@@ -32,10 +32,10 @@
         </div>
 
         <!-- Playlists -->
-        <div class="overflow-auto" v-if="isLoggedIn()">
+        <div v-if="isLoggedIn()" class="overflow-auto">
             <div
                 v-for="playlist in userPlaylists?.playlist || []"
-                class="btn-hover-animation mx-3 flex items-center rounded-lg px-3 py-2 mb-2 text-black dark:text-white transition-colors duration-200 after:scale-[0.97] after:bg-green-400"
+                class="btn-hover-animation mx-3 mb-2 flex items-center rounded-lg px-3 py-2 text-black transition-colors duration-200 after:scale-[0.97] after:bg-green-400 dark:text-white"
                 :class="{
                     'bg-green-500': route.name === 'playlist' && Number(route.params.id) === playlist.id,
                 }"
@@ -100,7 +100,7 @@
     //     userStore.updateUserLikedSongListID(userLikedSongListID.value)
     // })
 
-    const userPlaylists = computed(()=>{
+    const userPlaylists = computed(() => {
         return userStore.userPlaylists
     })
 

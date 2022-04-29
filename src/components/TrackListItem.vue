@@ -1,21 +1,21 @@
 <template>
     <div
-        class="grid w-full grid-cols-12 p-2 px-4 rounded-lg after:scale-[.98]"
+        class="grid w-full grid-cols-12 rounded-lg p-2 px-4 after:scale-[.98]"
         :class="{
             'btn-hover-animation after:bg-green-400': !isSkeleton && !isHighLight,
             'bg-green-500': !isSkeleton && isHighLight,
         }"
     >
         <!-- Track info -->
-        <div class="flex col-span-6 pr-8">
+        <div class="col-span-6 flex pr-8">
             <div class="flex items-center">
                 <!-- Track number -->
-                <div v-if="isAlbum" class="self-center mr-5 text-black dark:text-white">
+                <div v-if="isAlbum" class="mr-5 self-center text-black dark:text-white">
                     {{ track.no }}
                 </div>
             </div>
             <!-- Track name & Artists -->
-            <div class="flex flex-col justify-center max-w-full">
+            <div class="flex max-w-full flex-col justify-center">
                 <div v-if="!isSkeleton" class="line-clamp-1 break-all text-lg font-semibold text-black dark:text-white">
                     {{ track.name }}
                     <span
@@ -38,11 +38,11 @@
         <!-- Album name (playlist page only) -->
         <div v-if="isList && !isSkeleton" class="col-span-4 flex items-center text-black dark:text-white">
             <span
-                @click="router.push({ name: 'album', params: { id: albumID } })"
                 class="decoration-2 hover:underline"
                 :class="{
                     'decoration-gray-600': !isHighLight,
                 }"
+                @click="router.push({ name: 'album', params: { id: albumID } })"
                 >{{ albumName }}</span
             ><span class="flex-grow"></span>
         </div>

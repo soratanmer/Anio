@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig, AxiosResponse, AxiosInstance, AxiosError } from 'axios'
 import Cookies from 'js-cookie'
 
-let baseURL = String(import.meta.env.VITE_APP_NETEASE_API_URL)
+const baseURL = String(import.meta.env.VITE_APP_NETEASE_API_URL)
 
 const service: AxiosInstance = axios.create({
     baseURL,

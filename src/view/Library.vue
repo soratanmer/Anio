@@ -2,7 +2,7 @@
     <!-- XXX's Library -->
     <div class="grid-layout-col my-10">
         <!-- Cover -->
-        <div class="relative aspect-square self-start col-span-1">
+        <div class="relative col-span-1 aspect-square self-start">
             <img class="rounded-lg" :src="coverUrl" alt="cover" />
         </div>
 
@@ -37,7 +37,7 @@
     <div class="mb-5 flex gap-3.5">
         <div
             v-for="tab in tabs"
-            class="btn-hover-animation rounded-lg px-3.5 py-1.5 text-lg font-semibold text-black dark:text-white after:bg-green-400"
+            class="btn-hover-animation rounded-lg px-3.5 py-1.5 text-lg font-semibold text-black after:bg-green-400 dark:text-white"
             :class="{
                 'bg-green-500': tab.id === activeTab,
             }"
@@ -63,8 +63,8 @@
     ></CoverRow>
 
     <CoverRow
-        v-if="activeTab === 'albums'"
         v-for="page in likedAlbums?.pages"
+        v-if="activeTab === 'albums'"
         :albums="page?.data || []"
         type="album"
         subtitle="artist"
@@ -72,8 +72,8 @@
     ></CoverRow>
 
     <CoverRow
-        v-if="activeTab === 'artists'"
         v-for="page in likedArtists?.pages"
+        v-if="activeTab === 'artists'"
         :artists="page?.data || []"
         type="artist"
         :is-skeleton="isLoadingLikedArtists"
@@ -144,7 +144,7 @@
 
     const {
         data: likedArtists,
-        isLoading:isLoadingLikedArtists,
+        isLoading: isLoadingLikedArtists,
         isFetching: isFetchingLikedArtists,
         hasNextPage: likedArtistsHasNextPage,
         fetchNextPage: fetchLikedArtistsNextPage,
@@ -156,7 +156,7 @@
 
     const {
         data: likedAlbums,
-        isLoading:isLoadingLikedAlbums,
+        isLoading: isLoadingLikedAlbums,
         isFetching: isFetchingLikedAlbums,
         hasNextPage: likedAlbumsHasNextPage,
         fetchNextPage: fetchLikedAlbumsNextPage,

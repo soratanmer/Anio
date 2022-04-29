@@ -26,7 +26,7 @@ export interface FetchAlbumResponse {
     description: string
 }
 
-export function fetchAlbum(params: FetchAlbumParams, noCache: boolean = false): UseFetchReturn<FetchAlbumResponse> {
+export function fetchAlbum(params: FetchAlbumParams, noCache = false): UseFetchReturn<FetchAlbumResponse> {
     const otherParams: { timestamp?: number } = {}
     if (noCache) {
         otherParams.timestamp = new Date().getTime()

@@ -1,7 +1,7 @@
 import { createFetch, isObject, MaybeRef, UseFetchReturn } from '@vueuse/core'
 import { stringifyQuery, LocationQueryRaw } from 'vue-router'
 
-let baseURL = String(import.meta.env.VITE_APP_NETEASE_API_URL)
+const baseURL = String(import.meta.env.VITE_APP_NETEASE_API_URL)
 
 export const useRequest = createFetch({
     baseUrl: '/api', // 基础路由
@@ -12,7 +12,7 @@ export const useRequest = createFetch({
         async beforeFetch({ url, options }) {
             if (url.indexOf('?') !== -1) {
                 url = url.concat('&realIP=116.25.146.177')
-            }else{
+            } else {
                 url = url.concat('?realIP=116.25.146.177')
             }
             return { url, options }

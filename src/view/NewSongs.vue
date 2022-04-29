@@ -1,6 +1,6 @@
 <template>
     <div class="mt-10">
-        <div class="grid grid-cols-[16rem_auto] items-center gap-9 mb-10">
+        <div class="mb-10 grid grid-cols-[16rem_auto] items-center gap-9">
             <!-- Cover -->
             <div class="relative z-0 aspect-square self-start">
                 <div
@@ -27,10 +27,10 @@
                 <Skeleton v-else class="w-3/4 text-4xl">PLACEHOLDER</Skeleton>
 
                 <!-- DailyTracks description -->
-                <div v-if="!isFetchingNewSongs" class="line-clamp-2 mt-5 min-h-10 text-sm text-black dark:text-white">
+                <div v-if="!isFetchingNewSongs" class="line-clamp-2 min-h-10 mt-5 text-sm text-black dark:text-white">
                     开启最强新歌雷达，为你带来专属新歌能量！
                 </div>
-                <Skeleton v-else class="mt-5 min-h-10 w-1/2 text-sm">PLACEHOLDER</Skeleton>
+                <Skeleton v-else class="min-h-10 mt-5 w-1/2 text-sm">PLACEHOLDER</Skeleton>
 
                 <!-- Buttons -->
                 <div class="mt-5 flex gap-4">
@@ -41,11 +41,7 @@
             </div>
         </div>
 
-        <TrackList
-            :tracks="newSongs?.data || []"
-            layout="list"
-            :isLoading="isFetchingNewSongs"
-        ></TrackList>
+        <TrackList :tracks="newSongs?.data || []" layout="list" :is-loading="isFetchingNewSongs"></TrackList>
     </div>
 </template>
 

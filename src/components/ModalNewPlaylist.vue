@@ -1,6 +1,6 @@
 <template>
     <Modal :show="show" :close="close" title="新建歌单" width="25vw" :show-footer="true">
-        <template v-slot:content>
+        <template #content>
             <input
                 v-model="title"
                 class="mb-2 w-full py-2 px-3"
@@ -9,11 +9,11 @@
                 maxlength="40"
             />
             <div>
-                <input v-model="privatePlaylist" type="checkbox" id="checkbox-private" />
+                <input id="checkbox-private" v-model="privatePlaylist" type="checkbox" />
                 <label for="checkbox-private">隐私歌单</label>
             </div>
         </template>
-        <template v-slot:footer>
+        <template #footer>
             <div @click="createPlaylists">创建</div>
         </template>
     </Modal>

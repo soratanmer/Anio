@@ -1,15 +1,15 @@
 <template>
     <transition :name="showLyrics ? 'slide-up' : 'slide-down'">
         <!-- lyrics page -->
-        <div class="z-50 fixed top-0 right-0 left-0 bottom-0 flex bg-white dark:bg-black">
+        <div class="fixed top-0 right-0 left-0 bottom-0 z-50 flex bg-white dark:bg-black">
             <!-- Background -->
-            <div class="absolute h-screen w-screen blur-3xl contrast-75 brightness-150 overflow-hidden">
+            <div class="absolute h-screen w-screen overflow-hidden blur-3xl brightness-150 contrast-75">
                 <div
-                    class="w-[140vw] h-[140vw] opacity-60 absolute bg-cover right-0 top-0 mix-blend-luminosity"
+                    class="absolute right-0 top-0 h-[140vw] w-[140vw] bg-cover opacity-60 mix-blend-luminosity"
                     :style="{ backgroundImage: `url(${coverURL})` }"
                 ></div>
                 <div
-                    class="w-[140vw] h-[140vw] opacity-60 absolute bg-cover left-0 bottom-0"
+                    class="absolute left-0 bottom-0 h-[140vw] w-[140vw] bg-cover opacity-60"
                     :style="{ backgroundImage: `url(${coverURL})` }"
                 ></div>
             </div>
@@ -25,36 +25,36 @@
                     <!-- Cover -->
                     <div class="relative" @click="goToPlaylistSource">
                         <img
-                            class="rounded-lg h-[50vh] w-[50vh] select-none object-cover"
+                            class="h-[50vh] w-[50vh] select-none rounded-lg object-cover"
                             :src="coverURL"
                             alt="cover"
                         />
                     </div>
 
                     <!-- Controls -->
-                    <div class="w-[50vh] mt-6 text-black dark:text-white">
+                    <div class="mt-6 w-[50vh] text-black dark:text-white">
                         <!-- Top part -->
-                        <div class="flex justify-between items-center">
+                        <div class="flex items-center justify-between">
                             <!-- Track info -->
                             <div>
                                 <!-- Title -->
-                                <div class="mt-2 text-2xl font-semibold line-clamp-1 overflow-hidden">
+                                <div class="line-clamp-1 mt-2 overflow-hidden text-2xl font-semibold">
                                     {{ player?.track?.name }}
-                                    <span v-if="player.isTranslate" class="ml-1"> ( {{ player.translate }} )</span>
+                                    <span v-if="player?.isTranslate" class="ml-1"> ( {{ player?.translate }} )</span>
                                 </div>
                                 <!-- Subtitle -->
-                                <div class="mt-1 text-base line-clamp-1 overflow-hidden">
-                                    <span class="hover:underline cursor-default" @click="goTo('artist', artist?.id)">{{
+                                <div class="line-clamp-1 mt-1 overflow-hidden text-base">
+                                    <span class="cursor-default hover:underline" @click="goTo('artist', artist?.id)">{{
                                         artist?.name
                                     }}</span>
                                     -
-                                    <span class="hover:underline cursor-default" @click="goTo('album', album?.id)">{{
+                                    <span class="cursor-default hover:underline" @click="goTo('album', album?.id)">{{
                                         album?.name
                                     }}</span>
                                 </div>
                             </div>
                             <!-- Liked -->
-                            <ButtonIcon class="flex items-center ml-1" @click="player?.likeTrack()">
+                            <ButtonIcon class="ml-1 flex items-center" @click="player?.likeTrack()">
                                 <SvgIcon
                                     class="h-4 w-4 text-black dark:text-white"
                                     :name="player?.isLiked ? 'heart' : 'heart-outline'"
@@ -65,12 +65,12 @@
                         <!-- Progress -->
                         <div class="mt-6 flex items-center justify-between">
                             <span>{{ formatTrackTime(player?.progress) }}</span>
-                            <div class="grow flex items-center px-2">
+                            <div class="flex grow items-center px-2">
                                 <input
+                                    v-model.number="player!.progress"
                                     type="range"
                                     min="0"
                                     :max="player?.currentTrackDuration"
-                                    v-model.number="player!.progress"
                                     class="range-slider w-full"
                                 />
                             </div>
@@ -78,7 +78,7 @@
                         </div>
 
                         <!-- Media controls -->
-                        <div class="flex justify-center items-center mt-5">
+                        <div class="mt-5 flex items-center justify-center">
                             <!-- Repeat mode -->
                             <ButtonIcon :disabled="player?.isPersonalFM" @click="player?.switchRepeatMode()">
                                 <SvgIcon
@@ -149,27 +149,27 @@
             </div>
 
             <!-- Right page -->
-            <div class="flex flex-1 font-semibold mr-6 z-0">
+            <div class="z-0 mr-6 flex flex-1 font-semibold">
                 <transition name="slide-fade">
                     <div
                         v-show="!noLyric"
-                        class="text-2xl h-full flex pl-20 flex-col max-w-lg overflow-y-auto duration-500"
                         ref="lyricsContainer"
+                        class="flex h-full max-w-lg flex-col overflow-y-auto pl-20 text-2xl duration-500"
                     >
                         <div class="mt-[50vh]"></div>
                         <div
                             v-for="(line, index) in lyricWithTranslation"
-                            class="p-4 duration-200 rounded-lg hover:bg-green-500"
                             :id="`line${index}`"
+                            class="rounded-lg p-4 duration-200 hover:bg-green-500"
                             @click="clickLyricLine(line.time)"
                             @dblclick="clickLyricLine(line.time, true)"
                         >
                             <span
-                                v-html="formatLine(line)"
-                                class="opacity-30 cursor-default text-black dark:text-white"
+                                class="cursor-default text-black opacity-30 dark:text-white"
                                 :class="{
                                     'opacity-95': highlightLyricIndex === index,
                                 }"
+                                v-html="formatLine(line)"
                             ></span>
                         </div>
                         <div class="mb-[50vh]"></div>
@@ -188,11 +188,10 @@
 </template>
 
 <script setup lang="ts">
-    import { parseLyric } from '@/utils/lyrics'
-    import usePlayer from '@/hooks/usePlayer'
-    import { RepeatMode } from '@/hooks/usePlayer'
-    import { resizeImage, formatTrackTime } from '@/utils/common'
-    import { useUiStore } from '@/stores/ui'
+    import usePlayer, { RepeatMode } from '@/hooks/usePlayer'
+import { useUiStore } from '@/stores/ui'
+import { formatTrackTime, resizeImage } from '@/utils/common'
+import { parseLyric } from '@/utils/lyrics'
 
     interface LyricItem {
         time: number

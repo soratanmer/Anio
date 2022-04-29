@@ -166,7 +166,7 @@ export interface FetchUserDailySignInParams {
     type: number
 }
 
-export function fetchUserDailySignIn(type: number = 0) {
+export function fetchUserDailySignIn(type = 0) {
     return usePost('/daily_signin', {
         type,
         timestamp: new Date().getTime(),

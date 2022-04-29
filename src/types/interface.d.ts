@@ -118,11 +118,10 @@ declare interface Playlist {
 }
 
 declare interface Track {
-    
     id: number
 
     album: Album
-    
+
     a: null
 
     al: Album

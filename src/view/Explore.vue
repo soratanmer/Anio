@@ -1,10 +1,10 @@
 <template>
     <!-- Header buttons -->
-    <div class="text-3xl font-semibold text-black dark:text-white py-2 px-4 mb-2 mt-10">发现</div>
+    <div class="mb-2 mt-10 py-2 px-4 text-3xl font-semibold text-black dark:text-white">发现</div>
     <div class="flex flex-wrap">
         <div
             v-for="category in staticCategory"
-            class="py-2 px-4 mt-1 mr-4 mb-1.5 flex content-center items-center rounded-lg text-black dark:text-white"
+            class="mt-1 mr-4 mb-1.5 flex content-center items-center rounded-lg py-2 px-4 text-black dark:text-white"
             :class="{
                 'bg-gray-500': route.query.active !== category.name,
                 'bg-green-500': route.query.active === category.name,
@@ -14,7 +14,7 @@
             {{ category.name }}
         </div>
         <div
-            class="py-2 px-4 mt-1 mr-4 mb-1.5 flex content-center items-center rounded-lg bg-gray-500"
+            class="mt-1 mr-4 mb-1.5 flex content-center items-center rounded-lg bg-gray-500 py-2 px-4"
             @click="showPanel = !showPanel"
         >
             <SvgIcon class="h-4 w-4 text-black dark:text-white" name="more"></SvgIcon>
@@ -22,15 +22,15 @@
     </div>
 
     <!-- panel -->
-    <div v-show="showPanel" v-for="(bigCat, index) in playlistCategory?.categories" class="mt-1">
+    <div v-for="(bigCat, index) in playlistCategory?.categories" v-show="showPanel" class="mt-1">
         <!-- name -->
-        <div class="text-2xl font-semibold text-black dark:text-white py-2 px-4"> {{ bigCat }}</div>
+        <div class="py-2 px-4 text-2xl font-semibold text-black dark:text-white"> {{ bigCat }}</div>
         <!-- cats -->
         <div class="flex flex-wrap">
             <div v-for="cat in playlistCategory?.sub">
                 <div
                     v-if="cat.category === Number(index)"
-                    class="py-2 px-4 mt-1 mr-4 mb-1.5 flex content-center items-center rounded-lg text-black dark:text-white"
+                    class="mt-1 mr-4 mb-1.5 flex content-center items-center rounded-lg py-2 px-4 text-black dark:text-white"
                     :class="{
                         'bg-gray-500': route.query.active !== cat.name,
                         'bg-green-500': route.query.active === cat.name,
@@ -44,12 +44,12 @@
 
     <div class="mt-4">
         <CoverRow
+            v-for="page in topPlaylists?.pages"
             v-if="
                 route.query.active !== '排行榜' &&
                 route.query.active !== '精品歌单' &&
                 route.query.active !== '推荐歌单'
             "
-            v-for="page in topPlaylists?.pages"
             :playlists="page?.playlists"
             type="playlist"
             subtitle="creator"
@@ -71,8 +71,8 @@
         ></CoverRow>
 
         <CoverRow
-            v-if="route.query.active === '精品歌单'"
             v-for="page in hightQualityPlaylists?.pages"
+            v-if="route.query.active === '精品歌单'"
             :playlists="page?.playlists"
             type="playlist"
             subtitle="creator"

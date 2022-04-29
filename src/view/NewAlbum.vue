@@ -1,6 +1,6 @@
 <template>
     <!-- Header -->
-    <div class="text-2xl font-semibold text-black dark:text-white py-2 px-4 mt-10">新专速递</div>
+    <div class="mt-10 py-2 px-4 text-2xl font-semibold text-black dark:text-white">新专速递</div>
     <CoverRow :albums="newAlbums?.albums ?? []" type="album" :is-skeleton="isFetchingNewAlbums"></CoverRow>
 </template>
 

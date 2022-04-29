@@ -3,7 +3,7 @@
         <Sidebar></Sidebar>
         <div class="relative flex h-screen max-h-screen flex-grow flex-col bg-white dark:bg-black">
             <Topbar></Topbar>
-            <main id="mainContainer" ref="mainContainer" class="pb-10 overflow-y-auto flex-grow px-8">
+            <main id="mainContainer" ref="mainContainer" class="flex-grow overflow-y-auto px-8 pb-10">
                 <router-view :key="route.fullPath"></router-view>
             </main>
             <Player></Player>

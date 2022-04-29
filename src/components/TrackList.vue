@@ -10,7 +10,7 @@
             v-for="(track, index) in tracks"
             :track="track"
             :layout="layout"
-            :isLiked="userStore.likedList.includes(track.id)"
+            :is-liked="userStore.likedList.includes(track.id)"
             @dblclick="playThisList(track.id)"
             @click.right="showContext($event, track.id, index)"
         ></TrackListItem>
@@ -26,43 +26,43 @@
     </div>
 
     <ContextMenu ref="menuRef">
-        <div class="py-2.5 px-3.5 rounded-lg cursor-default hover:bg-green-500" @click="playThisList(rightTrack.id)"
+        <div class="cursor-default rounded-lg py-2.5 px-3.5 hover:bg-green-500" @click="playThisList(rightTrack.id)"
             >播放</div
         >
         <div
             v-if="!player?.currentPlaylist.includes(rightTrack.id)"
-            class="py-2.5 px-3.5 rounded-lg cursor-default hover:bg-green-500"
+            class="cursor-default rounded-lg py-2.5 px-3.5 hover:bg-green-500"
             @click="player?.addToQueue(rightTrack.id)"
             >下一首播放</div
         >
         <div
             v-else
-            class="py-2.5 px-3.5 rounded-lg cursor-default hover:bg-green-500"
+            class="cursor-default rounded-lg py-2.5 px-3.5 hover:bg-green-500"
             @click="player?.removeToQueue(rightTrack.id)"
             >从列表中删除</div
         >
         <div
             v-if="!userStore.likedList.includes(rightTrack.id)"
-            class="py-2.5 px-3.5 rounded-lg cursor-default hover:bg-green-500"
+            class="cursor-default rounded-lg py-2.5 px-3.5 hover:bg-green-500"
             @click="likeTrack(rightTrack.id, true)"
             >保存到我喜欢的音乐</div
         >
         <div
             v-else
-            class="py-2.5 px-3.5 rounded-lg cursor-default hover:bg-green-500"
+            class="cursor-default rounded-lg py-2.5 px-3.5 hover:bg-green-500"
             @click="likeTrack(rightTrack.id, false)"
             >从我喜欢的音乐中删除</div
         >
         <div
             v-if="isLoggedIn()"
-            class="py-2.5 px-3.5 rounded-lg cursor-default hover:bg-green-500"
+            class="cursor-default rounded-lg py-2.5 px-3.5 hover:bg-green-500"
             @click="addTrackToPlaylist"
         >
             保存到歌单
         </div>
         <div
             v-if="isUserOwnPlaylist"
-            class="py-2.5 px-3.5 rounded-lg cursor-default hover:bg-green-500"
+            class="cursor-default rounded-lg py-2.5 px-3.5 hover:bg-green-500"
             @click="removeTrackFromPlaylist(rightTrack.id)"
             >从歌单中删除</div
         >

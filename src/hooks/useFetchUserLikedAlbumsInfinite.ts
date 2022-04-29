@@ -1,5 +1,5 @@
 import { fetchUserLikedAlbums, UserApiNames } from '@/api/user'
-import { FetchUserLikedAlbumsParams,FetchUserLikedAlbumsResponse } from '@/api/user'
+import { FetchUserLikedAlbumsParams, FetchUserLikedAlbumsResponse } from '@/api/user'
 
 export default function useFetchUserLikedAlbumsInfinite(params: FetchUserLikedAlbumsParams) {
     console.debug('useFetchUserLikedAlbumsInfinite', params)
@@ -23,7 +23,7 @@ export default function useFetchUserLikedAlbumsInfinite(params: FetchUserLikedAl
             refetchOnWindowFocus: false,
             refetchOnReconnect: false,
             refetchInterval: 0,
-            getNextPageParam: (lastPage:FetchUserLikedAlbumsResponse, pages:FetchUserLikedAlbumsResponse[]) => {
+            getNextPageParam: (lastPage: FetchUserLikedAlbumsResponse, pages: FetchUserLikedAlbumsResponse[]) => {
                 return params.limit === lastPage.data.length ? pages.length : undefined
             },
         }),

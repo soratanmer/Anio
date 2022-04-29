@@ -1,8 +1,8 @@
 <template>
     <Modal :show="show" width="25vw" title="添加到播放列表" :close="close">
-        <template v-slot:content>
+        <template #content>
             <div
-                class="flex justify-between items-center h-10 mb-2 p-2 text-base font-medium text-white rounded-lg cursor-pointer bg-gray-800 hover:bg-green-500"
+                class="mb-2 flex h-10 cursor-pointer items-center justify-between rounded-lg bg-gray-800 p-2 text-base font-medium text-white hover:bg-green-500"
             >
                 <div>新建歌单</div>
                 <ButtonIcon @click="newPlaylist">
@@ -11,13 +11,13 @@
             </div>
             <div
                 v-for="playlist in userCreatePlaylist"
-                class="flex justify-between items-center p-2 rounded-lg mt-1 text-white bg-gray-800 hover:bg-green-500"
+                class="mt-1 flex items-center justify-between rounded-lg bg-gray-800 p-2 text-white hover:bg-green-500"
                 @click="addTrackFromPlaylist(playlist.id)"
             >
                 <div>
                     {{ playlist.name }}
                 </div>
-                <div class="opacity-70 text-xs"> {{ playlist.trackCount }} 首歌 </div>
+                <div class="text-xs opacity-70"> {{ playlist.trackCount }} 首歌 </div>
             </div>
         </template>
     </Modal>

@@ -2,7 +2,7 @@
     <div class="grid grid-cols-3 gap-6">
         <!-- cover -->
         <div
-            class="relative flex overflow-hidden rounded-lg col-span-1"
+            class="relative col-span-1 flex overflow-hidden rounded-lg"
             @click="
                 router.push({
                     name: 'album',
@@ -16,9 +16,9 @@
         </div>
 
         <!-- track info  -->
-        <div class="flex flex-col justify-between text-white relative p-4 col-span-2 overflow-hidden rounded-lg">
+        <div class="relative col-span-2 flex flex-col justify-between overflow-hidden rounded-lg p-4 text-white">
             <!-- Background -->
-            <img class="absolute top-0 left-0 w-full blur opacity-80" :src="albumUrl" alt="cover" />
+            <img class="absolute top-0 left-0 w-full opacity-80 blur" :src="albumUrl" alt="cover" />
 
             <div class="z-10">
                 <div class="text-xl font-semibold">{{ trackName }}</div>

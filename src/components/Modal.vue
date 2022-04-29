@@ -3,15 +3,15 @@
         v-if="show"
         id="modal"
         ref="modal"
-        class="absolute top-0 bottom-0 left-0 right-0 flex justify-center items-center z-[1000]"
+        class="absolute top-0 bottom-0 left-0 right-0 z-[1000] flex items-center justify-center"
         @click="clickOutside"
     >
         <!-- modal -->
-        <div class="bg-gray-900 rounded-lg text-sm flex flex-col max-h-[90vh]" :style="modalStyles">
+        <div class="flex max-h-[90vh] flex-col rounded-lg bg-gray-900 text-sm" :style="modalStyles">
             <!-- header -->
-            <div class="flex justify-between items-center p-6">
+            <div class="flex items-center justify-between p-6">
                 <!-- title -->
-                <div class="font-semibold text-xl">{{ title }}</div>
+                <div class="text-xl font-semibold">{{ title }}</div>
                 <ButtonIcon @click="close()">
                     <SvgIcon class="h-4 w-4" name="x"></SvgIcon>
                 </ButtonIcon>
@@ -21,7 +21,7 @@
                 <slot name="content"></slot>
             </div>
             <!-- footer -->
-            <div v-if="showFooter" class="p-4 flex justify-end">
+            <div v-if="showFooter" class="flex justify-end p-4">
                 <slot name="footer"></slot>
             </div>
         </div>

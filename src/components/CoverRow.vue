@@ -7,7 +7,7 @@
 
         <div
             v-if="seeMoreLink"
-            class="text-[13px] font-semibold text-black dark:text-white hover:underline"
+            class="text-[13px] font-semibold text-black hover:underline dark:text-white"
             @click="
                 router.push({
                     name: seeMoreLink,
@@ -19,7 +19,7 @@
 
     <!-- Items -->
     <div
-        class="grid gap-6 mt-6"
+        class="mt-6 grid gap-6"
         :class="{
             'grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6': !gridClass,
             [`${gridClass}`]: gridClass,
@@ -31,7 +31,7 @@
                 v-if="!isSkeleton"
                 :id="item.id"
                 :type="type"
-                :imageUrl="getImageUrl(item)"
+                :image-url="getImageUrl(item)"
                 @click="goTo(item)"
             ></Cover>
             <Skeleton v-else class="aspect-square w-full rounded-lg"></Skeleton>
@@ -48,7 +48,7 @@
                     <!-- Name -->
                     <span
                         v-if="!isSkeleton"
-                        class="line-clamp-2 leading-tight text-black dark:text-white hover:underline"
+                        class="line-clamp-2 leading-tight text-black hover:underline dark:text-white"
                     >
                         <!-- Playlist private icon -->
                         <SvgIcon
@@ -58,7 +58,7 @@
                         ></SvgIcon
                         >{{ item.name }}
                     </span>
-                    <div class="flex w-full flex-col" v-else>
+                    <div v-else class="flex w-full flex-col">
                         <Skeleton class="w-full leading-tight"></Skeleton>
                         <Skeleton class="w-1/3 translate-y-px leading-tight">PLACEHOLDER</Skeleton>
                     </div>

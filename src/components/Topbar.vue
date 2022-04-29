@@ -17,7 +17,7 @@
                 class="app-region-no-drag group flex w-[16rem] cursor-text items-center rounded-lg bg-gray-500 bg-opacity-[.05] px-3 transition duration-300 hover:bg-opacity-10"
             >
                 <SvgIcon
-                    class="mr-2 h-4 w-4 text-black dark:text-white transition duration-300 group-hover:text-gray-600"
+                    class="mr-2 h-4 w-4 text-black transition duration-300 group-hover:text-gray-600 dark:text-white"
                     name="search"
                 ></SvgIcon>
                 <input
@@ -48,12 +48,12 @@
                         ? resizeImage(userAccount?.profile?.avatarUrl, 'md')
                         : resizeImage('https://s4.music.126.net/style/web2/img/default/default_avatar.jpg', 'md')
                 "
+                alt="avatar"
                 @click="
                     router.push({
                         path: isLoggedIn() ? '/library' : '/login',
                     })
                 "
-                alt="avatar"
             />
         </div>
     </div>

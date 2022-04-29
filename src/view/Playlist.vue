@@ -1,7 +1,7 @@
 <template>
     <div class="grid-layout-col my-10">
         <!-- Cover -->
-        <div class="relative aspect-square self-start col-span-1">
+        <div class="relative col-span-1 aspect-square self-start">
             <img v-if="!isFetchingPlaylist" class="rounded-lg" :src="coverUrl" alt="cover" />
             <Skeleton v-else class="h-full w-full rounded-lg"></Skeleton>
         </div>
@@ -30,7 +30,7 @@
             <Skeleton v-else class="w-72 translate-x-px text-sm">PLACEHOLDER</Skeleton>
 
             <!-- Playlist description -->
-            <div v-if="!isFetchingPlaylist" class="line-clamp-1 break-all min-h-10 text-sm text-black dark:text-white">
+            <div v-if="!isFetchingPlaylist" class="line-clamp-1 min-h-10 break-all text-sm text-black dark:text-white">
                 {{ playlist?.description }}
             </div>
             <Skeleton v-else class="min-h-10 w-1/2 text-sm">PLACEHOLDER</Skeleton>
@@ -53,11 +53,11 @@
     <!-- Infinite tracks -->
     <TrackList
         v-for="page in infiniteTracks?.pages"
+        :id="playlistID"
         :tracks="page?.songs || []"
         layout="list"
-        :id="playlistID"
         :is-loading="isFetchingPlaylist"
-        :isUserOwnPlaylist="isUserOwnPlaylist"
+        :is-user-own-playlist="isUserOwnPlaylist"
         dbclick-track-func="playPlaylistByID"
     />
 </template>
@@ -143,7 +143,7 @@
                 return
             }
             console.debug('scrolled to bottom, load more tracks!')
-            
+
             fetchNextPage.value()
         },
     )

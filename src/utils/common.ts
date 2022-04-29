@@ -27,11 +27,7 @@ export function resizeImage(url: string, size: 'xs' | 'sm' | 'md' | 'lg'): strin
  * @param  {string='default'} format - 格式化字符串，参考 dayjs
  */
 
-export function formatDate(
-    timestamp: number,
-    locale: 'en' | 'zh-TW' | 'zh-CN' = 'en',
-    format: string = 'default',
-): string {
+export function formatDate(timestamp: number, locale: 'en' | 'zh-TW' | 'zh-CN' = 'en', format = 'default'): string {
     if (!timestamp) {
         return ''
     }
@@ -62,10 +58,10 @@ export function formatDuration(
 
     dayjs.extend(duration)
 
-    let time = dayjs.duration(milliseconds)
-    let hours = time.hours().toString()
-    let mins = time.minutes().toString()
-    let seconds = time.seconds().toString().padStart(2, '0')
+    const time = dayjs.duration(milliseconds)
+    const hours = time.hours().toString()
+    const mins = time.minutes().toString()
+    const seconds = time.seconds().toString().padStart(2, '0')
 
     if (format === 'hh:mm:ss') {
         return hours !== '0' ? `${hours}:${mins.padStart(2, '0')}:${seconds}` : `${mins}:${seconds}`
@@ -94,8 +90,8 @@ export function formatTrackTime(value: number) {
     if (!value) {
         return '00:00'
     }
-    let min = ~~((value / 60) % 60)
-    let sec = (~~(value % 60)).toString().padStart(2, '0')
+    const min = ~~((value / 60) % 60)
+    const sec = (~~(value % 60)).toString().padStart(2, '0')
     return `${min}:${sec}`
 }
 

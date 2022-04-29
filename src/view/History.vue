@@ -1,6 +1,8 @@
 <template>
     <!-- Header -->
-    <div class="text-2xl font-semibold text-black dark:text-white py-2 px-4 mb-10 mt-10">最近播放的 {{ recentSongsLimit }} 首歌</div>
+    <div class="mb-10 mt-10 py-2 px-4 text-2xl font-semibold text-black dark:text-white"
+        >最近播放的 {{ recentSongsLimit }} 首歌</div
+    >
 
     <!-- Infinite tracks -->
     <TrackList
@@ -14,13 +16,13 @@
 <script setup lang="ts">
     import useFetchTracksInfinite from '@/hooks/useFetchTracksInfinite'
     import { useSettingsStore } from '@/stores/settints'
-    import { usePlayerStore } from "@/stores/player";
+    import { usePlayerStore } from '@/stores/player'
 
     const playerStore = usePlayerStore()
 
     const { recentSongsLimit } = useSettingsStore()
 
-    const trackIDs = computed(()=>{
+    const trackIDs = computed(() => {
         return playerStore.history
     })
 

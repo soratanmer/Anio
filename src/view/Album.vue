@@ -1,7 +1,7 @@
 <template>
     <div class="grid-layout-col my-10">
         <!-- Cover -->
-        <div class="relative aspect-square self-start col-span-1">
+        <div class="relative col-span-1 aspect-square self-start">
             <img v-if="!isFetchingAlbum" class="rounded-lg" :src="coverUrl" alt="cover" />
             <Skeleton v-else class="h-full w-full rounded-lg"></Skeleton>
         </div>
@@ -62,11 +62,11 @@
 
     <!-- Tracks -->
     <TrackList
+        :id="albumID"
         :tracks="tracks || []"
         layout="album"
-        :isLoading="isFetchingAlbum"
-        :id="albumID"
-        dbclickTrackFunc="playAlbumByID"
+        :is-loading="isFetchingAlbum"
+        dbclick-track-func="playAlbumByID"
     ></TrackList>
 
     <!-- Release date and company -->

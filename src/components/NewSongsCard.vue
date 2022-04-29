@@ -1,7 +1,7 @@
 <template>
     <div
         v-if="!isFetchingNewSongs"
-        class="relative cursor-pointer overflow-hidden rounded-lg group"
+        class="group relative cursor-pointer overflow-hidden rounded-lg"
         @click="
             router.push({
                 name: 'newSongs',
@@ -12,8 +12,8 @@
         <img class="box-content aspect-square h-full w-full" :src="coverUrl" alt="cover" />
 
         <!-- 新歌速递 -->
-        <div class="absolute z-10 text-white text-4xl top-2 left-2">New</div>
-        <div class="absolute h-32 w-32 bg-green-500 rounded-full -top-16 -left-16"></div>
+        <div class="absolute top-2 left-2 z-10 text-4xl text-white">New</div>
+        <div class="absolute -top-16 -left-16 h-32 w-32 rounded-full bg-green-500"></div>
 
         <!-- Play button -->
         <div class="absolute top-0 hidden h-full w-full place-content-center group-hover:grid">

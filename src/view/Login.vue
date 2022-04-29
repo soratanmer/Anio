@@ -5,7 +5,7 @@
                 <!-- Email input -->
                 <div class="w-full">
                     <div class="mb-1 text-sm font-medium text-black dark:text-white">Email</div>
-                    <input class="w-full rounded-md border border-gray-300 p-2" type="email" v-model="email" />
+                    <input v-model="email" class="w-full rounded-md border border-gray-300 p-2" type="email" />
                 </div>
 
                 <!-- Password input -->
@@ -13,15 +13,15 @@
                     <div class="mb-1 text-sm font-medium text-black dark:text-white"> Password </div>
                     <div class="flex w-full">
                         <input
+                            v-model="password"
                             class="w-full rounded-md rounded-r-none border border-r-0 border-gray-300 p-2"
                             :type="showPassword ? 'text' : 'password'"
-                            v-model="password"
                         />
                         <div
                             class="flex items-center justify-center rounded-md rounded-l-none border border-l-0 border-gray-300 pr-1"
                         >
                             <button
-                                class="cursor-default rounded p-1.5 text-black dark:text-white transition duration-300 hover:bg-gray-100 hover:text-gray-600"
+                                class="cursor-default rounded p-1.5 text-black transition duration-300 hover:bg-gray-100 hover:text-gray-600 dark:text-white"
                                 @click="togglePassword"
                             >
                                 <SvgIcon class="h-5 w-5" :name="showPassword ? 'eye-of' : 'eye'"></SvgIcon>

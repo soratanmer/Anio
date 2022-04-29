@@ -26,7 +26,7 @@ export const usePlayerStore = defineStore('player', {
     getters: {},
     actions: {
         updateHistory(trackID: TrackID) {
-            let history = this.history.filter((t) => t !== trackID)
+            const history = this.history.filter((t) => t !== trackID)
             if (history.length > 1000) {
                 history.pop()
             }

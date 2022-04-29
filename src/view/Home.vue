@@ -39,7 +39,7 @@
     import { fetchToplistOfArtists } from '@/api/artist'
     import { ToplistOfArtists } from '@/api/artist'
     import { useUserStore } from '@/stores/user'
-    import { useSettingsStore } from "@/stores/settints";
+    import { useSettingsStore } from '@/stores/settints'
 
     import { isLoggedIn } from '@/utils/user'
 

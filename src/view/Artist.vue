@@ -2,7 +2,7 @@
     <!-- Artist info -->
     <div class="grid-layout-col my-10">
         <!-- Cover -->
-        <div class="relative aspect-square self-start col-span-1">
+        <div class="relative col-span-1 aspect-square self-start">
             <img v-if="!isFetching" class="rounded-lg" :src="cover" alt="cover" />
             <Skeleton v-else class="h-full w-full rounded-lg"></Skeleton>
         </div>
@@ -19,7 +19,7 @@
             <div v-if="!isFetching" class="text-sm font-thin text-black dark:text-white">
                 {{ artist?.musicSize }} Tracks · {{ artist?.albumSize }} Albums · {{ artist?.mvSize }} Music Videos
             </div>
-            <Skeleton v-else class="text-sm w-3/4">PLACEHOLDER</Skeleton>
+            <Skeleton v-else class="w-3/4 text-sm">PLACEHOLDER</Skeleton>
 
             <!-- Description -->
             <div v-if="!isFetching" class="line-clamp-1 break-all text-sm text-black dark:text-white">
@@ -46,7 +46,7 @@
     <div class="mb-5 flex gap-3.5">
         <div
             v-for="tab in tabs"
-            class="btn-hover-animation rounded-lg px-3.5 py-1.5 text-lg font-semibold text-black dark:text-white after:bg-green-400"
+            class="btn-hover-animation rounded-lg px-3.5 py-1.5 text-lg font-semibold text-black after:bg-green-400 dark:text-white"
             :class="{
                 'bg-green-500': tab.id === activeTab,
             }"
@@ -59,17 +59,17 @@
     <!-- Top tracks -->
     <TrackList
         v-if="activeTab === 'tracks'"
+        :id="artistID"
         :tracks="topTracks"
         :is-loading="isFetching"
         layout="list"
-        :id="artistID"
         dbclick-track-func="playArtistByID"
     ></TrackList>
 
     <!-- Albums -->
     <CoverRow
-        v-if="activeTab === 'albums'"
         v-for="page in albums?.pages"
+        v-if="activeTab === 'albums'"
         :albums="page.hotAlbums || []"
         type="album"
         :is-skeleton="isLoadingAlbums"

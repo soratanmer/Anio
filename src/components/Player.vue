@@ -6,11 +6,11 @@
         <!-- mock slider -->
         <div class="absolute -top-1 w-full bg-black bg-opacity-5">
             <input
+                v-model.number="player!.progress"
                 type="range"
                 min="0"
                 :max="player?.currentTrackDuration"
-                v-model.number="player!.progress"
-                class="range-slider w-full absolute"
+                class="range-slider absolute w-full"
             />
         </div>
 
@@ -20,20 +20,20 @@
             <img
                 v-if="cover"
                 class="aspect-square h-full rounded-md shadow-md"
-                @click="player?.goToPlaylistSource()"
                 :src="cover"
                 alt="Cover"
+                @click="player?.goToPlaylistSource()"
             />
 
             <!-- Cover placeholder -->
             <div
                 v-if="player?.track?.id && !cover"
-                class="flex aspect-square h-full items-center justify-center rounded-md shadow-md bg-black/[0.04]"
+                class="flex aspect-square h-full items-center justify-center rounded-md bg-black/[0.04] shadow-md"
             >
                 <SvgIcon class="h-6 w-6 text-gray-300" name="music-note"></SvgIcon>
             </div>
 
-            <div class="flex flex-col justify-center max-w-full leading-tight">
+            <div class="flex max-w-full flex-col justify-center leading-tight">
                 <!-- Track name -->
                 <div v-if="player?.track?.id" class="line-clamp-1 font-semibold text-black dark:text-white">
                     {{ trackName }}
@@ -124,13 +124,13 @@
                         name="volume"
                     ></SvgIcon>
                 </ButtonIcon>
-                <div class="w-20 flex items-center">
+                <div class="flex w-20 items-center">
                     <input
+                        v-model.number="player!.volume"
                         type="range"
                         :min="0"
                         :max="1"
                         :step="0.01"
-                        v-model.number="player!.volume"
                         class="range-slider w-full"
                     />
                 </div>

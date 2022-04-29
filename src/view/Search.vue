@@ -4,7 +4,7 @@
     <div>
         <div
             v-for="track in tracks"
-            class="group btn-hover-animation flex w-full rounded-lg p-2 pr-4 after:scale-[.98] after:rounded-lg after:bg-green-400"
+            class="btn-hover-animation group flex w-full rounded-lg p-2 pr-4 after:scale-[.98] after:rounded-lg after:bg-green-400"
         >
             <img
                 class="mr-4 box-content h-12 w-12 rounded-md border border-black border-opacity-[.03]"
@@ -29,7 +29,7 @@
     <div>
         <div
             v-for="album in albums"
-            class="group btn-hover-animation flex w-full rounded-lg p-2 pr-4 after:rounded-lg after:bg-green-400"
+            class="btn-hover-animation group flex w-full rounded-lg p-2 pr-4 after:rounded-lg after:bg-green-400"
             @click="
                 router.push({
                     name: 'album',
@@ -64,7 +64,7 @@
     <div>
         <div
             v-for="artist in artists"
-            class="group btn-hover-animation flex w-full rounded-lg p-2 pr-4 after:rounded-lg after:bg-green-400"
+            class="btn-hover-animation group flex w-full rounded-lg p-2 pr-4 after:rounded-lg after:bg-green-400"
             @click="
                 router.push({
                     name: 'artist',
@@ -93,7 +93,7 @@
     <div>
         <div
             v-for="playlist in playlists"
-            class="group btn-hover-animation flex w-full rounded-lg p-2 pr-4 after:rounded-lg after:bg-green-400"
+            class="btn-hover-animation group flex w-full rounded-lg p-2 pr-4 after:rounded-lg after:bg-green-400"
             @click="
                 router.push({
                     name: 'playlist',

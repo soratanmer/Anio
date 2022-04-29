@@ -40,10 +40,7 @@ export interface FetchPlaylistResponse {
     urls: null
 }
 
-export function fetchPlaylist(
-    params: FetchPlaylistParams,
-    noCache: boolean = false,
-): UseFetchReturn<FetchPlaylistResponse> {
+export function fetchPlaylist(params: FetchPlaylistParams, noCache = false): UseFetchReturn<FetchPlaylistResponse> {
     const otherParams: { timestamp?: number } = {}
     if (noCache) {
         otherParams.timestamp = new Date().getTime()

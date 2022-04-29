@@ -27,7 +27,7 @@ export interface FetchArtistResponse {
     hotSongs: Track[]
 }
 
-export function fetchArtist(params: FetchArtistParams, noCache: boolean = false): UseFetchReturn<FetchArtistResponse> {
+export function fetchArtist(params: FetchArtistParams, noCache = false): UseFetchReturn<FetchArtistResponse> {
     const otherParams: { timestamp?: number } = {}
     if (noCache) {
         otherParams.timestamp = new Date().getTime()
