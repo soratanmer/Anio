@@ -1,23 +1,12 @@
 <?xml version="1.0" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [
-
-<!ENTITY nbsp " ">]>
-<svg data-noselect="" viewBox="0 0 300 300" width="300" ref="svg_canvas" height="300" preserveAspectRatio="none" version="1.1"
-    xmlns="http://www.w3.org/2000/svg">
-    <def></def>
-    <g id="shape_OYqKI1CcvR" ref="shape_OYqKI1CcvR" key="shape_OYqKI1CcvR" transform="translate(40,70) rotate(0,108.60119641077,82.820180536822) scale(1,1)" style="cursor:move;display:inline;opacity:1;" filter="">
-        <g style="display:inline">
-            <rect fill="rgba(0,0,0,0)" width="237.20239282154" height="185.64036107364" x="-10" y="-10"></rect>
-            <svg version="1.1" id="图层_1"
-                xmlns="http://www.w3.org/2000/svg"
-                xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="217.20239282154" height="165.64036107364" viewBox="2.5 23.899999618530273 196.29998779296875 149.70001220703125" xml:space="preserve" class="style-removed" preserveAspectRatio="none" data-parent="shape_OYqKI1CcvR">
-                <path d="M2.5,173.5l15.7-55.8c1.9-6.7,8-11.3,14.9-11.3h77.7L95,162.3c-1.9,6.7-8,11.3-14.9,11.3H2.5z" fill="#0348FE" stroke-width="0"></path>
-                <path d="M50.3,50.5l6.2-22.1c0.7-2.6,3.2-4.5,5.9-4.5h30.7l-6.2,22.1c-0.7,2.6-3.2,4.5-5.9,4.5H50.3z" fill="#027DFF" stroke-width="0"></path>
-                <path d="M46.5,132.3l15.7-55.8c1.9-6.7,8-11.3,14.9-11.3h77.7L139.1,121c-1.9,6.7-8,11.3-14.9,11.3H46.5z" fill="#027DFF" stroke-width="0"></path>
-                <path d="M77.1,65.3c-6.9,0-13,4.6-14.9,11.3L90.5,91c0,0,7.3-25.8,7.3-25.8H77.1z" fill="#0507D9" stroke-width="0"></path>
-                <path d="M33.1,106.5c-6.9,0-13,4.6-14.9,11.3l28.3,14.5c0,0,7.3-25.8,7.3-25.8H33.1z" fill="#0507D9" stroke-width="0"></path>
-                <path d="M90.5,91l15.7-55.8c1.9-6.7,8-11.3,14.9-11.3h77.7l-15.7,55.8c-1.9,6.7-8,11.3-14.9,11.3H90.5z" fill="#0348FE" stroke-width="0"></path>
-            </svg>
-        </g>
-    </g>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [<!ENTITY nbsp " ">]>
+<svg version="1.1" id="图层_1"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="217.20239282154" height="165.64036107364" viewBox="2.5 23.899999618530273 196.29998779296875 149.70001220703125" xml:space="preserve" class="style-removed" preserveAspectRatio="none" data-parent="shape_OYqKI1CcvR">
+    <path d="M2.5,173.5l15.7-55.8c1.9-6.7,8-11.3,14.9-11.3h77.7L95,162.3c-1.9,6.7-8,11.3-14.9,11.3H2.5z" fill="#0348FE" stroke-width="0"></path>
+    <path d="M50.3,50.5l6.2-22.1c0.7-2.6,3.2-4.5,5.9-4.5h30.7l-6.2,22.1c-0.7,2.6-3.2,4.5-5.9,4.5H50.3z" fill="#027DFF" stroke-width="0"></path>
+    <path d="M46.5,132.3l15.7-55.8c1.9-6.7,8-11.3,14.9-11.3h77.7L139.1,121c-1.9,6.7-8,11.3-14.9,11.3H46.5z" fill="#027DFF" stroke-width="0"></path>
+    <path d="M77.1,65.3c-6.9,0-13,4.6-14.9,11.3L90.5,91c0,0,7.3-25.8,7.3-25.8H77.1z" fill="#0507D9" stroke-width="0"></path>
+    <path d="M33.1,106.5c-6.9,0-13,4.6-14.9,11.3l28.3,14.5c0,0,7.3-25.8,7.3-25.8H33.1z" fill="#0507D9" stroke-width="0"></path>
+    <path d="M90.5,91l15.7-55.8c1.9-6.7,8-11.3,14.9-11.3h77.7l-15.7,55.8c-1.9,6.7-8,11.3-14.9,11.3H90.5z" fill="#0348FE" stroke-width="0"></path>
 </svg>
