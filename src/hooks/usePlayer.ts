@@ -434,10 +434,6 @@ export function usePlayerProvider() {
         if (autoplay) {
             play()
         }
-
-        if (!_progressInterval.value) {
-            _setupProgressInterval()
-        }
     }
 
     /**
@@ -446,6 +442,7 @@ export function usePlayerProvider() {
      */
 
     const _setupProgressInterval = () => {
+        _howler.value.seek(progress.value)
         _progressInterval.value = setInterval(() => {
             if (isPlaying.value) {
                 progress.value = _howler.value.seek()
@@ -621,6 +618,7 @@ export function usePlayerProvider() {
         _howler.value.play()
         state.value = PlayerState.PLAYING
         title.value = `${track.value.name} · ${track.value.ar[0].name} - Anio Music`
+        _setupProgressInterval()
     }
 
     /**
@@ -631,6 +629,7 @@ export function usePlayerProvider() {
         _howler.value.pause()
         state.value = PlayerState.PAUSED
         title.value = 'Anio Music'
+        clearInterval(_progressInterval.value)
     }
 
     /**
