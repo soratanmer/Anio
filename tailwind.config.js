@@ -2,7 +2,7 @@ const colors = require('tailwindcss/colors')
 
 module.exports = {
     content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
-    darkMode: 'media',
+    darkMode: 'class',
     theme: {
         extend: {
             colors: {
@@ -22,6 +22,9 @@ module.exports = {
             },
         },
     },
-    plugins: [require("daisyui")],
+    plugins: [require('daisyui')],
     variants: {},
+    daisyui: {
+        themes: ['light','dark'],
+    },
 }

@@ -169,8 +169,8 @@
                                 :class="{
                                     'opacity-95': highlightLyricIndex === index,
                                 }"
-                                >{{ formatLine(line) }}</span
-                            >
+                                v-html="formatLine(line)"
+                            ></span>
                         </div>
                         <div class="mb-[50vh]"></div>
                     </div>

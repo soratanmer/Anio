@@ -3,7 +3,7 @@
         <!-- Container -->
         <div class="w-1/2 text-black dark:text-white">
             <!-- User -->
-            <div v-if="isLoggedIn()" class="my-12 flex items-center justify-between rounded-lg bg-gray-800 py-4 px-5">
+            <div v-if="isLoggedIn()" class="my-12 flex items-center justify-between rounded-lg bg-gray-200 dark:bg-gray-800 py-4 px-5">
                 <!-- Left part -->
                 <div class="flex items-center">
                     <img
@@ -41,6 +41,19 @@
                 </div>
             </div>
 
+            <!-- Dark mode -->
+
+            <div class="my-6 flex items-center justify-between text-black dark:text-white">
+                <!-- Left part -->
+                <div>
+                    <div class="text-lg font-medium">黑暗模式</div>
+                </div>
+                <!-- Right part -->
+                <div>
+                    <input type="checkbox" class="toggle toggle-accent" v-model="isDark">
+                </div>
+            </div>
+
             <!-- Area -->
             <div class="my-6 flex items-center justify-between text-black dark:text-white">
                 <!-- Left part -->
@@ -51,7 +64,7 @@
                 <div>
                     <select
                         v-model="areaType"
-                        class="w-24 appearance-none rounded-lg border-none bg-gray-800 py-2 px-3 font-semibold focus:text-green-500 focus:outline-none"
+                        class="select select-accent w-full max-w-xs"
                     >
                         <option :value="AreaType.ALL">无偏好</option>
                         <option :value="AreaType.ZH">华语</option>
@@ -105,6 +118,12 @@
     const version = computed(() => {
         return pkg.version
     })
+
+    // Dark mode
+
+    const isDark = useDark()
+
+    // Music area type
 
     const areaType = computed<AreaType>({
         get() {
