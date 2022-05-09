@@ -20,7 +20,7 @@ const routes: RouteRecordRaw[] = [
     },
     {
         name: 'explore',
-        path: '/explore',
+        path: '/explore/:category',
         component: () => import('@/view/Explore.vue'),
         meta: {
             keepAlive: true,

@@ -90,9 +90,8 @@
         if (tab.route === '/explore') {
             router.push({
                 name: 'explore',
-                query: {
+                params: {
                     category: '全部',
-                    active: '全部',
                 },
             })
         } else {

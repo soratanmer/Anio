@@ -6,7 +6,7 @@
             v-for="category in staticCategory"
             class="btn-hover-animation mx-1 my-2 flex items-center rounded-lg px-3 py-2 transition-colors duration-200 after:scale-[0.97] after:bg-green-400"
             :class="{
-                'bg-green-500': route.query.category === category.name,
+                'bg-green-500': route.params.category === category.name,
             }"
             @click="updateActiveStatic(category)"
         >
@@ -31,7 +31,7 @@
                     v-if="cat.category === Number(index)"
                     class="btn-hover-animation mx-1 my-2 flex items-center rounded-lg px-3 py-2 transition-colors duration-200 after:scale-[0.97] after:bg-green-400"
                     :class="{
-                        'bg-green-500': route.query.category === cat.name,
+                        'bg-green-500': route.params.category === cat.name,
                     }"
                     @click="updateActiveStatic(cat)"
                     >{{ cat.name }}
@@ -71,7 +71,7 @@
     const updateActiveStatic = (category: Category) => {
         router.push({
             name: 'explore',
-            query: {
+            params: {
                 category: category.name,
             },
         })
@@ -90,7 +90,7 @@
         fetchNextPage: fetchTopPlaylistsNextPage,
     } = useFetchTopPlaylistsInfinite(
         reactive({
-            cat: String(route.query.category),
+            cat: String(route.params.category),
             limit: 90,
         }),
     )
