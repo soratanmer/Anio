@@ -9,20 +9,20 @@
 
         <div class="cols-span flex flex-col justify-around">
             <!-- Name -->
-            <div v-if="!isFetching" class="text-3xl font-bold text-black dark:text-white">
+            <div v-if="!isFetching" class="text-3xl font-bold">
                 {{ artist?.name }}
             </div>
             <Skeleton v-else class="w-3/4 text-3xl">PLACEHOLDER</Skeleton>
 
             <!-- Artist -->
-            <div class="text-lg font-medium text-black dark:text-white"> Artist </div>
-            <div v-if="!isFetching" class="text-sm font-thin text-black dark:text-white">
+            <div class="text-lg font-medium"> Artist </div>
+            <div v-if="!isFetching" class="text-sm font-thin">
                 {{ artist?.musicSize }} Tracks · {{ artist?.albumSize }} Albums · {{ artist?.mvSize }} Music Videos
             </div>
             <Skeleton v-else class="w-3/4 text-sm">PLACEHOLDER</Skeleton>
 
             <!-- Description -->
-            <div v-if="!isFetching" class="line-clamp-1 break-all text-sm text-black dark:text-white">
+            <div v-if="!isFetching" class="line-clamp-1 break-all text-sm">
                 {{ artist?.briefDesc }}
             </div>
             <Skeleton v-else class="">PLACEHOLDER1234567890</Skeleton>
@@ -30,13 +30,10 @@
             <!-- Buttons -->
             <div class="flex gap-4">
                 <ButtonIcon @click="play">
-                    <SvgIcon class="h-5 w-5 text-black dark:text-white" name="play"></SvgIcon>
+                    <SvgIcon class="h-5 w-5" name="play"></SvgIcon>
                 </ButtonIcon>
                 <ButtonIcon @click="subscribe">
-                    <SvgIcon
-                        class="h-5 w-5 text-black dark:text-white"
-                        :name="isSub ? 'heart' : 'heart-outline'"
-                    ></SvgIcon>
+                    <SvgIcon class="h-5 w-5" :name="isSub ? 'heart' : 'heart-outline'"></SvgIcon>
                 </ButtonIcon>
             </div>
         </div>

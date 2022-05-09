@@ -1,9 +1,12 @@
 <template>
     <div class="mt-10 flex justify-center">
         <!-- Container -->
-        <div class="w-1/2 text-black dark:text-white">
+        <div class="w-1/2">
             <!-- User -->
-            <div v-if="isLoggedIn()" class="my-12 flex items-center justify-between rounded-lg bg-gray-200 dark:bg-gray-800 py-4 px-5">
+            <div
+                v-if="isLoggedIn()"
+                class="my-12 flex items-center justify-between rounded-lg bg-gray-200 py-4 px-5 dark:bg-gray-800"
+            >
                 <!-- Left part -->
                 <div class="flex items-center">
                     <img
@@ -36,36 +39,33 @@
                 <!-- Right part -->
                 <div class="flex">
                     <ButtonIcon @click="logouts">
-                        <SvgIcon class="h-5 w-5 text-black dark:text-white" name="logout"></SvgIcon>
+                        <SvgIcon class="h-5 w-5" name="logout"></SvgIcon>
                     </ButtonIcon>
                 </div>
             </div>
 
             <!-- Dark mode -->
 
-            <div class="my-6 flex items-center justify-between text-black dark:text-white">
+            <div class="my-6 flex items-center justify-between">
                 <!-- Left part -->
                 <div>
                     <div class="text-lg font-medium">黑暗模式</div>
                 </div>
                 <!-- Right part -->
                 <div>
-                    <input type="checkbox" class="toggle toggle-accent" v-model="isDark">
+                    <input v-model="isDark" type="checkbox" class="toggle toggle-accent" />
                 </div>
             </div>
 
             <!-- Area -->
-            <div class="my-6 flex items-center justify-between text-black dark:text-white">
+            <div class="my-6 flex items-center justify-between">
                 <!-- Left part -->
                 <div>
                     <div class="text-lg font-medium">语种偏好</div>
                 </div>
                 <!-- Right part -->
                 <div>
-                    <select
-                        v-model="areaType"
-                        class="select select-accent w-full max-w-xs"
-                    >
+                    <select v-model="areaType" class="select select-accent w-full max-w-xs">
                         <option :value="AreaType.ALL">无偏好</option>
                         <option :value="AreaType.ZH">华语</option>
                         <option :value="AreaType.JP">日语</option>

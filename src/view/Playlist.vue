@@ -9,28 +9,25 @@
         <!-- Playlist Info -->
         <div class="cols-span flex flex-col justify-around">
             <!-- Playlist name -->
-            <div
-                v-if="!isFetchingPlaylist"
-                class="line-clamp-1 break-all text-4xl font-bold text-black dark:text-white"
-            >
+            <div v-if="!isFetchingPlaylist" class="line-clamp-1 break-all text-4xl font-bold">
                 {{ playlist?.name }}
             </div>
             <Skeleton v-else class="w-3/4 text-4xl">PLACEHOLDER</Skeleton>
 
             <!-- playlist Creator -->
-            <div v-if="!isFetchingPlaylist" class="text-lg font-medium text-black dark:text-white">
+            <div v-if="!isFetchingPlaylist" class="text-lg font-medium">
                 Playlist by <span>{{ playlist?.creator.nickname }}</span>
             </div>
             <Skeleton v-else class="w-64 text-lg">PLACEHOLDER</Skeleton>
 
             <!-- Playlist last update time & track count -->
-            <div v-if="!isFetchingPlaylist" class="text-sm font-thin text-black dark:text-white">
+            <div v-if="!isFetchingPlaylist" class="text-sm font-thin">
                 Update at {{ formatDate(playlist?.updateTime || 0, 'zh-CN') }} · {{ playlist?.trackCount }} Songs
             </div>
             <Skeleton v-else class="w-72 translate-x-px text-sm">PLACEHOLDER</Skeleton>
 
             <!-- Playlist description -->
-            <div v-if="!isFetchingPlaylist" class="line-clamp-1 min-h-10 break-all text-sm text-black dark:text-white">
+            <div v-if="!isFetchingPlaylist" class="line-clamp-1 min-h-10 break-all text-sm">
                 {{ playlist?.description }}
             </div>
             <Skeleton v-else class="min-h-10 w-1/2 text-sm">PLACEHOLDER</Skeleton>
@@ -38,13 +35,10 @@
             <!-- Buttons -->
             <div class="flex gap-4">
                 <ButtonIcon @click="play">
-                    <SvgIcon class="h-5 w-5 text-black dark:text-white" name="play"></SvgIcon>
+                    <SvgIcon class="h-5 w-5" name="play"></SvgIcon>
                 </ButtonIcon>
                 <ButtonIcon :disabled="!isMyPlaylist" @click="subscribe">
-                    <SvgIcon
-                        class="h-5 w-5 text-black dark:text-white"
-                        :name="isSub ? 'heart' : 'heart-outline'"
-                    ></SvgIcon>
+                    <SvgIcon class="h-5 w-5" :name="isSub ? 'heart' : 'heart-outline'"></SvgIcon>
                 </ButtonIcon>
             </div>
         </div>

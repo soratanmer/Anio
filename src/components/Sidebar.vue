@@ -1,5 +1,5 @@
 <template>
-    <div id="sidebar" class="grid h-screen max-w-sm text-sm  bg-slate-200 dark:bg-gray-900">
+    <div id="sidebar" class="grid h-screen max-w-sm bg-slate-200 text-sm dark:bg-gray-900">
         <!-- Primary tabs -->
         <div>
             <div class="app-region-drag h-14"></div>

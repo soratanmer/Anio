@@ -1,10 +1,10 @@
 <template>
     <!-- Header buttons -->
-    <div class="mb-2 mt-10 py-2 px-4 text-3xl font-semibold text-black dark:text-white">发现</div>
+    <div class="mb-2 mt-10 py-2 px-4 text-3xl font-semibold">发现</div>
     <div class="flex flex-wrap">
         <div
             v-for="category in staticCategory"
-            class="mt-1 mr-4 mb-1.5 flex content-center items-center rounded-lg py-2 px-4 text-black dark:text-white"
+            class="mt-1 mr-4 mb-1.5 flex content-center items-center rounded-lg py-2 px-4"
             :class="{
                 'bg-gray-500': route.query.active !== category.name,
                 'bg-green-500': route.query.active === category.name,
@@ -17,20 +17,20 @@
             class="mt-1 mr-4 mb-1.5 flex content-center items-center rounded-lg bg-gray-500 py-2 px-4"
             @click="showPanel = !showPanel"
         >
-            <SvgIcon class="h-4 w-4 text-black dark:text-white" name="more"></SvgIcon>
+            <SvgIcon class="h-4 w-4" name="more"></SvgIcon>
         </div>
     </div>
 
     <!-- panel -->
     <div v-for="(bigCat, index) in playlistCategory?.categories" v-show="showPanel" class="mt-1">
         <!-- name -->
-        <div class="py-2 px-4 text-2xl font-semibold text-black dark:text-white"> {{ bigCat }}</div>
+        <div class="py-2 px-4 text-2xl font-semibold"> {{ bigCat }}</div>
         <!-- cats -->
         <div class="flex flex-wrap">
             <div v-for="cat in playlistCategory?.sub">
                 <div
                     v-if="cat.category === Number(index)"
-                    class="mt-1 mr-4 mb-1.5 flex content-center items-center rounded-lg py-2 px-4 text-black dark:text-white"
+                    class="mt-1 mr-4 mb-1.5 flex content-center items-center rounded-lg py-2 px-4"
                     :class="{
                         'bg-gray-500': route.query.active !== cat.name,
                         'bg-green-500': route.query.active === cat.name,

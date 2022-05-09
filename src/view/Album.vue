@@ -9,13 +9,13 @@
         <!-- Album info -->
         <div class="cols-span flex flex-col justify-around">
             <!-- Name -->
-            <div v-if="!isFetchingAlbum" class="line-clamp-1 break-all text-3xl font-bold text-black dark:text-white">
+            <div v-if="!isFetchingAlbum" class="line-clamp-1 break-all text-3xl font-bold">
                 {{ album?.name }}
             </div>
             <Skeleton v-else class="w-3/4 text-3xl">PLACEHOLDER</Skeleton>
 
             <!-- Artist -->
-            <div v-if="!isFetchingAlbum" class="text-sm font-medium text-black dark:text-white">
+            <div v-if="!isFetchingAlbum" class="text-sm font-medium">
                 <span
                     class="font-semibold decoration-2 hover:underline"
                     @click="
@@ -33,14 +33,14 @@
             <Skeleton v-else class="w-64 text-sm">PLACEHOLDER</Skeleton>
 
             <!-- Last update time & time count -->
-            <div v-if="!isFetchingAlbum" class="text-sm font-thin text-black dark:text-white">
+            <div v-if="!isFetchingAlbum" class="text-sm font-thin">
                 {{ dayjs(album?.publishTime || 0).year() }} · {{ album?.size }} Songs,
                 {{ albumDuration }}
             </div>
             <Skeleton v-else class="w-72 translate-y-px text-sm">PLACEHOLDER</Skeleton>
 
             <!-- Description -->
-            <div v-if="!isFetchingAlbum" class="line-clamp-1 break-all text-sm text-black dark:text-white">
+            <div v-if="!isFetchingAlbum" class="line-clamp-1 break-all text-sm">
                 {{ album?.description }}
             </div>
             <Skeleton v-else class="">PLACEHOLDER</Skeleton>
@@ -48,13 +48,10 @@
             <!-- Button -->
             <div class="flex gap-4">
                 <ButtonIcon @click="play">
-                    <SvgIcon class="h-5 w-5 text-black dark:text-white" name="play"></SvgIcon>
+                    <SvgIcon class="h-5 w-5" name="play"></SvgIcon>
                 </ButtonIcon>
                 <ButtonIcon @click="subscribe">
-                    <SvgIcon
-                        class="h-5 w-5 text-black dark:text-white"
-                        :name="isSub ? 'heart' : 'heart-outline'"
-                    ></SvgIcon>
+                    <SvgIcon class="h-5 w-5" :name="isSub ? 'heart' : 'heart-outline'"></SvgIcon>
                 </ButtonIcon>
             </div>
         </div>
@@ -70,7 +67,7 @@
     ></TrackList>
 
     <!-- Release date and company -->
-    <div class="mt-5 text-xs text-black dark:text-white">
+    <div class="mt-5 text-xs">
         <div> Realease {{ formatDate(album?.publishTime || 0, 'zh-CN') }}</div>
         <div v-if="album?.company" class="mt-[2px]">
             {{ album.company }}

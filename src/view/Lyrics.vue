@@ -32,7 +32,7 @@
                     </div>
 
                     <!-- Controls -->
-                    <div class="mt-6 w-[50vh] text-black dark:text-white">
+                    <div class="mt-6 w-[50vh]">
                         <!-- Top part -->
                         <div class="flex items-center justify-between">
                             <!-- Track info -->
@@ -55,10 +55,7 @@
                             </div>
                             <!-- Liked -->
                             <ButtonIcon class="ml-1 flex items-center" @click="player?.likeTrack()">
-                                <SvgIcon
-                                    class="h-4 w-4 text-black dark:text-white"
-                                    :name="player?.isLiked ? 'heart' : 'heart-outline'"
-                                ></SvgIcon>
+                                <SvgIcon class="h-4 w-4" :name="player?.isLiked ? 'heart' : 'heart-outline'"></SvgIcon>
                             </ButtonIcon>
                         </div>
 
@@ -85,7 +82,7 @@
                                     v-show="
                                         player?.repeatMode === RepeatMode.ON || player?.repeatMode === RepeatMode.OFF
                                     "
-                                    class="h-4 w-4 text-black dark:text-white"
+                                    class="h-4 w-4"
                                     :class="{
                                         'opacity-30': player?.isPersonalFM || player?.repeatMode === RepeatMode.OFF,
                                     }"
@@ -93,7 +90,7 @@
                                 ></SvgIcon>
                                 <SvgIcon
                                     v-show="player?.repeatMode === RepeatMode.ONE"
-                                    class="h-4 w-4 text-black dark:text-white"
+                                    class="h-4 w-4"
                                     name="repeat-1"
                                 ></SvgIcon>
                             </ButtonIcon>
@@ -106,7 +103,7 @@
                                     class="mx-2"
                                     :disabled="!player?.track?.id"
                                     @click="player?.previousTrack()"
-                                    ><SvgIcon class="h-4 w-4 text-black dark:text-white" name="previous"></SvgIcon
+                                    ><SvgIcon class="h-4 w-4" name="previous"></SvgIcon
                                 ></ButtonIcon>
 
                                 <!-- Dislike -->
@@ -116,27 +113,24 @@
                                     :disabled="!player?.track?.id"
                                     @click="player?.moveToFMTrash()"
                                 >
-                                    <SvgIcon class="h-4 w-4 text-black dark:text-white" name="dislike"></SvgIcon>
+                                    <SvgIcon class="h-4 w-4" name="dislike"></SvgIcon>
                                 </ButtonIcon>
 
                                 <!-- Play / Pause -->
                                 <ButtonIcon class="mx-2" :disabled="!player?.track?.id" @click="player?.playOrPause()">
-                                    <SvgIcon
-                                        class="h-7 w-7 text-black dark:text-white"
-                                        :name="player?.isPlaying ? 'pause' : 'play'"
-                                    ></SvgIcon>
+                                    <SvgIcon class="h-7 w-7" :name="player?.isPlaying ? 'pause' : 'play'"></SvgIcon>
                                 </ButtonIcon>
 
                                 <!-- Next -->
                                 <ButtonIcon class="mx-2" :disabled="!player?.track?.id" @click="player?.nextTrack()">
-                                    <SvgIcon class="h-4 w-4 text-black dark:text-white" name="next"></SvgIcon>
+                                    <SvgIcon class="h-4 w-4" name="next"></SvgIcon>
                                 </ButtonIcon>
                             </div>
 
                             <!-- Shuffle -->
                             <ButtonIcon :disabled="player?.isPersonalFM" @click="player?.switchShuffle()">
                                 <SvgIcon
-                                    class="h-4 w-4 text-black dark:text-white"
+                                    class="h-4 w-4"
                                     :class="{
                                         'opacity-30': player?.isPersonalFM || !player?.isShuffle,
                                     }"
@@ -180,7 +174,7 @@
             <!-- Close button -->
             <div class="fixed top-6 right-6 z-50" @click="toggleLyrics">
                 <ButtonIcon>
-                    <SvgIcon class="h-4 w-4 text-black dark:text-white" name="arrow-down"></SvgIcon>
+                    <SvgIcon class="h-4 w-4" name="arrow-down"></SvgIcon>
                 </ButtonIcon>
             </div>
         </div>

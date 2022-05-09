@@ -10,18 +10,18 @@
         <div class="col-span-6 flex pr-8">
             <div class="flex items-center">
                 <!-- Track number -->
-                <div v-if="isAlbum" class="mr-5 self-center text-black dark:text-white">
+                <div v-if="isAlbum" class="mr-5 self-center">
                     {{ track.no }}
                 </div>
             </div>
             <!-- Track name & Artists -->
             <div class="flex max-w-full flex-col justify-center">
-                <div v-if="!isSkeleton" class="line-clamp-1 break-all text-lg font-semibold text-black dark:text-white">
+                <div v-if="!isSkeleton" class="line-clamp-1 break-all text-lg font-semibold">
                     {{ track.name }}
                     <span v-if="isTranslate" class="ml-1 opacity-50">( {{ translate }} )</span>
                 </div>
                 <Skeleton v-else class="text-lg">PLACEHOLDER12345</Skeleton>
-                <div v-if="!isAlbum" class="text-sm text-black dark:text-white">
+                <div v-if="!isAlbum" class="text-sm">
                     <ArtistInline v-if="!isSkeleton" :artists="artists"></ArtistInline>
                     <Skeleton v-else class="w-2/3 translate-y-px">PLACE</Skeleton>
                 </div>
@@ -29,7 +29,7 @@
         </div>
 
         <!-- Album name (playlist page only) -->
-        <div v-if="isList && !isSkeleton" class="col-span-4 flex items-center text-black dark:text-white">
+        <div v-if="isList && !isSkeleton" class="col-span-4 flex items-center">
             <span
                 class="decoration-2 hover:underline"
                 :class="{
@@ -45,7 +45,7 @@
         </div>
 
         <!-- Artists (album page only) -->
-        <div v-if="isAlbum" class="col-span-4 text-black dark:text-white">
+        <div v-if="isAlbum" class="col-span-4">
             <ArtistInline v-if="!isSkeleton" :artists="artists" />
             <Skeleton v-else class="w-2/3 translate-y-px">PLACE</Skeleton>
         </div>
@@ -60,13 +60,11 @@
                     'group-hover:opacity-100': !isSkeleton,
                 }"
                 @click="likeTrack"
-                ><SvgIcon :name="isLiked ? 'heart' : 'heart-outline'" class="h-4 w-4 text-black dark:text-white"
+                ><SvgIcon :name="isLiked ? 'heart' : 'heart-outline'" class="h-4 w-4"
             /></button>
 
             <!-- Track duration -->
-            <div v-if="!isSkeleton" class="text-black dark:text-white">{{
-                formatDuration(trackDuration, 'zh-CN', 'hh:mm:ss')
-            }}</div>
+            <div v-if="!isSkeleton" class="">{{ formatDuration(trackDuration, 'zh-CN', 'hh:mm:ss') }}</div>
             <Skeleton v-else>0:00</Skeleton>
         </div>
     </div>

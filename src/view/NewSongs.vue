@@ -23,11 +23,11 @@
 
             <!-- DailyTracks Info -->
             <div class="z-10">
-                <div v-if="!isFetchingNewSongs" class="text-4xl font-bold text-black dark:text-white"> 新歌速递 </div>
+                <div v-if="!isFetchingNewSongs" class="text-4xl font-bold"> 新歌速递 </div>
                 <Skeleton v-else class="w-3/4 text-4xl">PLACEHOLDER</Skeleton>
 
                 <!-- DailyTracks description -->
-                <div v-if="!isFetchingNewSongs" class="line-clamp-2 min-h-10 mt-5 text-sm text-black dark:text-white">
+                <div v-if="!isFetchingNewSongs" class="line-clamp-2 min-h-10 mt-5 text-sm">
                     开启最强新歌雷达，为你带来专属新歌能量！
                 </div>
                 <Skeleton v-else class="min-h-10 mt-5 w-1/2 text-sm">PLACEHOLDER</Skeleton>
@@ -35,7 +35,7 @@
                 <!-- Buttons -->
                 <div class="mt-5 flex gap-4">
                     <ButtonIcon @click="play">
-                        <SvgIcon class="h-5 w-5 text-black dark:text-white" name="play"></SvgIcon>
+                        <SvgIcon class="h-5 w-5" name="play"></SvgIcon>
                     </ButtonIcon>
                 </div>
             </div>

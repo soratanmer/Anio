@@ -8,7 +8,7 @@
             <!-- Navigation buttons -->
             <div class="flex gap-1">
                 <ButtonIcon v-for="action in ['back', 'forward']" @click="router[action]()">
-                    <SvgIcon class="h-5 w-5 text-black dark:text-white" :name="action"></SvgIcon>
+                    <SvgIcon class="h-5 w-5" :name="action"></SvgIcon>
                 </ButtonIcon>
             </div>
 
@@ -22,7 +22,7 @@
                 ></SvgIcon>
                 <input
                     v-model="uiStore.searchKeywords"
-                    class="w-full bg-transparent text-black dark:text-white"
+                    class="w-full bg-transparent"
                     type="text"
                     placeholder="Search"
                     @keydown.enter="doSearch"
@@ -39,7 +39,7 @@
                     })
                 "
             >
-                <SvgIcon class="h-5 w-5 text-black dark:text-white" name="settings"></SvgIcon>
+                <SvgIcon class="h-5 w-5" name="settings"></SvgIcon>
             </ButtonIcon>
             <img
                 class="app-region-no-drag h-9 w-9 rounded-lg bg-gray-500"
