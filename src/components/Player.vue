@@ -35,22 +35,19 @@
 
             <div class="flex max-w-full flex-col justify-center leading-tight">
                 <!-- Track name -->
-                <div v-if="player?.track?.id" class="line-clamp-1 font-semibold text-black dark:text-white">
+                <div v-if="player?.track?.id" class="line-clamp-1 font-semibold">
                     {{ trackName }}
                     <span v-if="player.isTranslate" class="ml-1 opacity-50"> ( {{ player.translate }} )</span>
                 </div>
 
                 <!-- Artists -->
-                <div v-if="player?.track?.id" class="mt-0.5 text-xs text-black dark:text-white">
+                <div v-if="player?.track?.id" class="mt-0.5 text-xs">
                     <ArtistInline :artists="player?.track.ar ?? player?.track?.artists ?? []"></ArtistInline>
                 </div>
             </div>
 
             <ButtonIcon v-show="player?.track?.id" @click="player?.likeTrack()">
-                <SvgIcon
-                    class="h-4 w-4 text-black dark:text-white"
-                    :name="player?.isLiked ? 'heart' : 'heart-outline'"
-                ></SvgIcon>
+                <SvgIcon class="h-4 w-4" :name="player?.isLiked ? 'heart' : 'heart-outline'"></SvgIcon>
             </ButtonIcon>
         </div>
 
@@ -58,25 +55,22 @@
         <div class="flex items-center justify-center gap-2">
             <!-- Previous -->
             <ButtonIcon v-if="!player?.isPersonalFM" :disabled="!player?.track?.id" @click="player?.previousTrack()"
-                ><SvgIcon class="h-4 w-4 text-black dark:text-white" name="previous"></SvgIcon
+                ><SvgIcon class="h-4 w-4" name="previous"></SvgIcon
             ></ButtonIcon>
 
             <!-- Dislike -->
             <ButtonIcon v-if="player?.isPersonalFM" :disabled="!player?.track?.id" @click="player?.moveToFMTrash()">
-                <SvgIcon class="h-4 w-4 text-black dark:text-white" name="dislike"></SvgIcon>
+                <SvgIcon class="h-4 w-4" name="dislike"></SvgIcon>
             </ButtonIcon>
 
             <!-- Play / Pause -->
             <ButtonIcon :disabled="!player?.track?.id" @click="player?.playOrPause()">
-                <SvgIcon
-                    class="h-5 w-5 text-black dark:text-white"
-                    :name="player?.isPlaying ? 'pause' : 'play'"
-                ></SvgIcon>
+                <SvgIcon class="h-5 w-5" :name="player?.isPlaying ? 'pause' : 'play'"></SvgIcon>
             </ButtonIcon>
 
             <!-- Next -->
             <ButtonIcon :disabled="!player?.track?.id" @click="player?.nextTrack()">
-                <SvgIcon class="h-4 w-4 text-black dark:text-white" name="next"></SvgIcon>
+                <SvgIcon class="h-4 w-4" name="next"></SvgIcon>
             </ButtonIcon>
         </div>
 
@@ -85,21 +79,17 @@
             <ButtonIcon :disabled="player?.isPersonalFM" @click="player?.switchRepeatMode()">
                 <SvgIcon
                     v-show="player?.repeatMode === RepeatMode.ON || player?.repeatMode === RepeatMode.OFF"
-                    class="h-4 w-4 text-black dark:text-white"
+                    class="h-4 w-4"
                     :class="{
                         'opacity-30': player?.isPersonalFM || player?.repeatMode === RepeatMode.OFF,
                     }"
                     name="repeat"
                 ></SvgIcon>
-                <SvgIcon
-                    v-show="player?.repeatMode === RepeatMode.ONE"
-                    class="h-4 w-4 text-black dark:text-white"
-                    name="repeat-1"
-                ></SvgIcon>
+                <SvgIcon v-show="player?.repeatMode === RepeatMode.ONE" class="h-4 w-4" name="repeat-1"></SvgIcon>
             </ButtonIcon>
             <ButtonIcon :disabled="player?.isPersonalFM" @click="player?.switchShuffle()">
                 <SvgIcon
-                    class="h-4 w-4 text-black dark:text-white"
+                    class="h-4 w-4"
                     :class="{
                         'opacity-30': player?.isPersonalFM || !player?.isShuffle,
                     }"
@@ -108,21 +98,13 @@
             </ButtonIcon>
             <div class="ml-1 flex items-center">
                 <ButtonIcon @click="player?.mute()">
-                    <SvgIcon
-                        v-show="player?.volume === 0"
-                        class="h-4 w-4 text-black dark:text-white"
-                        name="volume-mute"
-                    ></SvgIcon>
+                    <SvgIcon v-show="player?.volume === 0" class="h-4 w-4" name="volume-mute"></SvgIcon>
                     <SvgIcon
                         v-show="player!.volume <= 0.5 && player?.volume !== 0"
-                        class="h-4 w-4 text-black dark:text-white"
+                        class="h-4 w-4"
                         name="volume-half"
                     ></SvgIcon>
-                    <SvgIcon
-                        v-show="player!.volume > 0.5"
-                        class="h-4 w-4 text-black dark:text-white"
-                        name="volume"
-                    ></SvgIcon>
+                    <SvgIcon v-show="player!.volume > 0.5" class="h-4 w-4" name="volume"></SvgIcon>
                 </ButtonIcon>
                 <div class="flex w-20 items-center">
                     <input
@@ -136,7 +118,7 @@
                 </div>
             </div>
             <ButtonIcon @click="toggleLyrics">
-                <SvgIcon class="h-4 w-4 text-black dark:text-white" name="arrow-up"></SvgIcon>
+                <SvgIcon class="h-4 w-4" name="arrow-up"></SvgIcon>
             </ButtonIcon>
         </div>
     </div>

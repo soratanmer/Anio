@@ -9,12 +9,12 @@
         <!-- User info -->
         <div class="cols-span flex flex-col justify-around">
             <!-- User name -->
-            <div class="text-3xl font-bold text-black dark:text-white">
+            <div class="text-3xl font-bold">
                 {{ userAccount?.profile?.nickname }}
             </div>
 
             <!-- User ID -->
-            <div class="text-sm font-thin text-black dark:text-white">
+            <div class="text-sm font-thin">
                 ID:
                 <span class="font-semibold decoration-2">
                     {{ userAccount?.profile?.userId }}
@@ -22,12 +22,12 @@
             </div>
 
             <!-- Create time -->
-            <div class="text-sm font-thin text-black dark:text-white">
+            <div class="text-sm font-thin">
                 注册时间: {{ formatDate(Number(userAccount?.profile?.createTime), 'zh-CN') }}
             </div>
 
             <!-- Signature -->
-            <div class="text-sm font-thin text-black dark:text-white">
+            <div class="text-sm font-thin">
                 {{ userAccount?.profile?.signature }}
             </div>
         </div>

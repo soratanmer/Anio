@@ -23,16 +23,11 @@
 
             <!-- DailyTracks Info -->
             <div class="z-10">
-                <div v-if="!isFetchingRecommendTracks" class="text-4xl font-bold text-black dark:text-white">
-                    每日歌曲推荐
-                </div>
+                <div v-if="!isFetchingRecommendTracks" class="text-4xl font-bold"> 每日歌曲推荐 </div>
                 <Skeleton v-else class="w-3/4 text-4xl">PLACEHOLDER</Skeleton>
 
                 <!-- DailyTracks description -->
-                <div
-                    v-if="!isFetchingRecommendTracks"
-                    class="line-clamp-2 min-h-10 mt-5 text-sm text-black dark:text-white"
-                >
+                <div v-if="!isFetchingRecommendTracks" class="line-clamp-2 min-h-10 mt-5 text-sm">
                     根据你的音乐口味生成，每天 6:00 更新
                 </div>
                 <Skeleton v-else class="min-h-10 mt-5 w-1/2 text-sm">PLACEHOLDER</Skeleton>
@@ -40,7 +35,7 @@
                 <!-- Buttons -->
                 <div class="mt-5 flex gap-4">
                     <ButtonIcon @click="play">
-                        <SvgIcon class="h-5 w-5 text-black dark:text-white" name="play"></SvgIcon>
+                        <SvgIcon class="h-5 w-5" name="play"></SvgIcon>
                     </ButtonIcon>
                 </div>
             </div>

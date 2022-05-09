@@ -20,7 +20,7 @@ const routes: RouteRecordRaw[] = [
     },
     {
         name: 'explore',
-        path: '/explore',
+        path: '/explore/:category',
         component: () => import('@/view/Explore.vue'),
         meta: {
             keepAlive: true,
@@ -87,6 +87,21 @@ const routes: RouteRecordRaw[] = [
         name: 'newAlbums',
         path: '/newAlbums',
         component: () => import('@/view/NewAlbum.vue'),
+    },
+    {
+        name: 'toplists',
+        path: '/toplists',
+        component: () => import('@/view/Toplists.vue'),
+    },
+    {
+        name: 'recommendedPlaylists',
+        path: '/recommendedPlaylists',
+        component: () => import('@/view/RecommendedPlaylists.vue'),
+    },
+    {
+        name: 'hightQualityPlaylists',
+        path: '/hightQualityPlaylists',
+        component: () => import('@/view/HightQualityPlaylists.vue'),
     },
     {
         name: 'settings',

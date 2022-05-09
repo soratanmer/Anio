@@ -21,32 +21,22 @@
             <img class="absolute top-0 left-0 w-full opacity-80 blur" :src="albumUrl" alt="cover" />
 
             <div class="z-10">
-                <div class="text-xl font-semibold">{{ trackName }}</div>
+                <div class="text-xl font-medium">{{ trackName }}</div>
 
                 <ArtistInline :artists="artists"></ArtistInline>
             </div>
             <div class="flex items-center justify-between">
                 <!-- buttons -->
-                <div>
-                    <button
-                        class="btn-pressed-animation btn-hover-animation mr-1 cursor-default rounded-lg p-2 transition duration-200 after:bg-white/10"
-                        @click="player?.moveToFMTrash()"
-                        ><SvgIcon name="dislike" class="h-5 w-5"
-                    /></button>
-                    <button
-                        class="btn-pressed-animation btn-hover-animation mr-1 cursor-default rounded-lg p-2 transition duration-200 after:bg-white/10"
-                        @click="play"
+                <div class="flex items-center justify-center gap-2">
+                    <ButtonIcon @click="player?.moveToFMTrash()"><SvgIcon name="dislike" class="h-5 w-5" /></ButtonIcon>
+                    <ButtonIcon @click="play"
                         ><SvgIcon :name="player?.isPersonalFM && player?.isPlaying ? 'pause' : 'play'" class="h-5 w-5"
-                    /></button>
-                    <button
-                        class="btn-pressed-animation btn-hover-animation mr-1 cursor-default rounded-lg p-2 transition duration-200 after:bg-white/10"
-                        @click="player?.nextTrack()"
-                        ><SvgIcon name="next" class="h-5 w-5"
-                    /></button>
+                    /></ButtonIcon>
+                    <ButtonIcon @click="player?.nextTrack()"><SvgIcon name="next" class="h-5 w-5" /></ButtonIcon>
                 </div>
 
                 <!-- fm symbol  -->
-                <div class="right-5 bottom-5 flex text-white opacity-60">
+                <div class="right-5 bottom-5 flex opacity-60">
                     <SvgIcon name="fm" class="mr-2 h-5 w-5" />
                     <span class="font-semibold">私人FM</span>
                 </div>

@@ -4,13 +4,13 @@
             <div class="flex flex-col">
                 <!-- Email input -->
                 <div class="w-full">
-                    <div class="mb-1 text-sm font-medium text-black dark:text-white">Email</div>
+                    <div class="mb-1 text-sm font-medium">Email</div>
                     <input v-model="email" class="w-full rounded-md border border-gray-300 p-2" type="email" />
                 </div>
 
                 <!-- Password input -->
                 <div class="mt-3 flex w-full flex-col">
-                    <div class="mb-1 text-sm font-medium text-black dark:text-white"> Password </div>
+                    <div class="mb-1 text-sm font-medium"> Password </div>
                     <div class="flex w-full">
                         <input
                             v-model="password"
@@ -43,8 +43,8 @@
 
 <script setup lang="ts">
     import { loginWithEmail } from '@/api/auth'
-    import { setCookie } from '@/utils/cookie'
     import { useUserStore } from '@/stores/user'
+    import { setCookie } from '@/utils/cookie'
     import md5 from 'md5'
 
     const router = useRouter()
@@ -66,7 +66,7 @@
         setCookie(cookies)
         userStore.updateUserAccount()
         userStore.updateLikedList()
-        router.push('/library')
+        router.push('/')
     }
 
     const login = async () => {

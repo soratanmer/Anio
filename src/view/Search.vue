@@ -1,6 +1,6 @@
 <template>
     <!-- Tracks info -->
-    <div class="mb-3 mt-10 text-xl font-semibold text-black dark:text-white"> Songs </div>
+    <div class="mb-3 mt-10 text-xl font-semibold"> Songs </div>
     <div>
         <div
             v-for="track in tracks"
@@ -12,10 +12,10 @@
                 alt="track picture"
             />
             <div class="flex flex-col justify-center">
-                <div class="line-clamp-1 break-all text-lg font-semibold text-black dark:text-white">
+                <div class="line-clamp-1 break-all text-lg font-semibold">
                     {{ track.name }}
                 </div>
-                <div class="text-sm text-black dark:text-white">
+                <div class="text-sm">
                     song
                     <span class="mx-1.5">•</span>
                     <ArtistInline :artists="track.ar" class="inline-flex"></ArtistInline>
@@ -25,7 +25,7 @@
     </div>
 
     <!-- Albums info -->
-    <div class="mb-3 mt-6 text-xl font-semibold text-black dark:text-white"> Albums </div>
+    <div class="mb-3 mt-6 text-xl font-semibold"> Albums </div>
     <div>
         <div
             v-for="album in albums"
@@ -45,10 +45,10 @@
                 alt="album picture"
             />
             <div class="flex flex-col justify-center">
-                <div class="line-clamp-1 break-all text-lg font-semibold text-black dark:text-white">
+                <div class="line-clamp-1 break-all text-lg font-semibold">
                     {{ album.name }}
                 </div>
-                <div class="text-sm text-black dark:text-white">
+                <div class="text-sm">
                     Album
                     <span class="mx-1.5">•</span>
                     {{ album.artist.name }}
@@ -60,7 +60,7 @@
     </div>
 
     <!-- Artists info -->
-    <div class="mb-3 mt-6 text-xl font-semibold text-black dark:text-white"> Artists </div>
+    <div class="mb-3 mt-6 text-xl font-semibold"> Artists </div>
     <div>
         <div
             v-for="artist in artists"
@@ -80,16 +80,16 @@
                 alt="artist picture"
             />
             <div class="flex flex-col justify-center">
-                <div class="line-clamp-1 break-all text-lg font-semibold text-black dark:text-white">
+                <div class="line-clamp-1 break-all text-lg font-semibold">
                     {{ artist.name }}
                 </div>
-                <div class="text-sm text-black dark:text-white"> Artist </div>
+                <div class="text-sm"> Artist </div>
             </div>
         </div>
     </div>
 
     <!-- Playlists info -->
-    <div class="mb-3 mt-6 text-xl font-semibold text-black dark:text-white"> Playlists </div>
+    <div class="mb-3 mt-6 text-xl font-semibold"> Playlists </div>
     <div>
         <div
             v-for="playlist in playlists"
@@ -109,10 +109,10 @@
                 alt="artist picture"
             />
             <div class="flex flex-col justify-center">
-                <div class="line-clamp-1 break-all text-lg font-semibold text-black dark:text-white">
+                <div class="line-clamp-1 break-all text-lg font-semibold">
                     {{ playlist.name }}
                 </div>
-                <div class="text-sm text-black dark:text-white">
+                <div class="text-sm">
                     Playlists
                     <span class="mx-1.5">•</span>
                     {{ playlist.creator.nickname }}

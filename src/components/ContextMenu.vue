@@ -4,7 +4,7 @@
         id="menu"
         ref="menu"
         tabindex="-1"
-        class="min-w-32 max-w-60 no-drag fixed list-none rounded-lg bg-gray-900 p-1.5 text-sm font-semibold text-white"
+        class="min-w-32 max-w-60 no-drag fixed list-none rounded-lg bg-gray-900 p-1.5 text-sm text-white"
         :style="{ top, left }"
         @blur="closeMenu()"
         @click="closeMenu()"
