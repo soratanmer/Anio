@@ -91,20 +91,13 @@
 @import url('https://fonts.cdnfonts.com/css/sofia-pro');
 
 body,
-input {
+input,
+div,
+span,
+a {
     font-family: 'Barlow', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Helvetica Neue, PingFang SC,
         Microsoft YaHei, Source Han Sans SC, Noto Sans CJK SC, WenQuanYi Micro Hei, microsoft uighur, sans-serif;
-}
-
-body {
-}
-
-html {
-    @apply bg-white
-}
-
-html.dark {
-    @apply bg-black
+    @apply text-black dark:text-white
 }
 
 button,

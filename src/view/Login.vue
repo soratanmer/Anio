@@ -43,8 +43,8 @@
 
 <script setup lang="ts">
     import { loginWithEmail } from '@/api/auth'
-    import { setCookie } from '@/utils/cookie'
     import { useUserStore } from '@/stores/user'
+    import { setCookie } from '@/utils/cookie'
     import md5 from 'md5'
 
     const router = useRouter()
@@ -66,7 +66,7 @@
         setCookie(cookies)
         userStore.updateUserAccount()
         userStore.updateLikedList()
-        router.push('/library')
+        router.push('/')
     }
 
     const login = async () => {
