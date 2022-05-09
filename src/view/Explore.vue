@@ -161,9 +161,9 @@
         limit: 90,
     })
 
-    const { data: recommendedPlaylists, isFetching: isFetchingRecommendedPlaylists } = fetchRecommendedPlaylists(
-        reactive({ limit: 100 }),
-    )
+    const { data: recommendedPlaylists, isFetching: isFetchingRecommendedPlaylists } = fetchRecommendedPlaylists({
+        limit: 100,
+    })
 
     // Load more tracks when scrolled to bottom
     const mainContainerRef = ref<HTMLElement | null>(document.getElementById('mainContainer'))

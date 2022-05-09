@@ -89,6 +89,21 @@ const routes: RouteRecordRaw[] = [
         component: () => import('@/view/NewAlbum.vue'),
     },
     {
+        name: 'toplists',
+        path: '/toplists',
+        component: () => import('@/view/Toplists.vue'),
+    },
+    {
+        name: 'recommendedPlaylists',
+        path: '/recommendedPlaylists',
+        component: () => import('@/view/RecommendedPlaylists.vue'),
+    },
+    {
+        name: 'hightQualityPlaylists',
+        path: '/hightQualityPlaylists',
+        component: () => import('@/view/HightQualityPlaylists.vue'),
+    },
+    {
         name: 'settings',
         path: '/settings',
         component: () => import('@/view/Settings.vue'),
