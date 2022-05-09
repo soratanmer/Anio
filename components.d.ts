@@ -32,6 +32,7 @@ declare module 'vue' {
     NextSongs: typeof import('./src/view/NextSongs.vue')['default']
     Player: typeof import('./src/components/Player.vue')['default']
     Playlist: typeof import('./src/view/Playlist.vue')['default']
+    RecommendedPlaylists: typeof import('./src/view/RecommendedPlaylists.vue')['default']
     Search: typeof import('./src/view/Search.vue')['default']
     Settings: typeof import('./src/view/Settings.vue')['default']
     Sidebar: typeof import('./src/components/Sidebar.vue')['default']
@@ -39,6 +40,7 @@ declare module 'vue' {
     SvgIcon: typeof import('./src/components/SvgIcon.vue')['default']
     Toast: typeof import('./src/components/Toast.vue')['default']
     Topbar: typeof import('./src/components/Topbar.vue')['default']
+    Toplists: typeof import('./src/view/Toplists.vue')['default']
     TrackList: typeof import('./src/components/TrackList.vue')['default']
     TrackListItem: typeof import('./src/components/TrackListItem.vue')['default']
   }
