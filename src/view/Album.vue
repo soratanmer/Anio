@@ -132,7 +132,6 @@
     }
 
     // Like Album
-
     const isSub = ref<boolean>(false)
 
     const { data: albumDynamicDetail, isFetching: isFetchingAlbumDynamicDetail } = fetchAlbumDynamicDetail({

@@ -174,6 +174,9 @@
     }
 
     const likeTrack = async (id: number, like: boolean) => {
+        if (!isLoggedIn()) {
+            return
+        }
         await likeATrack({
             id,
             like,

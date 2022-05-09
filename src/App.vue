@@ -21,6 +21,8 @@
     import { useUserStore } from '@/stores/user'
     import { useUiStore } from '@/stores/ui'
 
+    import { isLoggedIn } from './utils/user'
+
     const route = useRoute()
     const userStore = useUserStore()
     const uiStore = useUiStore()
@@ -29,9 +31,11 @@
         return uiStore.showLyrics
     })
 
-    userStore.updateUserAccount()
-    userStore.updateLikedList()
-    userStore.updateUserPlaylists()
+    if (isLoggedIn()) {
+        userStore.updateUserAccount()
+        userStore.updateLikedList()
+        userStore.updateUserPlaylists()
+    }
 
     useQueryProvider()
     usePlayerProvider()

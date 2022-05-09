@@ -18,11 +18,7 @@
             <div class="flex max-w-full flex-col justify-center">
                 <div v-if="!isSkeleton" class="line-clamp-1 break-all text-lg font-semibold text-black dark:text-white">
                     {{ track.name }}
-                    <span
-                        v-if="isTranslate"
-                        class="ml-1 opacity-50"
-                        >( {{ translate }} )</span
-                    >
+                    <span v-if="isTranslate" class="ml-1 opacity-50">( {{ translate }} )</span>
                 </div>
                 <Skeleton v-else class="text-lg">PLACEHOLDER12345</Skeleton>
                 <div v-if="!isAlbum" class="text-sm text-black dark:text-white">
