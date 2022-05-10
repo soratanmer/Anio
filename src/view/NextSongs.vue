@@ -1,6 +1,6 @@
 <template>
     <!-- Header -->
-    <div class="mb-10 mt-10 py-2 px-4 text-2xl font-semibold">播放列表</div>
+    <div class="my-10 text-2xl">播放列表</div>
 
     <!-- Infinite tracks -->
     <TrackList

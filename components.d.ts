@@ -9,6 +9,7 @@ declare module 'vue' {
     App: typeof import('./src/App.vue')['default']
     Artist: typeof import('./src/view/Artist.vue')['default']
     ArtistInline: typeof import('./src/components/ArtistInline.vue')['default']
+    Button: typeof import('./src/components/button.vue')['default']
     ButtonIcon: typeof import('./src/components/ButtonIcon.vue')['default']
     ContextMenu: typeof import('./src/components/ContextMenu.vue')['default']
     Cover: typeof import('./src/components/Cover.vue')['default']

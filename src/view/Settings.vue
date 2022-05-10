@@ -5,7 +5,7 @@
             <!-- User -->
             <div
                 v-if="isLoggedIn()"
-                class="my-12 flex items-center justify-between rounded-lg bg-gray-200 py-4 px-5 dark:bg-gray-800"
+                class="my-12 flex items-center justify-between rounded-lg bg-gray-200 py-4 px-5 dark:bg-gray-700"
             >
                 <!-- Left part -->
                 <div class="flex items-center">

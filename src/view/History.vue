@@ -1,6 +1,6 @@
 <template>
     <!-- Header -->
-    <div class="mb-10 mt-10 py-2 px-4 text-2xl font-semibold">最近播放的 {{ recentSongsLimit }} 首歌</div>
+    <div class="my-10 text-2xl">最近播放的 {{ recentSongsLimit }} 首歌</div>
 
     <!-- Infinite tracks -->
     <TrackList

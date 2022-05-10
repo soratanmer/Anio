@@ -7,16 +7,16 @@
         </div>
 
         <!-- User info -->
-        <div class="cols-span flex flex-col justify-around">
+        <div class="cols-span flex flex-col justify-between">
             <!-- User name -->
-            <div class="text-3xl font-bold">
+            <div class="text-xl">
                 {{ userAccount?.profile?.nickname }}
             </div>
 
             <!-- User ID -->
             <div class="text-sm font-thin">
                 ID:
-                <span class="font-semibold decoration-2">
+                <span class="decoration-2">
                     {{ userAccount?.profile?.userId }}
                 </span>
             </div>

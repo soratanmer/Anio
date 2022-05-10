@@ -80,7 +80,7 @@ export function formatDuration(
                 mins: '分鐘',
             },
         }
-        return hours !== '0' ? `${hours} ${units[locale].hours} ${mins}` : `${mins} ${units[locale].mins}`
+        return hours !== '0' ? `${hours} ${units[locale].hours} ${mins} ${units[locale].mins}` : `${mins} ${units[locale].mins}`
     }
 
     return String(milliseconds)

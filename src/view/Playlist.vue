@@ -7,30 +7,24 @@
         </div>
 
         <!-- Playlist Info -->
-        <div class="cols-span flex flex-col justify-around">
+        <div class="cols-span flex flex-col justify-between">
             <!-- Playlist name -->
-            <div v-if="!isFetchingPlaylist" class="line-clamp-1 break-all text-4xl font-bold">
+            <div v-if="!isFetchingPlaylist" class="line-clamp-1 break-all text-xl">
                 {{ playlist?.name }}
             </div>
-            <Skeleton v-else class="w-3/4 text-4xl">PLACEHOLDER</Skeleton>
+            <Skeleton v-else class="w-3/4 text-xl">PLACEHOLDER</Skeleton>
 
             <!-- playlist Creator -->
-            <div v-if="!isFetchingPlaylist" class="text-lg font-medium">
+            <div v-if="!isFetchingPlaylist">
                 Playlist by <span>{{ playlist?.creator.nickname }}</span>
             </div>
-            <Skeleton v-else class="w-64 text-lg">PLACEHOLDER</Skeleton>
+            <Skeleton v-else class="w-64">PLACEHOLDER</Skeleton>
 
             <!-- Playlist last update time & track count -->
             <div v-if="!isFetchingPlaylist" class="text-sm font-thin">
                 Update at {{ formatDate(playlist?.updateTime || 0, 'zh-CN') }} · {{ playlist?.trackCount }} Songs
             </div>
             <Skeleton v-else class="w-72 translate-x-px text-sm">PLACEHOLDER</Skeleton>
-
-            <!-- Playlist description -->
-            <div v-if="!isFetchingPlaylist" class="line-clamp-1 min-h-10 break-all text-sm">
-                {{ playlist?.description }}
-            </div>
-            <Skeleton v-else class="min-h-10 w-1/2 text-sm">PLACEHOLDER</Skeleton>
 
             <!-- Buttons -->
             <div class="flex gap-4">

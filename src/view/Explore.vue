@@ -4,7 +4,7 @@
     <div class="flex flex-wrap text-sm">
         <div
             v-for="category in staticCategory"
-            class="btn-hover-animation mx-1 my-2 flex items-center rounded-lg px-3 py-2 transition-colors duration-200 after:scale-[0.97] after:bg-green-400"
+            class="btn-hover-animation category"
             :class="{
                 'bg-green-500': route.params.category === category.name,
             }"
@@ -12,10 +12,7 @@
         >
             {{ category.name }}
         </div>
-        <div
-            class="btn-hover-animation mx-1 my-2 flex items-center rounded-lg px-3 py-2 transition-colors duration-200 after:scale-[0.97] after:bg-green-400"
-            @click="showPanel = !showPanel"
-        >
+        <div class="btn-hover-animation category" @click="showPanel = !showPanel">
             <SvgIcon class="h-4 w-4" name="more"></SvgIcon>
         </div>
     </div>
@@ -29,7 +26,7 @@
             <div v-for="cat in playlistCategory?.sub">
                 <div
                     v-if="cat.category === Number(index)"
-                    class="btn-hover-animation mx-1 my-2 flex items-center rounded-lg px-3 py-2 transition-colors duration-200 after:scale-[0.97] after:bg-green-400"
+                    class="btn-hover-animation category"
                     :class="{
                         'bg-green-500': route.params.category === cat.name,
                     }"
@@ -114,3 +111,9 @@
         },
     )
 </script>
+
+<style lang="scss">
+    .category {
+        @apply my-2 mr-2 flex items-center rounded-lg px-3 py-2 transition-colors duration-200 after:scale-[0.97] after:bg-green-400;
+    }
+</style>

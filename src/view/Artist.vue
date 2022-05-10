@@ -7,25 +7,18 @@
             <Skeleton v-else class="h-full w-full rounded-lg"></Skeleton>
         </div>
 
-        <div class="cols-span flex flex-col justify-around">
+        <div class="cols-span flex flex-col justify-between">
             <!-- Name -->
-            <div v-if="!isFetching" class="text-3xl font-bold">
+            <div v-if="!isFetching" class="text-xl">
                 {{ artist?.name }}
             </div>
-            <Skeleton v-else class="w-3/4 text-3xl">PLACEHOLDER</Skeleton>
+            <Skeleton v-else class="w-3/4 text-xl">PLACEHOLDER</Skeleton>
 
             <!-- Artist -->
-            <div class="text-lg font-medium"> Artist </div>
             <div v-if="!isFetching" class="text-sm font-thin">
-                {{ artist?.musicSize }} Tracks · {{ artist?.albumSize }} Albums · {{ artist?.mvSize }} Music Videos
+                {{ artist?.musicSize }} Tracks · {{ artist?.albumSize }} Albums
             </div>
             <Skeleton v-else class="w-3/4 text-sm">PLACEHOLDER</Skeleton>
-
-            <!-- Description -->
-            <div v-if="!isFetching" class="line-clamp-1 break-all text-sm">
-                {{ artist?.briefDesc }}
-            </div>
-            <Skeleton v-else class="">PLACEHOLDER1234567890</Skeleton>
 
             <!-- Buttons -->
             <div class="flex gap-4">
@@ -72,6 +65,11 @@
         :is-skeleton="isLoadingAlbums"
         subtitle="type+releaseYear"
     ></CoverRow>
+
+    <!-- Description -->
+    <div v-if="activeTab === 'description'" class="mt-5 text-sm">
+        {{ artist?.briefDesc }}
+    </div>
 </template>
 
 <script setup lang="ts">
@@ -95,12 +93,16 @@
 
     const tabs: Tab[] = [
         {
-            name: 'Top Tracks',
+            name: '热门歌曲',
             id: 'tracks',
         },
         {
-            name: 'Albums',
+            name: '专辑',
             id: 'albums',
+        },
+        {
+            name: '歌手详情',
+            id: 'description',
         },
     ]
 

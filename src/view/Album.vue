@@ -7,17 +7,18 @@
         </div>
 
         <!-- Album info -->
-        <div class="cols-span flex flex-col justify-around">
+        <div class="cols-span flex flex-col justify-between">
             <!-- Name -->
-            <div v-if="!isFetchingAlbum" class="line-clamp-1 break-all text-3xl font-bold">
+            <div v-if="!isFetchingAlbum" class="line-clamp-1 break-all text-xl">
                 {{ album?.name }}
             </div>
-            <Skeleton v-else class="w-3/4 text-3xl">PLACEHOLDER</Skeleton>
+            <Skeleton v-else class="w-3/4 text-xl">PLACEHOLDER</Skeleton>
 
             <!-- Artist -->
-            <div v-if="!isFetchingAlbum" class="text-sm font-medium">
+            <div v-if="!isFetchingAlbum" class="text-sm">
+                Artists:&nbsp;
                 <span
-                    class="font-semibold decoration-2 hover:underline"
+                    class="decoration-2 hover:underline"
                     @click="
                         router.push({
                             name: 'artist',
@@ -34,16 +35,9 @@
 
             <!-- Last update time & time count -->
             <div v-if="!isFetchingAlbum" class="text-sm font-thin">
-                {{ dayjs(album?.publishTime || 0).year() }} · {{ album?.size }} Songs,
-                {{ albumDuration }}
+                {{ dayjs(album?.publishTime || 0).year() }} · {{ album?.size }} Songs · {{ albumDuration }}
             </div>
             <Skeleton v-else class="w-72 translate-y-px text-sm">PLACEHOLDER</Skeleton>
-
-            <!-- Description -->
-            <div v-if="!isFetchingAlbum" class="line-clamp-1 break-all text-sm">
-                {{ album?.description }}
-            </div>
-            <Skeleton v-else class="">PLACEHOLDER</Skeleton>
 
             <!-- Button -->
             <div class="flex gap-4">
@@ -73,6 +67,12 @@
             {{ album.company }}
         </div>
     </div>
+
+    <!-- Description -->
+    <div v-if="!isFetchingAlbum" class="mt-5 text-sm">
+        {{ album?.description }}
+    </div>
+    <Skeleton v-else class="text-sm mt-5">PLACEHOLDER</Skeleton>
 </template>
 
 <script setup lang="ts">
